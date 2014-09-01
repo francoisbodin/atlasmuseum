@@ -1354,7 +1354,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		
 		public void goToActivity(int position) {
 			// TODO Auto-generated method stub
-			//recupere l'artiste selectionn�
+			//recupere l'artiste selectionné
 			
 			//if(list.get(position).equals(ListChampsNoticeModif.ajout_photo) || list.get(position).equals(ListChampsNoticeModif.modif_photo))
 			String champs="";
