@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    tools:context=".MapContribActivity"
+    tools:ignore="DuplicateIds" >
+
+      <fragment
+          android:id="@+id/map"
+          android:name="com.google.android.gms.maps.MapFragment"
+          android:layout_width="fill_parent"
+          android:layout_height="match_parent" />
+    
+	<LinearLayout
+        android:id="@+id/line"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_above="@+id/map" >
+
+        <Button
+            android:id="@+id/mButtonsave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sauvegarder"
+            android:textSize="18dp" />
+
+        <Button
+            android:id="@+id/mButtonmaj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/mise_ajour"
+            android:textSize="18dp" />
+    </LinearLayout>
+  
+    
+
+</RelativeLayout>
