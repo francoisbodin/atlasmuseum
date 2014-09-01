@@ -1,0 +1,42 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+      <item name="android:fastScrollThumbDrawable">@drawable/fast_thumb</item>
+        <item name="android:actionBarStyle">@style/ActionBar4</item>
+        <item name="android:actionBarTabTextStyle">@style/MyActionBarTabText</item>
+   		 <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Example</item>
+        <item name="android:fastScrollOverlayPosition">atThumb</item>
+    </style>
+	
+ <style name="ActionBar4" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">#ffda00</item>
+       <!--   <item name="android:textColor">#23B9FF</item>-->
+        <item name="android:backgroundStacked">#ededed</item> <!-- background -->
+        <item name="android:backgroundSplit">#ffda00</item> <!-- couleur quand on clique sur un items -->
+		<item name="android:divider">#000000</item> <!-- separator -->
+    </style>
+
+    
+	     <!-- ActionBar tabs text styles -->
+    <style name="MyActionBarTabText" parent="@android:style/Widget.Holo.Light.ActionBar.TabText">
+        <item name="android:textColor">#333333</item>
+    </style>
+	<style name="ActionBarTabStyle.Example" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_example</item>
+    </style>
+	
+</resources>
