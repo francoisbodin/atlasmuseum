@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff" 
+    
+     >
+	
+     <TextView
+          android:layout_marginRight="@dimen/activity_horizontal_margin"
+	    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+	        android:id="@+id/titre_contrib"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="50dp"
+	        android:text="TITRE"
+	        android:layout_marginTop="20dp"
+	        android:textSize="20dp" />
+
+	<Button
+	    android:id="@+id/button1"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:background="#ffda00"
+	    android:text="@string/Ok"
+	    android:textColor="#333333"
+	    android:textSize="18dp" />
+
+	<LinearLayout
+	    android:id="@+id/relativ12"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_above="@+id/button1"
+	    android:layout_alignLeft="@+id/titre_contrib"
+	    android:layout_alignTop="@+id/titre_contrib"
+	    android:layout_marginRight="@dimen/activity_horizontal_margin"
+	    android:layout_marginTop="45dp"
+	    android:orientation="vertical" >
+		
+	    <!-- pour afficher liste checkBox/radio -->
+	    <ListView
+	        android:id="@+id/listView1"
+	        
+	        android:scrollbarThumbVertical="@drawable/list_view_scroll"
+	        android:listSelector="@drawable/on_pressed_listview_background"
+	        android:layout_width="match_parent"
+	        android:visibility="gone"
+	        android:layout_height="wrap_content" >
+		</ListView>
+		
+	    <LinearLayout
+	        android:id="@+id/linearMain"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical"
+	        >
+		    <EditText
+		        android:id="@+id/editText1"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:textSize="20dp" >
+		        <requestFocus />
+	    </EditText>
+			
+	    <EditText
+            android:id="@+id/date"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="4"
+            android:textSize="20dp"
+            android:visibility="gone"
+            android:inputType="date" />
+	    
+	    <TextView
+	        android:id="@+id/infos"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_below="@+id/editText1"
+	        android:layout_marginTop="18dp"
+	        android:text="@string/contrib_acces_visibilite"
+	        android:textSize="15dp" />
+	    
+
+	    <Button
+	        android:id="@+id/button2"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/infos"
+	        android:layout_centerHorizontal="true"
+	        android:background="#ffda00"
+	        android:paddingLeft="40dp"
+	        android:paddingRight="40dp"
+	        android:text="@string/Ok"
+	        android:textColor="#333333"
+	        android:textSize="18dp" />
+
+		</LinearLayout>
+	</LinearLayout>
+
+</RelativeLayout>

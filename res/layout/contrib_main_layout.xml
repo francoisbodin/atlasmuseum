@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+	<ScrollView 
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="15dp"
+    android:scrollbarThumbVertical="@drawable/list_view_scroll"
+    android:background="#ffffff"
+    >
+    
+	    <LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    
+    
+    <!-- CONTRIBUER -->
+    <RelativeLayout 
+        android:id="@+id/RelativContribuer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        >
+        
+        <ImageView 
+       		android:id="@+id/icon"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:padding="5dp"
+	        android:src="@drawable/ic_contrib_creer"
+	       ></ImageView>
+        <RelativeLayout 
+            android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:layout_toRightOf="@+id/icon"
+            >
+            <TextView
+	        android:id="@+id/text_contribuertitre"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="18dp"
+	        android:textColor="#333333"
+	        android:text="@string/contribuer" />
+             <TextView
+	        android:id="@+id/text_contribuer"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        
+	        android:textColor="#686868"
+	        android:textSize="13dp"
+	        android:layout_below="@+id/text_contribuertitre"
+	        android:text="@string/contribuer_message" />
+	            
+        </RelativeLayout>
+    </RelativeLayout>
+    
+     <View
+	    android:layout_width="fill_parent"
+	    android:layout_height="1dp"
+	    android:background="#d9d9d9"
+	    />
+	<!-- CONTRIBUTION ENVOYEE -->
+	<RelativeLayout 
+        android:id="@+id/RelativEtatContrib"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        >
+        
+        <ImageView 
+       		android:id="@+id/icon2"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:padding="5dp"
+	        android:src="@drawable/ic_contrib_envoye"
+	       ></ImageView>
+        <RelativeLayout 
+            android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:layout_toRightOf="@+id/icon2"
+            >
+            <TextView
+	        android:id="@+id/text_contribenvoytitre"
+	        android:layout_width="wrap_content"
+	        android:textSize="18dp"
+	        android:textColor="#333333"
+	        android:layout_height="wrap_content"
+	        android:text="@string/envoyer_titre" />
+             <TextView
+	        android:id="@+id/text_contribenvoy"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textColor="#686868"
+	        android:textSize="13dp"
+	        android:layout_below="@+id/text_contribenvoytitre"
+	        android:text="@string/envoyer_message" />
+	            
+        </RelativeLayout>
+        
+    </RelativeLayout>
+    
+     <View
+	    android:layout_width="fill_parent"
+	    android:layout_height="1dp"
+	    android:background="#d9d9d9"
+	    />
+		<!-- CONTRIBUTION save -->
+		<RelativeLayout 
+        android:id="@+id/RelativEnvoye"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        >
+        
+        <ImageView 
+       		android:id="@+id/icon3"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:padding="5dp"
+	        android:src="@drawable/ic_contrib_save"
+	       ></ImageView>
+        <RelativeLayout 
+            android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:layout_toRightOf="@+id/icon3"
+            >
+            <TextView
+	        android:id="@+id/text_contribsavetitre"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="18dp"
+	        android:textColor="#333333"
+	        android:text="@string/contrib_save" />
+             <TextView
+	        android:id="@+id/text_contribsave"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textColor="#686868"
+	        android:textSize="13dp"
+	        android:layout_below="@+id/text_contribsavetitre"
+	        android:text="@string/contrib_save_message" />
+	            
+        </RelativeLayout>
+    </RelativeLayout>
+		
+		
+		
+    <Button
+        android:id="@+id/mButtonEnvoyer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="Envoyer" />
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+ <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="Create Contrib" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Contribute" />
+
+    <Button
+        android:id="@+id/erase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="erase" />
+
+</LinearLayout>
+
+    <RelativeLayout 
+         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+        android:id="@+id/infoContribtitre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:text="@string/information" />
+        
+        <TextView
+        android:id="@+id/infoContrib"
+        android:layout_below="@+id/infoContribtitre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:text="@string/info_contribution" />
+        
+    </RelativeLayout>
+    
+	<LinearLayout 
+	    android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+	    >
+	       
+	      
+	    
+	</LinearLayout>
+     <ListView
+         android:id="@+id/list_view"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentLeft="true"
+         android:layout_below="@+id/button2"
+         android:visibility="gone"
+         >
+
+     </ListView>
+     
+    
+</LinearLayout>
+ </ScrollView>

@@ -1,0 +1,15 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+	<dimen name="button_size">50dp</dimen>
+	
+	
+	<!-- dimens for show_notice_layout -->
+	<dimen name="normal_padding">5dp</dimen>
+	
+	<!-- dimens for show_notice_layout -->
+	<dimen name="ic_accueil_widthheight">40dp</dimen>
+	
+</resources>
