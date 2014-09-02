@@ -1084,6 +1084,7 @@ containing a value of this type.
         /** criteres de recherche  
          */
         public static final int liste_villes=0x7f0700d0;
+        public static final int location_change_alert=0x7f070115;
         public static final int location_requested=0x7f07004b;
         public static final int location_updated=0x7f07004c;
         public static final int location_updates_stopped=0x7f07004d;
