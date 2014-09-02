@@ -372,7 +372,8 @@ public class SearchAuto extends Activity{
 			 for(int i=0;i<selectionStringList.size();i++)
 			 {
 				 //Log.d(DEBUG_TAG, "traitement de"+selectionStringList.get(i));
-				 if(selectionStringList.get(i).trim().toLowerCase().startsWith((s.toString().toLowerCase())))
+				 //FBO startsWith --> contains
+				 if(selectionStringList.get(i).trim().toLowerCase().contains((s.toString().toLowerCase())))
 				 {
 					
 					 if(!currentListView.contains(selectionStringList.get(i)))
