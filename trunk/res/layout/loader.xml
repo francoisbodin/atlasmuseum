@@ -81,7 +81,7 @@
 	         android:textStyle="bold"
 	          android:layout_below="@+id/text_intro2"
 	         android:layout_centerHorizontal="true"
-	         android:hint="29/08/14" />
+	         android:hint="02/09/14" />
 
 	 </RelativeLayout>
 	
