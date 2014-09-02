@@ -98,7 +98,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 			
 			//a faire: changer police 
 			
-			if(db ==null)//test si la bdd pas deja chargé, risque de doublé la bdd sinon
+			if(db ==null)//test si la bdd pas deja chargï¿½, risque de doublï¿½ la bdd sinon
 			{
 				////////////////////////////////////////////////////////////////////////////////////
 				////////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +108,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 				{
 					db = new JsonRawData();
 				} catch (JSONException e) {
-					AtlasError.showErrorDialog(this, "6.1", "");// ERROR "impossible de charger la base de donnée"
+					AtlasError.showErrorDialog(this, "6.1", "");// ERROR "impossible de charger la base de donnï¿½e"
 				}
 			}
 			
@@ -183,7 +183,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
     			{
     				case 0:
 					ChampsSelect = "tous";
-					sbundle.putString(SearchActivity.CHAMPS_ITEM,ChampsSelect);//crée un bundle avec la chaine associé
+					sbundle.putString(SearchActivity.CHAMPS_ITEM,ChampsSelect);//crÃ©e un bundle avec la chaine associÃ©
 					genereBundle(sbundle, ChampsSelect);
 	    			
 	    			intent = new Intent(getApplication(), SearchAuto.class);
@@ -204,7 +204,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 					case 2:
 						ChampsSelect = liste_artistes;
 						
-						sbundle.putString(SearchActivity.CHAMPS_ITEM,"artiste");//crée un bundle avec la chaine associé
+						sbundle.putString(SearchActivity.CHAMPS_ITEM,"artiste");//crÃ©e un bundle avec la chaine associÃ©
 		    			//sbundle.putStringArray(SearchActivity.CONTENTSTRARRAY, setArtisteStringList(sbundle));//envoi le tableau de tous les artistes
 		    			genereBundle(sbundle, "artiste");
 		    			intent = new Intent(getApplication(), ListActivity.class);
@@ -214,7 +214,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 					case 3:
 						ChampsSelect = liste_villes;
 						
-						sbundle.putString(SearchActivity.CHAMPS_ITEM,"Siteville");//crée un bundle avec la chaine associé
+						sbundle.putString(SearchActivity.CHAMPS_ITEM,"Siteville");//crÃ©e un bundle avec la chaine associÃ©
 		    			genereBundle(sbundle, "Siteville");
 		    			intent = new Intent(getApplication(), ListActivity.class);
 		    			intent.putExtras(sbundle);
@@ -223,7 +223,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 					case 4:
 						ChampsSelect = liste_pays;
 						
-						sbundle.putString(SearchActivity.CHAMPS_ITEM,"Sitepays");//crée un bundle avec la chaine associé
+						sbundle.putString(SearchActivity.CHAMPS_ITEM,"Sitepays");//crÃ©e un bundle avec la chaine associÃ©
 		    			genereBundle(sbundle, "Sitepays");
 		    			intent = new Intent(getApplication(), ListActivity.class);
 		    			intent.putExtras(sbundle);
@@ -378,25 +378,25 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 		int i,j;
 		int nbEntries = 0;
 		boolean found = false;
-		List<String> artisteStringList = new ArrayList();// new String[db.nbentries];
+		List<String> valueStringList = new ArrayList();// new String[db.nbentries];
 		for (i=0;i < db.nbentries; i++)
 		{	
-			String artiste = extractDataFromDb(i,champs);
-			if (artiste != null)
+			String valuechamps = extractDataFromDb(i,champs);
+			if (valuechamps != null)
 			{
-				artiste = artiste.trim();
+				valuechamps = valuechamps.trim();
 				found = false;
-				for (j=0;j < nbEntries && (found == false); j++)//nbEntries est le nombre d'elt qu'on a deja trouvé
+				for (j=0;j < nbEntries && (found == false); j++)//nbEntries est le nombre d'elt qu'on a deja trouvÃ©
 				{
-					if ((artiste != null)  && (artiste.equals(artisteStringList.get(j))) )
+					if ((valuechamps != null)  && (valuechamps.equals(valueStringList.get(j))) )
 					{
 						found = true;
 					}
 				}
-				if ((found == false) && (artiste != null))
+				if ((found == false) && (valuechamps != null))
 				{
-					artisteStringList.add(artiste);
-					Log.d(DEBUG_TAG, "adding elt to "+champs+" :" + artisteStringList.get(nbEntries));
+					valueStringList.add(valuechamps);
+					Log.d(DEBUG_TAG, "adding elt to "+champs+" :" + valueStringList.get(nbEntries));
 					extra.putInt(Integer.toString(j),i); 
 					nbEntries++;
 				}
@@ -409,7 +409,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 	
 	//fonction de recherche de cText dans le champs c
 	private void showList(String c, String cText, Boolean startIntent){
-		int i,j=0;//j = nbEntries trouvé, et i pour parcourir 
+		int i,j=0;//j = nbEntries trouvï¿½, et i pour parcourir 
 		double distanceClosest = 100000000.0;
 		int indexDistanceClosest = -1;
 		Intent intent = new Intent(this, ListActivity.class);
@@ -421,7 +421,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 				String region = extractDataFromDb(i,"Siteregion");
 				if ((region != null) && (region.toLowerCase().contains(cText.toLowerCase()))){
 					extra.putInt(Integer.toString(j),i); 
-					j++;// le nombre de item trouvé
+					j++;// le nombre de item trouvï¿½
 				}
 				break;
 			case  "tous_les_artistes": 
@@ -519,7 +519,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 		
 		
 		//.makeText(getApplicationContext(),
-		//		"Nombre d'oeuvres trouvŽes : " + Integer.toString(j) + " ", Toast.LENGTH_SHORT).show();
+		//		"Nombre d'oeuvres trouvï¿½es : " + Integer.toString(j) + " ", Toast.LENGTH_SHORT).show();
 		if (mLastLocation != null){
 			extra.putDouble(CURRENT_LAT,mLastLocation.getLatitude());
 			extra.putDouble(CURRENT_LONG,mLastLocation.getLongitude());
