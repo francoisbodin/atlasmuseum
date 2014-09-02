@@ -129,15 +129,15 @@
     <string name="connexion">Connexion</string>
     <string name="deconnexion">Déconnexion</string>
     <string name="memoriser_mdp">Se souvenir de moi</string>
-    <string name="photo_save:">photo save:</string>
-    <string name="send_photo_saved">envoi des photos sauvegardées.. </string>
-     <string name="sending_contrib_file">envoi des contributions....</string>
+    <string name="photo_save:">Sauvegarde photo :</string>
+    <string name="send_photo_saved">Envoi des photos sauvegardées... </string>
+     <string name="sending_contrib_file">Envoi des contributions....</string>
     <string name="uploading">uploading</string> <!--  loadingPhoto2 -->
     
     
     <string name="au_moins_champ_pour_contribuer">Veuillez compléter au moins un champ pour contribuer</string>
     <!--  CONNEXION -->
-    <string name="connexion_encours">connexion en cours...</string>
+    <string name="connexion_encours">Connexion en cours...</string>
 	<string name="PB_UserChecker">Connexion...</string> <!--  -->
 	<string name="OK">OK</string>
       <!-- URLs -->
@@ -152,7 +152,7 @@
     <string name="image_non_dispo">image non disponible</string>
     <string name="echec_upl_image">Echec du chargement de l\'image</string>
     <string name="notice_no_image">Cette notice n\'a pas d\'image</string>   
-    <string name="cannot_upl_image_notice">L\'image de cette notice n\'a pu être chargé</string>
+    <string name="cannot_upl_image_notice">L\'image de cette notice n\'a pu être chargée</string>
         
        <!-- loadingPhotoAsync -->
        <string name="lancement">lancement...</string>
@@ -166,7 +166,7 @@
     
     <!-- Message ERROR-->
     <string name="ECHEC_ENVOI_OEUVRE">Echec de l\'envoi</string> <!-- Uploader -->
-    <string name="id_non_valide">Pas de réponse serveur, veuillez réesayer ultérieurement</string> <!-- Uploader.getNewIdTag() -->
+    <string name="id_non_valide">Pas de réponse du serveur, veuillez rééssayer ultérieurement</string> <!-- Uploader.getNewIdTag() -->
     <string name="ECHEC_AUTHENTIFICATION">Echec authentification</string> <!-- ProgCheckerAsync -->
     <string name="PLEASE_CHECK_ID">Veuillez vérifier que vous avez bien entrer vos identifiants </string> <!-- ProgCheckerAsync -->
     <string name="ECHEC_INSCRIPTION">Echec lors de l\'inscription</string> <!-- SignUpActivity -->
