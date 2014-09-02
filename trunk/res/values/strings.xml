@@ -214,6 +214,7 @@
    	 
     <!-- Message Dialog-->
     <string name="thanks_for_contribution">Votre contribution a bien été pris en compte</string> <!-- Uploader.getNewIdTag() -->
+    <string name="no_result">Pas de résultat</string>
     
     <!-- Liste pour la recherche -->
     <string name="artiste">Artistes</string> <!-- searchActivity - artiste -->
