@@ -924,8 +924,8 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 					{	
 						String la= ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.LATITUDE, "");
 						String lo=ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.LONGITUDE, "");
-						//FBO inversion ici a priori à vérifier
-						localisationModif.setValue(la+" , "+lo);
+						//FBO inversion ici a priori à vérifier - inversion ok pour l'instant
+						localisationModif.setValue(lo+" , "+la);
 					}
 
 				}
@@ -2125,7 +2125,12 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
     			Log.d(DEBUG_TAG,"Longitude :" + longi);
     			ListChampsNoticeModif.cPref.edit().putString(ListChampsNoticeModif.LATITUDE,""+MainActivity.mLastLocation.getLatitude()).commit();
 				ListChampsNoticeModif.cPref.edit().putString(ListChampsNoticeModif.LONGITUDE,""+MainActivity.mLastLocation.getLongitude()).commit();
-
+				// on doit relancer l'activité pour un affichage ok
+				setResult(RESULT_OK);//pour fermer l'activité ListChampsNoticeModif précédente
+				Intent intent = new Intent(getApplication(), ListChampsNoticeModif.class);
+	        	intent.putExtras(bundle);
+	  			startActivity(intent);
+	  			finish();
             }
         });
         alertDialogBuilder.setNegativeButton(getResources().getString(R.string.annuler),

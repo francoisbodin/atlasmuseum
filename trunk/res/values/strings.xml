@@ -312,5 +312,6 @@
      <string name="leave_contrib">Vous êtes sur le point de quitter une contribution en cours. Voulez-vous vraiment quitter?</string>
      
      <string name="completer_au_moins_un_champs">Veuillez compléter au moins un champ pour contribuer</string>
+     <string name="location_change_alert">Mettre à jour la localisation de l\'œuvre</string>
      
 </resources>
