@@ -154,7 +154,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 	final static String ajout_nomsite="Ajouter le nom du site";
 	final static String modif_nomsite="Modifier le nom du site";
 
-	final static String ajout_autre= "Ajouter d'autres infos";
+	final static String ajout_autre= "Autres informations";
 	final static String ajout_etat= "Ajouter l'état de conservation";
 	final static String ajout_petat= "Précision sur l'état de conservation";
 	final static String modif_etat="Modifier l'état de conservation";
@@ -754,8 +754,6 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 					altCouleurModif.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.modif_description, ""));
 				}
 				list.add(altCouleurModif);
-
-
 			}
 
 			/**
@@ -803,8 +801,6 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		        	 }
 		        	 list.add(altdateAjout);**/
 			}
-
-
 			/**
 			 * 
 			 * Nom site - Notice existante
