@@ -131,7 +131,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 	public static final String SHARED_PREFERENCES="fr.atlasmuseum";
 	public static SharedPreferences cPref;
 
-	//String pour la ListView Ajouter/Modifier _ Utiliser pour recuperer les valeur associ�es � l'aide de cPref
+	//String pour la ListView Ajouter/Modifier _ Utiliser pour recuperer les valeur associées à l'aide de cPref
 	//exemple: String ajoutTitreValue = cPref.getString(ajout_titre, "");
 	final static String ajout_titre = "Ajouter un titre" ;
 	final static String modif_titre = "Modifier le titre";
@@ -169,7 +169,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 	final static String modif_localisation="Modifier la localisation";
 	final static String creationNotice="creeNoticeVrai/Faux"; //valeur de cpref, VRAI si cest une creation
 
-	static String champ_a_modifie="champs a modifier ";//utilisé dans Activity, determine quel valeur de cPref est modifi�
+	static String champ_a_modifie="champs a modifier ";//utilisé dans Activity, determine quel valeur de cPref est modifié
 
 	public static String erasepref="erase pref";//utiliser comme clé pour bundle, determine si on doit effacer ou pas preference
 
@@ -1314,10 +1314,6 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				goToActivity(position);
 
 			}
-
-
-
-
 		});	
 	}//fin setActionForList
 
@@ -1409,12 +1405,13 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 
 				//afficheAlerte("Votre localisation a été récupérée");
 				//FBO ici mettre une alert box seulement pas la MapContribActivity
-				Intent intent = new Intent(getApplication(), MapContribActivity.class);
-				bundle.putDouble(ListChampsNoticeModif.LATITUDE, notice_latitude);
-				bundle.putDouble(ListChampsNoticeModif.LONGITUDE, notice_longitude);
-				bundle.putInt(SearchActivity.MAP_FOCUS_NOTICE,1);
-				intent.putExtras(bundle);
-				startActivityForResult(intent, REQUEST_localisation);	
+//				Intent intent = new Intent(getApplication(), MapContribActivity.class);
+//				bundle.putDouble(ListChampsNoticeModif.LATITUDE, notice_latitude);
+//				bundle.putDouble(ListChampsNoticeModif.LONGITUDE, notice_longitude);
+//				bundle.putInt(SearchActivity.MAP_FOCUS_NOTICE,1);
+//				intent.putExtras(bundle);
+//				startActivityForResult(intent, REQUEST_localisation);	
+				showLocationChangeAlertToUser();
 			}
 			else //vue modification avec champ saisi/listview checkbox ou radioButton
 			{
@@ -1511,7 +1508,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				ContribXml.addContributionToXml(c);
 				enregistreXml();
 				setResult(RESULT_OK);
-				erasecpref();//efface les donn�e utilisateurs
+				erasecpref();//efface les données utilisateurs
 				finish();
 			}
 			else
@@ -1612,7 +1609,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 	 */
 	private boolean generateContribCreer(Contribution c) {
 		// TODO Auto-generated method stub
-		this.recupStringCpref(); //recupere les valeurs de cpref, dans les variables utilis�es ci apres
+		this.recupStringCpref(); //recupere les valeurs de cpref, dans les variables utilisées ci après
 
 		Log.d(DEBUG_TAG, "generateContribCreer en cours.....");
 		c.type = Contribution.type_contrib.creer;
@@ -1921,7 +1918,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 
 	private void addInfoNoticeToContribution(Contribution c1) {
 		// TODO Auto-generated method stub
-		//liste des valeur des champs connus de la notice de r�f�rence 
+		//liste des valeur des champs connus de la notice de référence 
 		//executer avant l'affectation des valeurs ajout/modif.(valeur notice sera ecrasee eventuellement)
 
 		if(notice_artiste!=null && !notice_artiste.equals("") && !notice_artiste.equals("?"))
@@ -2007,14 +2004,14 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		// Le message
 		alertDialog.setMessage(this.getResources().getString(R.string.leave_contrib));
 
-		// L'ic�ne
+		// L'icone
 		alertDialog.setIcon(android.R.drawable.btn_star);
 
 		// Ajout du bouton "OK"
 		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(final DialogInterface arg0, final int arg1) {
-				// Le code � ex�cuter apr�s le clique sur le bouton
-				//Toast.makeText(mcontext, "Tu as cliqu� sur le bouton 'OK'",Toast.LENGTH_SHORT).show();
+				// Le code à exécuter après le clique sur le bouton
+				//Toast.makeText(mcontext, "Tu as cliqué sur le bouton 'OK'",Toast.LENGTH_SHORT).show();
 
 				//gotomain();
 				//gotoBefore();
@@ -2114,5 +2111,30 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		getMenuInflater().inflate(R.menu.contribuer_menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
+	
+	private void showLocationChangeAlertToUser(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(getResources().getString(R.string.location_change_alert))
+        .setCancelable(false)
+        .setPositiveButton(getResources().getString(R.string.mise_ajour),
+                new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int id){
+            	String lat = Double.toString(MainActivity.mLastLocation.getLatitude());
+            	String longi = Double.toString(MainActivity.mLastLocation.getLongitude());
+            	Log.d(DEBUG_TAG,"Latitude :" + lat);
+    			Log.d(DEBUG_TAG,"Longitude :" + longi);
+    			ListChampsNoticeModif.cPref.edit().putString(ListChampsNoticeModif.LATITUDE,""+MainActivity.mLastLocation.getLatitude()).commit();
+				ListChampsNoticeModif.cPref.edit().putString(ListChampsNoticeModif.LONGITUDE,""+MainActivity.mLastLocation.getLongitude()).commit();
 
+            }
+        });
+        alertDialogBuilder.setNegativeButton(getResources().getString(R.string.annuler),
+                new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int id){
+                dialog.cancel();
+            }
+        });
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
 }
