@@ -950,7 +950,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 						String la= ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.LATITUDE, "");
 						String lo=ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.LONGITUDE, "");
 						//FBO to check affichage par défaut dans l'autre ordre
-						localisationAjout.setValue(la+" , "+lo);
+						localisationAjout.setValue(lo+" , "+la);
 					}
 
 				}
@@ -1099,7 +1099,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 					String la= ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.LATITUDE, "");
 					String lo=ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.LONGITUDE, "");
 					//FBO to check if OK
-					localisationAjout.setValue(la+" , "+lo);
+					localisationAjout.setValue(lo+" , "+la);
 				}
 
 			}
@@ -1391,12 +1391,13 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				cPref.edit().putBoolean(ListChampsNoticeModif.ajout_localisation, true).commit();
 
 				//afficheAlerte("Votre localisation a été récupérée");
-				//FBO ici mettre une alert box seulement pas la MapContribActivity
-				Intent intent = new Intent(getApplication(), MapContribActivity.class);
-				intent.putExtras(bundle);
-				bundle.putDouble(ListChampsNoticeModif.LATITUDE, 0.0);
-				bundle.putDouble(ListChampsNoticeModif.LONGITUDE, 0.0);
-				startActivityForResult(intent, REQUEST_localisation);	
+//				//FBO ici mettre une alert box seulement pas la MapContribActivity
+//				Intent intent = new Intent(getApplication(), MapContribActivity.class);
+//				intent.putExtras(bundle);
+//				bundle.putDouble(ListChampsNoticeModif.LATITUDE, 0.0);
+//				bundle.putDouble(ListChampsNoticeModif.LONGITUDE, 0.0);
+//				startActivityForResult(intent, REQUEST_localisation);	
+				showLocationChangeAlertToUser();
 			}
 			else if(champs.equals(ListChampsNoticeModif.modif_localisation))
 			{
