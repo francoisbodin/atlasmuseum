@@ -244,7 +244,7 @@
      <string name="from">De</string>
      <string name="recherche_par_date">Rechercher par date</string>
      <string name="until">à</string>
-      <string name="date_txt">Indiquez seulement l'année. Par exemple : 2009</string>
+      <string name="date_txt">Indiquez seulement l\'année. Par exemple : 2009</string>
      
       <!-- Vues dans la listModif contribution -->
       <string name="Titre">Titre</string>
