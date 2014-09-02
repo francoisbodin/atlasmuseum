@@ -217,17 +217,17 @@
     <string name="no_result">Pas de résultat</string>
     
     <!-- Liste pour la recherche -->
-    <string name="artiste">Artistes</string> <!-- searchActivity - artiste -->
-     <string name="lieux">Lieux (nom du site, ville, région ...)</string> <!-- searchActivity- Lieux (nom du site, villes, région ...) -->
+    <string name="artiste">Artiste</string> <!-- searchActivity - artiste -->
+     <string name="lieux">Lieu (nom du site, ville, région ...)</string> <!-- searchActivity- Lieux (nom du site, villes, région ...) -->
      <string name="liste_artistes">Liste des artistes</string> <!-- searchActivity -->
-      <string name="lieu_simple">Lieu</string> <!-- searchActivity- Lieux (nom du site, villes, région ...) -->
+      <string name="lieu_simple">Lieu</string> <!-- searchActivity- Lieu (nom du site, villes, région ...) -->
      <string name="ville">Ville</string> <!-- searchActivity - Villes-->
      <string name="pays">Pays</string> <!-- searchActivity - Pays -->
      <string name="titre_oeuvre">Titre de l\'œuvre</string> <!-- searchActivity - Titre de l\'oeuvre)s -->
      <string name="date">Date</string> <!-- searchActivity - Date -->
      <string name="materiaux">Matériaux</string> <!-- searchActivity - Matériaux -->
      <string name="couleurs">Couleurs</string> <!-- searchActivity - Couleurs -->
-     <string name="recherche_titre_artiste_lieux">Rechercher par artiste, par titre, par lieu</string> <!--criteres de recherche  -->
+     <string name="recherche_titre_artiste_lieux">Rechercher par artiste, titre, lieu</string> <!--criteres de recherche  -->
      <string name="titre">Titre</string> <!--criteres de recherche  -->
      
      <string name="liste_villes">Liste des villes</string> <!--criteres de recherche  -->
