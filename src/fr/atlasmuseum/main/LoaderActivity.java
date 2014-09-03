@@ -18,12 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.location.LocationManager;
 /**
- * affiche l'�cran d'accueil de l'application
+ * affiche l'écran d'accueil de l'application
  * First Activity called when app is launched
  *
  */
 public class LoaderActivity extends Activity  {
-	private static final String DEBUG_TAG = "UnPourCent/Loader";
+	private static final String DEBUG_TAG = "atlasmuseum/Loader";
 	static final String NB_ENTRIES = "nbentries";
 	
     public void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class LoaderActivity extends Activity  {
         addListenerOnScreen();
        // getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getActionBar().hide();
-        TextView titre = (TextView)findViewById(R.id.app_name);
+        TextView titre = (TextView) findViewById(R.id.app_name);
         TextView text_intro2 = (TextView)findViewById(R.id.text_intro2);
         TextView text_intro1 = (TextView)findViewById(R.id.text_intro1);
         Typeface font1 = Typeface.createFromAsset(getAssets(), "RobotoCondensed-Bold.ttf");
@@ -46,7 +46,7 @@ public class LoaderActivity extends Activity  {
       //check if GPS is activated
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            Toast.makeText(this, "GPS activé", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.GPSactivatedmes, Toast.LENGTH_SHORT).show();
         }else
         {
             showGPSDisabledAlertToUser();
