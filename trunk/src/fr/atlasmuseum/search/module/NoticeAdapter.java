@@ -11,6 +11,7 @@ import fr.atlasmuseum.contribution.Contribution;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,16 +24,18 @@ import android.widget.TextView;
 /**
  * Permet l'affichage de notice dans la listView
  * Avec affichage d'images (TODO)
- *Utilisé dans ResulActivity
+ *UtilisÃ© dans ResulActivity
  */
 public class NoticeAdapter extends BaseAdapter  {
 	// Une liste de personnes
 	private List<NoticeOeuvre> listNotice;
-	    	
-	//Le contexte dans lequel est présent notre adapter
+	private static final String GRAFFITY_ALBUM = "atlasmuseum"; //TODO FBO to go in one file...
+	private static final String CAMERA_DIR = "/dcim/";
+	
+	//Le contexte dans lequel est prï¿½sent notre adapter
 	private Context mContext;
 	    	
-	//Un mécanisme pour gérer l'affichage graphique depuis un layout XML
+	//Un mÃ©canisme pour gÃ©rer l'affichage graphique depuis un layout XML
 	private LayoutInflater mInflater;
 	
 	@Override
@@ -56,16 +59,16 @@ public class NoticeAdapter extends BaseAdapter  {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LinearLayout layoutItem;
-		//(1) : Réutilisation des layouts
+		//(1) : RÃ©utilisation des layouts
 		if (convertView == null) {
-			//Initialisation de notre item à partir du  layout XML "personne_layout.xml"
+			//Initialisation de notre item ï¿½ partir du  layout XML "personne_layout.xml"
 			layoutItem = (LinearLayout) mInflater.inflate(R.xml.my_item_result_list, parent, false);
 		} else 
 		{
 			layoutItem = (LinearLayout) convertView;
 		}
 	  
-		//(2) : Récupération des TextView de notre layout      
+		//(2) : Rï¿½cupï¿½ration des TextView de notre layout      
 		TextView titre = (TextView)layoutItem.findViewById(R.id.notice_Titre);
 		TextView auteur = (TextView)layoutItem.findViewById(R.id.notice_auteur);
 		TextView annee = (TextView)layoutItem.findViewById(R.id.notice_annee);
@@ -79,14 +82,17 @@ public class NoticeAdapter extends BaseAdapter  {
 		File fimage;
 		try {
 			fimage = checkIfImageFileExists(photoName);
+			String photopath = Environment.getExternalStorageDirectory() + CAMERA_DIR + GRAFFITY_ALBUM+"/" +photoName+".png";
 			if (fimage != null)
 			{
-				Bitmap bm = BitmapFactory.decodeFile("/mnt/sdcard/dcim/AtlasMuseum/"+photoName+".png");
+				
+				//Bitmap bm = BitmapFactory.decodeFile("/mnt/sdcard/dcim/AtlasMuseum/"+photoName+".png");
+				Bitmap bm = BitmapFactory.decodeFile(photopath);
 				imgview.setImageBitmap(bm);
 			}
 			else
 			{
-				Log.d("listPhoto", "file img null: "+"/mnt/sdcard/dcim/AtlasMuseum/"+listNotice.get(position).getPhoto());
+				Log.d("listPhoto", "file img null: "+photopath+listNotice.get(position).getPhoto());
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -96,13 +102,13 @@ public class NoticeAdapter extends BaseAdapter  {
 		
 		
 
-		//On retourne l'item créé.
+		//On retourne l'item crÃ©Ã©.
 		return layoutItem;
 	}	
 	//utiliser dans ObjectFragmentActivity
 	public static File checkIfImageFileExists(String filename) throws IOException {
-		
-		File imageF = new File("/mnt/sdcard/dcim/AtlasMuseum/" + filename);
+		String photopath = Environment.getExternalStorageDirectory() + CAMERA_DIR + GRAFFITY_ALBUM;
+		File imageF = new File(photopath + "/" +filename);
 		if (imageF.exists()) return imageF;
 		else return null;
 	}
