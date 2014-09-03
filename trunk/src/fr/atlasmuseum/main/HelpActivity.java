@@ -12,7 +12,7 @@ import android.widget.Button;
 
 public class HelpActivity extends Activity{
 
-	private static final String DEBUG_TAG = "UnPourCent/HelpActivity";
+	private static final String DEBUG_TAG = "atlasmuseum/HelpActivity";
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
