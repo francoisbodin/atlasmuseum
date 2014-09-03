@@ -191,7 +191,7 @@
 		        	    android:layout_width="30dp"
 		        	    android:layout_height="30dp"
 		        	    android:layout_centerVertical="true"
-			            android:src="@drawable/ic_notice_localisation"
+			            android:src="@drawable/ic_map"
 			            android:layout_alignParentRight="true"
 			            />
 			    </RelativeLayout>
