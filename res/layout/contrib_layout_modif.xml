@@ -14,9 +14,9 @@
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_marginBottom="50dp"
-	        android:text="TITRE"
+	        android:text="@string/TITREString"
 	        android:layout_marginTop="20dp"
-	        android:textSize="20dp" />
+	        android:textSize="20sp" />
 
 	<Button
 	    android:id="@+id/button1"
@@ -26,7 +26,7 @@
 	    android:background="#ffda00"
 	    android:text="@string/Ok"
 	    android:textColor="#333333"
-	    android:textSize="18dp" />
+	    android:textSize="18sp" />
 
 	<LinearLayout
 	    android:id="@+id/relativ12"
@@ -60,7 +60,7 @@
 		        android:id="@+id/editText1"
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
-		        android:textSize="20dp" >
+		        android:textSize="20sp" >
 		        <requestFocus />
 	    </EditText>
 			
@@ -69,7 +69,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:maxLength="4"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:visibility="gone"
             android:inputType="date" />
 	    
@@ -81,7 +81,7 @@
 	        android:layout_below="@+id/editText1"
 	        android:layout_marginTop="18dp"
 	        android:text="@string/contrib_acces_visibilite"
-	        android:textSize="15dp" />
+	        android:textSize="15sp" />
 	    
 
 	    <Button
@@ -95,7 +95,7 @@
 	        android:paddingRight="40dp"
 	        android:text="@string/Ok"
 	        android:textColor="#333333"
-	        android:textSize="18dp" />
+	        android:textSize="18sp" />
 
 		</LinearLayout>
 	</LinearLayout>
