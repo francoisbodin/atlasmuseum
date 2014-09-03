@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <!-- CONTRIBUER -->
@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/contribuer"
                     android:textColor="#333333"
-                    android:textSize="18dp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/text_contribuer"
@@ -50,7 +50,7 @@
                     android:layout_below="@+id/text_contribuertitre"
                     android:text="@string/contribuer_message"
                     android:textColor="#686868"
-                    android:textSize="13dp" />
+                    android:textSize="13sp" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/envoyer_titre"
                     android:textColor="#333333"
-                    android:textSize="18dp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/text_contribenvoy"
@@ -94,7 +94,7 @@
                     android:layout_below="@+id/text_contribenvoytitre"
                     android:text="@string/envoyer_message"
                     android:textColor="#686868"
-                    android:textSize="13dp" />
+                    android:textSize="13sp" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/contrib_save"
                     android:textColor="#333333"
-                    android:textSize="18dp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/text_contribsave"
@@ -138,7 +138,7 @@
                     android:layout_below="@+id/text_contribsavetitre"
                     android:text="@string/contrib_save_message"
                     android:textColor="#686868"
-                    android:textSize="13dp" />
+                    android:textSize="13sp" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -146,7 +146,7 @@
             android:id="@+id/mButtonEnvoyer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Envoyer"
+            android:text="@string/Envoyer"
             android:visibility="gone" />
 
         <LinearLayout
@@ -158,20 +158,20 @@
                 android:id="@+id/button1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create Contrib"
+                android:text="@string/CreateContrib"
                 android:visibility="gone" />
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Contribute" />
+                android:text="@string/Contribute" />
 
             <Button
                 android:id="@+id/erase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="erase" />
+                android:text="@string/Effacer" />
         </LinearLayout>
 
         <RelativeLayout
@@ -183,7 +183,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/information"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/infoContrib"
@@ -191,7 +191,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/infoContribtitre"
                 android:text="@string/info_contribution"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
         </RelativeLayout>
 
         <LinearLayout
