@@ -20,10 +20,15 @@
     <string name="title_search_artiste">Artiste :</string>
     <string name="title_search_titre">Titre :</string>
     <string name="title_search_free">Texte :</string>
-     <string name="title_apropos">A PROPOS</string>
-    <string name="ok">OK</string>
-   
-
+    <string name="title_apropos">A PROPOS</string>
+   	<string name="ok">OK</string>
+   	<string name="TITREString">TITRE</string>
+	<string name="Envoyer">Envoyer</string>
+	<string name="CreateContrib">Create Contrib</string>
+	<string name="Contribute">Contribute</string>
+	<string name="Effacer">Effacer</string>
+	
+	
     <!-- Action bar related -->
     <string name="menu_search">Recherche</string>
     <string name="menu_refresh">Rafraichir</string>
