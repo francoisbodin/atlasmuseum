@@ -26,7 +26,7 @@ public class RobotoTextView extends TextView {
 		this.context = context;
 	}
 
-	public void setTypeface(Typeface tf, int style) {
+	public void setTypeface( int style) {
 		if (!isInEditMode()) {
 			if (style == Typeface.NORMAL) {
 				super.setTypeface(TypeFaceProvider.getTypeFace(getContext(), "fonts/Roboto-Light.ttf"));

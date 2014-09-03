@@ -63,7 +63,7 @@ public class ListActivity extends Activity  {
 		lvSelection =  (ListView) findViewById(R.id.list_view);
 		lvSelection.setFastScrollEnabled(true);
 		selectionStringList = new ArrayList<String>();
-		champs= bundle.getString(SearchActivity.CHAMPS_ITEM,"artiste");//quand on arriv sur l'activité, rechercher par defaut: artiste
+		champs= bundle.getString(SearchActivity.CHAMPS_ITEM,"artiste");//quand on arriv sur l'activitï¿½, rechercher par defaut: artiste
 		
 		ArrayList<String> listElement = new ArrayList<String>();
 		int idx;
@@ -115,7 +115,7 @@ public class ListActivity extends Activity  {
 			public void onItemClick(AdapterView<?> parent, View viewClicked,
 			int position, long id) 
 			{
-				bundle.putString(SearchActivity.CHAMPS_ITEM,champs);//crée un bundle avec la chaine associé
+				bundle.putString(SearchActivity.CHAMPS_ITEM,champs);//crï¿½e un bundle avec la chaine associï¿½
 				Log.d(DEBUG_TAG, "champs ="+champs);
 				Log.d(DEBUG_TAG+"/setActionForlist", "recherche de "+ adapter.getItem(position));
 				showList(champs, (String)adapter.getItem(position),false); //important !! gere le bundle
@@ -173,17 +173,17 @@ public class ListActivity extends Activity  {
     
   /**
    * fonction de recherche de cText dans le champs c
-   * modifie le bundle, en fonction du nb resultat trouvé
+   * modifie le bundle, en fonction du nb resultat trouvÃ©
    * ajoute les info de localisation
    * @param c champ: ex artiste, lieux, tous_les_artistes ..;
-   * @param cText chaine à chercher dans la BDD interne du telephone
-   * @param startIntent pour demarrer ou non une activité
+   * @param cText chaine Ã  chercher dans la BDD interne du telephone
+   * @param startIntent pour demarrer ou non une activitÃ©
    */
   		private void showList(String c, String cText, Boolean startIntent){
   			
   			LocationStruct mLastLocation = MainActivity.mLastLocation;
   			
-  			int i,j=0;//j = nbEntries trouvé, et i pour parcourir 
+  			int i,j=0;//j = nbEntries trouvÃ©, et i pour parcourir 
   			double distanceClosest = 100000000.0;
   			int indexDistanceClosest = -1;
   			Intent intent = new Intent(this, ListActivity.class);
@@ -197,7 +197,7 @@ public class ListActivity extends Activity  {
   					String artiste = SearchActivity.extractDataFromDb(i,"artiste");
   					if ((artiste != null) && (artiste.toLowerCase().contains(cText.toLowerCase()))){
   						extra.putInt(Integer.toString(j),i); 
-  						j++;// le nombre de item trouvé
+  						j++;// le nombre d'items trouvÃ©s
   					}
   					break;
   				case  "Siteville": 
@@ -256,7 +256,7 @@ public class ListActivity extends Activity  {
   			
   			
   			//.makeText(getApplicationContext(),
-  			//		"Nombre d'oeuvres trouvŽes : " + Integer.toString(j) + " ", Toast.LENGTH_SHORT).show();
+  			//		"Nombre d'oeuvres trouvï¿½es : " + Integer.toString(j) + " ", Toast.LENGTH_SHORT).show();
   			if (mLastLocation != null)
   			{
   				extra.putDouble(SearchActivity.CURRENT_LAT,mLastLocation.getLatitude());
