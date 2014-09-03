@@ -247,7 +247,7 @@ public class MainActivity extends Activity implements LocationProvider.OnLocatio
 		}
 		else //afficher une erreur car pas de connexion internet
      	{
-     		AtlasError.showErrorDialog(MainActivity.this, "7.1", "pas internet connexion");
+     		AtlasError.showErrorDialog(MainActivity.this, "7.1", "pas de connexion internet");
      	}
 		
 		
@@ -266,7 +266,7 @@ public class MainActivity extends Activity implements LocationProvider.OnLocatio
 	    		Log.d(DEBUG_TAG, "RESULT OK ****************");
 	    		TextView txtprf = (TextView) findViewById(R.id.txt_view_profil);
 	    		txtprf.setText(this.getResources().getString(R.string.deconnexion));//"Deconnexion"
-	    		//on a r�ussi a se connecter
+	    		//on a réussi a se connecter
 	    	}
 	    	
 	    }
@@ -411,7 +411,7 @@ public class MainActivity extends Activity implements LocationProvider.OnLocatio
 			mUpdateLocationRequested = false;
 			mLastLocation = new LocationStruct(location);
 			/**Toast.makeText(getApplicationContext(),
-					"Coordonn�es GPS : " + 
+					"Coordonnées GPS : " + 
 							Double.toString(mLastLocation.getLatitude())+", "+ Double.toString(mLastLocation.getLongitude())
 							, Toast.LENGTH_SHORT).show();**/
 			Log.d(DEBUG_TAG, "Location updated");
