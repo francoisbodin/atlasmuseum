@@ -30,11 +30,11 @@
 
 	     <ImageView
 	         android:id="@+id/imageView1"
-	         android:layout_width="wrap_content"
-	         android:layout_height="wrap_content"
+	         android:layout_width="200dp"
+	         android:layout_height="200dp"
 	         android:layout_alignParentTop="true"
 	         android:layout_centerHorizontal="true"
-	         android:paddingBottom="15dp"
+	         android:paddingBottom="20dp"
 	         android:contentDescription="@string/app_name"
 	         android:src="@drawable/icone" />
 
@@ -46,7 +46,7 @@
 	         android:layout_centerHorizontal="true"
 	         android:text="@string/app_name"
 	         android:textColor="#4d4d4d"
-	         android:textSize="30sp"
+	         android:textSize="40sp"
 	         android:paddingBottom="10dp"
 	         android:textStyle="bold" />
 
@@ -57,7 +57,7 @@
 	         android:layout_below="@+id/text_intro1"
 	         android:layout_centerHorizontal="true"
 	         android:textStyle="bold"
-	          android:textSize="20sp"
+	         android:textSize="20sp"
 	         android:hint="@string/intro2" />
 
 	     <TextView
@@ -81,8 +81,6 @@
 	         android:textStyle="bold"
 	          android:layout_below="@+id/text_intro2"
 	         android:layout_centerHorizontal="true"
-	         android:hint="02/09/14" />
-
+	         android:hint="@string/version_number" />
 	 </RelativeLayout>
-	
 </RelativeLayout>
