@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Atlasmuseum</string>
+    <string name="app_name">atlasmuseum</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-	
+	<string name="version_number">03/09/2014</string>
     
     <string name="settings_name">AtlasMuseum Settings</string>
 
@@ -22,6 +22,7 @@
     <string name="title_search_free">Texte :</string>
      <string name="title_apropos">A PROPOS</string>
     <string name="ok">OK</string>
+   
 
     <!-- Action bar related -->
     <string name="menu_search">Recherche</string>
@@ -58,7 +59,7 @@
     <string name="gsp_link_to_enable">Aller à la page d\'activation</string>
     <string name="annuler">Annuler</string>
     <string name="desole_position_pas_recup">Désolé, votre position ne peut être récupérée</string>
-
+	<string name="GPSactivatedmes">GPS Activé</string>
     
     
     <!-- Location Messages -->
