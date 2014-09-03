@@ -59,7 +59,7 @@
     <string name="gsp_link_to_enable">Aller à la page d\'activation</string>
     <string name="annuler">Annuler</string>
     <string name="desole_position_pas_recup">Désolé, votre position ne peut être récupérée</string>
-	<string name="GPSactivatedmes">GPS Activé</string>
+	<string name="GPSactivatedmes">GPS activé</string>
     
     
     <!-- Location Messages -->
