@@ -15,12 +15,16 @@ import com.irisa.unpourcent.location.LocationStruct;
 import fr.atlasmuseum.contribution.Contribution.champ_status;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 
 public class Contribution implements Serializable {
 private static final long serialVersionUID = 1L;
-private static final String pathToFile = "/mnt/sdcard/dcim/AtlasMuseum/";
+private static final String GRAFFITY_ALBUM = "atlasmuseum"; //TODO FBO to go in one file...
+private static final String CAMERA_DIR = "/dcim/";
+
+//FBO Should not be used private static final String pathToFile = "/mnt/sdcard/dcim/atlasmuseum/";
 	public static class Location implements Serializable {
 		private static final long serialVersionUID = 1L;
 		
@@ -83,7 +87,7 @@ private static final String pathToFile = "/mnt/sdcard/dcim/AtlasMuseum/";
 	static final String ENATTENTE = "enattente";
 	static final String ACCEPTED = "acceptee";
 	static final String CANCELED = "annulee";
-	static final String MODIFICATION = "modification"; //modification apport� par l'utilisateur
+	static final String MODIFICATION = "modification"; //modification apporté par l'utilisateur
 	static final String COORDONNEES = "coordonnees";
 	
 	//type de contribution
@@ -419,13 +423,14 @@ private static final String pathToFile = "/mnt/sdcard/dcim/AtlasMuseum/";
 			return "";
 		}
 		
-		File graffity_file = new File(pathToFile+this.photoPath);
+		//File graffity_file = new File(pathToFile+this.photoPath);
+		File graffity_file = new File(Environment.getExternalStorageDirectory() + CAMERA_DIR + GRAFFITY_ALBUM+"/" +this.photoPath);
 		InputStream graffity_is;
 		try {
 			graffity_is = new FileInputStream(graffity_file);
 		} catch (FileNotFoundException e) {
 			
-			Log.i(DEBUG_TAG, "Can't read " + pathToFile+this.photoPath);
+			Log.i(DEBUG_TAG, "Can't read " + Environment.getExternalStorageDirectory() + CAMERA_DIR + GRAFFITY_ALBUM+"/" +this.photoPath);
 			e.printStackTrace();
 			return "";
 		}
