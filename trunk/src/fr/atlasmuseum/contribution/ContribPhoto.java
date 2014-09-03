@@ -45,11 +45,11 @@ public class ContribPhoto extends Activity {
 
 	private static final int TAKE_PICTURE_REQUEST = 1;
 	String photoPath; //contient le chemin complet vers la photo prise si existante
-	private static final String GRAFFITY_ALBUM = "AtlasMuseum";
+	private static final String GRAFFITY_ALBUM = "atlasmuseum";
 	private static final String GRAFFITY_IMAGE_PREFIX = "atlas_";
 	private static final String GRAFFITY_IMAGE_SUFFIX = ".jpg";
 	private static final String CAMERA_DIR = "/dcim/";
-	private static final String pathToFile = "/mnt/sdcard/dcim/AtlasMuseum/";
+	//FBO should not be used // private static final String pathToFile = "/mnt/sdcard/dcim/atlasmuseum/";
 	public static final String ATLASMUSEUM_IMAGE_SUFFIX = ".png";
 	Button mButtonOk; //bouton confirmation d'ajout photo
 	Button mButtonTake;//bouton de lancement capture photo
@@ -178,7 +178,8 @@ public class ContribPhoto extends Activity {
 		}
 		//String pathToFile = f.getParent();
 		//Log.d(DEBUG_TAG+"/path to file", pathToFile);
-		photoPath= pathToFile+f.getName();
+		//photoPath= pathToFile+f.getName();
+		photoPath= Environment.getExternalStorageDirectory() + CAMERA_DIR + GRAFFITY_ALBUM+"/" +f.getName();
 		Log.d(DEBUG_TAG+"/path to file", photoPath);
 		
 		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
