@@ -52,7 +52,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 	static final String CURRENT_LAT = "curlat";
 	static final String CURRENT_LONG = "curlong";
 	public static final String MAP_FOCUS_NOTICE = "mapfocusnotice";
-	private static final String CAMERA_DIR = "/dcim/";
+	private static final String CAMERA_DIR = "/DCIM/";
 	private static final String IMAGES_ALBUM = "atlasmuseum";
 	public static final String ATLASMUSEUM_IMAGE_SUFFIX = ".png";
 	static public JsonRawData db = null;
