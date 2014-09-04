@@ -65,8 +65,8 @@ public class ConnexionActivity extends Activity
 				    cPref.edit().putBoolean("AUTO_ISCHECK", true).commit();
 					memo_check.setChecked(true);//automatiquement coche la case "m�moriser mdp"
 					cPref.edit().putBoolean("ISCHECK", true).commit();
-					String username=getUser().getText().toString();//recupere la valeur du champs login
-			    	String pass=getPassword().getText().toString();//recupere la valeur du champs mdp
+					String username=getUser();//recupere la valeur du champs login
+			    	String pass=getPassword();//recupere la valeur du champs mdp
 			    	Log.d("memoetauto", "user=" +username+", pass = "+pass);
 			    	Editor editor = cPref.edit();
 					editor.putString("user", username);
@@ -79,8 +79,8 @@ public class ConnexionActivity extends Activity
 			 if(memo_check.isChecked()) // si la case "m�moriser mdp" est coch�
 			 	{
 					Editor editor = MainActivity.getCPrefs().edit();
-					String username=getUser().getText().toString();
-			    	String pass=getPassword().getText().toString();
+					String username=getUser();
+			    	String pass=getPassword();
 			    	Log.d("enregistrement memo =", "user=" +username+", pass = "+pass);
 					editor.putString("user", username);
 					editor.putString("password", pass);
@@ -153,8 +153,8 @@ public class ConnexionActivity extends Activity
 			if(memo_check.isChecked()){
 				System.out.println("Le mot de passe a été mémorisé!");
 				cPref.edit().putBoolean("ISCHECK", true).commit();
-				String username=getUser().getText().toString();
-		    	String pass=getPassword().getText().toString();
+				String username=getUser();
+		    	String pass=getPassword();
 		    	Editor editor = cPref.edit();
 				editor.putString("user", username);
 				editor.putString("password", pass);
@@ -177,8 +177,8 @@ public class ConnexionActivity extends Activity
 				memo_check.setChecked(true);
 				cPref.edit().putBoolean("ISCHECK", true).commit();
 			
-				String username=getUser().getText().toString();
-		    	String pass=getPassword().getText().toString();
+				String username=getUser();
+		    	String pass=getPassword();
 		    	Editor editor = cPref.edit();
 				editor.putString("user", username);
 				editor.putString("password", pass);
@@ -197,7 +197,6 @@ public class ConnexionActivity extends Activity
 		
 
 		/*private void loginCheck(ProgChecker pck) {
-			// TODO Auto-generated method stub
 			if(pck.checkUser()){
 				Intent intent=new Intent(this,MainActivity.class);
 				startActivity(intent);
@@ -229,7 +228,6 @@ public class ConnexionActivity extends Activity
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				
 				memorisermdp();
 		    	connexionauto();
@@ -256,11 +254,11 @@ public class ConnexionActivity extends Activity
 			startActivity(intent);
 		}
 	    
-		 public  EditText getUser(){
-			 return user;
+		 public String getUser(){
+			 return user.getText().toString().trim();
 		 }
-		 public EditText getPassword(){
-			 return password;
+		 public String getPassword(){
+			 return password.getText().toString().trim();
 		 }
 		 
 		
@@ -284,7 +282,6 @@ public class ConnexionActivity extends Activity
 		    
 		    //utiliser pour envoyer une reponse a lactivit� appelante
 			public void giveGoodResult() {
-				// TODO Auto-generated method stub
 				setResult(RESULT_OK);
 				finish();
 			}

@@ -76,13 +76,14 @@ public class ConnexionAsync extends AsyncTask<String, String, Boolean> {
 	
 	@Override
 	protected Boolean doInBackground(String... params) {
-		// TODO Auto-generated method stub
 		
 		Log.d(DEBUG_TAG+"/doInBackground", "******** connexion en cours... *******");
 		//boolean continuerAEnvoyer
 		
-		user=this.mContext.getUser().getText().toString();
-		passwd=this.mContext.getPassword().getText().toString();
+		user=this.mContext.getUser();
+		Log.d(DEBUG_TAG+"/doInBackground", "user = *"+user+"*");
+		
+		passwd=this.mContext.getPassword();
 		
 		boolean uValid = ((user ==null)|| user.equals(""));
 		boolean pValid = ((passwd ==null)|| passwd.equals(""));
@@ -146,7 +147,6 @@ public class ConnexionAsync extends AsyncTask<String, String, Boolean> {
 				
 			
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				this.mStatus ="erreur format reponse serveur";
 				Log.w(DEBUG_TAG+"/connexion"+" failed", "JSONException");
 				return false;
