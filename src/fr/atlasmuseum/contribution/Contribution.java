@@ -22,7 +22,7 @@ import android.util.Log;
 public class Contribution implements Serializable {
 private static final long serialVersionUID = 1L;
 private static final String GRAFFITY_ALBUM = "atlasmuseum"; //TODO FBO to go in one file...
-private static final String CAMERA_DIR = "/dcim/";
+private static final String CAMERA_DIR = "/DCIM/";
 
 //FBO Should not be used private static final String pathToFile = "/mnt/sdcard/dcim/atlasmuseum/";
 	public static class Location implements Serializable {
