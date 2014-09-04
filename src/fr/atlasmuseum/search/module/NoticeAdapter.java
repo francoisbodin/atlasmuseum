@@ -30,7 +30,7 @@ public class NoticeAdapter extends BaseAdapter  {
 	// Une liste de personnes
 	private List<NoticeOeuvre> listNotice;
 	private static final String GRAFFITY_ALBUM = "atlasmuseum"; //TODO FBO to go in one file...
-	private static final String CAMERA_DIR = "/dcim/";
+	private static final String CAMERA_DIR = "/DCIM/";
 	
 	//Le contexte dans lequel est pr�sent notre adapter
 	private Context mContext;
