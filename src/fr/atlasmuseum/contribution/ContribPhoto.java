@@ -48,8 +48,8 @@ public class ContribPhoto extends Activity {
 	private static final String GRAFFITY_ALBUM = "atlasmuseum";
 	private static final String GRAFFITY_IMAGE_PREFIX = "atlas_";
 	private static final String GRAFFITY_IMAGE_SUFFIX = ".jpg";
-	private static final String CAMERA_DIR = "/dcim/";
-	//FBO should not be used // private static final String pathToFile = "/mnt/sdcard/dcim/atlasmuseum/";
+	private static final String CAMERA_DIR = "/DCIM/";
+	//FBO should not be used // private static final String pathToFile = "/mnt/sdcard/DCIM/atlasmuseum/";
 	public static final String ATLASMUSEUM_IMAGE_SUFFIX = ".png";
 	Button mButtonOk; //bouton confirmation d'ajout photo
 	Button mButtonTake;//bouton de lancement capture photo
