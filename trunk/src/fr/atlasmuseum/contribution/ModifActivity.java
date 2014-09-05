@@ -80,7 +80,7 @@ public class ModifActivity extends Activity {
          Log.d(DEBUG_TAG+"/onCreate", bundle.toString());
 
          //String ch =  bundle.getString(ListChampsNoticeModif.CHAMPS_ITEM);//pour savoir le champs qu'on va modifier
-       champsAModifier = ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.champ_a_modifie, "");
+       champsAModifier = ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.champ_a_modifier, "");
         titre_contrib.setText(champsAModifier);
          
          getActionBar().setTitle(getResources().getString(R.string.Contribuer));
@@ -124,7 +124,7 @@ public class ModifActivity extends Activity {
 
 
 	private void gestionBundle() {
-    	String ch = ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.champ_a_modifie, "");
+    	String ch = ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.champ_a_modifier, "");
     	//String ch =  bundle.getString(ListChampsNoticeModif.CHAMPS_ITEM);//pour savoir le champs qu'on va modifier
     	titre_contrib.setText(ch);
 		switch(ch)
@@ -554,7 +554,7 @@ private void setCheckFromString(String eltDefaut)
 			break;
 		}
 		
-		String champModifie = ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.champ_a_modifie, "");
+		String champModifie = ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.champ_a_modifier, "");
 		Log.d(DEBUG_TAG, "champs modifier = "+champModifie);
 		boolean f= ListChampsNoticeModif.cPref.edit().putString(champModifie, val).commit();
 		Log.d(DEBUG_TAG+"/cpref", "ajout val ="+f );

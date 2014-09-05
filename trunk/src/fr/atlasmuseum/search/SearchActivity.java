@@ -3,46 +3,30 @@ package fr.atlasmuseum.search;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.irisa.unpourcent.location.LocationProvider;
-import com.irisa.unpourcent.location.LocationStruct;
-import com.irisa.unpourcent.location.LocationUtils;
-
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.main.AtlasError;
-import fr.atlasmuseum.main.MainActivity;
 import fr.atlasmuseum.search.module.SimpleAdapterSearch;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
-import android.app.ActionBar.TabListener;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.location.Location;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class SearchActivity extends Activity implements ActionBar.TabListener {
-	private Bundle bundle = null;
 	private  SimpleAdapterSearch  adapter;
 
 	private static final String DEBUG_TAG = "SearchActivity";
@@ -52,8 +36,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 	static final String CURRENT_LAT = "curlat";
 	static final String CURRENT_LONG = "curlong";
 	public static final String MAP_FOCUS_NOTICE = "mapfocusnotice";
-	private static final String CAMERA_DIR = "/DCIM/";
-	private static final String IMAGES_ALBUM = "atlasmuseum";
+	private static final String ATLASMUSEUM_ALBUM = "atlasmuseum";
 	public static final String ATLASMUSEUM_IMAGE_SUFFIX = ".png";
 	static public JsonRawData db = null;
 	private static String COME_FROM_SEARCHACT="pour le retour vers searchActivity";
@@ -61,13 +44,10 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 
 	private  List<String> selectionStringList;
 
-	private LocationStruct mLastLocation = MainActivity.mLastLocation;
-
-	public String  rechercheGlobale ;
+	public String rechercheGlobale ;
 	public String liste_artistes;
 	public String date;
-	private String artiste;//pour le test
-
+	
 	private String liste_villes;
 	private String liste_pays;
 	private String recherche_date;
@@ -87,7 +67,6 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 		selectionStringList = new ArrayList<String>();//instancie la liste des element
 
 		//chargement des ressources
-		artiste="artiste";
 		rechercheGlobale =this.getResources().getString(R.string.recherche_titre_artiste_lieux);
 		liste_artistes=this.getResources().getString(R.string.liste_artistes);
 		liste_villes = this.getResources().getString(R.string.liste_villes);
@@ -160,7 +139,6 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 
 
 	protected void gotoSearchAround() {
-		// TODO Auto-generated method stub
 		Intent intent= new Intent(this,SearchAutourList.class);
 		getActionBar().setSelectedNavigationItem(0);
 		startActivity(intent);
@@ -295,7 +273,8 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 	private static File getAlbumDir() {
 		File storageDir = null;
 		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-			storageDir = new File( Environment.getExternalStorageDirectory() + CAMERA_DIR + IMAGES_ALBUM );
+			String dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
+			storageDir = new File( dcimDir + "/" + ATLASMUSEUM_ALBUM );
 			if (storageDir != null) {
 				if (! storageDir.mkdirs()) {
 					if (! storageDir.exists()){
@@ -338,6 +317,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 		return d*1000.0;
 	}
 
+/*
 	private String[] setArtisteStringList(Bundle extra){
 		int i,j;
 		int nbEntries = 0;
@@ -368,13 +348,13 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 		Arrays.sort(artisteStringList);
 		return artisteStringList;
 	}
-
+*/
 
 	private void genereBundle(Bundle extra, String champs){
 		int i,j;
 		int nbEntries = 0;
 		boolean found = false;
-		List<String> valueStringList = new ArrayList();// new String[db.nbentries];
+		List<String> valueStringList = new ArrayList<String>();;
 		for (i=0;i < db.nbentries; i++)
 		{	
 			String valuechamps = extractDataFromDb(i,champs);
@@ -403,6 +383,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 
 	}
 
+/*
 	//fonction de recherche de cText dans le champs c
 	private void showList(String c, String cText, Boolean startIntent){
 		int i,j=0;//j = nbEntries trouv�, et i pour parcourir 
@@ -529,11 +510,9 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 		if (startIntent){
 			intent.putExtras(extra);
 			startActivity(intent);
-		} else {
-			bundle = extra;
 		}
 	}
-
+*/
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -562,7 +541,6 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction arg1) {
-		// TODO Auto-generated method stub
 		int i = tab.getPosition();
 		Log.d(DEBUG_TAG, "item position="+i);
 		Log.d(DEBUG_TAG, "value="+tab.getText());
