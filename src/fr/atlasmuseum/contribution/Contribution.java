@@ -7,12 +7,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.irisa.unpourcent.location.LocationStruct;
-
-import fr.atlasmuseum.contribution.Contribution.champ_status;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -20,11 +16,10 @@ import android.util.Base64;
 import android.util.Log;
 
 public class Contribution implements Serializable {
-private static final long serialVersionUID = 1L;
-private static final String GRAFFITY_ALBUM = "atlasmuseum"; //TODO FBO to go in one file...
-private static final String CAMERA_DIR = "/DCIM/";
 
-//FBO Should not be used private static final String pathToFile = "/mnt/sdcard/dcim/atlasmuseum/";
+	private static final long serialVersionUID = 1L;
+	private static final String ATLASMUSEUM_ALBUM = "atlasmuseum"; //TODO FBO to go in one file...
+
 	public static class Location implements Serializable {
 		private static final long serialVersionUID = 1L;
 		
@@ -182,7 +177,6 @@ private static final String CAMERA_DIR = "/DCIM/";
 	 * @param champs
 	 */
 	private static void setValueFromChamps(Contribution c, String champs, String value) {
-		// TODO Auto-generated method stub
 		switch(champs)
 		{
 		case Contribution.ARTISTE:
@@ -245,7 +239,6 @@ private static final String CAMERA_DIR = "/DCIM/";
 	 * @param champs
 	 */
 	static String getValueFromChamps(Contribution c,String champs) {
-		// TODO Auto-generated method stub
 		switch(champs)
 		{
 		case Contribution.ARTISTE:
@@ -370,7 +363,6 @@ private static final String CAMERA_DIR = "/DCIM/";
 	 * @return
 	 */
 	public static type_contrib getTypeContribFromString(String attributeValue) {
-		// TODO Auto-generated method stub
 		switch (attributeValue)
 		{
 		case "creer":
@@ -394,7 +386,6 @@ private static final String CAMERA_DIR = "/DCIM/";
 	 * @return le status de la contribution, du type champ_status
 	 */
 	public static champ_status getStatusContribFromString(String contrib_status) {
-		// TODO Auto-generated method stub
 		if (contrib_status == null)
 		{
 			return champ_status.UNKNOW;
@@ -423,14 +414,14 @@ private static final String CAMERA_DIR = "/DCIM/";
 			return "";
 		}
 		
-		//File graffity_file = new File(pathToFile+this.photoPath);
-		File graffity_file = new File(Environment.getExternalStorageDirectory() + CAMERA_DIR + GRAFFITY_ALBUM+"/" +this.photoPath);
+		String dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
+		String fullPath = dcimDir + "/" + ATLASMUSEUM_ALBUM + "/" + this.photoPath;
+		File graffity_file = new File(fullPath);
 		InputStream graffity_is;
 		try {
 			graffity_is = new FileInputStream(graffity_file);
 		} catch (FileNotFoundException e) {
-			
-			Log.i(DEBUG_TAG, "Can't read " + Environment.getExternalStorageDirectory() + CAMERA_DIR + GRAFFITY_ALBUM+"/" +this.photoPath);
+			Log.i(DEBUG_TAG, "Can't read " + fullPath);
 			e.printStackTrace();
 			return "";
 		}

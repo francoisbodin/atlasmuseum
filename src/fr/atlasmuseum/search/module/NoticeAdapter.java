@@ -5,9 +5,6 @@ import java.io.IOException;
 import java.util.List;
 
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.R.id;
-import fr.atlasmuseum.R.xml;
-import fr.atlasmuseum.contribution.Contribution;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,8 +26,7 @@ import android.widget.TextView;
 public class NoticeAdapter extends BaseAdapter  {
 	// Une liste de personnes
 	private List<NoticeOeuvre> listNotice;
-	private static final String GRAFFITY_ALBUM = "atlasmuseum"; //TODO FBO to go in one file...
-	private static final String CAMERA_DIR = "/DCIM/";
+	private static final String ATLASMUSEUM_ALBUM = "atlasmuseum"; //TODO FBO to go in one file...
 	
 	//Le contexte dans lequel est pr�sent notre adapter
 	private Context mContext;
@@ -40,19 +36,16 @@ public class NoticeAdapter extends BaseAdapter  {
 	
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return listNotice.size();
 	}
 
 	@Override
 	public Object getItem(int arg0) {
-		// TODO Auto-generated method stub
 		return listNotice.get(arg0);
 	}
 
 	@Override
 	public long getItemId(int arg0) {
-		// TODO Auto-generated method stub
 		return arg0;
 	}
 
@@ -82,11 +75,10 @@ public class NoticeAdapter extends BaseAdapter  {
 		File fimage;
 		try {
 			fimage = checkIfImageFileExists(photoName);
-			String photopath = Environment.getExternalStorageDirectory() + CAMERA_DIR + GRAFFITY_ALBUM+"/" +photoName+".png";
+			String dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
+			String photopath = dcimDir + "/" + ATLASMUSEUM_ALBUM + "/" + photoName + ".png";
 			if (fimage != null)
 			{
-				
-				//Bitmap bm = BitmapFactory.decodeFile("/mnt/sdcard/dcim/AtlasMuseum/"+photoName+".png");
 				Bitmap bm = BitmapFactory.decodeFile(photopath);
 				imgview.setImageBitmap(bm);
 			}
@@ -95,7 +87,6 @@ public class NoticeAdapter extends BaseAdapter  {
 				Log.d("listPhoto", "file img null: "+photopath+listNotice.get(position).getPhoto());
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			Log.d("listPhoto", "file img does not exist: "+listNotice.get(position).getPhoto());
 
 		}
@@ -107,8 +98,8 @@ public class NoticeAdapter extends BaseAdapter  {
 	}	
 	//utiliser dans ObjectFragmentActivity
 	public static File checkIfImageFileExists(String filename) throws IOException {
-		String photopath = Environment.getExternalStorageDirectory() + CAMERA_DIR + GRAFFITY_ALBUM;
-		File imageF = new File(photopath + "/" +filename);
+		String dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
+		File imageF = new File(dcimDir + "/" + ATLASMUSEUM_ALBUM + "/" +filename);
 		if (imageF.exists()) return imageF;
 		else return null;
 	}

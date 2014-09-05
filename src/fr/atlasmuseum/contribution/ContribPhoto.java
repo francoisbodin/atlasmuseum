@@ -2,8 +2,6 @@ package fr.atlasmuseum.contribution;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import fr.atlasmuseum.R;
@@ -45,71 +43,63 @@ public class ContribPhoto extends Activity {
 
 	private static final int TAKE_PICTURE_REQUEST = 1;
 	String photoPath; //contient le chemin complet vers la photo prise si existante
-	private static final String GRAFFITY_ALBUM = "atlasmuseum";
-	private static final String GRAFFITY_IMAGE_PREFIX = "atlas_";
-	private static final String GRAFFITY_IMAGE_SUFFIX = ".jpg";
-	private static final String CAMERA_DIR = "/DCIM/";
-	//FBO should not be used // private static final String pathToFile = "/mnt/sdcard/DCIM/atlasmuseum/";
+	private static final String ATLASMUSEUM_ALBUM = "atlasmuseum";
 	public static final String ATLASMUSEUM_IMAGE_SUFFIX = ".png";
-	Button mButtonOk; //bouton confirmation d'ajout photo
-	Button mButtonTake;//bouton de lancement capture photo
     ImageView mImagePreview;//zone d'affichage de la photo
-	private boolean mTakingPicture;
-	Bundle bundle;
+	Bundle mBundle;
 	
 	String lastPhotoValid;//derniere photo valide, dans le cas ou la prise de photo est annulée
 	
 	private TextView mTextStatus;
 
-	private TextView mTextLocation;
-	String champs;
+	String mChamps;
 	public void onCreate(Bundle savedInstanceState)
     {
-	 
-		 super.onCreate(savedInstanceState);
-         requestWindowFeature(Window.FEATURE_ACTION_BAR);
-         setContentView(R.layout.contrib_take_picture);
-         mImagePreview = (ImageView) findViewById(R.id.image_previewE);
-		mButtonTake =(Button) findViewById(R.id.mButtonTake);
+ 		super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_ACTION_BAR);
+        setContentView(R.layout.contrib_take_picture);
+        mImagePreview = (ImageView) findViewById(R.id.image_previewE);
 		
-		bundle = new Bundle();
-        bundle = getIntent().getExtras();//recupere le bundle
-        champs =  bundle.getString(ListChampsNoticeModif.CHAMPS_ITEM);//pour savoir le champs qu'on va modifier
+		mBundle = getIntent().getExtras(); //recupere le bundle
+        mChamps = mBundle.getString(ListChampsNoticeModif.CHAMPS_ITEM); //pour savoir le champs qu'on va modifier
         
-        if(champs.equals(ListChampsNoticeModif.ajout_photo))
+        if(mChamps.equals(ListChampsNoticeModif.ajout_photo))
         {
         	this.photoPath = ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_photo, "");
         	Log.d(DEBUG_TAG, "ajout ++++++++++++");
         }
-        else if(champs.equals(ListChampsNoticeModif.modif_photo))
+        else if(mChamps.equals(ListChampsNoticeModif.modif_photo))
         {
         	this.photoPath = ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.modif_photo, "");
         	Log.d(DEBUG_TAG, "modif_photo ++++++++++++");
         }
         else
         {
-        	champs ="unknow";
+        	mChamps ="unknow";
         	Log.d(DEBUG_TAG, "unknow ++++++++++++");
         }
-		mButtonTake.setOnClickListener(new OnClickListener() {
+
+    	Button mButtonTake = (Button) findViewById(R.id.mButtonTake);
+    	mButtonTake.setOnClickListener(new OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
 	        	Log.i(DEBUG_TAG, "Taking a picture");
 	        	takePicture();
 	        }
 	    });
-		mButtonOk =(Button) findViewById(R.id.mButtonOk);
+
+		Button mButtonOk = (Button) findViewById(R.id.mButtonOk);
 		mButtonOk.setOnClickListener(new OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
 	        	if(photoPath != null || !photoPath.equals(""))
 	        	{
-	        		boolean f =ListChampsNoticeModif.cPref.edit().putString(champs, photoPath).commit();
-	        		Log.d(DEBUG_TAG+"/contribPhoto save", "save photo ="+f+" "+champs);
+	        		boolean f =ListChampsNoticeModif.cPref.edit().putString(mChamps, photoPath).commit();
+	        		Log.d(DEBUG_TAG+"/contribPhoto save", "save photo ="+f+" "+mChamps);
 	        	}
 	        	setResult(RESULT_OK);
 	        	Intent intent = new Intent(getApplication(), ListChampsNoticeModif.class);
-	        	intent.putExtras(bundle);
+	        	intent.putExtras(mBundle);
 	  			startActivity(intent);
 	  			finish();
 	        }
@@ -160,8 +150,6 @@ public class ContribPhoto extends Activity {
 	    	return;
 	    }
 
-		mTakingPicture = true;
-
 		/*
 		 * Create graffity and request location update,
 		 * so graffity location will be updated on location update.
@@ -176,11 +164,9 @@ public class ContribPhoto extends Activity {
 			mTextStatus.setText("Error: unable to create file to store graffity image.");
 			return;
 		}
-		//String pathToFile = f.getParent();
-		//Log.d(DEBUG_TAG+"/path to file", pathToFile);
-		//photoPath= pathToFile+f.getName();
-		photoPath= Environment.getExternalStorageDirectory() + CAMERA_DIR + GRAFFITY_ALBUM+"/" +f.getName();
-		Log.d(DEBUG_TAG+"/path to file", photoPath);
+		String dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
+		photoPath= dcimDir + "/" + ATLASMUSEUM_ALBUM + "/" + f.getName();
+		Log.d(DEBUG_TAG, "path to file = " + photoPath);
 		
 		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
@@ -202,7 +188,7 @@ public class ContribPhoto extends Activity {
 			String imageFileName = MainContribActivity.IDUtil+"_"+m;
 			Log.d(DEBUG_TAG+"/creation img", "Image name =  " + imageFileName);
 			File albumF = getAlbumDir();
-			File imageF = File.createTempFile(imageFileName, GRAFFITY_IMAGE_SUFFIX, albumF);
+			File imageF = File.createTempFile(imageFileName, ATLASMUSEUM_IMAGE_SUFFIX, albumF);
 			return imageF;
 		}
 		
@@ -210,7 +196,8 @@ public class ContribPhoto extends Activity {
 			File storageDir = null;
 
 			if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-				storageDir = new File( Environment.getExternalStorageDirectory() + CAMERA_DIR + GRAFFITY_ALBUM );
+				String dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
+				storageDir = new File( dcimDir + "/" + ATLASMUSEUM_ALBUM );
 				if (storageDir != null) {
 					if (! storageDir.mkdirs()) {
 						if (! storageDir.exists()){
@@ -268,6 +255,35 @@ public class ContribPhoto extends Activity {
 				return;
 			}
 			
+			// Get rotation
+			int rotation = 0;
+			try {
+				ExifInterface exif = new ExifInterface(photoPath);
+				int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+				switch( orientation ) {
+				case ExifInterface.ORIENTATION_NORMAL:
+					rotation = 0;
+					break;
+				case ExifInterface.ORIENTATION_ROTATE_90:
+					rotation = 90;
+					break;
+				case ExifInterface.ORIENTATION_ROTATE_180:
+					rotation = 180;
+					break;
+				case ExifInterface.ORIENTATION_ROTATE_270:
+					rotation = 270;
+					break;
+				case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+				case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+				case ExifInterface.ORIENTATION_TRANSPOSE:
+				case ExifInterface.ORIENTATION_TRANSVERSE:
+				case ExifInterface.ORIENTATION_UNDEFINED:
+					rotation = -1;
+				}
+			} catch (IOException e) {
+				rotation = -1;
+			}
+
 			int photoW = bmOptions.outWidth;
 			int photoH = bmOptions.outHeight;
 			
@@ -328,7 +344,7 @@ public class ContribPhoto extends Activity {
 			// resize the bit map
 			matrix.postScale(scale, scale);
 			// rotate the Bitmap
-			//matrix.postRotate(mGraffiti.getRotation());
+			matrix.postRotate(rotation);
 
 			// recreate the new Bitmap
 			Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, photoW, photoH, matrix, true);
@@ -355,12 +371,10 @@ public class ContribPhoto extends Activity {
 	    			//deleteFile(photoPath); probleme de suppression
 	    			this.photoPath="";
 	    			updatePreview();
-	    			Log.d(DEBUG_TAG, "on activityResult canceld");
+	    			Log.d(DEBUG_TAG, "on activityResult canceled");
 	    		}
 
-				mTakingPicture = false;
-	    		
-	    		break;
+				break;
 
 	    	
 	    	}
@@ -374,7 +388,7 @@ public class ContribPhoto extends Activity {
 			{
 				setResult(RESULT_CANCELED, null);//pour fermer l'activite precedente
 				Intent intent = new Intent(this, ListChampsNoticeModif.class);
-		    	intent.putExtras(bundle);
+		    	intent.putExtras(mBundle);
 		        startActivity(intent);
 				finish();
 				return true;
@@ -387,10 +401,9 @@ public class ContribPhoto extends Activity {
 		
 		@Override
 		public void onBackPressed() {
-			// TODO Auto-generated method stub
 			setResult(RESULT_CANCELED, null);//pour fermer l'activite precedente
 			Intent intent = new Intent(this, ListChampsNoticeModif.class);
-	    	intent.putExtras(bundle);
+	    	intent.putExtras(mBundle);
 	        startActivity(intent);
 			finish();
 		}

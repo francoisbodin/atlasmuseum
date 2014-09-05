@@ -9,78 +9,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import fr.atlasmuseum.R;
-import fr.atlasmuseum.compte.Authentification;
-import fr.atlasmuseum.compte.ConnexionActivity;
-import fr.atlasmuseum.contribution.Contribution.champ_status;
-import fr.atlasmuseum.contribution.Contribution.type_contrib;
-import fr.atlasmuseum.main.AtlasError;
-import fr.atlasmuseum.main.MainActivity;
-import fr.atlasmuseum.search.SearchActivity;
-import fr.atlasmuseum.search.loadPhotoInterface;
-import fr.atlasmuseum.search.loadingPhoto2;
-import fr.atlasmuseum.search.module.ContribListAdapter;
-import fr.atlasmuseum.search.module.NoticeAdapterWithDistance;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -98,85 +26,89 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import fr.atlasmuseum.R;
+import fr.atlasmuseum.compte.Authentification;
+import fr.atlasmuseum.compte.ConnexionActivity;
+import fr.atlasmuseum.contribution.Contribution.champ_status;
+import fr.atlasmuseum.main.AtlasError;
+import fr.atlasmuseum.main.MainActivity;
+import fr.atlasmuseum.search.loadPhotoInterface;
+import fr.atlasmuseum.search.loadingPhoto2;
+import fr.atlasmuseum.search.module.ContribListAdapter;
+
 public class ListChampsNoticeModif extends Activity implements loadPhotoInterface {
-	private static final String DEBUG_TAG = "ListChampAct";
-	Bundle bundle;
-	private  List<ContribElementList> list;
-	ListView list_view;
+	private static final String DEBUG_TAG = "AtlasMuseum/ListChampAct";
+
+	private Bundle mBundle;
+	private List<ContribElementList> mList;
 	static String CHAMPS_ITEM = "champs_item";
-	RelativeLayout mbuttonEnvoyer;
-	RelativeLayout save_button;
-	RelativeLayout load_photo;
-	ImageButton button_modif_photo;
-	ImageView imageNotice;
-	RelativeLayout blockModifierImage;
 
+	private RelativeLayout mLoadPhoto;
+	private ImageView mImageNotice;
+	private RelativeLayout mBlockModifierImage;
 
-
-	static ContribXml contribXml;
-	public ContribListAdapter adapter;
+	static ContribXml mContribXml;
+	public ContribListAdapter mAdapter;
 	String IDLocal;
 
 	//IMPORTANT
-	//lorsde la modification de cPref, faire attention a faire commit() 
-	public static final String SHARED_PREFERENCES="fr.atlasmuseum";
+	//lors de la modification de cPref, faire attention à faire commit() 
+	public static final String SHARED_PREFERENCES = "fr.atlasmuseum";
 	public static SharedPreferences cPref;
 
-	//String pour la ListView Ajouter/Modifier _ Utiliser pour recuperer les valeur associées à l'aide de cPref
+	//String pour la ListView Ajouter/Modifier _ Utiliser pour récupérer les valeurs associées à l'aide de cPref
 	//exemple: String ajoutTitreValue = cPref.getString(ajout_titre, "");
 	final static String ajout_titre = "Ajouter un titre" ;
 	final static String modif_titre = "Modifier le titre";
-	final static String ajout_photo ="Ajouter une photo";
-	final static String modif_photo  ="Modifier la photo";
+	final static String ajout_photo = "Ajouter une photo";
+	final static String modif_photo ="Modifier la photo";
 	final static String ajout_couleur = "Ajouter une couleur";
-	final static String modif_couleur="Modifier la couleur";
+	final static String modif_couleur = "Modifier la couleur";
 	final static String ajout_date = "Ajouter la date d'inauguration";
-	final static String modif_date="Modifier la date d'inauguration";
-	final static String ajout_materiaux="Ajouter des matériaux";
-	final static String modif_materiaux= "Modifier les matériaux";
-	final static String ajout_description="Ajouter une description";
-	final static String modif_description="Modifier la description";
-	final static String ajout_artiste="Ajouter un artiste";
-	final static String modif_artiste="Modifier l'artiste";
+	final static String modif_date = "Modifier la date d'inauguration";
+	final static String ajout_materiaux = "Ajouter des matériaux";
+	final static String modif_materiaux = "Modifier les matériaux";
+	final static String ajout_description = "Ajouter une description";
+	final static String modif_description = "Modifier la description";
+	final static String ajout_artiste = "Ajouter un artiste";
+	final static String modif_artiste = "Modifier l'artiste";
 
-	final static String ajout_nature="Ajouter la nature de l'oeuvre";
-	final static String modif_nature="Modifier la nature de l'oeuvre";
+	final static String ajout_nature = "Ajouter la nature de l'oeuvre";
+	final static String modif_nature = "Modifier la nature de l'oeuvre";
 
-	final static String ajout_nomsite="Ajouter le nom du site";
-	final static String modif_nomsite="Modifier le nom du site";
+	final static String ajout_nomsite = "Ajouter le nom du site";
+	final static String modif_nomsite = "Modifier le nom du site";
 
-	final static String ajout_autre= "Autres informations";
-	final static String ajout_etat= "Ajouter l'état de conservation";
-	final static String ajout_petat= "Précision sur l'état de conservation";
-	final static String modif_etat="Modifier l'état de conservation";
+	final static String ajout_autre = "Autres informations";
+	final static String ajout_etat = "Ajouter l'état de conservation";
+	final static String ajout_petat = "Précision sur l'état de conservation";
+	final static String modif_etat = "Modifier l'état de conservation";
 
 	final static String modif_petat = "Modifier la précision sur l'état de conservation";
 
-	final static String  ajout_detailsite="Ajouter detail site";
-	final static String  modif__detailsite="Modifier detail site";
+	final static String  ajout_detailsite = "Ajouter detail site";
+	final static String  modif__detailsite = "Modifier detail site";
 
-	final static String ajout_pmr= "Définir l'accessibilité du site";
-	final static String ajout_localisation= "Ajouter localisation";
-	final static String modif_localisation="Modifier la localisation";
-	final static String creationNotice="creeNoticeVrai/Faux"; //valeur de cpref, VRAI si cest une creation
+	final static String ajout_pmr = "Définir l'accessibilité du site";
+	final static String ajout_localisation = "Ajouter localisation";
+	final static String modif_localisation = "Modifier la localisation";
+	final static String creationNotice = "creeNoticeVrai/Faux"; //valeur de cpref, VRAI si cest une création
 
-	static String champ_a_modifie="champs a modifier ";//utilisé dans Activity, determine quel valeur de cPref est modifié
+	static String champ_a_modifier = "champs a modifier ";//utilisé dans Activity, détermine quelle valeur de cPref est modifiée
 
-	public static String erasepref="erase pref";//utiliser comme clé pour bundle, determine si on doit effacer ou pas preference
+	public static String erasepref = "erase pref";//utiliser comme clé pour bundle, détermine si on doit effacer ou pas preference
 
 
 
 	//valeur utilisée dans ShowNoticeAcitivty pour déterminer si la contribution en cours
-	//peut etre continuer ou pas(dans le cas ou l'utilisateur fait des retours successifs)
+	//peut être continuée ou pas (dans le cas où l'utilisateur fait des retours successifs)
 	public final static String notice_idOeuvre = "id de la notice"; //A utiliser en tant que clé dans cpref
 	static final int REQUEST_FINISH = 158742;
 	public static final int RESUME = 1451515;
@@ -198,10 +130,10 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 	String notice__detailsite;
 
 	//liste String du contenu de Cpref
-	//Recupere les champs deja entree par le user
+	//Récupère les champs déjà entrés par le user
 	String ajoutTitreValue ;
 	String TitreValue;
-	String ajouPhotoValue;
+	String ajoutPhotoValue;
 	String PhotoValue;
 	String ajoutCouleurValue ;
 	String CouleurValue ;
@@ -233,15 +165,13 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 	String ajoutDetailSiteValue;
 	String modif_DetailSiteValue;
 
-	private RelativeLayout annuler_button;
-
 	//valeur de la localisation, dans le cas ajout ou modif
 	Double latitude;
 	Double longitude;
 	//string pour le bundle
 	public final static String LATITUDE="latitude";
 	public final static String LONGITUDE="longitude";
-	boolean ajouLocalisationValue;
+	boolean ajoutLocalisationValue;
 	boolean modifLocalisationValue;
 
 	private int REQUEST_CONNEXION=1450233;
@@ -249,35 +179,47 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 
 	public void onCreate(Bundle savedInstanceState)
 	{
-
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.contrib_list_modif);
 
-		list_view = (ListView) findViewById(R.id.list_view);
-		mbuttonEnvoyer = (RelativeLayout)  findViewById(R.id.mbuttonEnvoyer);
-		save_button = (RelativeLayout)  findViewById(R.id.mbuttonSave);
-		annuler_button = (RelativeLayout)  findViewById(R.id.buttonAnnuler);
-		imageNotice = (ImageView) findViewById(R.id.imageView1);
+		mImageNotice = (ImageView) findViewById(R.id.imageView1);
 
-		list =new ArrayList<ContribElementList>();
-		this.button_modif_photo = (ImageButton)  findViewById(R.id.modif_photo);
+		mList = new ArrayList<ContribElementList>();
+
+		mBlockModifierImage = (RelativeLayout) findViewById(R.id.relativeLayoutPhotoModifier);
+
 		cPref = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-		cPref.edit().putString(champ_a_modifie, "");
-		cPref.edit().putBoolean(creationNotice, false);
-
-
+		cPref.edit().putString(champ_a_modifier, "").commit();
+		cPref.edit().putBoolean(creationNotice, false).commit();
 		Log.d(DEBUG_TAG+"/cPref", "cpref = "+cPref.getAll().toString());
 
-		adapter = new ContribListAdapter(ListChampsNoticeModif.this, list);
-		list_view.setAdapter(adapter);
-		setActionsForTheList();
+		mAdapter = new ContribListAdapter(ListChampsNoticeModif.this, mList);
+		ListView listView = (ListView) findViewById(R.id.list_view);
+		listView.setAdapter(mAdapter);
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id)
+			{
+				ContribElementList tmp = (ContribElementList) mAdapter.getItem(position);
+
+				//defini le champs_a_ie
+				Log.d(DEBUG_TAG+"/onCreate", "champs ="+tmp.getChampsAModifier());
+
+				//recuperer le champs a modifier
+				boolean f =cPref.edit().putString(champ_a_modifier, tmp.getChampsAModifier()).commit();
+				Log.d(DEBUG_TAG+"/onCreate", "cpref.commit ="+f);
+				Log.d(DEBUG_TAG+"/onCreate", "cpref champ ="+cPref.getString(champ_a_modifier, "NOK"));
+
+				Log.d(DEBUG_TAG+"/onCreate cpref all",cPref.getAll().toString() );
+				goToActivity(position);
+
+			}
+		});	
 
 
 
-		blockModifierImage = (RelativeLayout) findViewById(R.id.relativeLayoutPhotoModifier);
-
-
+		ImageButton button_modif_photo = (ImageButton) findViewById(R.id.modif_photo);
 		button_modif_photo.setOnClickListener(new OnClickListener() 
 		{
 			@Override
@@ -297,44 +239,42 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			}
 		});
 
+		RelativeLayout annuler_button = (RelativeLayout) findViewById(R.id.buttonAnnuler);
 		annuler_button.setOnClickListener(new OnClickListener() 
 		{
 			@Override
 			public void onClick(View arg0) {
 				showAlertDialogBeforeMain();
-
-			}
-
-
-		});
-
-		load_photo =  (RelativeLayout)  findViewById(R.id.image_loading);
-		load_photo.setOnClickListener(new OnClickListener() 
-		{
-			@Override
-			public void onClick(View arg0) {
-
-				goToActivity(1000);//pour aller a la vue prendre photo ajouter
-			}
-
-
-		});
-
-		ListChampsNoticeModif.contribXml = new ContribXml(readContrib());
-		mbuttonEnvoyer.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				envoiContrib();
 			}
 		});
 
-		save_button.setOnClickListener(new OnClickListener() {
+		RelativeLayout buttonSave = (RelativeLayout) findViewById(R.id.mbuttonSave);
+		buttonSave.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				onClickSave();
 			}
 		});
 
+		RelativeLayout buttonEnvoyer = (RelativeLayout) findViewById(R.id.mbuttonEnvoyer);
+		buttonEnvoyer.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				envoiContrib();
+			}
+		});
+
+		mLoadPhoto = (RelativeLayout) findViewById(R.id.image_loading);
+		mLoadPhoto.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View arg0) {
+				goToActivity(1000);//pour aller a la vue prendre photo ajouter
+			}
+		});
+
+		ListChampsNoticeModif.mContribXml = new ContribXml(readContrib());
+		
 		showItemUsingBundle();//affiche ajout/er en fonction des champs reçu
 		//pour autoriser le retour en cliquant sur l'icone de l'application dans l'action bar
 		//pour autoriser le retour en cliquant sur l'icone de l'application dans l'action bar
@@ -411,14 +351,14 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 
 					Log.d(DEBUG_TAG, "PAS CREATION D UNE NOTICE");
 					Log.d(DEBUG_TAG+"/onclicksave", "Ce n'est pas une creation");
-					Log.d(DEBUG_TAG+"/onclicksave", "size ="+contribXml.listContributionEnCours.size());
+					Log.d(DEBUG_TAG+"/onclicksave", "size ="+mContribXml.listContributionEnCours.size());
 					//this.generateContributionEnCours();
 					if(this.generateContributionEnCours())
 					{
 						List<Contribution> SetImage = new ArrayList<Contribution>();
-						for(int i=0;i<contribXml.listContributionEnCours.size();i++)
+						for(int i=0;i<mContribXml.listContributionEnCours.size();i++)
 						{
-							Contribution c = contribXml.listContributionEnCours.get(i);
+							Contribution c = mContribXml.listContributionEnCours.get(i);
 							c.statut=champ_status.enattente;
 							c.idLocal = IDLocal;
 							if(MainActivity.mLastLocation != null)
@@ -436,7 +376,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 							c.auteur=auteur;
 							c.password=password;
 						}
-						ContribXmlEnCours contribXMLEnvoi = new ContribXmlEnCours(contribXml.listContributionEnCours);
+						ContribXmlEnCours contribXMLEnvoi = new ContribXmlEnCours(mContribXml.listContributionEnCours);
 						//export sous forme de string
 						String xml = contribXMLEnvoi.xmlToString() ;
 						//asyncTask pour envoyer photo
@@ -485,42 +425,40 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 
 	protected void gotoBefore()
 	{
-		// TODO Auto-generated method stub
 		this.onBackPressed();
 	}
 
 	protected void afficheClearInput()//bouton mode debug
 	{
-		// TODO Auto-generated method stub
 		Toast.makeText(this, "suppression de tous les entrées du formulaire...", Toast.LENGTH_SHORT).show();
 	}
 
 	private void showItemUsingBundle()
 	{
 		///GESTION DU BUNDLE - pour afficher ou pas les item
-		bundle = new Bundle();
-		bundle = getIntent().getExtras();//recupere le bundle
-		Log.d(DEBUG_TAG,"bundle ListChamp ="+ bundle.toString());
+		mBundle = new Bundle();
+		mBundle = getIntent().getExtras();//recupere le bundle
+		Log.d(DEBUG_TAG,"bundle ListChamp ="+ mBundle.toString());
 
-		if (bundle.containsKey(Contribution.IDNOTICE) && bundle.getInt(Contribution.IDNOTICE) != 0 ) //ce n'est pas une creation
+		if (mBundle.containsKey(Contribution.IDNOTICE) && mBundle.getInt(Contribution.IDNOTICE) != 0 ) //ce n'est pas une creation
 		{
 
-			cPref.edit().putInt(ListChampsNoticeModif.notice_idOeuvre, bundle.getInt(Contribution.IDNOTICE)).commit();//utiliser dans showNoticeAct
+			cPref.edit().putInt(ListChampsNoticeModif.notice_idOeuvre, mBundle.getInt(Contribution.IDNOTICE)).commit();//utiliser dans showNoticeAct
 
 		}
-		if (bundle.containsKey(ListChampsNoticeModif.erasepref) && bundle.getBoolean(ListChampsNoticeModif.erasepref) ) 
+		if (mBundle.containsKey(ListChampsNoticeModif.erasepref) && mBundle.getBoolean(ListChampsNoticeModif.erasepref) ) 
 		{
 			this.erasecpref();//si on vient de showNoticeActivity, on remet tout a zero
-			bundle.putBoolean(ListChampsNoticeModif.erasepref, false);
+			mBundle.putBoolean(ListChampsNoticeModif.erasepref, false);
 			Log.d(DEBUG_TAG, "ERASE Cpref showitemUsingBundle");
 		}
 		else
 		{
 			Log.d(DEBUG_TAG, "DO NOT ERASE Cpref showitemUsingBundle");
 		}
-		if (bundle.containsKey(Contribution.LOCALID) && !bundle.getString(Contribution.LOCALID).equals("") )
+		if (mBundle.containsKey(Contribution.LOCALID) && !mBundle.getString(Contribution.LOCALID).equals("") )
 		{
-			this.IDLocal = bundle.getString(Contribution.LOCALID);
+			this.IDLocal = mBundle.getString(Contribution.LOCALID);
 			Log.d(DEBUG_TAG+"/idLocal =", "idlocal ="+IDLocal);
 		}
 
@@ -528,7 +466,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		/**
 		 * 	Si Notice existante ******************************************************************************
 		 */
-		if (bundle.containsKey(Contribution.IDNOTICE) && bundle.getInt(Contribution.IDNOTICE) != 0 ) //ce n'est pas une creation
+		if (mBundle.containsKey(Contribution.IDNOTICE) && mBundle.getInt(Contribution.IDNOTICE) != 0 ) //ce n'est pas une creation
 		{
 			Log.d(DEBUG_TAG, "idnotice existe");
 			boolean f = cPref.edit().putBoolean(ListChampsNoticeModif.creationNotice, false).commit();//on a un IDnotice, donc ce n'est pas une creation
@@ -536,27 +474,27 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 
 
 
-			cPref.edit().putInt(ListChampsNoticeModif.notice_idOeuvre, bundle.getInt(Contribution.IDNOTICE)).commit();//utiliser dans showNoticeAct
+			cPref.edit().putInt(ListChampsNoticeModif.notice_idOeuvre, mBundle.getInt(Contribution.IDNOTICE)).commit();//utiliser dans showNoticeAct
 
 
 
 			getActionBar().setTitle("Ajout/Modif oeuvre existante");
 
-			this.notice_id = bundle.getInt(Contribution.IDNOTICE);
+			this.notice_id = mBundle.getInt(Contribution.IDNOTICE);
 
 			/**
 			 * 	Photo - Notice existante
 			 */
-			if (bundle.containsKey(Contribution.PHOTO) && !bundle.getString(Contribution.PHOTO).isEmpty() )
+			if (mBundle.containsKey(Contribution.PHOTO) && !mBundle.getString(Contribution.PHOTO).isEmpty() )
 			{
 				//cacher le bouton charger photo
-				this.load_photo.setVisibility(View.GONE);
+				this.mLoadPhoto.setVisibility(View.GONE);
 
 				//afficher la photo
 
-				blockModifierImage.setVisibility(View.VISIBLE);
+				mBlockModifierImage.setVisibility(View.VISIBLE);
 				Log.d(DEBUG_TAG, "idnotice="+notice_id);
-				this.notice_photo = bundle.getString(Contribution.PHOTO);
+				this.notice_photo = mBundle.getString(Contribution.PHOTO);
 
 				//recupere la photo modifiée
 
@@ -586,7 +524,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			ContribElementList elt= new ContribElementList();
 			elt.setTitre(getResources().getString(R.string.Titre));
 
-			if (bundle.getString(Contribution.TITRE).isEmpty())
+			if (mBundle.getString(Contribution.TITRE).isEmpty())
 			{
 				if ( ListChampsNoticeModif.cPref.contains(ajout_titre) )
 				{
@@ -601,17 +539,17 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 					elt.setValue(ListChampsNoticeModif.cPref.getString(modif_titre, ""));
 				}
 
-				this.notice_titre = bundle.getString(Contribution.TITRE);
+				this.notice_titre = mBundle.getString(Contribution.TITRE);
 				elt.setChampsAModifier(modif_titre);
 				elt.setOldValue( this.notice_titre);
 			}
-			list.add(elt);
+			mList.add(elt);
 
 
 			/**
 			 * 	Artiste  - Notice existante- 
 			 */
-			if (bundle.containsKey(Contribution.ARTISTE) && bundle.getString(Contribution.ARTISTE).isEmpty())
+			if (mBundle.containsKey(Contribution.ARTISTE) && mBundle.getString(Contribution.ARTISTE).isEmpty())
 			{
 				ContribElementList eltArtisteAjout= new ContribElementList();
 				eltArtisteAjout.setTitre(getResources().getString(R.string.Artiste));
@@ -620,11 +558,11 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				{
 					eltArtisteAjout.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_artiste, ""));
 				}
-				list.add(eltArtisteAjout);
+				mList.add(eltArtisteAjout);
 			}
 			else
 			{
-				this.notice_artiste = bundle.getString(Contribution.ARTISTE);
+				this.notice_artiste = mBundle.getString(Contribution.ARTISTE);
 				/**
 		        	 ContribElementList eltArtisteAjout= new ContribElementList();
 		        	 eltArtisteAjout.setTitre(getResources().getString(R.string.Artiste));
@@ -644,7 +582,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				}
 				eltArtisteModif.setOldValue(this.notice_artiste);
 
-				list.add(eltArtisteModif); //Modifier Artiste 
+				mList.add(eltArtisteModif); //Modifier Artiste 
 			}
 
 			/**
@@ -652,7 +590,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 * COULEUR - Notice existante
 			 * 
 			 */
-			if(bundle.containsKey(Contribution.COULEUR) && bundle.getString(Contribution.COULEUR).isEmpty() )
+			if(mBundle.containsKey(Contribution.COULEUR) && mBundle.getString(Contribution.COULEUR).isEmpty() )
 			{
 				ContribElementList altCouleurAjout= new ContribElementList();
 				altCouleurAjout.setTitre(getResources().getString(R.string.Couleurs));
@@ -661,13 +599,13 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				{
 					altCouleurAjout.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_couleur, ""));
 				}
-				list.add(altCouleurAjout);
+				mList.add(altCouleurAjout);
 
 
 			}
 			else
 			{
-				this.notice_couleur = bundle.getString(Contribution.COULEUR);
+				this.notice_couleur = mBundle.getString(Contribution.COULEUR);
 				//list.add(modif_couleur);
 				ContribElementList altCouleurModif= new ContribElementList();
 				altCouleurModif.setTitre(getResources().getString(R.string.Couleurs));
@@ -678,7 +616,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				{
 					altCouleurModif.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.modif_couleur, ""));
 				}
-				list.add(altCouleurModif);
+				mList.add(altCouleurModif);
 
 				/**
 		        	 ContribElementList altCouleurAjout= new ContribElementList();
@@ -697,7 +635,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 * Date inauguration - Notice existante
 			 * 
 			 */
-			if(bundle.containsKey(Contribution.DATE_INAUGURATION) && bundle.getString(Contribution.DATE_INAUGURATION).isEmpty() )
+			if(mBundle.containsKey(Contribution.DATE_INAUGURATION) && mBundle.getString(Contribution.DATE_INAUGURATION).isEmpty() )
 			{ 
 				ContribElementList altdateAjout= new ContribElementList();
 				altdateAjout.setTitre(getResources().getString(R.string.Date));
@@ -706,11 +644,11 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				{
 					altdateAjout.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_date, ""));
 				}
-				list.add(altdateAjout);
+				mList.add(altdateAjout);
 			}
 			else
 			{
-				this.notice_dateinauguration = bundle.getString(Contribution.DATE_INAUGURATION);
+				this.notice_dateinauguration = mBundle.getString(Contribution.DATE_INAUGURATION);
 				ContribElementList altCouleurModif= new ContribElementList();
 				altCouleurModif.setTitre(getResources().getString(R.string.Date));
 				altCouleurModif.setChampsAModifier(modif_date);
@@ -720,7 +658,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				{
 					altCouleurModif.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.modif_date, ""));
 				}
-				list.add(altCouleurModif);
+				mList.add(altCouleurModif);
 			}
 
 			/**
@@ -728,7 +666,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 * Description - Notice existante
 			 * 
 			 */
-			if(bundle.containsKey(Contribution.DESCRIPTION) && bundle.getString(Contribution.DESCRIPTION).isEmpty() )
+			if(mBundle.containsKey(Contribution.DESCRIPTION) && mBundle.getString(Contribution.DESCRIPTION).isEmpty() )
 			{
 				ContribElementList altdateAjout= new ContribElementList();
 				altdateAjout.setTitre(getResources().getString(R.string.Description));
@@ -737,12 +675,12 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				{
 					altdateAjout.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_description, ""));
 				}
-				list.add(altdateAjout);
+				mList.add(altdateAjout);
 				//list.add(ajout_description);
 			}
 			else
 			{
-				this.notice_description = bundle.getString(Contribution.DESCRIPTION);
+				this.notice_description = mBundle.getString(Contribution.DESCRIPTION);
 
 				ContribElementList altCouleurModif= new ContribElementList();
 				altCouleurModif.setTitre(getResources().getString(R.string.Description));
@@ -753,7 +691,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				{
 					altCouleurModif.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.modif_description, ""));
 				}
-				list.add(altCouleurModif);
+				mList.add(altCouleurModif);
 			}
 
 			/**
@@ -762,7 +700,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 * 
 			 */
 
-			if(bundle.containsKey(Contribution.MATERIAUx) && bundle.getString(Contribution.MATERIAUx).isEmpty() )
+			if(mBundle.containsKey(Contribution.MATERIAUx) && mBundle.getString(Contribution.MATERIAUx).isEmpty() )
 			{
 				// list.add(ajout_materiaux);
 				ContribElementList altdateAjout= new ContribElementList();
@@ -772,11 +710,11 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				{
 					altdateAjout.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_materiaux, ""));
 				}
-				list.add(altdateAjout);
+				mList.add(altdateAjout);
 			}
 			else
 			{
-				this.notice_materiaux = bundle.getString(Contribution.MATERIAUx);
+				this.notice_materiaux = mBundle.getString(Contribution.MATERIAUx);
 				// list.add(modif_materiaux);
 				// list.add(ajout_materiaux);
 
@@ -789,7 +727,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				{
 					altCouleurModif.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.modif_materiaux, ""));
 				}
-				list.add(altCouleurModif);
+				mList.add(altCouleurModif);
 
 				/**
 		        	 ContribElementList altdateAjout= new ContribElementList();
@@ -806,7 +744,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 * Nom site - Notice existante
 			 * 
 			 */
-			if(bundle.containsKey(Contribution.NOM_SITE) && bundle.getString(Contribution.NOM_SITE).isEmpty() )
+			if(mBundle.containsKey(Contribution.NOM_SITE) && mBundle.getString(Contribution.NOM_SITE).isEmpty() )
 			{
 				// list.add(ajout_nomsite);
 
@@ -817,11 +755,11 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				{
 					altdateAjout.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_nomsite, ""));
 				}
-				list.add(altdateAjout);
+				mList.add(altdateAjout);
 			}
 			else
 			{
-				this.notice_nomsite = bundle.getString(Contribution.NOM_SITE);
+				this.notice_nomsite = mBundle.getString(Contribution.NOM_SITE);
 				ContribElementList altCouleurModif= new ContribElementList();
 				altCouleurModif.setTitre(getResources().getString(R.string.Nom_du_site));
 				altCouleurModif.setChampsAModifier(modif_nomsite);
@@ -831,7 +769,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				{
 					altCouleurModif.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.modif_nomsite, ""));
 				}
-				list.add(altCouleurModif);
+				mList.add(altCouleurModif);
 				//list.add(modif_nomsite);
 
 			}
@@ -840,7 +778,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 * DETAIL SITE
 			 */
 
-			if(bundle.containsKey(Contribution.DETAIL_SITE) && bundle.getString(Contribution.DETAIL_SITE).isEmpty() )
+			if(mBundle.containsKey(Contribution.DETAIL_SITE) && mBundle.getString(Contribution.DETAIL_SITE).isEmpty() )
 			{
 				// list.add(ajout_nomsite);
 
@@ -851,11 +789,11 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				{
 					altdateAjout.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_detailsite, ""));
 				}
-				list.add(altdateAjout);
+				mList.add(altdateAjout);
 			}
 			else
 			{
-				this.notice__detailsite = bundle.getString(Contribution.DETAIL_SITE);
+				this.notice__detailsite = mBundle.getString(Contribution.DETAIL_SITE);
 				ContribElementList altCouleurModif= new ContribElementList();
 				altCouleurModif.setTitre(getResources().getString(R.string.Detail_site));
 				altCouleurModif.setChampsAModifier(modif__detailsite);
@@ -865,7 +803,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				{
 					altCouleurModif.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.modif__detailsite, ""));
 				}
-				list.add(altCouleurModif);
+				mList.add(altCouleurModif);
 				//list.add(modif_nomsite);
 
 			}
@@ -877,7 +815,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 * Nature - Notice existante
 			 * 
 			 */
-			if(bundle.containsKey(Contribution.NATURE) && bundle.getString(Contribution.NATURE).isEmpty() )
+			if(mBundle.containsKey(Contribution.NATURE) && mBundle.getString(Contribution.NATURE).isEmpty() )
 			{
 				// list.add(ajout_nature);
 
@@ -889,11 +827,11 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				{
 					altdateAjout.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_nature, ""));
 				}
-				list.add(altdateAjout);
+				mList.add(altdateAjout);
 			}
 			else
 			{
-				this.notice_nature = bundle.getString(Contribution.NATURE);
+				this.notice_nature = mBundle.getString(Contribution.NATURE);
 				ContribElementList altCouleurModif= new ContribElementList();
 				altCouleurModif.setTitre(getResources().getString(R.string.Nature));
 				altCouleurModif.setChampsAModifier(modif_nature);
@@ -903,7 +841,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				{
 					altCouleurModif.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.modif_nature, ""));
 				}
-				list.add(altCouleurModif);
+				mList.add(altCouleurModif);
 			}
 
 			/**
@@ -911,7 +849,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 * Localisation - Notice existante
 			 * 
 			 */
-			if(bundle.containsKey(Contribution.LATITUDE) )
+			if(mBundle.containsKey(Contribution.LATITUDE) )
 			{
 				ContribElementList localisationModif= new ContribElementList();
 				if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.modif_localisation))
@@ -925,14 +863,14 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 					}
 
 				}
-				notice_longitude=bundle.getDouble(Contribution.LONGITUDE);
-				notice_latitude= bundle.getDouble(Contribution.LATITUDE);
+				notice_longitude=mBundle.getDouble(Contribution.LONGITUDE);
+				notice_latitude= mBundle.getDouble(Contribution.LATITUDE);
 				//FBO affichage est long / Latitude ??? to check
 				String aff = notice_latitude+" - "+notice_longitude;
 				localisationModif.setOldValue(aff);
 				localisationModif.setTitre(getResources().getString(R.string.Localisation));
 				localisationModif.setChampsAModifier(modif_localisation);
-				list.add(localisationModif);
+				mList.add(localisationModif);
 			}
 			else
 			{
@@ -950,7 +888,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 					}
 
 				}
-				list.add(localisationAjout);
+				mList.add(localisationAjout);
 			}
 
 
@@ -966,7 +904,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				altdateAjout2.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_autre, ""));
 			}
-			list.add(altdateAjout2);
+			mList.add(altdateAjout2);
 
 			/**
 			 * 
@@ -980,7 +918,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				altdateAjout3.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_etat, ""));
 			}
-			list.add(altdateAjout3);
+			mList.add(altdateAjout3);
 
 
 			/**
@@ -995,7 +933,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				altdateAjout4.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_petat, ""));
 			}
-			list.add(altdateAjout4);
+			mList.add(altdateAjout4);
 
 			/**
 			 * 
@@ -1009,7 +947,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				altdateAjout54.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_pmr, ""));
 			}
-			list.add(altdateAjout54);  
+			mList.add(altdateAjout54);  
 		}
 		/**
 		 * 
@@ -1029,21 +967,21 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 * PHOTO - création de notice
 			 * 
 			 */
-			//afiche le bouton "prendre photo", ou l'image qu'on a prise sinon
+			//affiche le bouton "prendre photo", ou l'image qu'on a prise sinon
 			String[] modifPhoto= cPref.getString(ListChampsNoticeModif.ajout_photo, "").split("/");
 			Log.d(DEBUG_TAG, "photo = "+modifPhoto[modifPhoto.length-1]);
 			if(modifPhoto != null && !modifPhoto[modifPhoto.length-1].equals(""))
 			{
-				blockModifierImage.setVisibility(View.VISIBLE);
-				this.load_photo.setVisibility(View.GONE);
+				mBlockModifierImage.setVisibility(View.VISIBLE);
+				this.mLoadPhoto.setVisibility(View.GONE);
 				loadingPhoto2 upl = new loadingPhoto2(this,  modifPhoto[modifPhoto.length-1], true);
 				upl.execute();
 			}
 			else
 			{
 				//affiche le bouton prendre photo
-				blockModifierImage.setVisibility(View.GONE);
-				this.load_photo.setVisibility(View.VISIBLE);
+				mBlockModifierImage.setVisibility(View.GONE);
+				this.mLoadPhoto.setVisibility(View.VISIBLE);
 			}
 
 
@@ -1061,7 +999,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				altCouleurModif2.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_titre, ""));
 			}
-			list.add(altCouleurModif2);
+			mList.add(altCouleurModif2);
 
 
 			/**
@@ -1078,7 +1016,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				altCouleurModif23.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_artiste, ""));
 			}
-			list.add(altCouleurModif23);
+			mList.add(altCouleurModif23);
 
 			/*
 			 * 
@@ -1099,7 +1037,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				}
 
 			}
-			list.add(localisationAjout);
+			mList.add(localisationAjout);
 
 			/**
 			 * 
@@ -1115,7 +1053,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				altCouleurModif234.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_date, ""));
 			}
-			list.add(altCouleurModif234);
+			mList.add(altCouleurModif234);
 
 			/**
 			 * 
@@ -1132,7 +1070,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				altCouleurModif2345.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_couleur, ""));
 			}
-			list.add(altCouleurModif2345);
+			mList.add(altCouleurModif2345);
 
 			/**
 			 * 
@@ -1148,7 +1086,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				altCouleurModif23456.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_description, ""));
 			}
-			list.add(altCouleurModif23456);
+			mList.add(altCouleurModif23456);
 
 			/**
 			 * 
@@ -1164,7 +1102,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				altCouleurModif234567.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_materiaux, ""));
 			}
-			list.add(altCouleurModif234567);
+			mList.add(altCouleurModif234567);
 
 			/**
 			 * 
@@ -1180,7 +1118,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				nomSite.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_nomsite, ""));
 			}
-			list.add(nomSite);
+			mList.add(nomSite);
 
 			/**
 			 * 
@@ -1196,7 +1134,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				DetailSite.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_detailsite, ""));
 			}
-			list.add(DetailSite);
+			mList.add(DetailSite);
 			/**
 			 * 
 			 * NATURE - création de notice
@@ -1211,7 +1149,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				eltNature.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_nature, ""));
 			}
-			list.add(eltNature);
+			mList.add(eltNature);
 
 
 			/**
@@ -1228,7 +1166,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				eltAutre.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_autre, ""));
 			}
-			list.add(eltAutre);
+			mList.add(eltAutre);
 
 			/**
 			 * 
@@ -1244,7 +1182,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				eltEtat.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_etat, ""));
 			}
-			list.add(eltEtat);
+			mList.add(eltEtat);
 
 			/**
 			 * 
@@ -1260,7 +1198,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				eltPEtat.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_petat, ""));
 			}
-			list.add(eltPEtat);
+			mList.add(eltPEtat);
 
 			/**
 			 * 
@@ -1276,44 +1214,19 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				eltpmr.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_pmr, ""));
 			}
-			list.add(eltpmr);
+			mList.add(eltpmr);
 		}//fin traitement creation de notice
 
 	}
 
 	public void gotomain() {
-
 		//Intent intent = new Intent(getApplication(), MainContribActivity.class);
 		//startActivity(intent);
 		setResult(RESULT_CANCELED);
 		finish();
 		super.onBackPressed();
 	}
-	/// Action for the list
-	void setActionsForTheList()
-	{
-		list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id)
-			{
-				ContribElementList tmp = (ContribElementList) adapter.getItem(position);
-
-				//defini le champs_a_ie
-				Log.d(DEBUG_TAG+"/setactionforlist", "champs ="+tmp.getChampsAModifier());
-
-				//recuperer le champs a modifier
-				boolean f =cPref.edit().putString(champ_a_modifie, tmp.getChampsAModifier()).commit();
-				Log.d(DEBUG_TAG+"/setactionforlist", "cpref.commit ="+f);
-				Log.d(DEBUG_TAG+"/setactionforlist", "cpref champ ="+cPref.getString(champ_a_modifie, "NOK"));
-
-				Log.d(DEBUG_TAG+"/cpref all",cPref.getAll().toString() );
-				goToActivity(position);
-
-			}
-		});	
-	}//fin setActionForList
-
-
+	
 	public void afficheAlerte(String ch)
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -1325,10 +1238,10 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		});
 		builder.create().show();
 	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		if(requestCode == REQUEST_FINISH)
 		{
@@ -1349,7 +1262,6 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 	}
 
 	public void goToActivity(int position) {
-		// TODO Auto-generated method stub
 		//recupere l'artiste selectionné
 
 		//if(list.get(position).equals(ListChampsNoticeModif.ajout_photo) || list.get(position).equals(ListChampsNoticeModif.modif_photo))
@@ -1357,27 +1269,25 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		if(position==1000) //si appel pour prendre une photo
 		{
 			champs = ListChampsNoticeModif.ajout_photo;
-			bundle.putString(ListChampsNoticeModif.CHAMPS_ITEM, ListChampsNoticeModif.ajout_photo);
-			Log.i(DEBUG_TAG, "photo ="+champs);
+			mBundle.putString(ListChampsNoticeModif.CHAMPS_ITEM, champs);
+			Log.i(DEBUG_TAG, "photo = "+champs);
 		}
 		else if(position == 1230){
 			champs = ListChampsNoticeModif.modif_photo;
-			bundle.putString(ListChampsNoticeModif.CHAMPS_ITEM, ListChampsNoticeModif.modif_photo);
-			Log.i(DEBUG_TAG, "photo ="+champs);
+			mBundle.putString(ListChampsNoticeModif.CHAMPS_ITEM, champs);
+			Log.i(DEBUG_TAG, "photo = "+champs);
 		}
 		else
 		{
-			Log.d(DEBUG_TAG, "cliquez sur = "+list.get(position));
-			Log.d("listChamp", "value= "+list.get(position));
-			champs = (String)list.get(position).getChampsAModifier();//recuperation de la valeur champs a partir de la listView
+			Log.d(DEBUG_TAG, "cliqué sur = "+mList.get(position));
+			champs = (String)mList.get(position).getChampsAModifier();//recuperation de la valeur champs a partir de la listView
 		}
 
-		if(champs.equals(ListChampsNoticeModif.ajout_photo)||champs.equals(ListChampsNoticeModif.modif_photo) )
+		if(champs.equals(ListChampsNoticeModif.ajout_photo) || champs.equals(ListChampsNoticeModif.modif_photo) )
 		{
 			Intent intent = new Intent(getApplication(), ContribPhoto.class);
-			intent.putExtras(bundle);
-			startActivityForResult(intent, REQUEST_FINISH);	
-
+			intent.putExtras(mBundle);
+			startActivityForResult(intent, REQUEST_FINISH);
 		}
 		else
 		{
@@ -1413,7 +1323,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			else //vue modification avec champ saisi/listview checkbox ou radioButton
 			{
 				Intent intent = new Intent(getApplication(), ModifActivity.class);
-				intent.putExtras(bundle);
+				intent.putExtras(mBundle);
 				startActivityForResult(intent, REQUEST_FINISH);	
 
 			}
@@ -1518,13 +1428,13 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Log.d(DEBUG_TAG, "PAS CREATION D UNE NOTICE");
 			Log.d(DEBUG_TAG+"/onclicksave", "Ce n'est pas une creation");
-			Log.d(DEBUG_TAG+"/onclicksave", "size ="+contribXml.listContributionEnCours.size());
+			Log.d(DEBUG_TAG+"/onclicksave", "size ="+mContribXml.listContributionEnCours.size());
 			this.generateContributionEnCours();
 			if(this.generateContributionEnCours())
 			{
-				for(int i=0;i<contribXml.listContributionEnCours.size();i++)
+				for(int i=0;i<mContribXml.listContributionEnCours.size();i++)
 				{
-					Contribution c = contribXml.listContributionEnCours.get(i);
+					Contribution c = mContribXml.listContributionEnCours.get(i);
 					c.statut=champ_status.enattente;
 					c.idLocal = IDLocal;
 					if(MainActivity.mLastLocation != null)
@@ -1558,7 +1468,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		//Recupere les champs deja entree par le user
 		ajoutTitreValue = cPref.getString(ListChampsNoticeModif.ajout_titre, "");
 		TitreValue = cPref.getString(ListChampsNoticeModif.modif_titre, "");
-		ajouPhotoValue = cPref.getString(ListChampsNoticeModif.ajout_photo, "");
+		ajoutPhotoValue = cPref.getString(ListChampsNoticeModif.ajout_photo, "");
 		PhotoValue = cPref.getString(ListChampsNoticeModif.modif_photo, "");
 		ajoutCouleurValue = cPref.getString(ListChampsNoticeModif.ajout_couleur, "");
 		CouleurValue = cPref.getString(ListChampsNoticeModif.modif_couleur, "");
@@ -1583,7 +1493,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		this.ajoutPetatValue=cPref.getString(ListChampsNoticeModif.ajout_petat, "");
 		this.ajoutPmrValue=cPref.getString(ListChampsNoticeModif.ajout_pmr, "");
 
-		this.ajouLocalisationValue= cPref.getBoolean(ListChampsNoticeModif.ajout_localisation, false);
+		this.ajoutLocalisationValue= cPref.getBoolean(ListChampsNoticeModif.ajout_localisation, false);
 		this.modifLocalisationValue= cPref.getBoolean(ListChampsNoticeModif.modif_localisation, false);
 
 		this.ajoutDetailSiteValue = cPref.getString(ListChampsNoticeModif.ajout_detailsite, "");
@@ -1601,11 +1511,10 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 	}
 
 	/**
-	 * creer une contribution creer, qui comprend tous les champs entr�s par l'utilisateur
+	 * créer une contribution creer, qui comprend tous les champs entrés par l'utilisateur
 	 * @param c
 	 */
 	private boolean generateContribCreer(Contribution c) {
-		// TODO Auto-generated method stub
 		this.recupStringCpref(); //recupere les valeurs de cpref, dans les variables utilisées ci après
 
 		Log.d(DEBUG_TAG, "generateContribCreer en cours.....");
@@ -1616,9 +1525,9 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			c.titre = ajoutTitreValue;
 			valueModif= true;
 		}
-		if(!ajouPhotoValue.equals(""))
+		if(!ajoutPhotoValue.equals(""))
 		{
-			c.photoPath = ajouPhotoValue;
+			c.photoPath = ajoutPhotoValue;
 			valueModif= true;
 		}
 
@@ -1687,7 +1596,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 	}
 
 	/**
-	 * Ajoute les contributions en cours a la listContribEnCours
+	 * Ajoute les contributions en cours à la listContribEnCours
 	 * 
 	 */
 	public boolean generateContributionEnCours()
@@ -1702,7 +1611,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			addInfoNoticeToContribution(c1);
 			Contribution.createContributionAjout(c1, this.notice_id, this.IDLocal, Contribution.TITRE, ajoutTitreValue);
 
-			contribXml.listContributionEnCours.add(c1);
+			mContribXml.listContributionEnCours.add(c1);
 			valueModif= true;
 
 		}
@@ -1711,16 +1620,16 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c2 = new Contribution();
 			addInfoNoticeToContribution(c2);
 			Contribution.createContributionRemplacement(c2,this.notice_id, this.IDLocal, Contribution.TITRE, TitreValue);
-			contribXml.listContributionEnCours.add(c2);
+			mContribXml.listContributionEnCours.add(c2);
 			valueModif= true;
 		}
-		Log.d(DEBUG_TAG+"/photo ajout", "value photo ="+ajouPhotoValue);
-		if(!ajouPhotoValue.equals(""))
+		Log.d(DEBUG_TAG+"/photo ajout", "value photo ="+ajoutPhotoValue);
+		if(!ajoutPhotoValue.equals(""))
 		{
 			Contribution c3 = new Contribution();
 			addInfoNoticeToContribution(c3);
-			Contribution.createContributionAjout(c3, this.notice_id, this.IDLocal, Contribution.PHOTO, ajouPhotoValue);
-			contribXml.listContributionEnCours.add(c3);
+			Contribution.createContributionAjout(c3, this.notice_id, this.IDLocal, Contribution.PHOTO, ajoutPhotoValue);
+			mContribXml.listContributionEnCours.add(c3);
 			valueModif= true;
 		}
 		if(!PhotoValue.equals(""))
@@ -1728,7 +1637,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c4 = new Contribution();
 			addInfoNoticeToContribution(c4);
 			Contribution.createContributionRemplacement(c4,this.notice_id, this.IDLocal, Contribution.PHOTO, PhotoValue);
-			contribXml.listContributionEnCours.add(c4);
+			mContribXml.listContributionEnCours.add(c4);
 			valueModif= true;
 		}
 		if(!ajoutCouleurValue.equals(""))
@@ -1736,7 +1645,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c5 = new Contribution();
 			addInfoNoticeToContribution(c5);
 			Contribution.createContributionAjout(c5, this.notice_id, this.IDLocal, Contribution.COULEUR, ajoutCouleurValue);
-			contribXml.listContributionEnCours.add(c5);
+			mContribXml.listContributionEnCours.add(c5);
 			valueModif= true;
 		}
 		if(!CouleurValue.equals(""))
@@ -1744,7 +1653,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c16 = new Contribution();
 			addInfoNoticeToContribution(c16);
 			Contribution.createContributionRemplacement(c16, this.notice_id, this.IDLocal, Contribution.COULEUR, CouleurValue);
-			contribXml.listContributionEnCours.add(c16);
+			mContribXml.listContributionEnCours.add(c16);
 			valueModif= true;
 		}
 		if(!ajoutDateValue.equals(""))
@@ -1752,7 +1661,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c6 = new Contribution();
 			addInfoNoticeToContribution(c6);
 			Contribution.createContributionAjout(c6, this.notice_id, this.IDLocal, Contribution.DATE_INAUGURATION, ajoutDateValue);
-			contribXml.listContributionEnCours.add(c6);
+			mContribXml.listContributionEnCours.add(c6);
 			valueModif= true;
 		}
 		if(!modif_dateValue.equals(""))
@@ -1760,7 +1669,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c7 = new Contribution();
 			addInfoNoticeToContribution(c7);
 			Contribution.createContributionRemplacement(c7, this.notice_id, this.IDLocal, Contribution.DATE_INAUGURATION, modif_dateValue);
-			contribXml.listContributionEnCours.add(c7);
+			mContribXml.listContributionEnCours.add(c7);
 			valueModif= true;
 		}
 
@@ -1769,7 +1678,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c10 = new Contribution();
 			addInfoNoticeToContribution(c10);
 			Contribution.createContributionAjout(c10, this.notice_id, this.IDLocal, Contribution.MATERIAUx, ajoutMateriauxValue);
-			contribXml.listContributionEnCours.add(c10);
+			mContribXml.listContributionEnCours.add(c10);
 			valueModif= true;
 		}
 		if(!modif_materiauxValue.equals(""))
@@ -1777,7 +1686,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c11 = new Contribution();
 			addInfoNoticeToContribution(c11);
 			Contribution.createContributionRemplacement(c11, this.notice_id, this.IDLocal, Contribution.MATERIAUx, modif_materiauxValue);
-			contribXml.listContributionEnCours.add(c11);
+			mContribXml.listContributionEnCours.add(c11);
 			valueModif= true;
 		}
 		if(!ajout_descriptionValue.equals(""))
@@ -1785,7 +1694,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c12 = new Contribution();
 			addInfoNoticeToContribution(c12);
 			Contribution.createContributionAjout(c12, this.notice_id, this.IDLocal, Contribution.DESCRIPTION, ajout_descriptionValue);
-			contribXml.listContributionEnCours.add(c12);
+			mContribXml.listContributionEnCours.add(c12);
 			valueModif= true;
 		}
 		if(!modif_descriptionValue.equals(""))
@@ -1793,7 +1702,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c13 = new Contribution();
 			addInfoNoticeToContribution(c13);
 			Contribution.createContributionRemplacement(c13, this.notice_id, this.IDLocal, Contribution.DESCRIPTION, modif_descriptionValue);
-			contribXml.listContributionEnCours.add(c13);
+			mContribXml.listContributionEnCours.add(c13);
 			valueModif= true;
 		}
 		if(!ajoutArtisteValue.equals(""))
@@ -1801,7 +1710,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c14 = new Contribution();
 			addInfoNoticeToContribution(c14);
 			Contribution.createContributionAjout(c14, this.notice_id, this.IDLocal, Contribution.ARTISTE, ajoutArtisteValue);
-			contribXml.listContributionEnCours.add(c14);
+			mContribXml.listContributionEnCours.add(c14);
 			valueModif= true;
 		}
 		if(!ArtisteValue.equals(""))
@@ -1809,7 +1718,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c15 = new Contribution();
 			addInfoNoticeToContribution(c15);//rajoute les infos notice pour identification, puis on ajoute les modif de l"utilisateur
 			Contribution.createContributionRemplacement(c15, this.notice_id, this.IDLocal, Contribution.ARTISTE, ArtisteValue);
-			contribXml.listContributionEnCours.add(c15);
+			mContribXml.listContributionEnCours.add(c15);
 			valueModif= true;
 		}
 		if(!modif_NomSiteValue.equals(""))
@@ -1817,7 +1726,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c15 = new Contribution();
 			addInfoNoticeToContribution(c15);//rajoute les infos notice pour identification, puis on ajoute les modif de l"utilisateur
 			Contribution.createContributionRemplacement(c15, this.notice_id, this.IDLocal, Contribution.NOM_SITE, modif_NomSiteValue);
-			contribXml.listContributionEnCours.add(c15);
+			mContribXml.listContributionEnCours.add(c15);
 			valueModif= true;
 		}
 		if(!ajoutNomSiteValue.equals(""))
@@ -1825,7 +1734,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c14 = new Contribution();
 			addInfoNoticeToContribution(c14);
 			Contribution.createContributionAjout(c14, this.notice_id, this.IDLocal, Contribution.NOM_SITE, ajoutNomSiteValue);
-			contribXml.listContributionEnCours.add(c14);
+			mContribXml.listContributionEnCours.add(c14);
 			valueModif= true;
 		}
 		if(!ajoutNatureValue.equals(""))
@@ -1833,7 +1742,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c14 = new Contribution();
 			addInfoNoticeToContribution(c14);
 			Contribution.createContributionAjout(c14, this.notice_id, this.IDLocal, Contribution.NATURE, ajoutNatureValue);
-			contribXml.listContributionEnCours.add(c14);
+			mContribXml.listContributionEnCours.add(c14);
 			valueModif= true;
 		}
 		if(!modif_NatureValue.equals(""))
@@ -1841,7 +1750,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c15 = new Contribution();
 			addInfoNoticeToContribution(c15);//rajoute les infos notice pour identification, puis on ajoute les modif de l"utilisateur
 			Contribution.createContributionRemplacement(c15, this.notice_id, this.IDLocal, Contribution.NATURE, modif_NatureValue);
-			contribXml.listContributionEnCours.add(c15);
+			mContribXml.listContributionEnCours.add(c15);
 			valueModif= true;
 		}
 		if(!ajoutAutreValue.equals(""))
@@ -1849,7 +1758,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c14 = new Contribution();
 			addInfoNoticeToContribution(c14);
 			Contribution.createContributionAjout(c14, this.notice_id, this.IDLocal, Contribution.AUTRE, ajoutAutreValue);
-			contribXml.listContributionEnCours.add(c14);
+			mContribXml.listContributionEnCours.add(c14);
 			valueModif= true;
 		}
 		if(!ajoutEtatValue.equals(""))
@@ -1857,7 +1766,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c14 = new Contribution();
 			addInfoNoticeToContribution(c14);
 			Contribution.createContributionAjout(c14, this.notice_id, this.IDLocal, Contribution.ETAT, ajoutEtatValue);
-			contribXml.listContributionEnCours.add(c14);
+			mContribXml.listContributionEnCours.add(c14);
 			valueModif= true;
 		}
 		if(!ajoutPetatValue.equals(""))
@@ -1865,7 +1774,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c14 = new Contribution();
 			addInfoNoticeToContribution(c14);
 			Contribution.createContributionAjout(c14, this.notice_id, this.IDLocal, Contribution.PETAT, ajoutPetatValue);
-			contribXml.listContributionEnCours.add(c14);
+			mContribXml.listContributionEnCours.add(c14);
 			valueModif= true;
 		}
 		if(!ajoutPmrValue.equals(""))
@@ -1873,7 +1782,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c14 = new Contribution();
 			addInfoNoticeToContribution(c14);
 			Contribution.createContributionAjout(c14, this.notice_id, this.IDLocal, Contribution.PMR, ajoutPmrValue);
-			contribXml.listContributionEnCours.add(c14);
+			mContribXml.listContributionEnCours.add(c14);
 			valueModif= true;
 		}
 
@@ -1882,7 +1791,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c14 = new Contribution();
 			addInfoNoticeToContribution(c14);
 			Contribution.createContributionAjout(c14, this.notice_id, this.IDLocal, Contribution.DETAIL_SITE, ajoutDetailSiteValue);
-			contribXml.listContributionEnCours.add(c14);
+			mContribXml.listContributionEnCours.add(c14);
 			valueModif= true;
 		}
 
@@ -1891,7 +1800,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c14 = new Contribution();
 			addInfoNoticeToContribution(c14);
 			Contribution.createContributionRemplacement(c14, this.notice_id, this.IDLocal, Contribution.DETAIL_SITE, modif_DetailSiteValue);
-			contribXml.listContributionEnCours.add(c14);
+			mContribXml.listContributionEnCours.add(c14);
 			valueModif= true;
 		}
 		if(modifLocalisationValue )
@@ -1899,22 +1808,21 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			Contribution c15 = new Contribution();
 			addInfoNoticeToContribution(c15);//rajoute les infos notice pour identification, puis on ajoute les modif de l"utilisateur
 			Contribution.createContributionRemplacementCoordonnee(c15, this.notice_id, this.IDLocal, Contribution.COORDONNEES, this.latitude, this.longitude);
-			contribXml.listContributionEnCours.add(c15);
+			mContribXml.listContributionEnCours.add(c15);
 			valueModif= true;
 		}
-		else if(ajouLocalisationValue)
+		else if(ajoutLocalisationValue)
 		{
 			Contribution c15 = new Contribution();
 			addInfoNoticeToContribution(c15);//rajoute les infos notice pour identification, puis on ajoute les modif de l"utilisateur
 			Contribution.createContributionAjoutCoordonnee(c15, this.notice_id, this.IDLocal, Contribution.COORDONNEES, this.latitude, this.longitude);
-			contribXml.listContributionEnCours.add(c15);
+			mContribXml.listContributionEnCours.add(c15);
 			valueModif= true;
 		}
 		return valueModif;
 	}
 
 	private void addInfoNoticeToContribution(Contribution c1) {
-		// TODO Auto-generated method stub
 		//liste des valeur des champs connus de la notice de référence 
 		//executer avant l'affectation des valeurs ajout/modif.(valeur notice sera ecrasee eventuellement)
 
@@ -1979,12 +1887,13 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		}
 
 	}
+	
 	public void erasecpref()
 	{
 		boolean f =cPref.edit().clear().commit();
-		list.clear();
+		mList.clear();
 		generateContributionEnCours();
-		adapter.notifyDataSetChanged();
+		mAdapter.notifyDataSetChanged();
 
 		Log.d(DEBUG_TAG+"/erasecpref()", "finish, clear cpref ="+f);
 	}
@@ -2047,25 +1956,21 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 
 	@Override
 	public Context getContext() {
-		// TODO Auto-generated method stub
 		return this;
 	}
 
 	@Override
 	public ImageView getImageView() {
-		// TODO Auto-generated method stub
-		return this.imageNotice;
+		return this.mImageNotice;
 	}
 
 	@Override
 	public BaseAdapter getNoticeAdapter() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
 		if(cPref.getBoolean(ListChampsNoticeModif.creationNotice, false))//si c'est une creation afficher le menu quitter pour effacer les preferences
 		{
 			showAlertDialogBeforeMain();
@@ -2125,7 +2030,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				// on doit relancer l'activité pour un affichage ok
 				setResult(RESULT_OK);//pour fermer l'activité ListChampsNoticeModif précédente
 				Intent intent = new Intent(getApplication(), ListChampsNoticeModif.class);
-	        	intent.putExtras(bundle);
+	        	intent.putExtras(mBundle);
 	  			startActivity(intent);
 	  			finish();
             }
