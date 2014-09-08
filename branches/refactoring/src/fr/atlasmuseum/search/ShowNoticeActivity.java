@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 public class ShowNoticeActivity extends Activity{
 
 	private static final String DEBUG_TAG = "AtlasMuseum/ShowNotice";

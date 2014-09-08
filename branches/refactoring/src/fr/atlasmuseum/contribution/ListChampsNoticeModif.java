@@ -101,7 +101,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 	final static String modif_localisation = "Modifier la localisation";
 	final static String creationNotice = "creeNoticeVrai/Faux"; //valeur de cpref, VRAI si cest une création
 
-	static String champ_a_modifier = "champs a modifier ";//utilisé dans Activity, détermine quelle valeur de cPref est modifiée
+	static String champs_a_modifier = "champs a modifier ";//utilisé dans Activity, détermine quelle valeur de cPref est modifiée
 
 	public static String erasepref = "erase pref";//utiliser comme clé pour bundle, détermine si on doit effacer ou pas preference
 
@@ -185,15 +185,13 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 
 		mImageNotice = (ImageView) findViewById(R.id.imageView1);
 
-		mList = new ArrayList<ContribElementList>();
-
 		mBlockModifierImage = (RelativeLayout) findViewById(R.id.relativeLayoutPhotoModifier);
 
 		cPref = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-		cPref.edit().putString(champ_a_modifier, "").commit();
+		cPref.edit().putString(champs_a_modifier, "").commit();
 		cPref.edit().putBoolean(creationNotice, false).commit();
-		Log.d(DEBUG_TAG+"/cPref", "cpref = "+cPref.getAll().toString());
-
+		
+		mList = new ArrayList<ContribElementList>();
 		mAdapter = new ContribListAdapter(ListChampsNoticeModif.this, mList);
 		ListView listView = (ListView) findViewById(R.id.list_view);
 		listView.setAdapter(mAdapter);
@@ -201,18 +199,28 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			@Override
 			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id)
 			{
-				ContribElementList tmp = (ContribElementList) mAdapter.getItem(position);
+				ContribElementList elem = (ContribElementList) mAdapter.getItem(position);
+				Log.d(DEBUG_TAG, "cliqué sur = " + elem);
+				
+				String champ = (String)elem.getChampAModifier();//recuperation de la valeur champ a partir de la listView
+				
+				//récupérer le champs à modifier
+				cPref.edit().putString(champs_a_modifier, champ).commit();
+				Log.d(DEBUG_TAG, "cpref all = " + cPref.getAll().toString());
+				
+				if(champ == ListChampsNoticeModif.ajout_localisation ||
+				   champ == ListChampsNoticeModif.modif_localisation) {
+					cPref.edit().putBoolean(champ, true).commit();
+					showLocationChangeAlertToUser();
+				}
+				else {
+					//vue modification avec champ saisi/listview checkbox ou radioButton
+					Intent intent = new Intent(getApplication(), ModifActivity.class);
+					intent.putExtras(mBundle);
+					startActivityForResult(intent, REQUEST_FINISH);	
 
-				//defini le champs_a_ie
-				Log.d(DEBUG_TAG+"/onCreate", "champs ="+tmp.getChampsAModifier());
+				}
 
-				//recuperer le champs a modifier
-				boolean f =cPref.edit().putString(champ_a_modifier, tmp.getChampsAModifier()).commit();
-				Log.d(DEBUG_TAG+"/onCreate", "cpref.commit ="+f);
-				Log.d(DEBUG_TAG+"/onCreate", "cpref champ ="+cPref.getString(champ_a_modifier, "NOK"));
-
-				Log.d(DEBUG_TAG+"/onCreate cpref all",cPref.getAll().toString() );
-				goToActivity(position);
 
 			}
 		});	
@@ -224,18 +232,39 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			@Override
 			public void onClick(View arg0) {
+				String champ = "";
 				boolean f = cPref.getBoolean(ListChampsNoticeModif.creationNotice, false);//true si creation notice
 
-				if(f)
-				{
-					goToActivity(1000);//pour aller a la vue prendre photo ajout
+				if(f) {
 					Log.d(DEBUG_TAG, "ajout enclenché");
+					champ = ListChampsNoticeModif.ajout_photo;
 				}
-				else
-				{
-					goToActivity(1230);//pour aller a la vue prendre photo modifier
+				else {
 					Log.d(DEBUG_TAG, "modification enclenchée");
+					champ = ListChampsNoticeModif.modif_photo;
 				}
+				mBundle.putString(ListChampsNoticeModif.CHAMPS_ITEM, champ);
+				getSharedPreferences(ContribPhoto.SHARED_PREFERENCES, Context.MODE_PRIVATE).edit().putString("lastPhotoValid", "").commit();
+				Log.i(DEBUG_TAG, "photo = "+champ);
+				
+				Intent intent = new Intent(getApplication(), ContribPhoto.class);
+				intent.putExtras(mBundle);
+				startActivityForResult(intent, REQUEST_FINISH);
+			}
+		});
+
+		mLoadPhoto = (RelativeLayout) findViewById(R.id.image_loading);
+		mLoadPhoto.setOnClickListener(new OnClickListener() 
+		{
+			@Override
+			public void onClick(View arg0) {
+				String champ = ListChampsNoticeModif.ajout_photo;
+				mBundle.putString(ListChampsNoticeModif.CHAMPS_ITEM, champ);
+				getSharedPreferences(ContribPhoto.SHARED_PREFERENCES, Context.MODE_PRIVATE).edit().putString("lastPhotoValid", "").commit();
+				Log.i(DEBUG_TAG, "photo = "+champ);
+				Intent intent = new Intent(getApplication(), ContribPhoto.class);
+				intent.putExtras(mBundle);
+				startActivityForResult(intent, REQUEST_FINISH);
 			}
 		});
 
@@ -261,15 +290,6 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			@Override
 			public void onClick(View v) {
 				envoiContrib();
-			}
-		});
-
-		mLoadPhoto = (RelativeLayout) findViewById(R.id.image_loading);
-		mLoadPhoto.setOnClickListener(new OnClickListener() 
-		{
-			@Override
-			public void onClick(View arg0) {
-				goToActivity(1000);//pour aller a la vue prendre photo ajouter
 			}
 		});
 
@@ -530,7 +550,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				{
 					elt.setValue(ListChampsNoticeModif.cPref.getString(ajout_titre, ""));
 				}
-				elt.setChampsAModifier(ajout_titre);
+				elt.setChampAModifier(ajout_titre);
 			}
 			else
 			{
@@ -540,8 +560,8 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				}
 
 				this.notice_titre = mBundle.getString(Contribution.TITRE);
-				elt.setChampsAModifier(modif_titre);
-				elt.setOldValue( this.notice_titre);
+				elt.setChampAModifier(modif_titre);
+				elt.setOriginalValue( this.notice_titre);
 			}
 			mList.add(elt);
 
@@ -553,7 +573,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				ContribElementList eltArtisteAjout= new ContribElementList();
 				eltArtisteAjout.setTitre(getResources().getString(R.string.Artiste));
-				eltArtisteAjout.setChampsAModifier(ajout_artiste);
+				eltArtisteAjout.setChampAModifier(ajout_artiste);
 				if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_artiste))
 				{
 					eltArtisteAjout.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_artiste, ""));
@@ -575,12 +595,12 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 
 				ContribElementList eltArtisteModif= new ContribElementList();
 				eltArtisteModif.setTitre(getResources().getString(R.string.Artiste));
-				eltArtisteModif.setChampsAModifier(modif_artiste);
+				eltArtisteModif.setChampAModifier(modif_artiste);
 				if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.modif_artiste))
 				{
 					eltArtisteModif.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.modif_artiste, ""));
 				}
-				eltArtisteModif.setOldValue(this.notice_artiste);
+				eltArtisteModif.setOriginalValue(this.notice_artiste);
 
 				mList.add(eltArtisteModif); //Modifier Artiste 
 			}
@@ -594,7 +614,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				ContribElementList altCouleurAjout= new ContribElementList();
 				altCouleurAjout.setTitre(getResources().getString(R.string.Couleurs));
-				altCouleurAjout.setChampsAModifier(ajout_couleur);
+				altCouleurAjout.setChampAModifier(ajout_couleur);
 				if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_couleur))
 				{
 					altCouleurAjout.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_couleur, ""));
@@ -609,8 +629,8 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				//list.add(modif_couleur);
 				ContribElementList altCouleurModif= new ContribElementList();
 				altCouleurModif.setTitre(getResources().getString(R.string.Couleurs));
-				altCouleurModif.setChampsAModifier(modif_couleur);
-				altCouleurModif.setOldValue(notice_couleur);
+				altCouleurModif.setChampAModifier(modif_couleur);
+				altCouleurModif.setOriginalValue(notice_couleur);
 
 				if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.modif_couleur))
 				{
@@ -639,7 +659,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{ 
 				ContribElementList altdateAjout= new ContribElementList();
 				altdateAjout.setTitre(getResources().getString(R.string.Date));
-				altdateAjout.setChampsAModifier(ajout_date);
+				altdateAjout.setChampAModifier(ajout_date);
 				if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_date))
 				{
 					altdateAjout.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_date, ""));
@@ -651,8 +671,8 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				this.notice_dateinauguration = mBundle.getString(Contribution.DATE_INAUGURATION);
 				ContribElementList altCouleurModif= new ContribElementList();
 				altCouleurModif.setTitre(getResources().getString(R.string.Date));
-				altCouleurModif.setChampsAModifier(modif_date);
-				altCouleurModif.setOldValue(notice_dateinauguration);
+				altCouleurModif.setChampAModifier(modif_date);
+				altCouleurModif.setOriginalValue(notice_dateinauguration);
 
 				if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.modif_date))
 				{
@@ -670,7 +690,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			{
 				ContribElementList altdateAjout= new ContribElementList();
 				altdateAjout.setTitre(getResources().getString(R.string.Description));
-				altdateAjout.setChampsAModifier(ajout_description);
+				altdateAjout.setChampAModifier(ajout_description);
 				if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_description))
 				{
 					altdateAjout.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_description, ""));
@@ -684,8 +704,8 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 
 				ContribElementList altCouleurModif= new ContribElementList();
 				altCouleurModif.setTitre(getResources().getString(R.string.Description));
-				altCouleurModif.setChampsAModifier(modif_description);
-				altCouleurModif.setOldValue(notice_description);
+				altCouleurModif.setChampAModifier(modif_description);
+				altCouleurModif.setOriginalValue(notice_description);
 
 				if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.modif_description))
 				{
@@ -705,7 +725,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				// list.add(ajout_materiaux);
 				ContribElementList altdateAjout= new ContribElementList();
 				altdateAjout.setTitre(getResources().getString(R.string.Materiaux));
-				altdateAjout.setChampsAModifier(ajout_materiaux);
+				altdateAjout.setChampAModifier(ajout_materiaux);
 				if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_materiaux))
 				{
 					altdateAjout.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_materiaux, ""));
@@ -720,8 +740,8 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 
 				ContribElementList altCouleurModif= new ContribElementList();
 				altCouleurModif.setTitre(getResources().getString(R.string.Materiaux));
-				altCouleurModif.setChampsAModifier(modif_materiaux);
-				altCouleurModif.setOldValue(notice_materiaux);
+				altCouleurModif.setChampAModifier(modif_materiaux);
+				altCouleurModif.setOriginalValue(notice_materiaux);
 
 				if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.modif_materiaux))
 				{
@@ -750,7 +770,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 
 				ContribElementList altdateAjout= new ContribElementList();
 				altdateAjout.setTitre(getResources().getString(R.string.Nom_du_site));
-				altdateAjout.setChampsAModifier(ajout_nomsite);
+				altdateAjout.setChampAModifier(ajout_nomsite);
 				if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_nomsite))
 				{
 					altdateAjout.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_nomsite, ""));
@@ -762,8 +782,8 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				this.notice_nomsite = mBundle.getString(Contribution.NOM_SITE);
 				ContribElementList altCouleurModif= new ContribElementList();
 				altCouleurModif.setTitre(getResources().getString(R.string.Nom_du_site));
-				altCouleurModif.setChampsAModifier(modif_nomsite);
-				altCouleurModif.setOldValue(notice_nomsite);
+				altCouleurModif.setChampAModifier(modif_nomsite);
+				altCouleurModif.setOriginalValue(notice_nomsite);
 
 				if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.modif_nomsite))
 				{
@@ -784,7 +804,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 
 				ContribElementList altdateAjout= new ContribElementList();
 				altdateAjout.setTitre(getResources().getString(R.string.Detail_site));
-				altdateAjout.setChampsAModifier(ajout_detailsite);
+				altdateAjout.setChampAModifier(ajout_detailsite);
 				if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_detailsite))
 				{
 					altdateAjout.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_detailsite, ""));
@@ -796,8 +816,8 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				this.notice__detailsite = mBundle.getString(Contribution.DETAIL_SITE);
 				ContribElementList altCouleurModif= new ContribElementList();
 				altCouleurModif.setTitre(getResources().getString(R.string.Detail_site));
-				altCouleurModif.setChampsAModifier(modif__detailsite);
-				altCouleurModif.setOldValue(notice__detailsite);
+				altCouleurModif.setChampAModifier(modif__detailsite);
+				altCouleurModif.setOriginalValue(notice__detailsite);
 
 				if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.modif__detailsite))
 				{
@@ -822,7 +842,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 
 				ContribElementList altdateAjout= new ContribElementList();
 				altdateAjout.setTitre(getResources().getString(R.string.Nature));
-				altdateAjout.setChampsAModifier(ajout_nature);
+				altdateAjout.setChampAModifier(ajout_nature);
 				if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_nature))
 				{
 					altdateAjout.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_nature, ""));
@@ -834,8 +854,8 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				this.notice_nature = mBundle.getString(Contribution.NATURE);
 				ContribElementList altCouleurModif= new ContribElementList();
 				altCouleurModif.setTitre(getResources().getString(R.string.Nature));
-				altCouleurModif.setChampsAModifier(modif_nature);
-				altCouleurModif.setOldValue(notice_nature);
+				altCouleurModif.setChampAModifier(modif_nature);
+				altCouleurModif.setOriginalValue(notice_nature);
 
 				if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.modif_nature))
 				{
@@ -867,16 +887,16 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				notice_latitude= mBundle.getDouble(Contribution.LATITUDE);
 				//FBO affichage est long / Latitude ??? to check
 				String aff = notice_latitude+" - "+notice_longitude;
-				localisationModif.setOldValue(aff);
+				localisationModif.setOriginalValue(aff);
 				localisationModif.setTitre(getResources().getString(R.string.Localisation));
-				localisationModif.setChampsAModifier(modif_localisation);
+				localisationModif.setChampAModifier(modif_localisation);
 				mList.add(localisationModif);
 			}
 			else
 			{
 				ContribElementList localisationAjout= new ContribElementList();
 				localisationAjout.setTitre(getResources().getString(R.string.Localisation));
-				localisationAjout.setChampsAModifier(ajout_localisation);
+				localisationAjout.setChampAModifier(ajout_localisation);
 				if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_localisation))
 				{
 					if(ListChampsNoticeModif.cPref.getBoolean(ListChampsNoticeModif.ajout_localisation, false))
@@ -899,7 +919,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 */
 			ContribElementList altdateAjout2= new ContribElementList();
 			altdateAjout2.setTitre(getResources().getString(R.string.Autres_infos));
-			altdateAjout2.setChampsAModifier(ajout_autre);
+			altdateAjout2.setChampAModifier(ajout_autre);
 			if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_autre))
 			{
 				altdateAjout2.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_autre, ""));
@@ -913,7 +933,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 */
 			ContribElementList altdateAjout3= new ContribElementList();
 			altdateAjout3.setTitre(getResources().getString(R.string.Etat_de_conservation));
-			altdateAjout3.setChampsAModifier(ajout_etat);
+			altdateAjout3.setChampAModifier(ajout_etat);
 			if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_etat))
 			{
 				altdateAjout3.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_etat, ""));
@@ -928,7 +948,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 */
 			ContribElementList altdateAjout4= new ContribElementList();
 			altdateAjout4.setTitre(getResources().getString(R.string.Precision_sur_l_etat_de_conservation));
-			altdateAjout4.setChampsAModifier(ajout_petat);
+			altdateAjout4.setChampAModifier(ajout_petat);
 			if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_petat))
 			{
 				altdateAjout4.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_petat, ""));
@@ -942,7 +962,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 */
 			ContribElementList altdateAjout54= new ContribElementList();
 			altdateAjout54.setTitre(getResources().getString(R.string.accessibilite_pmr));
-			altdateAjout54.setChampsAModifier(ajout_pmr);
+			altdateAjout54.setChampAModifier(ajout_pmr);
 			if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_pmr))
 			{
 				altdateAjout54.setValue(ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_pmr, ""));
@@ -992,8 +1012,8 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 */
 			ContribElementList altCouleurModif2= new ContribElementList();
 			altCouleurModif2.setTitre(getResources().getString(R.string.Titre));
-			altCouleurModif2.setChampsAModifier(ajout_titre);
-			altCouleurModif2.setOldValue(notice_titre);
+			altCouleurModif2.setChampAModifier(ajout_titre);
+			altCouleurModif2.setOriginalValue(notice_titre);
 
 			if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_titre))
 			{
@@ -1009,8 +1029,8 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 */
 			ContribElementList altCouleurModif23= new ContribElementList();
 			altCouleurModif23.setTitre(getResources().getString(R.string.Artiste));
-			altCouleurModif23.setChampsAModifier(ajout_artiste);
-			altCouleurModif23.setOldValue(notice_artiste);
+			altCouleurModif23.setChampAModifier(ajout_artiste);
+			altCouleurModif23.setOriginalValue(notice_artiste);
 
 			if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_artiste))
 			{
@@ -1025,7 +1045,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 */
 			ContribElementList localisationAjout= new ContribElementList();
 			localisationAjout.setTitre(getResources().getString(R.string.Localisation));
-			localisationAjout.setChampsAModifier(ajout_localisation);
+			localisationAjout.setChampAModifier(ajout_localisation);
 			if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_localisation))
 			{
 				if(ListChampsNoticeModif.cPref.getBoolean(ListChampsNoticeModif.ajout_localisation, false))
@@ -1046,8 +1066,8 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 */
 			ContribElementList altCouleurModif234= new ContribElementList();
 			altCouleurModif234.setTitre(getResources().getString(R.string.Date));
-			altCouleurModif234.setChampsAModifier(ajout_date);
-			altCouleurModif234.setOldValue(notice_dateinauguration);
+			altCouleurModif234.setChampAModifier(ajout_date);
+			altCouleurModif234.setOriginalValue(notice_dateinauguration);
 
 			if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_date))
 			{
@@ -1063,8 +1083,8 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 
 			ContribElementList altCouleurModif2345= new ContribElementList();
 			altCouleurModif2345.setTitre(getResources().getString(R.string.Couleurs));
-			altCouleurModif2345.setChampsAModifier(ajout_couleur);
-			altCouleurModif2345.setOldValue(notice_couleur);
+			altCouleurModif2345.setChampAModifier(ajout_couleur);
+			altCouleurModif2345.setOriginalValue(notice_couleur);
 
 			if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_couleur))
 			{
@@ -1079,8 +1099,8 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 */
 			ContribElementList altCouleurModif23456= new ContribElementList();
 			altCouleurModif23456.setTitre(getResources().getString(R.string.Description));
-			altCouleurModif23456.setChampsAModifier(ajout_description);
-			altCouleurModif23456.setOldValue(notice_couleur);
+			altCouleurModif23456.setChampAModifier(ajout_description);
+			altCouleurModif23456.setOriginalValue(notice_couleur);
 
 			if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_description))
 			{
@@ -1095,8 +1115,8 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 */
 			ContribElementList altCouleurModif234567= new ContribElementList();
 			altCouleurModif234567.setTitre(getResources().getString(R.string.Materiaux));
-			altCouleurModif234567.setChampsAModifier(ajout_materiaux);
-			altCouleurModif234567.setOldValue(notice_materiaux);
+			altCouleurModif234567.setChampAModifier(ajout_materiaux);
+			altCouleurModif234567.setOriginalValue(notice_materiaux);
 
 			if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_materiaux))
 			{
@@ -1111,7 +1131,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 */
 			ContribElementList nomSite= new ContribElementList();
 			nomSite.setTitre(getResources().getString(R.string.Nom_du_site));
-			nomSite.setChampsAModifier(ajout_nomsite);
+			nomSite.setChampAModifier(ajout_nomsite);
 
 
 			if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_nomsite))
@@ -1127,7 +1147,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 */
 			ContribElementList DetailSite= new ContribElementList();
 			DetailSite.setTitre(getResources().getString(R.string.Detail_site));
-			DetailSite.setChampsAModifier(ajout_detailsite);
+			DetailSite.setChampAModifier(ajout_detailsite);
 
 
 			if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_detailsite))
@@ -1142,7 +1162,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 */
 			ContribElementList eltNature= new ContribElementList();
 			eltNature.setTitre(getResources().getString(R.string.Nature));
-			eltNature.setChampsAModifier(ajout_nature);
+			eltNature.setChampAModifier(ajout_nature);
 
 
 			if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_nature))
@@ -1159,7 +1179,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 */
 			ContribElementList eltAutre= new ContribElementList();
 			eltAutre.setTitre(getResources().getString(R.string.Autres_infos));
-			eltAutre.setChampsAModifier(ajout_autre);
+			eltAutre.setChampAModifier(ajout_autre);
 
 
 			if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_autre))
@@ -1175,7 +1195,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 */
 			ContribElementList eltEtat= new ContribElementList();
 			eltEtat.setTitre(getResources().getString(R.string.Etat_de_conservation));
-			eltEtat.setChampsAModifier(ajout_etat);
+			eltEtat.setChampAModifier(ajout_etat);
 
 
 			if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_etat))
@@ -1191,7 +1211,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 */
 			ContribElementList eltPEtat= new ContribElementList();
 			eltPEtat.setTitre(getResources().getString(R.string.Precision_sur_l_etat_de_conservation));
-			eltPEtat.setChampsAModifier(ajout_petat);
+			eltPEtat.setChampAModifier(ajout_petat);
 
 
 			if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_petat))
@@ -1207,7 +1227,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 */
 			ContribElementList eltpmr= new ContribElementList();
 			eltpmr.setTitre(getResources().getString(R.string.accessibilite_pmr));
-			eltpmr.setChampsAModifier(ajout_pmr);
+			eltpmr.setChampAModifier(ajout_pmr);
 
 
 			if(ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.ajout_pmr))
@@ -1260,78 +1280,6 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		}
 
 	}
-
-	public void goToActivity(int position) {
-		//recupere l'artiste selectionné
-
-		//if(list.get(position).equals(ListChampsNoticeModif.ajout_photo) || list.get(position).equals(ListChampsNoticeModif.modif_photo))
-		String champs="";
-		if(position==1000) //si appel pour prendre une photo
-		{
-			champs = ListChampsNoticeModif.ajout_photo;
-			mBundle.putString(ListChampsNoticeModif.CHAMPS_ITEM, champs);
-			Log.i(DEBUG_TAG, "photo = "+champs);
-		}
-		else if(position == 1230){
-			champs = ListChampsNoticeModif.modif_photo;
-			mBundle.putString(ListChampsNoticeModif.CHAMPS_ITEM, champs);
-			Log.i(DEBUG_TAG, "photo = "+champs);
-		}
-		else
-		{
-			Log.d(DEBUG_TAG, "cliqué sur = "+mList.get(position));
-			champs = (String)mList.get(position).getChampsAModifier();//recuperation de la valeur champs a partir de la listView
-		}
-
-		if(champs.equals(ListChampsNoticeModif.ajout_photo) || champs.equals(ListChampsNoticeModif.modif_photo) )
-		{
-			Intent intent = new Intent(getApplication(), ContribPhoto.class);
-			intent.putExtras(mBundle);
-			startActivityForResult(intent, REQUEST_FINISH);
-		}
-		else
-		{
-			if(champs.equals(ListChampsNoticeModif.ajout_localisation) )
-			{
-				//basculer sur une vue ma avec bouton pour MAJ et valider
-				cPref.edit().putBoolean(ListChampsNoticeModif.ajout_localisation, true).commit();
-
-				//afficheAlerte("Votre localisation a été récupérée");
-//				//FBO ici mettre une alert box seulement pas la MapContribActivity
-//				Intent intent = new Intent(getApplication(), MapContribActivity.class);
-//				intent.putExtras(bundle);
-//				bundle.putDouble(ListChampsNoticeModif.LATITUDE, 0.0);
-//				bundle.putDouble(ListChampsNoticeModif.LONGITUDE, 0.0);
-//				startActivityForResult(intent, REQUEST_localisation);	
-				showLocationChangeAlertToUser();
-			}
-			else if(champs.equals(ListChampsNoticeModif.modif_localisation))
-			{
-				//basculer sur une vue ma avec bouton pour MAJ et valider
-				cPref.edit().putBoolean(ListChampsNoticeModif.modif_localisation, true).commit();
-
-				//afficheAlerte("Votre localisation a été récupérée");
-				//FBO ici mettre une alert box seulement pas la MapContribActivity
-//				Intent intent = new Intent(getApplication(), MapContribActivity.class);
-//				bundle.putDouble(ListChampsNoticeModif.LATITUDE, notice_latitude);
-//				bundle.putDouble(ListChampsNoticeModif.LONGITUDE, notice_longitude);
-//				bundle.putInt(SearchActivity.MAP_FOCUS_NOTICE,1);
-//				intent.putExtras(bundle);
-//				startActivityForResult(intent, REQUEST_localisation);	
-				showLocationChangeAlertToUser();
-			}
-			else //vue modification avec champ saisi/listview checkbox ou radioButton
-			{
-				Intent intent = new Intent(getApplication(), ModifActivity.class);
-				intent.putExtras(mBundle);
-				startActivityForResult(intent, REQUEST_FINISH);	
-
-			}
-
-		}
-
-	}
-
 
 	public String readContrib()
 	{
@@ -1483,21 +1431,21 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		ajoutArtisteValue = cPref.getString(ListChampsNoticeModif.ajout_artiste, "");
 		ArtisteValue = cPref.getString(ListChampsNoticeModif.modif_artiste, "");
 
-		this.ajoutNomSiteValue=cPref.getString(ListChampsNoticeModif.ajout_nomsite, "");
-		this.modif_NomSiteValue=cPref.getString(ListChampsNoticeModif.modif_nomsite, "");
-		this.ajoutAutreValue=cPref.getString(ListChampsNoticeModif.ajout_autre, "");
-		this.ajoutNatureValue=cPref.getString(ListChampsNoticeModif.ajout_nature, "");
-		this.modif_NatureValue=cPref.getString(ListChampsNoticeModif.modif_nature, "");
+		ajoutNomSiteValue=cPref.getString(ListChampsNoticeModif.ajout_nomsite, "");
+		modif_NomSiteValue=cPref.getString(ListChampsNoticeModif.modif_nomsite, "");
+		ajoutAutreValue=cPref.getString(ListChampsNoticeModif.ajout_autre, "");
+		ajoutNatureValue=cPref.getString(ListChampsNoticeModif.ajout_nature, "");
+		modif_NatureValue=cPref.getString(ListChampsNoticeModif.modif_nature, "");
 
-		this.ajoutEtatValue=cPref.getString(ListChampsNoticeModif.ajout_etat, "");
-		this.ajoutPetatValue=cPref.getString(ListChampsNoticeModif.ajout_petat, "");
-		this.ajoutPmrValue=cPref.getString(ListChampsNoticeModif.ajout_pmr, "");
+		ajoutEtatValue=cPref.getString(ListChampsNoticeModif.ajout_etat, "");
+		ajoutPetatValue=cPref.getString(ListChampsNoticeModif.ajout_petat, "");
+		ajoutPmrValue=cPref.getString(ListChampsNoticeModif.ajout_pmr, "");
 
-		this.ajoutLocalisationValue= cPref.getBoolean(ListChampsNoticeModif.ajout_localisation, false);
-		this.modifLocalisationValue= cPref.getBoolean(ListChampsNoticeModif.modif_localisation, false);
+		ajoutLocalisationValue= cPref.getBoolean(ListChampsNoticeModif.ajout_localisation, false);
+		modifLocalisationValue= cPref.getBoolean(ListChampsNoticeModif.modif_localisation, false);
 
-		this.ajoutDetailSiteValue = cPref.getString(ListChampsNoticeModif.ajout_detailsite, "");
-		this.modif_DetailSiteValue = cPref.getString(ListChampsNoticeModif.modif__detailsite, "");
+		ajoutDetailSiteValue = cPref.getString(ListChampsNoticeModif.ajout_detailsite, "");
+		modif_DetailSiteValue = cPref.getString(ListChampsNoticeModif.modif__detailsite, "");
 
 		try
 		{
@@ -1592,7 +1540,17 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			c.detailsite = ajoutDetailSiteValue;
 			valueModif= true;
 		}
+
+		if(ajoutLocalisationValue)
+		{
+			c.latitude = this.latitude;
+			c.longitude = this.longitude;
+			valueModif= true;
+		}
+
 		return valueModif;
+		
+		
 	}
 
 	/**
@@ -1811,7 +1769,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			mContribXml.listContributionEnCours.add(c15);
 			valueModif= true;
 		}
-		else if(ajoutLocalisationValue)
+		if(ajoutLocalisationValue)
 		{
 			Contribution c15 = new Contribution();
 			addInfoNoticeToContribution(c15);//rajoute les infos notice pour identification, puis on ajoute les modif de l"utilisateur

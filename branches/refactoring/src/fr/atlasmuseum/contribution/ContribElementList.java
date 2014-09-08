@@ -3,42 +3,42 @@ package fr.atlasmuseum.contribution;
 //classe qui gere l'affichage dans la vue contribution list
 public class ContribElementList {
 	
-	String ChampsAModifier; //ex: ajout_titre, ou modif_titre
-	String titre;//ex:Titre
-	String value; //nouvelle valeur donnée par l'utilisateur
-	String oldValue; //valeur issu de la notice de référence
+	private String mChampAModifier; // ex: ajout_titre, ou modif_titre
+	private String mTitre;           // ex:Titre
+	private String mValue;           // nouvelle valeur donnée par l'utilisateur
+	private String mOriginalValue;   // valeur issue de la notice de référence
 	
 	
 	public String getTitre() {
-		return titre;
+		return mTitre;
 	}
 	public void setTitre(String titre) {
-		this.titre = titre;
+		this.mTitre = titre;
 	}
-	public String getChampsAModifier() {
-		return ChampsAModifier;
+	public String getChampAModifier() {
+		return mChampAModifier;
 	}
-	public void setChampsAModifier(String champsAModifier) {
-		ChampsAModifier = champsAModifier;
+	public void setChampAModifier(String champsAModifier) {
+		mChampAModifier = champsAModifier;
 	}
 	public String getValue() {
-		return value;
+		return mValue;
 	}
 	public void setValue(String value) {
-		this.value = value;
+		this.mValue = value;
 	}
-	public String getOldValue() {
-		return oldValue;
+	public String getOriginalValue() {
+		return mOriginalValue;
 	}
-	public void setOldValue(String oldValue) {
-		this.oldValue = oldValue;
+	public void setOriginalValue(String orginalValue) {
+		this.mOriginalValue = orginalValue;
 	}
 	
 	public ContribElementList()
 	{
-		titre="";
-		ChampsAModifier ="";
-		value ="";
-		oldValue="";
+		mTitre = "";
+		mChampAModifier = "";
+		mValue = "";
+		mOriginalValue = "";
 	}
 }
