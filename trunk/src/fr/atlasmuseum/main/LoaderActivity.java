@@ -7,6 +7,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,6 +44,14 @@ public class LoaderActivity extends Activity  {
         titre.setTypeface(font1);
         text_intro2.setTypeface(font);
         text_intro1.setTypeface(font);
+        
+		try {
+			PackageInfo pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+	        TextView text_version = (TextView)findViewById(R.id.text_version);
+	        text_version.setHint(pinfo.versionName);
+		} catch (NameNotFoundException e) {
+		}
+        
         
       //check if GPS is activated
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
