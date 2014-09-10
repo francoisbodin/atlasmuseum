@@ -1,40 +1,25 @@
 package fr.atlasmuseum.contribution;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-
-import org.jdom2.Text;
-
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.contribution.Contribution.type_contrib;
 import fr.atlasmuseum.search.JsonRawData;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ModifActivity extends Activity {
 	Bundle bundle;
@@ -43,9 +28,9 @@ public class ModifActivity extends Activity {
 	Button buttonOKBottom;
 	Button buttonOK;//bouton ok dans le relativMain
 	Button delete;
-	final static String DEBUG_TAG = "ModifActivity";
+	final static String DEBUG_TAG = "AtlasMuseum/ModifActivity";
 	
-	String value;//valeur donn� par l'utilisateur
+	String value;//valeur donnée par l'utilisateur
 	ListView listV; //utiliser pour afficher
 	LinearLayout relativMain;
 	type_contrib typeContrib;//definit le type de contribution en cours
@@ -80,7 +65,7 @@ public class ModifActivity extends Activity {
          Log.d(DEBUG_TAG+"/onCreate", bundle.toString());
 
          //String ch =  bundle.getString(ListChampsNoticeModif.CHAMPS_ITEM);//pour savoir le champs qu'on va modifier
-       champsAModifier = ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.champ_a_modifier, "");
+       champsAModifier = ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.champs_a_modifier, "");
         titre_contrib.setText(champsAModifier);
          
          getActionBar().setTitle(getResources().getString(R.string.Contribuer));
@@ -124,7 +109,7 @@ public class ModifActivity extends Activity {
 
 
 	private void gestionBundle() {
-    	String ch = ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.champ_a_modifier, "");
+    	String ch = ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.champs_a_modifier, "");
     	//String ch =  bundle.getString(ListChampsNoticeModif.CHAMPS_ITEM);//pour savoir le champs qu'on va modifier
     	titre_contrib.setText(ch);
 		switch(ch)
@@ -554,7 +539,7 @@ private void setCheckFromString(String eltDefaut)
 			break;
 		}
 		
-		String champModifie = ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.champ_a_modifier, "");
+		String champModifie = ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.champs_a_modifier, "");
 		Log.d(DEBUG_TAG, "champs modifier = "+champModifie);
 		boolean f= ListChampsNoticeModif.cPref.edit().putString(champModifie, val).commit();
 		Log.d(DEBUG_TAG+"/cpref", "ajout val ="+f );

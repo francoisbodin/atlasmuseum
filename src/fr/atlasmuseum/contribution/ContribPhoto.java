@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
@@ -41,6 +42,14 @@ public class ContribPhoto extends Activity {
 	
 	private static final String DEBUG_TAG = "AtlasMuseum/ContribPhoto";
 
+	// Handle to SharedPreferences for this app
+    private SharedPreferences mPrefs;
+
+    // Handle to a SharedPreferences editor
+    private SharedPreferences.Editor mPrefEditor;
+
+    static final String SHARED_PREFERENCES = "fr.atlasmuseum.ContribPhoto.SHARED_PREFERENCES";
+
 	private static final int TAKE_PICTURE_REQUEST = 1;
 	String photoPath; //contient le chemin complet vers la photo prise si existante
 	private static final String ATLASMUSEUM_ALBUM = "atlasmuseum";
@@ -60,7 +69,14 @@ public class ContribPhoto extends Activity {
         setContentView(R.layout.contrib_take_picture);
         mImagePreview = (ImageView) findViewById(R.id.image_previewE);
 		
-		mBundle = getIntent().getExtras(); //recupere le bundle
+	    // Open Shared Preferences
+        mPrefs = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+
+        // Get an editor
+        mPrefEditor = mPrefs.edit();
+
+
+        mBundle = getIntent().getExtras(); //recupere le bundle
         mChamps = mBundle.getString(ListChampsNoticeModif.CHAMPS_ITEM); //pour savoir le champs qu'on va modifier
         
         if(mChamps.equals(ListChampsNoticeModif.ajout_photo))
@@ -79,6 +95,13 @@ public class ContribPhoto extends Activity {
         	Log.d(DEBUG_TAG, "unknow ++++++++++++");
         }
 
+        if( (lastPhotoValid == null || lastPhotoValid == "") && mPrefs.contains("lastPhotoValid") ) {
+			lastPhotoValid = mPrefs.getString("lastPhotoValid", "");
+			Log.d(DEBUG_TAG, "onCreate: Restore lastPhotoValid with " + lastPhotoValid);
+		}
+		
+		Log.d(DEBUG_TAG, "onCreate: lastPhotoValid = " + lastPhotoValid);
+		
     	Button mButtonTake = (Button) findViewById(R.id.mButtonTake);
     	mButtonTake.setOnClickListener(new OnClickListener() {
 	        @Override
@@ -95,7 +118,7 @@ public class ContribPhoto extends Activity {
 	        	if(photoPath != null || !photoPath.equals(""))
 	        	{
 	        		boolean f =ListChampsNoticeModif.cPref.edit().putString(mChamps, photoPath).commit();
-	        		Log.d(DEBUG_TAG+"/contribPhoto save", "save photo ="+f+" "+mChamps);
+	        		Log.d(DEBUG_TAG, "save photo ="+f+" "+mChamps);
 	        	}
 	        	setResult(RESULT_OK);
 	        	Intent intent = new Intent(getApplication(), ListChampsNoticeModif.class);
@@ -124,6 +147,21 @@ public class ContribPhoto extends Activity {
 	 		
 	 		
     }
+	
+	@Override
+	protected void onDestroy() {
+		Log.d(DEBUG_TAG, "onDestroy");
+		super.onDestroy();
+
+		if( lastPhotoValid != "" ) {
+			mPrefEditor.putString("lastPhotoValid", lastPhotoValid);
+			Log.d(DEBUG_TAG, "onDestroy(): Save lastPhotoValid = " + lastPhotoValid);
+		}
+
+		mPrefEditor.commit();
+
+	}	
+
 	public void afficheAlerte(String ch)
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -170,6 +208,7 @@ public class ContribPhoto extends Activity {
 		
 		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+		//takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(photoPath)));
 		startActivityForResult(takePictureIntent, TAKE_PICTURE_REQUEST);
 	}
 	
@@ -222,6 +261,8 @@ public class ContribPhoto extends Activity {
 		}
 
 		private void updatePreview() { 
+			Log.d(DEBUG_TAG, "updatePreview()");
+
 			/* There isn't enough memory to open up more than a couple camera photos */
 			/* So pre-scale the target bitmap into which the file is decoded */
 
@@ -240,6 +281,8 @@ public class ContribPhoto extends Activity {
 				}
 				
 			}
+			Log.d(DEBUG_TAG, "updatePreview(): update using " + photoPath);
+
 			if( (new File(photoPath).exists() )) 
 			{
 				BitmapFactory.decodeFile(photoPath, bmOptions);
@@ -365,7 +408,7 @@ public class ContribPhoto extends Activity {
 	    			lastPhotoValid = photoPath;
 	    			Toast.makeText(this, this.getResources().getString(R.string.photo_save_)+" " +this.photoPath, Toast.LENGTH_SHORT).show();
 	    			updatePreview();
-	    			}
+	    		}
 	    		else
 	    		{
 	    			//deleteFile(photoPath); probleme de suppression
