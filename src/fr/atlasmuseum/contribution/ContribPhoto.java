@@ -95,11 +95,16 @@ public class ContribPhoto extends Activity {
         	Log.d(DEBUG_TAG, "unknow ++++++++++++");
         }
 
+        if( (photoPath == null || photoPath == "") && mPrefs.contains("photoPath") ) {
+        	photoPath = mPrefs.getString("photoPath", "");
+			Log.d(DEBUG_TAG, "onCreate: Restore photoPath with " + photoPath);
+		}
+		Log.d(DEBUG_TAG, "onCreate: photoPath = " + photoPath);
+		
         if( (lastPhotoValid == null || lastPhotoValid == "") && mPrefs.contains("lastPhotoValid") ) {
 			lastPhotoValid = mPrefs.getString("lastPhotoValid", "");
 			Log.d(DEBUG_TAG, "onCreate: Restore lastPhotoValid with " + lastPhotoValid);
-		}
-		
+		}		
 		Log.d(DEBUG_TAG, "onCreate: lastPhotoValid = " + lastPhotoValid);
 		
     	Button mButtonTake = (Button) findViewById(R.id.mButtonTake);
@@ -152,6 +157,11 @@ public class ContribPhoto extends Activity {
 	protected void onDestroy() {
 		Log.d(DEBUG_TAG, "onDestroy");
 		super.onDestroy();
+
+		if( photoPath != "" ) {
+			mPrefEditor.putString("photoPath", photoPath);
+			Log.d(DEBUG_TAG, "onDestroy(): Save photoPath = " + photoPath);
+		}
 
 		if( lastPhotoValid != "" ) {
 			mPrefEditor.putString("lastPhotoValid", lastPhotoValid);
