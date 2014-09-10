@@ -51,46 +51,49 @@ public class Contribution implements Serializable {
 		}
 	}
 
+	final static String DEBUG_TAG="AltasMuseum/Contribution";
+
 	//utilisé pour les bundle, utilisé dans MainActivity
 
-	//public final static String CHAMPS = "champs"; remplacer par modification
 	public final static String IDNOTICE = "id";
-	public final static String MATERIAUx = "materiaux";
-	public final static String DATE_INAUGURATION = "inauguration";
-	public final static String DESCRIPTION = "description";
-	//public final static String IDLOCAL = "id_local";
-	public final static String PHOTO = "photo";
-	
-	final static String DEBUG_TAG="Contribution";
-	
-	//copie-colle de ConstantTagName
-	public static final String LONGITUDE = "longitude";
-	public static final String LATITUDE = "latitude";
-	static final String INAUGURATION = "inauguration";
-	public static final String TITRE= "titre";
-	public static final String ARTISTE= "artiste";
-	static final String CONTRIBUTION= "contribution";
-	static final String VALUE = "value";
-	static final String IDWIKI = "id";
 	public static final String LOCALID = "localid";
-	static final String DATECONTRIBUTION = "date";
-	static final String HEURECONTRIBUTION = "heure";
-	static final String AUTEUR = "auteur";
-	public static final String COULEUR = "couleur";
-	static final String TYPE = "type";
-	static final String STATUT = "statut";
-	static final String ENATTENTE = "enattente";
-	static final String ACCEPTED = "acceptee";
-	static final String CANCELED = "annulee";
-	static final String MODIFICATION = "modification"; //modification apporté par l'utilisateur
-	static final String COORDONNEES = "coordonnees";
 	
+	static final String CONTRIBUTION= "contribution";
+
 	//type de contribution
 	static final String AJOUTER = "ajouter";
 	static final String REMPLACER = "remplacer";
 	static final String SUPPRIMER = "supprimer";
+
+
+	static final String VALUE = "value";
+
+	static final String DATECONTRIBUTION = "date";
+	static final String HEURECONTRIBUTION = "heure";
+
+	static final String AUTEUR = "auteur";
 	public static final String PASSWORD = "passwd";
 	
+	static final String TYPE = "type";
+
+	static final String STATUT = "statut";
+	static final String ENATTENTE = "enattente";
+	static final String ACCEPTED = "acceptee";
+	static final String CANCELED = "annulee";
+
+	static final String MODIFICATION = "modification"; //modification apporté par l'utilisateur
+
+	//copie-colle de ConstantTagName
+	public final static String PHOTO = "photo";
+	public static final String TITRE= "titre";
+	public static final String ARTISTE= "artiste";
+	public final static String MATERIAUX = "materiaux";
+	public final static String DATE_INAUGURATION = "inauguration";
+	public final static String DESCRIPTION = "description";
+	public static final String LONGITUDE = "longitude";
+	public static final String LATITUDE = "latitude";
+	public static final String COULEUR = "couleur";
+	static final String COORDONNEES = "coordonnees";
 	public static final String ETAT = "etat";
 	public static final String PETAT = "petat";
 	public static final String PMR = "pmr";
@@ -188,7 +191,7 @@ public class Contribution implements Serializable {
 		case Contribution.DATE_INAUGURATION:
 			c.dateinauguration = value;
 			break;
-		case Contribution.MATERIAUx:
+		case Contribution.MATERIAUX:
 			c.materiaux = value;
 			break;
 		case Contribution.TITRE:
@@ -247,7 +250,7 @@ public class Contribution implements Serializable {
 			return c.couleur;
 		case Contribution.DATE_INAUGURATION:
 			return c.dateinauguration ;
-		case Contribution.MATERIAUx:
+		case Contribution.MATERIAUX:
 			return c.materiaux;
 		case Contribution.TITRE:
 			return c.titre;

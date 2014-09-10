@@ -31,7 +31,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements LocationProvider.OnLocationChanged {
 	
-	private static final String DEBUG_TAG = "mainActivity";
+	private static final String DEBUG_TAG = "AltasMuseum/mainActivity";
 	Bundle bundle;
 	public static String idUser = "moderateurAppli";
 	

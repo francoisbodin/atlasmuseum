@@ -45,12 +45,12 @@ import android.util.Log;
 
 
 /**
- * classe qui gere la sauvegarde et création du xml pour la contribution
+ * classe qui gere la sauvegarde et crï¿½ation du xml pour la contribution
  */
 public class ContribXml
 {
 	
-	//utilisé dans les balises xml
+	//utilisï¿½ dans les balises xml
 	//public final static String CONTRIBUTION = "contribution";
 	//public final static String CHAMP = "CHAMP";
 	//public final static String VALUE = "value";
@@ -64,9 +64,9 @@ public class ContribXml
    static Element racine ;
    static Document document;//utiliser dans toute l'application
    
-   List<Contribution> listContributionEnCours;//liste de contribution en cours d'édition
+   List<Contribution> listContributionEnCours;//liste de contribution en cours d'ï¿½dition
    public List<Contribution> listContrib;//liste des contributions
-   public int nbSave; //nombre de contributions sauvegardées
+   public int nbSave; //nombre de contributions sauvegardï¿½es
   
    
    Contribution.Location location;
@@ -74,7 +74,7 @@ public class ContribXml
   Document docEnvoi;//pour envoi en cours
     Element racineEnvoi;
    
-   private Boolean mainContrib; //défini quel document de la classe utilisé
+   private Boolean mainContrib; //dï¿½fini quel document de la classe utilisï¿½
    //si true: document - racine, si false: docEnvoi -racineEnvoi
    /**
     * 
@@ -104,7 +104,7 @@ public int getNbContrib()
 		document= new Document(racine);
 		
 		
-		//génère la liste de contribution
+		//gï¿½nï¿½re la liste de contribution
 		//parcour du fichier pour extraire la liste des contributions
 		recupListContrib(chaine_xml);
 		
@@ -138,26 +138,26 @@ public int getNbContrib()
 	public void recupListContrib(String chaine_xml)
 	{
 		Set<String> listLocalId = new HashSet<String>() ;//list contenant les localid sans doublon
-		//permet de compter le nombre de contribution sauvegardée
+		//permet de compter le nombre de contribution sauvegardï¿½e
 		
 		listContrib = new ArrayList<Contribution>();
 		SAXBuilder saxBuilder = new SAXBuilder();
 		Reader stringReader=new StringReader(chaine_xml);
 		try {
 			document=saxBuilder.build(stringReader);
-			//On initialise un nouvel élément racine avec l'élément racine du document.
+			//On initialise un nouvel ï¿½lï¿½ment racine avec l'ï¿½lï¿½ment racine du document.
 		    racine = document.getRootElement();
 			List<?> list = racine.getChildren(Contribution.CONTRIBUTION);
 
-		   //On crée un Iterator sur notre liste
+		   //On crï¿½e un Iterator sur notre liste
 		   Iterator<?> i = list.iterator();
 		   
 		   while(i.hasNext())
 		   {
 			   
-		      //On recrée l'Element courant à chaque tour de boucle afin de
-		      //pouvoir utiliser les méthodes propres aux Element comme :
-		      //sélectionner un nœud fils, modifier du texte, etc...
+		      //On recrï¿½e l'Element courant ï¿½ chaque tour de boucle afin de
+		      //pouvoir utiliser les mï¿½thodes propres aux Element comme :
+		      //sï¿½lectionner un nï¿½ud fils, modifier du texte, etc...
 		      Element courant = (Element)i.next();
 		      
 		      Contribution c = new Contribution();
@@ -200,7 +200,7 @@ public int getNbContrib()
 		      }
 		      
 		     
-		      // else //dans le cas ou si c'est une contribution de type crée
+		      // else //dans le cas ou si c'est une contribution de type crï¿½e
 			  //   {
 	    	  //parcour de tous les champs pour savoir si existant et possede une valeur
 	  		  if( courant.getChild(Contribution.PHOTO) != null)
@@ -217,11 +217,11 @@ public int getNbContrib()
 			    	  c.artiste=courant.getChild(Contribution.ARTISTE).getAttributeValue(Contribution.VALUE);
 			      }
 	      		}
-  			  if( courant.getChild(Contribution.MATERIAUx) != null) 
+  			  if( courant.getChild(Contribution.MATERIAUX) != null) 
 	  			{
-	  				 if(!courant.getChild(Contribution.MATERIAUx).getAttributeValue(Contribution.VALUE).equals(""))
+	  				 if(!courant.getChild(Contribution.MATERIAUX).getAttributeValue(Contribution.VALUE).equals(""))
 				      {
-				    	  c.materiaux=courant.getChild(Contribution.MATERIAUx).getAttributeValue(Contribution.VALUE);
+				    	  c.materiaux=courant.getChild(Contribution.MATERIAUX).getAttributeValue(Contribution.VALUE);
 				      }
 	  			}
   			
@@ -330,9 +330,9 @@ public int getNbContrib()
 			  {
 				  c.titre =courant.getChild(Contribution.TITRE).getAttributeValue(Contribution.VALUE);
 			  }
-			  if (c.champModifier.equals(Contribution.MATERIAUx))
+			  if (c.champModifier.equals(Contribution.MATERIAUX))
 			  {
-				  c.materiaux =courant.getChild(Contribution.MATERIAUx).getAttributeValue(Contribution.VALUE);
+				  c.materiaux =courant.getChild(Contribution.MATERIAUX).getAttributeValue(Contribution.VALUE);
 			  }
 			  if (c.champModifier.equals(Contribution.DESCRIPTION))
 			  {
@@ -381,7 +381,7 @@ public int getNbContrib()
 		document= new Document(racine);
 	}
 	/**
-	 * méthode pour écrire une contribution dans le XML
+	 * mï¿½thode pour ï¿½crire une contribution dans le XML
 	 * @param c
 	 */
 	public static void addContributionToXml(Contribution c)
@@ -495,7 +495,7 @@ public int getNbContrib()
 	  }
 	  if(!c.materiaux.equals(""))
 	  {
-		  Element localphoto6 = new Element(Contribution.MATERIAUx);
+		  Element localphoto6 = new Element(Contribution.MATERIAUX);
           Attribute valueModif56 = new Attribute(Contribution.VALUE,c.materiaux);
           localphoto6.setAttribute(valueModif56);
           cv.addContent(localphoto6); 

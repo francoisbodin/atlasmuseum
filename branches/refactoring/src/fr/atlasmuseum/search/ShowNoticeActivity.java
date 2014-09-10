@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.contribution.Contribution;
+import fr.atlasmuseum.contribution.Contribution2;
 import fr.atlasmuseum.contribution.ListChampsNoticeModif;
 import fr.atlasmuseum.contribution.MainContribActivity;
 import fr.atlasmuseum.main.AtlasError;
@@ -566,7 +567,7 @@ public class ShowNoticeActivity extends Activity{
 			bundle.putString(Contribution.DESCRIPTION, description);
 			bundle.putString(Contribution.PHOTO, image_principale);
 			bundle.putString(Contribution.DATE_INAUGURATION, date_inauguration);
-			bundle.putString(Contribution.MATERIAUx, materiaux);
+			bundle.putString(Contribution.MATERIAUX, materiaux);
 			bundle.putString(Contribution.NOM_SITE, nomsite);
 			bundle.putString(Contribution.NATURE, nature);
 			bundle.putString(Contribution.DETAIL_SITE, detail_site);
@@ -598,9 +599,16 @@ public class ShowNoticeActivity extends Activity{
 			String uniqueID = UUID.randomUUID().toString();
 			bundle.putString(Contribution.LOCALID, uniqueID);
 			
+
+			Log.d(DEBUG_TAG, "Create Contribution 2");
+			Contribution2 c2 = new Contribution2(this, idx);
+			bundle.putSerializable("contribution2", c2);
+			c2.dumpDebug();
+
 			Intent intent = new Intent(this, ListChampsNoticeModif.class);
 			intent.putExtras(bundle);
 			Log.d(DEBUG_TAG, "Going to Contribution Notice");
+			
 			
 			startActivityForResult(intent, this.REQUEST_CONTRIB);
 		}

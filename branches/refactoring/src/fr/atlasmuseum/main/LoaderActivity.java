@@ -23,7 +23,7 @@ import android.location.LocationManager;
  *
  */
 public class LoaderActivity extends Activity  {
-	private static final String DEBUG_TAG = "atlasmuseum/Loader";
+	private static final String DEBUG_TAG = "AtlasMuseum/Loader";
 	static final String NB_ENTRIES = "nbentries";
 	
     public void onCreate(Bundle savedInstanceState) {

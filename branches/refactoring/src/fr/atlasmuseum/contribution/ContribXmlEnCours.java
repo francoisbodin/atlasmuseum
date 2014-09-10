@@ -43,12 +43,12 @@ import android.util.Log;
 
 
 /**
- * classe qui gere la sauvegarde et création du xml pour la contribution
+ * classe qui gere la sauvegarde et crï¿½ation du xml pour la contribution
  */
 public class ContribXmlEnCours
 {
 	
-	//utilisé dans les balises xml
+	//utilisï¿½ dans les balises xml
 	//public final static String CONTRIBUTION = "contribution";
 	//public final static String CHAMP = "CHAMP";
 	//public final static String VALUE = "value";
@@ -87,7 +87,7 @@ private String url_sendXML ="http://atlasmuseum.irisa.fr/scripts/receiveContribu
 	
 	
 	/**
-	 * méthode pour écrire une contribution dans le XML
+	 * mï¿½thode pour ï¿½crire une contribution dans le XML
 	 * @param c
 	 */
 	public void addContributionToXml(Contribution c)
@@ -201,7 +201,7 @@ private String url_sendXML ="http://atlasmuseum.irisa.fr/scripts/receiveContribu
 	  }
 	  if(!c.materiaux.equals(""))
 	  {
-		  Element localphoto6 = new Element(Contribution.MATERIAUx);
+		  Element localphoto6 = new Element(Contribution.MATERIAUX);
           Attribute valueModif56 = new Attribute(Contribution.VALUE,c.materiaux);
           localphoto6.setAttribute(valueModif56);
           cv.addContent(localphoto6); 
