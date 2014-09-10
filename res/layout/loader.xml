@@ -81,6 +81,6 @@
 	         android:textStyle="bold"
 	          android:layout_below="@+id/text_intro2"
 	         android:layout_centerHorizontal="true"
-	         android:hint="@string/version_number" />
+	         android:hint="" /> <!-- @string/version_number -->
 	 </RelativeLayout>
 </RelativeLayout>
