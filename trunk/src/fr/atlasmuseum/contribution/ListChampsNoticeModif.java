@@ -244,6 +244,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 					champ = ListChampsNoticeModif.modif_photo;
 				}
 				mBundle.putString(ListChampsNoticeModif.CHAMPS_ITEM, champ);
+				getSharedPreferences(ContribPhoto.SHARED_PREFERENCES, Context.MODE_PRIVATE).edit().putString("photoPath", "").commit();
 				getSharedPreferences(ContribPhoto.SHARED_PREFERENCES, Context.MODE_PRIVATE).edit().putString("lastPhotoValid", "").commit();
 				Log.i(DEBUG_TAG, "photo = "+champ);
 				
@@ -260,6 +261,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			public void onClick(View arg0) {
 				String champ = ListChampsNoticeModif.ajout_photo;
 				mBundle.putString(ListChampsNoticeModif.CHAMPS_ITEM, champ);
+				getSharedPreferences(ContribPhoto.SHARED_PREFERENCES, Context.MODE_PRIVATE).edit().putString("photoPath", "").commit();
 				getSharedPreferences(ContribPhoto.SHARED_PREFERENCES, Context.MODE_PRIVATE).edit().putString("lastPhotoValid", "").commit();
 				Log.i(DEBUG_TAG, "photo = "+champ);
 				Intent intent = new Intent(getApplication(), ContribPhoto.class);
