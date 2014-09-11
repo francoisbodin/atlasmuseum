@@ -83,149 +83,181 @@ public class Contribution2 implements Serializable {
 
 		mProperties = new HashMap<String, ContributionProperty>();
 		
-		mProperties.put( "photo", new ContributionProperty(
-				/* dbField */ "photo",
+		mProperties.put( Contribution.PHOTO, new ContributionProperty(
+				/* dbField */ Contribution.PHOTO,
 				/* title */ "",
 				/* value */ "",
+				/* defaultValue */ "",
 				/* info */ "",
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showView */ 0) );
+				/* showViewText */ 0,
+				/* showViewToHide */ 0) );
 		
 		mProperties.put(Contribution.TITRE, new ContributionProperty(
 				/* dbField */ Contribution.TITRE,
 				/* title */ context.getResources().getString(R.string.Titre),
 				/* value */ "",
+				/* defaultValue */ "",
 				/* info */ "",
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showView */ R.id.notice_titre) );
+				/* showViewText */ R.id.notice_titre,
+				/* showViewToHide */ 0) );
 		
 		mProperties.put(Contribution.ARTISTE, new ContributionProperty(
 				/* dbField */ Contribution.ARTISTE,
 				/* title */ context.getResources().getString(R.string.Artiste),
 				/* value */ "",
+				/* defaultValue */ "",
 				/* info */ "", // TODO: ajouter les infos
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showView */ 0) );
+				/* showViewText */ 0,
+				/* showViewToHide */ 0) );
 
 		mProperties.put(Contribution.COULEUR, new ContributionProperty(
 				/* dbField */ Contribution.COULEUR,
 				/* title */ context.getResources().getString(R.string.Couleurs),
 				/* value */ "",
+				/* defaultValue */ "",
 				/* info */ "",
 				/* type */ ContributionProperty.ContribType.check,
 				/* choices */ JsonRawData.listeCouleurs,
-				/* showView */ 0) );
+				/* showViewText */ 0,
+				/* showViewToHide */ 0) );
 		
 		mProperties.put( Contribution.DATE_INAUGURATION, new ContributionProperty(
 				/* dbField */ Contribution.DATE_INAUGURATION,
 				/* title */ context.getResources().getString(R.string.Date),
 				/* value */ "",
+				/* defaultValue */ "",
 				/* info */ context.getResources().getString(R.string.contrib_date_infos),
 				/* type */ ContributionProperty.ContribType.date,
 				/* choices */ null,
-				/* showView */ 0) );
+				/* showViewText */ 0,
+				/* showViewToHide */ 0) );
 		
 		mProperties.put(Contribution.DESCRIPTION, new ContributionProperty(
 				/* dbField */ Contribution.DESCRIPTION,
 				/* title */ context.getResources().getString(R.string.Description),
 				/* value */ "",
+				/* defaultValue */ "",
 				/* info */ "",
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showView */ 0) );
+				/* showViewText */ 0,
+				/* showViewToHide */ 0) );
 		
 		mProperties.put( Contribution.MATERIAUX, new ContributionProperty(
 				/* dbField */ Contribution.MATERIAUX,
 				/* title */ context.getResources().getString(R.string.Materiaux),
 				/* value */ "",
+				/* defaultValue */ "",
 				/* info */ "",
 				/* type */ ContributionProperty.ContribType.check,
 				/* choices */ JsonRawData.listeMateriaux,
-				/* showView */ 0) );
+				/* showViewText */ 0,
+				/* showViewToHide */ 0) );
 		
 		mProperties.put( Contribution.NOM_SITE, new ContributionProperty(
 				/* dbField */ Contribution.NOM_SITE,
 				/* title */ context.getResources().getString(R.string.Nom_du_site),
 				/* value */ "",
+				/* defaultValue */ "",
 				/* info */ "", // TODO: ajouter les infos
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showView */ 0) );
+				/* showViewText */ 0,
+				/* showViewToHide */ 0) );
 		
 		mProperties.put( Contribution.DETAIL_SITE, new ContributionProperty(
 				/* dbField */ Contribution.DETAIL_SITE,
 				/* title */ context.getResources().getString(R.string.Detail_site),
 				/* value */ "",
+				/* defaultValue */ "",
 				/* info */ "", // TODO: ajouter les infos
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showView */ 0) );
+				/* showViewText */ 0,
+				/* showViewToHide */ 0) );
 		
 		mProperties.put( Contribution.NATURE, new ContributionProperty(
 				/* dbField */ Contribution.NATURE,
 				/* title */ context.getResources().getString(R.string.Nature),
 				/* value */ "",
+				/* defaultValue */ "",
 				/* info */ "",
 				/* type */ ContributionProperty.ContribType.radio,
 				/* choices */ JsonRawData.listeNatures,
-				/* showView */ 0) );
+				/* showViewText */ 0,
+				/* showViewToHide */ 0) );
 		
 		mProperties.put( Contribution.LATITUDE, new ContributionProperty(
 				/* dbField */ Contribution.LATITUDE,
 				/* title */ "Latitude",
 				/* value */ "",
+				/* defaultValue */ "",
 				/* info */ "",
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showView */ 0) );
+				/* showViewText */ 0,
+				/* showViewToHide */ 0) );
 		
 		mProperties.put( Contribution.LONGITUDE, new ContributionProperty(
 				/* dbField */ Contribution.LONGITUDE,
 				/* title */ "Longitude",
 				/* value */ "",
+				/* defaultValue */ "",
 				/* info */ "",
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showView */ 0) );
+				/* showViewText */ 0,
+				/* showViewToHide */ 0) );
 		
 		mProperties.put( Contribution.AUTRE, new ContributionProperty(
 				/* dbField */ Contribution.AUTRE,
 				/* title */ context.getResources().getString(R.string.Autres_infos),
 				/* value */ "",
+				/* defaultValue */ "",
 				/* info */ "", // TODO: ajouter les infos
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showView */ 0) );
+				/* showViewText */ 0,
+				/* showViewToHide */ 0) );
 		
 		mProperties.put( Contribution.ETAT, new ContributionProperty(
 				/* dbField */ Contribution.ETAT,
 				/* title */ context.getResources().getString(R.string.Etat_de_conservation),
 				/* value */ "",
+				/* defaultValue */ "",
 				/* info */ "",
 				/* type */ ContributionProperty.ContribType.radio,
 				/* choices */ JsonRawData.listePrecision_etat_conservation,
-				/* showView */ 0) );
+				/* showViewText */ 0,
+				/* showViewToHide */ 0) );
 		
 		mProperties.put( Contribution.PETAT, new ContributionProperty(
 				/* dbField */ Contribution.PETAT,
 				/* title */ context.getResources().getString(R.string.Precision_sur_l_etat_de_conservation),
 				/* value */ "",
+				/* defaultValue */ "",
 				/* info */ "",
 				/* type */ ContributionProperty.ContribType.check,
 				/* choices */ JsonRawData.listeAutre_precision_etat_conservation,
-				/* showView */ 0) );
+				/* showViewText */ 0,
+				/* showViewToHide */ 0) );
 		
 		mProperties.put( Contribution.PMR, new ContributionProperty(
 				/* dbField */ Contribution.PMR,
 				/* title */ context.getResources().getString(R.string.accessibilite_pmr),
 				/* value */ "",
+				/* defaultValue */ "",
 				/* info */ "", // TODO: ajouter les infos
 				/* type */ ContributionProperty.ContribType.radio,
 				/* choices */ JsonRawData.listePmr,
-				/* showView */ 0) );
+				/* showViewText */ 0,
+				/* showViewToHide */ 0) );
 
 	}
 

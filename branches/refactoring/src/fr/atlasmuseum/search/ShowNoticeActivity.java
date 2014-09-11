@@ -2,22 +2,17 @@ package fr.atlasmuseum.search;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
-
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.contribution.Contribution;
 import fr.atlasmuseum.contribution.Contribution2;
 import fr.atlasmuseum.contribution.ListChampsNoticeModif;
-import fr.atlasmuseum.contribution.MainContribActivity;
 import fr.atlasmuseum.main.AtlasError;
-import fr.atlasmuseum.main.MainActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -26,7 +21,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,23 +39,7 @@ public class ShowNoticeActivity extends Activity{
 	private Bundle bundle;
 	private int idx;
 	
-	private TextView txtview_titre;
-	private TextView txtview_materiaux;
-	private TextView txtview_auteur;
-	private TextView txtview_ville_pays;
-	TextView txtview_description;
-	private TextView txtview_annee;
-	private TextView txtview_nature;
-	private TextView txtview_couleur;
-	
 	public ImageView imgView;//pour afficher l'image de la notice
-	private TextView txtview_mots_cle;
-	private TextView txtview_nomsite;
-	private TextView txtview_nomville;
-	private TextView txtview_nomRegion;
-	private TextView txtview_nomPays;
-	private TextView txtview_mouvement;
-	private TextView txtview_pmr;
 	private int REQUEST_CONTRIB=12345874;
 	
 	TextView creditphoto;
@@ -118,225 +96,110 @@ public class ShowNoticeActivity extends Activity{
     	//url
     	this.url = SearchActivity.extractDataFromDb(idx,"url");
     	
-    	//titre
-    	String titre = SearchActivity.extractDataFromDb(idx,"titre");
-    	txtview_titre = (TextView) findViewById(R.id.notice_titre);
-    	if (titre != null && !titre.equals("?"))
-	    	{
-    			txtview_titre.setText(titre);//affiche le titre
-	    	} 
-    	else
-	    	{
-    			txtview_titre.setText("Pas de titre");
-	    	}
     	
-    	//Auteur
-    	String artiste = SearchActivity.extractDataFromDb(idx,"artiste");
-    	txtview_auteur = (TextView) findViewById(R.id.notice_artiste);
-    	if (artiste != null  && !artiste.equals("?"))
-	    	{
-    			txtview_auteur.setText(artiste);//affiche le titre
-	    	} 
-    	else
-	    	{
-    			txtview_auteur.setText("Unknow");
-	    	}
     	
-    	//Annee
-    	String annne = SearchActivity.extractDataFromDb(idx,"inauguration");
-    	txtview_annee = (TextView) findViewById(R.id.notice_annee);
-    	if (annne != null  && !annne.equals("?"))
-	    	{
-    			txtview_annee.setText(annne);//affiche le titre
-	    	} 
-    	else
-	    	{
-    			txtview_annee.setVisibility(View.GONE);
-	    	}
+    	Contribution2 contribution = new Contribution2(this);
+    	contribution.updateFromDb(idx);
     	
-    	//Ville - Pays
-    	String ville = SearchActivity.extractDataFromDb(idx,"Siteville");
-    	String pays = SearchActivity.extractDataFromDb(idx,"Sitepays");
-    	String ville_pays = ville+"-"+pays;
-    	txtview_ville_pays = (TextView) findViewById(R.id.notice_ville_pays);
-    	if (ville_pays != null  && !ville_pays.equals("?-?"))
-	    	{
-    			txtview_ville_pays.setText(ville_pays);//affiche le titre
-	    	} 
-    	else
-	    	{
-	    		
-    			txtview_ville_pays.setVisibility(View.GONE);;
-	    	}
+    	TextView txtview_titre = (TextView) findViewById(R.id.notice_titre);
+    	String titre = contribution.getProperty(Contribution.TITRE).getValue();
+    	txtview_titre.setText(titre);
+    	//txtview_titre.setText("Pas de titre");
     	
-    	//Nature
-    	String nature = SearchActivity.extractDataFromDb(idx,"nature");
-    	txtview_nature = (TextView) findViewById(R.id.oeuvre_nature_value);
-    	if (nature != null  && !nature.equals("?"))
-	    	{
-    		  txtview_nature.setText(nature);//affiche le titre
-	    	} 
-    	else
-	    	{
-    			RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_oeuvre_nature);
-    			r.setVisibility(View.GONE);;
-	    	}
-    	
-    	//Couleur
-    	String couleur = SearchActivity.extractDataFromDb(idx,"couleur").trim();
-    	Log.d(DEBUG_TAG, "*******couleur ="+couleur);
-    	txtview_couleur = (TextView) findViewById(R.id.oeuvre_couleur_value);
-    	if (couleur != null  && !couleur.equals("?") && !couleur.trim().equals(""))
-	    	{
-    			txtview_couleur.setText(couleur);//affiche le titre
-	    	} 
-    	else
-	    	{
-	    		RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_oeuvre_couleur);
-				r.setVisibility(View.GONE);
-	    	}
-    	
-    	//Materiaux
-    	String materiaux = SearchActivity.extractDataFromDb(idx,"materiaux");
-    	txtview_materiaux = (TextView) findViewById(R.id.oeuvre_materiauw_value);
-    	if (materiaux != null  && !materiaux.equals("?"))
-	    	{
-    		txtview_materiaux.setText(materiaux);//affiche le titre
-	    	} 
-    	else
-	    	{
-	    		RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_oeuvre_materiaux);
-				r.setVisibility(View.GONE);
-	    	}
-    	//Description
-    	String description = SearchActivity.extractDataFromDb(idx,"description");
-    	txtview_description = (TextView) findViewById(R.id.oeuvre_description_value);
-    	if (description != null  && !description.equals("?"))
-	    	{
-    		txtview_description.setText(description);//affiche le titre
-	    	} 
-    	else
-	    	{
-    		RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_oeuvre_description);
-			r.setVisibility(View.GONE);
-	    	}
-    	
-    	//Mots cl�s
-    	String mots_cles = SearchActivity.extractDataFromDb(idx,"mot_cle");
-    	txtview_mots_cle = (TextView) findViewById(R.id.oeuvre_mots_cles_value);
-    	if (mots_cles != null  && !mots_cles.equals("?"))
-	    	{
-    		txtview_mots_cle.setText(mots_cles);//affiche le titre
-	    	} 
-    	else
-	    	{
-    		RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_oeuvre_mots_cles);
-			r.setVisibility(View.GONE);
-	    	}
-    	
-    	//Contexte
-    	String contexte = SearchActivity.extractDataFromDb(idx,"contexte_production");
-    	txtview_mots_cle = (TextView) findViewById(R.id.oeuvre_contexte_value);
-    	if (contexte != null  && !contexte.equals("?"))
-	    	{
-    		txtview_mots_cle.setText(contexte);//affiche le titre
-	    	} 
-    	else
-	    	{
-    		RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_oeuvre_contexte);
-			r.setVisibility(View.GONE);
-	    	}
-    	
-    	//nom Site
-    	String nomsite = SearchActivity.extractDataFromDb(idx,"Sitenom");
-    	txtview_nomsite = (TextView) findViewById(R.id.site_nomsite_value);
-    	if (nomsite != null  && !nomsite.equals("?"))
-	    	{
-    		txtview_nomsite.setText(nomsite);//affiche le titre
-	    	} 
-    	else
-	    	{
-    		RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_site_nomsite);
-			r.setVisibility(View.GONE);
-	    	}
-    	
-    	//nom ville
-    	String nomVille = SearchActivity.extractDataFromDb(idx,"Siteville");
-    	txtview_nomville = (TextView) findViewById(R.id.site_ville_value);
-    	if (nomVille != null  && !nomVille.equals("?"))
-	    	{
-    		txtview_nomville.setText(nomVille);//affiche le titre
-	    	} 
-    	else
-	    	{
-    		RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_site_ville);
-			r.setVisibility(View.GONE);
-	    	}
-    	//nom region
-    	String nomRegion = SearchActivity.extractDataFromDb(idx,"Siteregion");
-    	txtview_nomRegion = (TextView) findViewById(R.id.site_region_value);
-    	if (nomRegion != null  && !nomRegion.equals("?"))
-	    	{
-    		txtview_nomRegion.setText(nomRegion);//affiche le titre
-	    	} 
-    	else
-	    	{
-    		RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_site_region);
-			r.setVisibility(View.GONE);
-	    	}
-    	
-    	//nom pays
-    	String nomPays = SearchActivity.extractDataFromDb(idx,"Sitepays");
-    	txtview_nomPays = (TextView) findViewById(R.id.site_pays_value);
-    	if (nomPays != null  && !nomPays.equals("?"))
-	    	{
-    		txtview_nomPays.setText(nomPays);//affiche le titre
-	    	} 
-    	else
-	    	{
-    		RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_site_pays);
-			r.setVisibility(View.GONE);
-	    	}
-    	
-    	//artiste mouvement
-    	String mouvement = SearchActivity.extractDataFromDb(idx,"mouvement_artistes");
-    	txtview_mouvement = (TextView) findViewById(R.id.artiste_mouvement_value);
-    	if (mouvement != null  && !mouvement.equals("?"))
-	    	{
-    			txtview_mouvement.setText(mouvement);//affiche le titre
-	    	} 
-    	else
-	    	{
-    		RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_artiste_mouvement);
-			r.setVisibility(View.GONE);
-	    	}
+    	TextView txtview_auteur = (TextView) findViewById(R.id.notice_artiste);
+    	String artiste = contribution.getProperty(Contribution.ARTISTE).getValue();
+    	txtview_auteur.setText(artiste);
+    	//txtview_auteur.setText("Unknown");
 
-    	//site pmr = Personne � Mobilit� R�duite
-    	String pmr = SearchActivity.extractDataFromDb(idx,"Sitepmr");
-    	txtview_pmr = (TextView) findViewById(R.id.site_pmr_value);
-    	if (pmr != null  && !pmr.equals("?"))
-	    	{
-    		txtview_pmr.setText(pmr);//affiche le titre
-	    	} 
-    	else
-	    	{
-    		RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_site_pmr);
-			r.setVisibility(View.GONE);
-	    	}
+    	TextView txtview_annee = (TextView) findViewById(R.id.notice_annee);
+    	String annee = contribution.getProperty(Contribution.DATE_INAUGURATION).getValue();
+		txtview_annee.setText(annee);
+		//txtview_annee.setVisibility(View.GONE);
+		
+		TextView txtview_ville_pays = (TextView) findViewById(R.id.notice_ville_pays);
+    	String ville = contribution.getProperty("Siteville").getValue();
+    	String pays = contribution.getProperty("Sitepays").getValue();
+    	txtview_ville_pays.setText(ville+"-"+pays);
+    	//txtview_ville_pays.setVisibility(View.GONE);
     	
-    	//details site
-    	String detail_site =  SearchActivity.extractDataFromDb(idx,"Sitedetails");
-    	txtview_pmr = (TextView) findViewById(R.id.site_site_detailsite_value);
-    	if (detail_site != null  && !detail_site.equals("?"))
-	    	{
-    			txtview_pmr.setText(detail_site);//affiche le titre
-	    	} 
-    	else
-	    	{
-    			RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_site_detailsite);
-    			r.setVisibility(View.GONE);
-	    	}
+    	TextView txtview_nature = (TextView) findViewById(R.id.oeuvre_nature_value);
+    	String nature = contribution.getProperty(Contribution.NATURE).getValue();
+		txtview_nature.setText(nature);
+		//RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_oeuvre_nature);
+		//r.setVisibility(View.GONE);;
     	
+		TextView txtview_couleur = (TextView) findViewById(R.id.oeuvre_couleur_value);
+		String couleur = contribution.getProperty(Contribution.COULEUR).getValue();
+		txtview_couleur.setText(couleur);
+		//RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_oeuvre_couleur);
+		//r.setVisibility(View.GONE);
+		
+		TextView txtview_materiaux = (TextView) findViewById(R.id.oeuvre_materiauw_value);
+		String materiaux = contribution.getProperty(Contribution.MATERIAUX).getValue();
+		txtview_materiaux.setText(materiaux);
+		//RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_oeuvre_materiaux);
+		//r.setVisibility(View.GONE);
+    	
+		TextView txtview_description = (TextView) findViewById(R.id.oeuvre_description_value);
+		String description = contribution.getProperty(Contribution.DESCRIPTION).getValue();
+		txtview_description.setText(description);
+		//RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_oeuvre_description);
+		//r.setVisibility(View.GONE);
+		
+		TextView txtview_mots_cle = (TextView) findViewById(R.id.oeuvre_mots_cles_value);
+		String mots_cles = contribution.getProperty("mot_cle").getValue();
+		txtview_mots_cle.setText(mots_cles);
+		//RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_oeuvre_mots_cles);
+		//r.setVisibility(View.GONE);
+
+		TextView txtview_context = (TextView) findViewById(R.id.oeuvre_contexte_value);
+    	String contexte = contribution.getProperty("contexte_production").getValue();
+		txtview_context.setText(contexte);
+		//RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_oeuvre_contexte);
+		//r.setVisibility(View.GONE);
+    	
+		TextView txtview_nomsite = (TextView) findViewById(R.id.site_nomsite_value);
+		String nomsite = contribution.getProperty(Contribution.NOM_SITE).getValue();
+		txtview_nomsite.setText(nomsite);
+		//RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_site_nomsite);
+		//r.setVisibility(View.GONE);
+		
+		TextView txtview_nomville = (TextView) findViewById(R.id.site_ville_value);
+		String nomville = contribution.getProperty("Siteville").getValue();
+		txtview_nomville.setText(nomville);
+		//RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_site_ville);
+		//r.setVisibility(View.GONE);
+		
+		TextView txtview_nomregion = (TextView) findViewById(R.id.site_region_value);
+		String nomregion = contribution.getProperty("Siteregion").getValue();
+		txtview_nomregion.setText(nomregion);
+		//RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_site_region);
+		//r.setVisibility(View.GONE);
+    	
+		TextView txtview_nompays = (TextView) findViewById(R.id.site_pays_value);
+		String nompays = contribution.getProperty("Sitepays").getValue();
+		txtview_nompays.setText(nompays);
+		//RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_site_pays);
+		//r.setVisibility(View.GONE);
+    	
+		TextView txtview_mouvement = (TextView) findViewById(R.id.artiste_mouvement_value);
+		String mouvement = contribution.getProperty("mouvement_artistes").getValue();
+		txtview_mouvement.setText(mouvement);
+		//RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_artiste_mouvement);
+		//r.setVisibility(View.GONE);
+
+		TextView txtview_pmr = (TextView) findViewById(R.id.site_pmr_value);
+		String pmr = contribution.getProperty(Contribution.PMR).getValue();
+		txtview_pmr.setText(pmr);
+		//RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_site_pmr);
+		//r.setVisibility(View.GONE);
+    	
+		TextView txtview_detail_site = (TextView) findViewById(R.id.site_site_detailsite_value);
+		String detail_site = contribution.getProperty(Contribution.DETAIL_SITE).getValue();
+		txtview_detail_site.setText(detail_site);
+		//RelativeLayout r = (RelativeLayout) findViewById(R.id.relativ_site_detailsite);
+		//r.setVisibility(View.GONE);
+
     	
     	//fin chargement infos description de la notice
     	

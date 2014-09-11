@@ -18,30 +18,36 @@ public class ContributionProperty implements Serializable {
 	private String mTitle;
 	private String mValue;
 	private String mOriginalValue;
+	private String mDefaultValue;
 	private String mInfo;
 	private ContribType mType;
 	private String[] mChoices;
 	private Boolean mIsModified;
-	private int mShowView;
+	private int mShowViewText;
+	private int mShowViewToHide;
 	
 	public ContributionProperty(
 			String dbField,
 			String title,
 			String value,
+			String defaultValue,
 			String info,
 			ContribType type,
 			String[] choices,
-			int showView
+			int showViewText,
+			int showViewToHide
 			) {
 		mDbField = dbField;
 		mTitle = title;
 		mValue = value;
 		mOriginalValue = value;
+		mDefaultValue = defaultValue;
 		mInfo = info;
 		mType = type;
 		mChoices = choices;
 		mIsModified = false;
-		mShowView = showView;
+		mShowViewText = showViewText;
+		mShowViewToHide = showViewToHide;
 	}
 	
 	public String getDbField() {
@@ -76,6 +82,13 @@ public class ContributionProperty implements Serializable {
 		if( mOriginalValue == "?" ) mOriginalValue = "";
 	}
 
+	public String getDefaultValue() {
+		return mDefaultValue;
+	}
+	public void setDefaultValue(String defaultValue) {
+		mDefaultValue = defaultValue;
+	}
+
 	public void resetValue(String value) {
 		setValue( value );
 		setOriginalValue( value );
@@ -94,7 +107,7 @@ public class ContributionProperty implements Serializable {
 	public void setType(ContribType type) {
 		mType = type;
 	}
-	public Boolean isOfType( ContribType type ) {
+	public Boolean isOfType(ContribType type) {
 		return (mType == type);
 	}
 	public Boolean isText() {
@@ -117,6 +130,20 @@ public class ContributionProperty implements Serializable {
 		mChoices = choices;
 	}
 	
+	public int getShowViewText() {
+		return mShowViewText;
+	}
+	public void setShowViewText(int showViewText) {
+		mShowViewText = showViewText;
+	}
+
+	public int getShowViewToHide() {
+		return mShowViewToHide;
+	}
+	public void setShowViewToHide(int showViewToHide) {
+		mShowViewToHide = showViewToHide;
+	}
+
 	public Boolean isModified() {
 		return mIsModified;
 	}
