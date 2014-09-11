@@ -2,6 +2,7 @@ package fr.atlasmuseum.main;
 
 
 import fr.atlasmuseum.R;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -27,8 +29,33 @@ public class AproposActivity extends Activity
         Log.d(DEBUG_TAG, "onCreate");
         
         addListenerOnScreen();
+        
+		// ACTION BAR
+		ActionBar actionBar = getActionBar();
+		if (actionBar != null) {
+			actionBar.show();
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			//actionBar.setTitle(this.getResources().getString(R.string.Contribuer));
+			actionBar.setDisplayShowTitleEnabled(true);
+		}
 
     }
+    
+	 @Override
+	    public boolean onOptionsItemSelected(MenuItem item) {
+	        int itemId = item.getItemId();
+			
+	       
+			if(itemId == android.R.id.home)
+			{
+				super.onBackPressed();
+				finish();
+				return true;
+			}
+			else return false;
+	    	
+	    }
+
     public void addListenerOnScreen() {
     	
 		final Context context = this;

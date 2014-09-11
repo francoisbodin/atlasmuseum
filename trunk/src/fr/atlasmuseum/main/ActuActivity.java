@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.webkit.WebView;
 
 /**
- * Webview qui montre les contributions envoyés par l'utilisateur
+ * Webview qui montre les contributions envoyï¿½s par l'utilisateur
  * @author Expert
  *
  */
@@ -33,14 +33,13 @@ public class ActuActivity extends Activity {
  		////////////////////////////////////////////////////////////////////////////////////
  		////////////////////////////////////////////////////////////////////////////////////
  		//ACTION BAR
- 		ActionBar actionBar = getActionBar();
- 		if (actionBar != null)
- 		{
- 			actionBar.show();
- 			actionBar.setDisplayHomeAsUpEnabled(true);
- 			actionBar.setTitle(this.getResources().getString(R.string.Contribuer));
- 			actionBar.setDisplayShowTitleEnabled(true);
- 				}
+		ActionBar actionBar = getActionBar();
+		if (actionBar != null) {
+			actionBar.show();
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			// actionBar.setTitle(this.getResources().getString(R.string.actualites));
+			actionBar.setDisplayShowTitleEnabled(true);
+		}
 		         
 	}
 	
