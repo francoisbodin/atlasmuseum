@@ -382,14 +382,11 @@ public class MainContribActivity extends Activity {
 	public void onClickCreateContrib()
 	{
 		String uniqueID = UUID.randomUUID().toString();
-		Log.d(DEBUG_TAG, "uniq id ="+uniqueID);
 		bundle.putString(Contribution.LOCALID, uniqueID);
 
+		Contribution2 contribution = new Contribution2(this);
+		bundle.putSerializable("contribution", contribution);
 		Intent intent= new Intent(this, ListChampsNoticeModif.class);
-
-		bundle.putBoolean(ListChampsNoticeModif.erasepref, true); //va permettre de erase les preferences de listnoticemodif
-		//dans le cas ou des valeurs ont été sauvées suite a un retour vers la notice de reference
-
 		intent.putExtras(bundle);
 		startActivityForResult(intent, MainContribActivity.REQUEST_FINISH);
 	}

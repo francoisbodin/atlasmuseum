@@ -63,6 +63,8 @@ public class ContributionProperty implements Serializable {
 	}
 	public void setValue(String value) {
 		mValue = value;
+		mValue = mValue.trim();
+		if( mValue == "?" ) mValue = "";
 	}
 
 	public String getOriginalValue() {
@@ -70,8 +72,15 @@ public class ContributionProperty implements Serializable {
 	}
 	public void setOriginalValue(String originalValue) {
 		mOriginalValue = originalValue;
+		mOriginalValue = mOriginalValue.trim();
+		if( mOriginalValue == "?" ) mOriginalValue = "";
 	}
 
+	public void resetValue(String value) {
+		setValue( value );
+		setOriginalValue( value );
+	}
+	
 	public String getInfo() {
 		return mInfo;
 	}

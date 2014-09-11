@@ -41,7 +41,6 @@ import fr.atlasmuseum.main.AtlasError;
 import fr.atlasmuseum.main.MainActivity;
 import fr.atlasmuseum.search.loadPhotoInterface;
 import fr.atlasmuseum.search.loadingPhoto2;
-import fr.atlasmuseum.search.module.ContribListAdapter;
 
 public class ListChampsNoticeModif extends Activity implements loadPhotoInterface {
 	private static final String DEBUG_TAG = "AtlasMuseum/ListChampAct";
@@ -206,6 +205,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 				
 				if( field == Contribution.LATITUDE ||
 				    field == Contribution.LONGITUDE) {
+					// TODO
 					showLocationChangeAlertToUser();
 				}
 				else {
@@ -222,8 +222,8 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 
 
 
-		ImageButton button_modif_photo = (ImageButton) findViewById(R.id.modif_photo);
-		button_modif_photo.setOnClickListener(new OnClickListener() 
+		ImageButton buttoModifPhoto = (ImageButton) findViewById(R.id.modif_photo);
+		buttoModifPhoto.setOnClickListener(new OnClickListener() 
 		{
 			@Override
 			public void onClick(View arg0) {
@@ -1240,11 +1240,11 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 
 	private void showItemUsingBundle()
 	{
-		if( mBundle.containsKey("contribution2") ) {
+		if( mBundle.containsKey("contribution") ) {
 			getActionBar().setTitle("Ajout/Modif oeuvre existante"); // TODO : resourcify this string
 			
-			Log.d(DEBUG_TAG, "showItemUsingBundle: Retrieve Contribution2 from bundle");
-			Contribution2 contribution = (Contribution2) mBundle.getSerializable("contribution2");
+			Log.d(DEBUG_TAG, "showItemUsingBundle: Retrieve Contribution from bundle");
+			Contribution2 contribution = (Contribution2) mBundle.getSerializable("contribution");
 			contribution.dumpDebug();
 
 
@@ -1255,14 +1255,13 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			 */
 			ContributionProperty cp = contribution.getProperty("photo");
 			
-			if( cp != null ) {
+			if( cp.getValue() != "" ) {
 				//cacher le bouton charger photo
 				this.mLoadPhoto.setVisibility(View.GONE);
 
 				//afficher la photo
 
 				mBlockModifierImage.setVisibility(View.VISIBLE);
-				Log.d(DEBUG_TAG, "idnotice="+notice_id);
 				this.notice_photo = cp.getValue();
 
 				loadingPhoto2 upl = new loadingPhoto2(this,  this.notice_photo, false);
@@ -1599,15 +1598,15 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 					
 					// Update current ListView
 					mList.set(position, prop);
-
+					mAdapter.notifyDataSetChanged();
+					
 					// Update the Activity Intent so that modifications will be preserved on screen rotation
 					Intent intent = getIntent();
 					Bundle bundle = intent.getExtras();
-					
-					if( bundle.containsKey("contribution2") ) {
-						Contribution2 contribution = (Contribution2) bundle.getSerializable("contribution2");
+					if( bundle.containsKey("contribution") ) {
+						Contribution2 contribution = (Contribution2) bundle.getSerializable("contribution");
 						contribution.setProperty(prop.getDbField(), prop);
-						bundle.putSerializable("contribution2", contribution);
+						bundle.putSerializable("contribution", contribution);
 						intent.putExtras(bundle);
 						this.setIntent(intent);
 					}

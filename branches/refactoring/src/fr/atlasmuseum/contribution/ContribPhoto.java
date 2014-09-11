@@ -41,6 +41,10 @@ import android.widget.Toast;
 public class ContribPhoto extends Activity {
 	
 	private static final String DEBUG_TAG = "AtlasMuseum/ContribPhoto";
+    static final String SHARED_PREFERENCES = "fr.atlasmuseum.ContribPhoto.SHARED_PREFERENCES";
+	private static final int TAKE_PICTURE_REQUEST = 1;
+	private static final String ATLASMUSEUM_ALBUM = "atlasmuseum";
+	public static final String ATLASMUSEUM_IMAGE_SUFFIX = ".png";
 
 	// Handle to SharedPreferences for this app
     private SharedPreferences mPrefs;
@@ -48,16 +52,11 @@ public class ContribPhoto extends Activity {
     // Handle to a SharedPreferences editor
     private SharedPreferences.Editor mPrefEditor;
 
-    static final String SHARED_PREFERENCES = "fr.atlasmuseum.ContribPhoto.SHARED_PREFERENCES";
-
-	private static final int TAKE_PICTURE_REQUEST = 1;
-	String photoPath; //contient le chemin complet vers la photo prise si existante
-	private static final String ATLASMUSEUM_ALBUM = "atlasmuseum";
-	public static final String ATLASMUSEUM_IMAGE_SUFFIX = ".png";
     ImageView mImagePreview;//zone d'affichage de la photo
 	Bundle mBundle;
 	
-	String lastPhotoValid;//derniere photo valide, dans le cas ou la prise de photo est annulée
+	String mPhotoPath; //contient le chemin complet vers la photo prise si existante
+	String mLastPhotoValid;//derniere photo valide, dans le cas ou la prise de photo est annulée
 	
 	private TextView mTextStatus;
 
@@ -81,12 +80,12 @@ public class ContribPhoto extends Activity {
         
         if(mChamps.equals(ListChampsNoticeModif.ajout_photo))
         {
-        	this.photoPath = ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_photo, "");
+        	this.mPhotoPath = ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.ajout_photo, "");
         	Log.d(DEBUG_TAG, "ajout ++++++++++++");
         }
         else if(mChamps.equals(ListChampsNoticeModif.modif_photo))
         {
-        	this.photoPath = ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.modif_photo, "");
+        	this.mPhotoPath = ListChampsNoticeModif.cPref.getString(ListChampsNoticeModif.modif_photo, "");
         	Log.d(DEBUG_TAG, "modif_photo ++++++++++++");
         }
         else
@@ -95,17 +94,17 @@ public class ContribPhoto extends Activity {
         	Log.d(DEBUG_TAG, "unknow ++++++++++++");
         }
 
-        if( (photoPath == null || photoPath == "") && mPrefs.contains("photoPath") ) {
-        	photoPath = mPrefs.getString("photoPath", "");
-			Log.d(DEBUG_TAG, "onCreate: Restore photoPath with " + photoPath);
+        if( (mPhotoPath == null || mPhotoPath == "") && mPrefs.contains("photoPath") ) {
+        	mPhotoPath = mPrefs.getString("photoPath", "");
+			Log.d(DEBUG_TAG, "onCreate: Restore photoPath with " + mPhotoPath);
 		}
-		Log.d(DEBUG_TAG, "onCreate: photoPath = " + photoPath);
+		Log.d(DEBUG_TAG, "onCreate: photoPath = " + mPhotoPath);
 		
-        if( (lastPhotoValid == null || lastPhotoValid == "") && mPrefs.contains("lastPhotoValid") ) {
-			lastPhotoValid = mPrefs.getString("lastPhotoValid", "");
-			Log.d(DEBUG_TAG, "onCreate: Restore lastPhotoValid with " + lastPhotoValid);
+        if( (mLastPhotoValid == null || mLastPhotoValid == "") && mPrefs.contains("lastPhotoValid") ) {
+			mLastPhotoValid = mPrefs.getString("lastPhotoValid", "");
+			Log.d(DEBUG_TAG, "onCreate: Restore lastPhotoValid with " + mLastPhotoValid);
 		}		
-		Log.d(DEBUG_TAG, "onCreate: lastPhotoValid = " + lastPhotoValid);
+		Log.d(DEBUG_TAG, "onCreate: lastPhotoValid = " + mLastPhotoValid);
 		
     	Button mButtonTake = (Button) findViewById(R.id.mButtonTake);
     	mButtonTake.setOnClickListener(new OnClickListener() {
@@ -120,9 +119,9 @@ public class ContribPhoto extends Activity {
 		mButtonOk.setOnClickListener(new OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-	        	if(photoPath != null || !photoPath.equals(""))
+	        	if(mPhotoPath != null || !mPhotoPath.equals(""))
 	        	{
-	        		boolean f =ListChampsNoticeModif.cPref.edit().putString(mChamps, photoPath).commit();
+	        		boolean f =ListChampsNoticeModif.cPref.edit().putString(mChamps, mPhotoPath).commit();
 	        		Log.d(DEBUG_TAG, "save photo ="+f+" "+mChamps);
 	        	}
 	        	setResult(RESULT_OK);
@@ -158,14 +157,14 @@ public class ContribPhoto extends Activity {
 		Log.d(DEBUG_TAG, "onDestroy");
 		super.onDestroy();
 
-		if( photoPath != "" ) {
-			mPrefEditor.putString("photoPath", photoPath);
-			Log.d(DEBUG_TAG, "onDestroy(): Save photoPath = " + photoPath);
+		if( mPhotoPath != "" ) {
+			mPrefEditor.putString("photoPath", mPhotoPath);
+			Log.d(DEBUG_TAG, "onDestroy(): Save photoPath = " + mPhotoPath);
 		}
 
-		if( lastPhotoValid != "" ) {
-			mPrefEditor.putString("lastPhotoValid", lastPhotoValid);
-			Log.d(DEBUG_TAG, "onDestroy(): Save lastPhotoValid = " + lastPhotoValid);
+		if( mLastPhotoValid != "" ) {
+			mPrefEditor.putString("lastPhotoValid", mLastPhotoValid);
+			Log.d(DEBUG_TAG, "onDestroy(): Save lastPhotoValid = " + mLastPhotoValid);
 		}
 
 		mPrefEditor.commit();
@@ -213,8 +212,8 @@ public class ContribPhoto extends Activity {
 			return;
 		}
 		String dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
-		photoPath= dcimDir + "/" + ATLASMUSEUM_ALBUM + "/" + f.getName();
-		Log.d(DEBUG_TAG, "path to file = " + photoPath);
+		mPhotoPath= dcimDir + "/" + ATLASMUSEUM_ALBUM + "/" + f.getName();
+		Log.d(DEBUG_TAG, "path to file = " + mPhotoPath);
 		
 		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
@@ -279,26 +278,26 @@ public class ContribPhoto extends Activity {
 			/* Get the size of the image */
 			BitmapFactory.Options bmOptions = new BitmapFactory.Options();
 			bmOptions.inJustDecodeBounds = true;
-			if(photoPath == null  || photoPath.equals(""))
+			if(mPhotoPath == null  || mPhotoPath.equals(""))
 			{
-				if(lastPhotoValid != null && !lastPhotoValid.equals(""))//si derniere photo valide pas vide
+				if(mLastPhotoValid != null && !mLastPhotoValid.equals(""))//si derniere photo valide pas vide
 				{
-					photoPath = lastPhotoValid;
+					mPhotoPath = mLastPhotoValid;
 				}
 				else
 				{
-					photoPath= "";
+					mPhotoPath= "";
 				}
 				
 			}
-			Log.d(DEBUG_TAG, "updatePreview(): update using " + photoPath);
+			Log.d(DEBUG_TAG, "updatePreview(): update using " + mPhotoPath);
 
-			if( (new File(photoPath).exists() )) 
+			if( (new File(mPhotoPath).exists() )) 
 			{
-				BitmapFactory.decodeFile(photoPath, bmOptions);
+				BitmapFactory.decodeFile(mPhotoPath, bmOptions);
 			}
 			
-			if( ! (new File(photoPath).exists() || bmOptions.outHeight == -1 ))
+			if( ! (new File(mPhotoPath).exists() || bmOptions.outHeight == -1 ))
 			{
 				mImagePreview.setImageDrawable(null);
 				//mImagePreview.setBackgroundResource(android.R.color.darker_gray);
@@ -311,7 +310,7 @@ public class ContribPhoto extends Activity {
 			// Get rotation
 			int rotation = 0;
 			try {
-				ExifInterface exif = new ExifInterface(photoPath);
+				ExifInterface exif = new ExifInterface(mPhotoPath);
 				int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
 				switch( orientation ) {
 				case ExifInterface.ORIENTATION_NORMAL:
@@ -374,7 +373,7 @@ public class ContribPhoto extends Activity {
 			bmOptions.inPurgeable = true;
 
 			/* Decode the JPEG file into a Bitmap */
-			Bitmap bitmap = BitmapFactory.decodeFile(this.photoPath, bmOptions);
+			Bitmap bitmap = BitmapFactory.decodeFile(this.mPhotoPath, bmOptions);
 			
 			if(bitmap == null)
 			{
@@ -415,14 +414,14 @@ public class ContribPhoto extends Activity {
 	    		if (resultCode == RESULT_OK) 
 	    		{
 	    			Log.d(DEBUG_TAG, "on activityResult OK");
-	    			lastPhotoValid = photoPath;
-	    			Toast.makeText(this, this.getResources().getString(R.string.photo_save_)+" " +this.photoPath, Toast.LENGTH_SHORT).show();
+	    			mLastPhotoValid = mPhotoPath;
+	    			Toast.makeText(this, this.getResources().getString(R.string.photo_save_)+" " +this.mPhotoPath, Toast.LENGTH_SHORT).show();
 	    			updatePreview();
 	    		}
 	    		else
 	    		{
 	    			//deleteFile(photoPath); probleme de suppression
-	    			this.photoPath="";
+	    			this.mPhotoPath="";
 	    			updatePreview();
 	    			Log.d(DEBUG_TAG, "on activityResult canceled");
 	    		}

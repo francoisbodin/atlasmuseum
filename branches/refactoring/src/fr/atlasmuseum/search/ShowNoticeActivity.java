@@ -514,117 +514,17 @@ public class ShowNoticeActivity extends Activity{
 
 		public void Contribute()
 		{
-			// Envoi de la donn�e pour la contribution
-			int idnotice = Integer.parseInt(SearchActivity.extractDataFromDb(idx,"id"));
-			String description = SearchActivity.extractDataFromDb(idx,"description");
-			String artiste = SearchActivity.extractDataFromDb(idx,"artiste");
-			String titre = SearchActivity.extractDataFromDb(idx,"titre");
-			String couleur = SearchActivity.extractDataFromDb(idx,"couleur");
-			String  date_inauguration = SearchActivity.extractDataFromDb(idx,"inauguration");
-			String  materiaux = SearchActivity.extractDataFromDb(idx,"materiaux");
-			String image_principale = SearchActivity.extractDataFromDb(idx,"image_principale");
-			String nomsite = SearchActivity.extractDataFromDb(idx,"Sitenom");
-			String nature = SearchActivity.extractDataFromDb(idx,"nature");
-			String detail_site = SearchActivity.extractDataFromDb(idx,"Sitedetails");
-			
-			detail_site=setEmptyString(detail_site);
-			nature=setEmptyString(nature);
-			description=setEmptyString(description);
-			artiste=setEmptyString(artiste);
-			couleur=setEmptyString(couleur);
-			date_inauguration=setEmptyString(date_inauguration);
-			materiaux=setEmptyString(materiaux);
-			image_principale=setEmptyString(image_principale);
-			nomsite =setEmptyString(nomsite);
-			
-			
-			double longi = Double.parseDouble(SearchActivity.extractDataFromDb(idx,"longitude"));
-			double lati = Double.parseDouble(SearchActivity.extractDataFromDb(idx,"latitude"));
-			Log.d(DEBUG_TAG, "value of longitude =" +String.valueOf(longi)+";"+ String.valueOf(lati));
-			if ((longi != 0.0) && (lati != 0.0))
-			{
-				
-				bundle.putDouble(Contribution.LATITUDE, longi);
-				bundle.putDouble(Contribution.LONGITUDE, lati);
-			}
-			
-			
-			Log.d("description", description);
-			Log.d("artiste", artiste);
-			Log.d("couleur", couleur);
-			Log.d("date_inauguration", date_inauguration);
-			Log.d("materiaux", materiaux);
-			Log.d("image_principale", image_principale);
-			Log.d("Sitenom", nomsite);
-			Log.d("nature", nature);
-			Log.d("detail_site", detail_site);
-			Log.d("id", idnotice+"");
-			
-			bundle.putString(Contribution.TITRE, titre);
-			bundle.putString(Contribution.ARTISTE, artiste);
-			bundle.putInt(Contribution.IDNOTICE, idnotice);
-			bundle.putString(Contribution.COULEUR, couleur);
-			bundle.putString(Contribution.DESCRIPTION, description);
-			bundle.putString(Contribution.PHOTO, image_principale);
-			bundle.putString(Contribution.DATE_INAUGURATION, date_inauguration);
-			bundle.putString(Contribution.MATERIAUX, materiaux);
-			bundle.putString(Contribution.NOM_SITE, nomsite);
-			bundle.putString(Contribution.NATURE, nature);
-			bundle.putString(Contribution.DETAIL_SITE, detail_site);
-			
-			
-			//pour recuperer une eventuelle modification non terminer dans contribution 
-			if(ListChampsNoticeModif.cPref != null && ListChampsNoticeModif.cPref.contains(ListChampsNoticeModif.notice_idOeuvre))
-			{
-				
-				if(ListChampsNoticeModif.cPref.getInt(ListChampsNoticeModif.notice_idOeuvre, -1) != idnotice)
-				{
-					bundle.putBoolean(ListChampsNoticeModif.erasepref, true); //va permettre de erase les preferences de listnoticemodif
-				}
-				else
-				{
-					Log.d("shownotice", "les id correspondent");
-					bundle.putBoolean(ListChampsNoticeModif.erasepref, false); //va permettre de erase les preferences de listnoticemodif
-				}
-				Log.d(DEBUG_TAG, "cpref id=" + ListChampsNoticeModif.cPref.getInt(ListChampsNoticeModif.notice_idOeuvre, -1) );
-				Log.d(DEBUG_TAG, "idnotice id=" + idnotice );
-			}
-			else
-			{
-				bundle.putBoolean(ListChampsNoticeModif.erasepref, true);
-				Log.d("shownotice", "idNotice non existant");
-			}
-			
-			
-			String uniqueID = UUID.randomUUID().toString();
-			bundle.putString(Contribution.LOCALID, uniqueID);
-			
+			//String uniqueID = UUID.randomUUID().toString();
+			//bundle.putString(Contribution.LOCALID, uniqueID);
 
-			Log.d(DEBUG_TAG, "Create Contribution 2");
-			Contribution2 c2 = new Contribution2(this, idx);
-			bundle.putSerializable("contribution2", c2);
-			c2.dumpDebug();
-
+			Contribution2 contribution = new Contribution2(this);
+			contribution.updateFromDb(idx);
+			bundle.putSerializable("contribution", contribution);
 			Intent intent = new Intent(this, ListChampsNoticeModif.class);
 			intent.putExtras(bundle);
-			Log.d(DEBUG_TAG, "Going to Contribution Notice");
-			
-			
 			startActivityForResult(intent, this.REQUEST_CONTRIB);
 		}
    
-		public String setEmptyString(String v)
-		{
-			if(v.trim().equals("?"))
-			{
-				Log.d("?", "true");
-				return "";
-			}
-			return v;
-		}
-
-
-
 		public ImageView getImageVew() {
 			return this.imgView;
 		}
