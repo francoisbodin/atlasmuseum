@@ -175,8 +175,8 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
             <TextView
                 android:id="@+id/infoContribtitre"
@@ -185,6 +185,7 @@
                 android:text="@string/information"
                 android:textSize="15sp" />
 
+<!--
             <TextView
                 android:id="@+id/infoContrib"
                 android:layout_width="wrap_content"
@@ -192,7 +193,15 @@
                 android:layout_below="@+id/infoContribtitre"
                 android:text="@string/info_contribution"
                 android:textSize="15sp" />
-        </RelativeLayout>
+-->
+        
+            <WebView
+                android:id="@+id/infoContrib"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/infoContribtitre" />
+            
+            </RelativeLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"

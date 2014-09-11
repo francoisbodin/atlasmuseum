@@ -3,7 +3,6 @@ package fr.atlasmuseum.contribution;
 
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -16,14 +15,8 @@ import java.util.UUID;
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.compte.Authentification;
 import fr.atlasmuseum.compte.ConnexionActivity;
-import fr.atlasmuseum.contribution.Contribution.champ_status;
 import fr.atlasmuseum.main.AtlasError;
 import fr.atlasmuseum.main.MainActivity;
-
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.irisa.unpourcent.location.LocationProvider;
-import com.irisa.unpourcent.location.LocationStruct;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -32,25 +25,21 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.StrictMode;
-import android.provider.ContactsContract.DeletedContacts;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainContribActivity extends Activity {
 	/*******************************
@@ -71,8 +60,8 @@ public class MainContribActivity extends Activity {
 	ListView listViewContrib;
 	int nbContribSave; //nombre de contribution sauvegardés
 	int nbContribSent; //nombre de contribution envoyés
-	private String url_sendAPhoto ="http://atlasmuseum.irisa.fr/scripts/storeContribImage.php";
-	private String url_sendXML ="http://atlasmuseum.irisa.fr/scripts/receiveContributionFile.php";
+//	private String url_sendAPhoto ="http://atlasmuseum.irisa.fr/scripts/storeContribImage.php";
+//	private String url_sendXML ="http://atlasmuseum.irisa.fr/scripts/receiveContributionFile.php";
 	private int REQUEST_CONNEXION=1245;
 	private TextView text_contribsavetitre;
 
@@ -110,7 +99,8 @@ public class MainContribActivity extends Activity {
 		listViewContrib = (ListView) findViewById(R.id.list_view);
 		erase = (Button) findViewById(R.id.erase);
 
-		TextView infocontrib = (TextView) findViewById(R.id.infoContrib);
+		//TextView infocontrib = (TextView) findViewById(R.id.infoContrib);
+		WebView infocontrib = (WebView) findViewById(R.id.infoContrib);
 		TextView infocontribtitre = (TextView) findViewById(R.id.infoContribtitre);
 
 		//titres des item de contributions
@@ -133,7 +123,8 @@ public class MainContribActivity extends Activity {
 		text_contribuer.setTypeface(font2);
 		text_contribenvoy.setTypeface(font2);
 		text_contribsave.setTypeface(font2);
-		infocontrib.setTypeface(font2);
+		//infocontrib.setTypeface(font2);
+		infocontrib.loadUrl("file:///android_asset/contribuer.html");
 
 
 		String chaine_xml = readContrib();
