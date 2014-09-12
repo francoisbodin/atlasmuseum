@@ -84,6 +84,8 @@ public class Contribution implements Serializable {
 	static final String MODIFICATION = "modification"; //modification apporté par l'utilisateur
 
 	//copie-colle de ConstantTagName
+	public static final String URL = "url";
+	public static final String CREDIT_PHOTO = "creditphoto";
 	public final static String PHOTO = "photo";
 	public static final String TITRE= "titre";
 	public static final String ARTISTE= "artiste";
@@ -101,6 +103,12 @@ public class Contribution implements Serializable {
 	public static final String DETAIL_SITE = "detailsite";
 	public static final String AUTRE = "autre";
 	public static final String NATURE = "nature";
+	public static final String MOT_CLE = "mot_cle";
+	public static final String CONTEXTE_PRODUCTION = "contexte_production";
+	public static final String VILLE = "Siteville";
+	public static final String REGION = "Siteregion";
+	public static final String PAYS = "Sitepays";
+	public static final String MOUVEMENT = "mouvement_artistes";
 	
 	
 	

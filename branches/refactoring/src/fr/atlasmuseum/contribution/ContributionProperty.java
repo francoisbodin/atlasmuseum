@@ -2,6 +2,8 @@ package fr.atlasmuseum.contribution;
 
 import java.io.Serializable;
 
+import fr.atlasmuseum.search.SearchActivity;
+
 public class ContributionProperty implements Serializable {
 
 	/**
@@ -15,6 +17,7 @@ public class ContributionProperty implements Serializable {
 	}
 
 	private String mDbField;
+	private String mJsonField;
 	private String mTitle;
 	private String mValue;
 	private String mOriginalValue;
@@ -28,6 +31,7 @@ public class ContributionProperty implements Serializable {
 	
 	public ContributionProperty(
 			String dbField,
+			String jsonField,
 			String title,
 			String value,
 			String defaultValue,
@@ -38,6 +42,7 @@ public class ContributionProperty implements Serializable {
 			int showViewToHide
 			) {
 		mDbField = dbField;
+		mJsonField = jsonField;
 		mTitle = title;
 		mValue = value;
 		mOriginalValue = value;
@@ -55,6 +60,13 @@ public class ContributionProperty implements Serializable {
 	}
 	public void setDbField(String dbField) {
 		mDbField = dbField;
+	}
+
+	public String getJsonField() {
+		return mJsonField;
+	}
+	public void setJsonField(String jsonField) {
+		mJsonField = jsonField;
 	}
 
 	public String getTitle() {
@@ -148,4 +160,7 @@ public class ContributionProperty implements Serializable {
 		return mIsModified;
 	}
 	
+	public void updateFromDb(int index) {
+		resetValue(SearchActivity.extractDataFromDb(index, mJsonField));
+	}
 }

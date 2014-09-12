@@ -1,6 +1,7 @@
 package fr.atlasmuseum.contribution;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashMap;
 
 import android.app.Activity;
@@ -11,12 +12,12 @@ import fr.atlasmuseum.search.SearchActivity;
 
 public class Contribution2 implements Serializable {
 
-	private static final long serialVersionUID = -8784868336205052452L;
+	private static final long serialVersionUID = 7388740279075848884L;
 
 	private static final String DEBUG_TAG = "AtlasMuseum/Contribution2";
 	
 	int mId;
-	HashMap<String, ContributionProperty> mProperties;
+	HashMap<String,ContributionProperty> mProperties;
 	
 	public static enum PropertyType
 	{
@@ -80,11 +81,35 @@ public class Contribution2 implements Serializable {
 
 	public Contribution2(Activity context) {
 		mId = -1;
-
 		mProperties = new HashMap<String, ContributionProperty>();
+		
+		mProperties.put( Contribution.URL, new ContributionProperty(
+				/* dbField */ Contribution.URL,
+				/* jsonField */ "url",
+				/* title */ "",
+				/* value */ "",
+				/* defaultValue */ "",
+				/* info */ "",
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ 0,
+				/* showViewToHide */ 0) );
+		
+		mProperties.put( Contribution.CREDIT_PHOTO, new ContributionProperty(
+				/* dbField */ Contribution.CREDIT_PHOTO,
+				/* jsonField */ "creditphoto",
+				/* title */ "",
+				/* value */ "",
+				/* defaultValue */ "",
+				/* info */ "",
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.credit_photo,
+				/* showViewToHide */ 0) );
 		
 		mProperties.put( Contribution.PHOTO, new ContributionProperty(
 				/* dbField */ Contribution.PHOTO,
+				/* jsonField */ "image_principale",
 				/* title */ "",
 				/* value */ "",
 				/* defaultValue */ "",
@@ -96,9 +121,10 @@ public class Contribution2 implements Serializable {
 		
 		mProperties.put(Contribution.TITRE, new ContributionProperty(
 				/* dbField */ Contribution.TITRE,
+				/* jsonField */ "titre",
 				/* title */ context.getResources().getString(R.string.Titre),
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ "Pas de titre", // TODO : resourcify
 				/* info */ "",
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
@@ -107,94 +133,103 @@ public class Contribution2 implements Serializable {
 		
 		mProperties.put(Contribution.ARTISTE, new ContributionProperty(
 				/* dbField */ Contribution.ARTISTE,
+				/* jsonField */ "artiste",
 				/* title */ context.getResources().getString(R.string.Artiste),
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ "Unknown", // TODO : resourcify
 				/* info */ "", // TODO: ajouter les infos
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showViewText */ 0,
+				/* showViewText */ R.id.notice_artiste,
 				/* showViewToHide */ 0) );
 
 		mProperties.put(Contribution.COULEUR, new ContributionProperty(
 				/* dbField */ Contribution.COULEUR,
+				/* jsonField */ "couleur",
 				/* title */ context.getResources().getString(R.string.Couleurs),
 				/* value */ "",
 				/* defaultValue */ "",
 				/* info */ "",
 				/* type */ ContributionProperty.ContribType.check,
 				/* choices */ JsonRawData.listeCouleurs,
-				/* showViewText */ 0,
-				/* showViewToHide */ 0) );
+				/* showViewText */ R.id.oeuvre_couleur_value,
+				/* showViewToHide */ R.id.relativ_oeuvre_couleur) );
 		
 		mProperties.put( Contribution.DATE_INAUGURATION, new ContributionProperty(
 				/* dbField */ Contribution.DATE_INAUGURATION,
+				/* jsonField */ "inauguration",
 				/* title */ context.getResources().getString(R.string.Date),
 				/* value */ "",
 				/* defaultValue */ "",
 				/* info */ context.getResources().getString(R.string.contrib_date_infos),
 				/* type */ ContributionProperty.ContribType.date,
 				/* choices */ null,
-				/* showViewText */ 0,
-				/* showViewToHide */ 0) );
+				/* showViewText */ R.id.notice_annee,
+				/* showViewToHide */ R.id.notice_annee) );
 		
 		mProperties.put(Contribution.DESCRIPTION, new ContributionProperty(
 				/* dbField */ Contribution.DESCRIPTION,
+				/* jsonField */ "description",
 				/* title */ context.getResources().getString(R.string.Description),
 				/* value */ "",
 				/* defaultValue */ "",
 				/* info */ "",
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showViewText */ 0,
-				/* showViewToHide */ 0) );
+				/* showViewText */ R.id.oeuvre_description_value,
+				/* showViewToHide */ R.id.relativ_oeuvre_description) );
 		
 		mProperties.put( Contribution.MATERIAUX, new ContributionProperty(
 				/* dbField */ Contribution.MATERIAUX,
+				/* jsonField */ "materiaux",
 				/* title */ context.getResources().getString(R.string.Materiaux),
 				/* value */ "",
 				/* defaultValue */ "",
 				/* info */ "",
 				/* type */ ContributionProperty.ContribType.check,
 				/* choices */ JsonRawData.listeMateriaux,
-				/* showViewText */ 0,
-				/* showViewToHide */ 0) );
+				/* showViewText */ R.id.oeuvre_materiauw_value,
+				/* showViewToHide */ R.id.relativ_oeuvre_materiaux) );
 		
 		mProperties.put( Contribution.NOM_SITE, new ContributionProperty(
 				/* dbField */ Contribution.NOM_SITE,
+				/* jsonField */ "Sitenom",
 				/* title */ context.getResources().getString(R.string.Nom_du_site),
 				/* value */ "",
 				/* defaultValue */ "",
 				/* info */ "", // TODO: ajouter les infos
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showViewText */ 0,
-				/* showViewToHide */ 0) );
+				/* showViewText */ R.id.site_nomsite_value,
+				/* showViewToHide */ R.id.relativ_site_nomsite) );
 		
 		mProperties.put( Contribution.DETAIL_SITE, new ContributionProperty(
 				/* dbField */ Contribution.DETAIL_SITE,
+				/* jsonField */ "Sitedetails",
 				/* title */ context.getResources().getString(R.string.Detail_site),
 				/* value */ "",
 				/* defaultValue */ "",
 				/* info */ "", // TODO: ajouter les infos
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showViewText */ 0,
-				/* showViewToHide */ 0) );
+				/* showViewText */ R.id.site_detailsite_value,
+				/* showViewToHide */ R.id.relativ_site_detailsite) );
 		
 		mProperties.put( Contribution.NATURE, new ContributionProperty(
 				/* dbField */ Contribution.NATURE,
+				/* jsonField */ "nature",
 				/* title */ context.getResources().getString(R.string.Nature),
 				/* value */ "",
 				/* defaultValue */ "",
 				/* info */ "",
 				/* type */ ContributionProperty.ContribType.radio,
 				/* choices */ JsonRawData.listeNatures,
-				/* showViewText */ 0,
-				/* showViewToHide */ 0) );
+				/* showViewText */ R.id.oeuvre_nature_value,
+				/* showViewToHide */ R.id.relativ_oeuvre_nature) );
 		
 		mProperties.put( Contribution.LATITUDE, new ContributionProperty(
 				/* dbField */ Contribution.LATITUDE,
+				/* jsonField */ "latitude",
 				/* title */ "Latitude",
 				/* value */ "",
 				/* defaultValue */ "",
@@ -206,6 +241,7 @@ public class Contribution2 implements Serializable {
 		
 		mProperties.put( Contribution.LONGITUDE, new ContributionProperty(
 				/* dbField */ Contribution.LONGITUDE,
+				/* jsonField */ "longitude",
 				/* title */ "Longitude",
 				/* value */ "",
 				/* defaultValue */ "",
@@ -217,6 +253,7 @@ public class Contribution2 implements Serializable {
 		
 		mProperties.put( Contribution.AUTRE, new ContributionProperty(
 				/* dbField */ Contribution.AUTRE,
+				/* jsonField */ "autre",
 				/* title */ context.getResources().getString(R.string.Autres_infos),
 				/* value */ "",
 				/* defaultValue */ "",
@@ -228,6 +265,7 @@ public class Contribution2 implements Serializable {
 		
 		mProperties.put( Contribution.ETAT, new ContributionProperty(
 				/* dbField */ Contribution.ETAT,
+				/* jsonField */ "precision_etat_conservation",
 				/* title */ context.getResources().getString(R.string.Etat_de_conservation),
 				/* value */ "",
 				/* defaultValue */ "",
@@ -239,6 +277,7 @@ public class Contribution2 implements Serializable {
 		
 		mProperties.put( Contribution.PETAT, new ContributionProperty(
 				/* dbField */ Contribution.PETAT,
+				/* jsonField */ "autre_precision_etat_conservation",
 				/* title */ context.getResources().getString(R.string.Precision_sur_l_etat_de_conservation),
 				/* value */ "",
 				/* defaultValue */ "",
@@ -250,51 +289,120 @@ public class Contribution2 implements Serializable {
 		
 		mProperties.put( Contribution.PMR, new ContributionProperty(
 				/* dbField */ Contribution.PMR,
+				/* jsonField */ "",
 				/* title */ context.getResources().getString(R.string.accessibilite_pmr),
 				/* value */ "",
 				/* defaultValue */ "",
 				/* info */ "", // TODO: ajouter les infos
 				/* type */ ContributionProperty.ContribType.radio,
 				/* choices */ JsonRawData.listePmr,
-				/* showViewText */ 0,
-				/* showViewToHide */ 0) );
+				/* showViewText */ R.id.site_pmr_value,
+				/* showViewToHide */ R.id.relativ_site_pmr) );
+
+		mProperties.put( Contribution.MOT_CLE, new ContributionProperty(
+				/* dbField */ Contribution.MOT_CLE,
+				/* jsonField */ "mot_cle",
+				/* title */ context.getResources().getString(R.string.Mots_cles),
+				/* value */ "",
+				/* defaultValue */ "",
+				/* info */ "",
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.oeuvre_mots_cles_value,
+				/* showViewToHide */ R.id.relativ_oeuvre_mots_cles) );
+
+		mProperties.put( Contribution.CONTEXTE_PRODUCTION, new ContributionProperty(
+				/* dbField */ Contribution.CONTEXTE_PRODUCTION,
+				/* jsonField */ "contexte_production",
+				/* title */ context.getResources().getString(R.string.Contexte),
+				/* value */ "",
+				/* defaultValue */ "",
+				/* info */ "",
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.oeuvre_contexte_value,
+				/* showViewToHide */ R.id.relativ_oeuvre_contexte) );
+
+		mProperties.put( Contribution.VILLE, new ContributionProperty(
+				/* dbField */ Contribution.VILLE,
+				/* jsonField */ "Siteville",
+				/* title */ context.getResources().getString(R.string.ville),
+				/* value */ "",
+				/* defaultValue */ "",
+				/* info */ "",
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.site_ville_value,
+				/* showViewToHide */ R.id.relativ_site_ville) );
+
+		mProperties.put( Contribution.REGION, new ContributionProperty(
+				/* dbField */ Contribution.REGION,
+				/* jsonField */ "Siteregion",
+				/* title */ context.getResources().getString(R.string.Region),
+				/* value */ "",
+				/* defaultValue */ "",
+				/* info */ "",
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.site_region_value,
+				/* showViewToHide */ R.id.relativ_site_region) );
+
+		mProperties.put( Contribution.PAYS, new ContributionProperty(
+				/* dbField */ Contribution.PAYS,
+				/* jsonField */ "Sitepays",
+				/* title */ context.getResources().getString(R.string.Pays),
+				/* value */ "",
+				/* defaultValue */ "",
+				/* info */ "",
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.site_pays_value,
+				/* showViewToHide */ R.id.relativ_site_pays) );
+
+		mProperties.put( Contribution.MOUVEMENT, new ContributionProperty(
+				/* dbField */ Contribution.MOUVEMENT,
+				/* jsonField */ "mouvement_artistes",
+				/* title */ context.getResources().getString(R.string.Mouvement),
+				/* value */ "",
+				/* defaultValue */ "",
+				/* info */ "",
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.artiste_mouvement_value,
+				/* showViewToHide */ R.id.relativ_artiste_mouvement) );
 
 	}
 
 	public void updateFromDb(int index) {
 		mId = Integer.parseInt(SearchActivity.extractDataFromDb(index,"id"));
 
-		mProperties = new HashMap<String, ContributionProperty>();
-		
-		mProperties.get("photo").resetValue(SearchActivity.extractDataFromDb(index,"image_principale"));
-		mProperties.get(Contribution.TITRE).resetValue(SearchActivity.extractDataFromDb(index,"titre"));
-		mProperties.get(Contribution.ARTISTE).resetValue(SearchActivity.extractDataFromDb(index,"artiste"));
-		mProperties.get(Contribution.COULEUR).resetValue(SearchActivity.extractDataFromDb(index,"couleur"));
-		mProperties.get(Contribution.DATE_INAUGURATION).resetValue(SearchActivity.extractDataFromDb(index,"inauguration"));
-		mProperties.get(Contribution.DESCRIPTION).resetValue(SearchActivity.extractDataFromDb(index,"description"));
-		mProperties.get(Contribution.MATERIAUX).resetValue(SearchActivity.extractDataFromDb(index,"materiaux"));
-		mProperties.get(Contribution.NOM_SITE).resetValue(SearchActivity.extractDataFromDb(index,"Sitenom"));
-		mProperties.get(Contribution.DETAIL_SITE).resetValue(SearchActivity.extractDataFromDb(index,"Sitedetails"));
-		mProperties.get(Contribution.NATURE).resetValue(SearchActivity.extractDataFromDb(index,"nature"));
-		mProperties.get(Contribution.LATITUDE).resetValue(SearchActivity.extractDataFromDb(index,"latitude"));
-		mProperties.get(Contribution.LONGITUDE).resetValue(SearchActivity.extractDataFromDb(index,"longitude"));
-		mProperties.get(Contribution.AUTRE).resetValue(SearchActivity.extractDataFromDb(index,"autre"));
-		mProperties.get(Contribution.ETAT).resetValue(SearchActivity.extractDataFromDb(index,"precision_etat_conservation"));
-		mProperties.get(Contribution.PETAT).resetValue(SearchActivity.extractDataFromDb(index,"autre_precision_etat_conservation"));
-		mProperties.get(Contribution.PMR).resetValue(SearchActivity.extractDataFromDb(index,"Sitepmr"));
+		for (ContributionProperty value : mProperties.values()) {
+		    value.updateFromDb(index);
+		}
 	}
 
-	public ContributionProperty getProperty(String property) {
-		if( mProperties.containsKey(property) ) {
-			return mProperties.get(property);
+	public int getId() {
+		return mId;
+	}
+	public void setId(int id) {
+		mId = id;
+	}
+	
+	public ContributionProperty getProperty(String name) {
+		if( mProperties.containsKey(name) ) {
+			return mProperties.get(name);
 		}
 		else {
 			return null;
 		}
 	}
 	
-	public void setProperty( String dbField, ContributionProperty prop ) {
-		mProperties.put(dbField,  prop);
+	public void setProperty(String name, ContributionProperty property) {
+		mProperties.put(name, property);
+	}
+	
+	public Collection<ContributionProperty> getProperties() {
+		return mProperties.values();
 	}
 	
 	public void dumpDebug() {

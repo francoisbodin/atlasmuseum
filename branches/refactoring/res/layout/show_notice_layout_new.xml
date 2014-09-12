@@ -132,8 +132,7 @@
 	        	    android:layout_height="wrap_content"
 	        	    android:textSize="22dp"
 	        	    android:textColor="#333333"
-	        	    android:text="Titre de l'Oeuvre"
-        	        />
+	        	    />
         	     <View
 			    android:layout_width="fill_parent"
 			    android:layout_height="1dp"
@@ -147,8 +146,7 @@
 	        	    android:layout_height="wrap_content"
 	        	    android:textSize="18dp"
 	        	    android:textColor="#686868"
-	        	    android:text="Auteur"
-        	        />
+	        	    />
         	    <View
 			    android:layout_width="fill_parent"
 			    android:layout_height="1dp"
@@ -162,8 +160,7 @@
 	        	    android:layout_height="wrap_content"
 	        	    android:textSize="18dp"
 	        	    android:textColor="#686868"
-	        	    android:text="2030"
-        	        />
+	        	    />
         	    <View
 			    android:layout_width="fill_parent"
 			    android:layout_height="1dp"
@@ -627,7 +624,6 @@
         	             android:layout_alignParentTop="true"
         	             android:layout_marginLeft="68dp"
         	             android:layout_toRightOf="@+id/site_pays"
-        	             android:text="Pays_value"
         	             android:textColor="#686868"
         	             android:textSize="18dp" />
         	         
@@ -649,7 +645,7 @@
 			    /> <!-- fin separator -->
 			    
 			    <TextView 
-        	        android:id="@+id/site_pmr"
+        	        android:id="@+id/site_detailsite"
 	        	    android:layout_width="100dp"
 	        	    android:layout_height="wrap_content"
 	        	    android:textSize="18dp"
@@ -657,21 +653,20 @@
 	        	    android:textColor="#999999"
 	        	    android:layout_marginTop="5dp"
 	        	    android:layout_alignParentTop="true"
-	        	    android:text="détail du site"
+	        	    android:text="@string/Detail_site"
         	        />
 
         	         <TextView
-        	             android:id="@+id/site_site_detailsite_value"
+        	             android:id="@+id/site_detailsite_value"
         	             android:layout_width="wrap_content"
         	             android:layout_height="wrap_content"
-        	             android:layout_alignBaseline="@+id/site_pmr"
-        	             android:layout_alignBottom="@+id/site_pmr"
-        	             android:layout_toRightOf="@+id/site_pmr"
-        	             android:text="@string/site_accessible_pmr"
+        	             android:layout_alignBaseline="@+id/site_detailsite"
+        	             android:layout_alignBottom="@+id/site_detailsite"
+        	             android:layout_toRightOf="@+id/site_detailsite"
         	             android:textColor="#686868"
         	             android:textSize="18dp" />
 
-			    </RelativeLayout><!-- fin site site_detailsite -->
+			    </RelativeLayout><!-- fin site detailsite -->
 			    
 			    
 			    
@@ -700,7 +695,7 @@
 	        	    android:textColor="#999999"
 	        	    android:layout_marginTop="5dp"
 	        	    android:layout_alignParentTop="true"
-	        	    android:text="Personne à mobilité réduite"
+	        	    android:text="@string/accessibilite_pmr"
         	        />
 
         	         <TextView
@@ -710,7 +705,6 @@
         	             android:layout_alignBaseline="@+id/site_pmr"
         	             android:layout_alignBottom="@+id/site_pmr"
         	             android:layout_toRightOf="@+id/site_pmr"
-        	             android:text="@string/site_accessible_pmr"
         	             android:textColor="#686868"
         	             android:textSize="18dp" />
 
