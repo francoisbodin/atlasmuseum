@@ -15,7 +15,6 @@ import fr.atlasmuseum.contribution.HttpJson;
 import fr.atlasmuseum.main.AtlasError;
 import fr.atlasmuseum.main.MainActivity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -99,7 +98,8 @@ public class ConnexionAsync extends AsyncTask<String, String, Boolean> {
 			return false;
 		}
 		
-		String url = "http://atlasmuseum.irisa.fr/www/webservice/api.php?action=validuser&webserviceid=appli&webservicepass=test123&username="+user+"&userpass="+passwd;
+		//String url = "http://atlasmuseum.irisa.fr/www/webservice/api.php?action=validuser&webserviceid=appli&webservicepass=test123&username="+user+"&userpass="+passwd;
+		String url = "http://publicartmuseum.net/w/webservice/api.php?action=validuser&webserviceid=appli&webservicepass=test123&username="+user+"&userpass="+passwd;
 		ArrayList<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		//inutilis�
 		nvps.add(new BasicNameValuePair("action", "validuser"));
