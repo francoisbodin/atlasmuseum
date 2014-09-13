@@ -1981,6 +1981,10 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
         .setPositiveButton(getResources().getString(R.string.mise_ajour),
                 new DialogInterface.OnClickListener(){
             public void onClick(DialogInterface dialog, int id){
+            	if( MainActivity.mLastLocation == null ) {
+					Toast.makeText(getApplication(), getResources().getString(R.string.desole_position_pas_recup), Toast.LENGTH_LONG).show();
+            		return;
+            	}
             	String lat = Double.toString(MainActivity.mLastLocation.getLatitude());
             	String longi = Double.toString(MainActivity.mLastLocation.getLongitude());
             	Log.d(DEBUG_TAG,"Latitude :" + lat);
