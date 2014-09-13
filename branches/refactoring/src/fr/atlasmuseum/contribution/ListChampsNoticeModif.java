@@ -46,6 +46,9 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 	private static final String DEBUG_TAG = "AtlasMuseum/ListChampAct";
 
 	private Bundle mBundle;
+	private Contribution2 mContribution;
+	private int mNoticeId;
+	
 	private List<ContributionProperty> mList;
 	static String CHAMPS_ITEM = "champs_item";
 
@@ -117,7 +120,6 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 	//liste des valeur des champs connus de la notice de référence 
 	String notice_titre;
 	String notice_artiste;
-	int notice_id;
 	String notice_couleur;
 	String notice_description;
 	String notice_dateinauguration;
@@ -186,7 +188,13 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		Log.d(DEBUG_TAG, "onCreate()");
 		
 		mBundle = getIntent().getExtras();
-
+		if( ! mBundle.containsKey("contribution") ) {
+			// TODO: handle this case, even if it should never happen
+		}
+		Log.d(DEBUG_TAG, "onCreate(): Retrieve Contribution from bundle");
+		mContribution = (Contribution2) mBundle.getSerializable("contribution");
+		mNoticeId = mContribution.getNoticeId();
+		
 		mImageNotice = (ImageView) findViewById(R.id.imageView1);
 
 		mBlockModifierImage = (RelativeLayout) findViewById(R.id.relativeLayoutPhotoModifier);
@@ -290,17 +298,6 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			}
 		});
 
-		ListChampsNoticeModif.mContribXml = new ContribXml(readContrib());
-		
-		showItemUsingBundle();//affiche ajout/er en fonction des champs reçu
-		
-		
-		//pour autoriser le retour en cliquant sur l'icone de l'application dans l'action bar
-		//pour autoriser le retour en cliquant sur l'icone de l'application dans l'action bar
-		////////////////////////////////////////////////////////////////////////////////////
-		////////////////////////////////////////////////////////////////////////////////////
-		////////////////////////////////////////////////////////////////////////////////////
-		//ACTION BAR
 		ActionBar actionBar = getActionBar();
 		if (actionBar != null)
 		{
@@ -309,6 +306,51 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			actionBar.setTitle(this.getResources().getString(R.string.Contribuer));
 			actionBar.setDisplayShowTitleEnabled(true);
 			//actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);  
+		}
+
+		ListChampsNoticeModif.mContribXml = new ContribXml(readContrib());
+		
+		if( mContribution.getNoticeId() == 0 ) {
+			getActionBar().setTitle("Création d'une nouvelle oeuvre");  // TODO : resourcify this string
+		}
+		else {
+			getActionBar().setTitle("Ajout/Modif oeuvre existante"); // TODO : resourcify this string
+		}
+
+		ContributionProperty cp = mContribution.getProperty("photo");
+		if (cp.getValue() != "") {
+			mLoadPhoto.setVisibility(View.GONE);
+			mBlockModifierImage.setVisibility(View.VISIBLE);
+			this.notice_photo = cp.getValue();
+			loadingPhoto2 upl = new loadingPhoto2(this, this.notice_photo, false);
+			upl.execute();
+		}
+		else {
+			mLoadPhoto.setVisibility(View.VISIBLE);
+			mBlockModifierImage.setVisibility(View.GONE);
+		}
+
+		String propsToShow[] = {
+				Contribution.TITRE,
+				Contribution.ARTISTE,
+				Contribution.COULEUR,
+				Contribution.DATE_INAUGURATION,
+				Contribution.DESCRIPTION,
+				Contribution.MATERIAUX,
+				Contribution.NOM_SITE,
+				Contribution.DETAIL_SITE,
+				Contribution.NATURE,
+				Contribution.LATITUDE,
+				Contribution.LONGITUDE,
+				Contribution.AUTRE,
+				Contribution.ETAT,
+				Contribution.PETAT,
+				Contribution.PMR
+				};
+
+		mList.clear();
+		for (int i = 0; i < propsToShow.length; i++) {
+			mList.add(mContribution.getProperty(propsToShow[i]));
 		}
 	}
 
@@ -452,91 +494,6 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		Toast.makeText(this, "suppression de tous les entrées du formulaire...", Toast.LENGTH_SHORT).show();
 	}
 
-
-	private void showItemUsingBundle()
-	{
-		if( mBundle.containsKey("contribution") ) {
-			getActionBar().setTitle("Ajout/Modif oeuvre existante"); // TODO : resourcify this string
-			
-			Log.d(DEBUG_TAG, "showItemUsingBundle: Retrieve Contribution from bundle");
-			Contribution2 contribution = (Contribution2) mBundle.getSerializable("contribution");
-			contribution.dumpDebug();
-
-
-			this.notice_id = mBundle.getInt(Contribution.IDNOTICE);
-
-			ContributionProperty cp = contribution.getProperty("photo");
-			
-			if( cp.getValue() != "" ) {
-				mLoadPhoto.setVisibility(View.GONE);
-				mBlockModifierImage.setVisibility(View.VISIBLE);
-				this.notice_photo = cp.getValue();
-
-				loadingPhoto2 upl = new loadingPhoto2(this,  this.notice_photo, false);
-				upl.execute();
-			}
-
-			String propsToAdd[] = {
-					Contribution.TITRE,
-					Contribution.ARTISTE,
-					Contribution.COULEUR,
-					Contribution.DATE_INAUGURATION,
-					Contribution.DESCRIPTION,
-					Contribution.MATERIAUX,
-					Contribution.NOM_SITE,
-					Contribution.DETAIL_SITE,
-					Contribution.NATURE,
-					Contribution.LATITUDE,
-					Contribution.LONGITUDE,
-					Contribution.AUTRE,
-					Contribution.ETAT,
-					Contribution.PETAT,
-					Contribution.PMR
-					};
-
-			mList.clear();
-			for( int i = 0 ; i < propsToAdd.length ; i++ ) {
-				mList.add(contribution.getProperty(propsToAdd[i]));
-			}
-
-		}
-		/**
-		 * 
-		 *  CREATION **********************************************************************************
-		 */
-		else {
-//			getActionBar().setTitle("Création d'une nouvelle oeuvre");  // TODO : resourcify this string
-//
-//			Log.d(DEBUG_TAG, "idnotice n'existe pas");
-//			this.notice_id =0;
-//			boolean f = cPref.edit().putBoolean(ListChampsNoticeModif.creationNotice, true).commit();//on a pas IDnotice, donc c'est une creation 
-//			Log.d(DEBUG_TAG, "enregistrement des preference creationNotice ="+ f);
-//			//on ajoute a la listView tous les ajouts possibles
-//
-//			/**
-//			 * 
-//			 * PHOTO - création de notice
-//			 * 
-//			 */
-//			//affiche le bouton "prendre photo", ou l'image qu'on a prise sinon
-//			String[] modifPhoto= cPref.getString(ListChampsNoticeModif.ajout_photo, "").split("/");
-//			Log.d(DEBUG_TAG, "photo = "+modifPhoto[modifPhoto.length-1]);
-//			if(modifPhoto != null && !modifPhoto[modifPhoto.length-1].equals(""))
-//			{
-//				mBlockModifierImage.setVisibility(View.VISIBLE);
-//				this.mLoadPhoto.setVisibility(View.GONE);
-//				loadingPhoto2 upl = new loadingPhoto2(this,  modifPhoto[modifPhoto.length-1], true);
-//				upl.execute();
-//			}
-//			else
-//			{
-//				//affiche le bouton prendre photo
-//				mBlockModifierImage.setVisibility(View.GONE);
-//				this.mLoadPhoto.setVisibility(View.VISIBLE);
-//			}
-//
-		}
-	}
 
 	public void gotomain() {
 		//Intent intent = new Intent(getApplication(), MainContribActivity.class);
@@ -893,7 +850,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c1 = new Contribution();
 			addInfoNoticeToContribution(c1);
-			Contribution.createContributionAjout(c1, this.notice_id, this.IDLocal, Contribution.TITRE, ajoutTitreValue);
+			Contribution.createContributionAjout(c1, mNoticeId, this.IDLocal, Contribution.TITRE, ajoutTitreValue);
 
 			mContribXml.listContributionEnCours.add(c1);
 			valueModif= true;
@@ -903,7 +860,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c2 = new Contribution();
 			addInfoNoticeToContribution(c2);
-			Contribution.createContributionRemplacement(c2,this.notice_id, this.IDLocal, Contribution.TITRE, TitreValue);
+			Contribution.createContributionRemplacement(c2,this.mNoticeId, this.IDLocal, Contribution.TITRE, TitreValue);
 			mContribXml.listContributionEnCours.add(c2);
 			valueModif= true;
 		}
@@ -912,7 +869,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c3 = new Contribution();
 			addInfoNoticeToContribution(c3);
-			Contribution.createContributionAjout(c3, this.notice_id, this.IDLocal, Contribution.PHOTO, ajoutPhotoValue);
+			Contribution.createContributionAjout(c3, this.mNoticeId, this.IDLocal, Contribution.PHOTO, ajoutPhotoValue);
 			mContribXml.listContributionEnCours.add(c3);
 			valueModif= true;
 		}
@@ -920,7 +877,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c4 = new Contribution();
 			addInfoNoticeToContribution(c4);
-			Contribution.createContributionRemplacement(c4,this.notice_id, this.IDLocal, Contribution.PHOTO, PhotoValue);
+			Contribution.createContributionRemplacement(c4,this.mNoticeId, this.IDLocal, Contribution.PHOTO, PhotoValue);
 			mContribXml.listContributionEnCours.add(c4);
 			valueModif= true;
 		}
@@ -928,7 +885,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c5 = new Contribution();
 			addInfoNoticeToContribution(c5);
-			Contribution.createContributionAjout(c5, this.notice_id, this.IDLocal, Contribution.COULEUR, ajoutCouleurValue);
+			Contribution.createContributionAjout(c5, this.mNoticeId, this.IDLocal, Contribution.COULEUR, ajoutCouleurValue);
 			mContribXml.listContributionEnCours.add(c5);
 			valueModif= true;
 		}
@@ -936,7 +893,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c16 = new Contribution();
 			addInfoNoticeToContribution(c16);
-			Contribution.createContributionRemplacement(c16, this.notice_id, this.IDLocal, Contribution.COULEUR, CouleurValue);
+			Contribution.createContributionRemplacement(c16, this.mNoticeId, this.IDLocal, Contribution.COULEUR, CouleurValue);
 			mContribXml.listContributionEnCours.add(c16);
 			valueModif= true;
 		}
@@ -944,7 +901,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c6 = new Contribution();
 			addInfoNoticeToContribution(c6);
-			Contribution.createContributionAjout(c6, this.notice_id, this.IDLocal, Contribution.DATE_INAUGURATION, ajoutDateValue);
+			Contribution.createContributionAjout(c6, this.mNoticeId, this.IDLocal, Contribution.DATE_INAUGURATION, ajoutDateValue);
 			mContribXml.listContributionEnCours.add(c6);
 			valueModif= true;
 		}
@@ -952,7 +909,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c7 = new Contribution();
 			addInfoNoticeToContribution(c7);
-			Contribution.createContributionRemplacement(c7, this.notice_id, this.IDLocal, Contribution.DATE_INAUGURATION, modif_dateValue);
+			Contribution.createContributionRemplacement(c7, this.mNoticeId, this.IDLocal, Contribution.DATE_INAUGURATION, modif_dateValue);
 			mContribXml.listContributionEnCours.add(c7);
 			valueModif= true;
 		}
@@ -961,7 +918,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c10 = new Contribution();
 			addInfoNoticeToContribution(c10);
-			Contribution.createContributionAjout(c10, this.notice_id, this.IDLocal, Contribution.MATERIAUX, ajoutMateriauxValue);
+			Contribution.createContributionAjout(c10, this.mNoticeId, this.IDLocal, Contribution.MATERIAUX, ajoutMateriauxValue);
 			mContribXml.listContributionEnCours.add(c10);
 			valueModif= true;
 		}
@@ -969,7 +926,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c11 = new Contribution();
 			addInfoNoticeToContribution(c11);
-			Contribution.createContributionRemplacement(c11, this.notice_id, this.IDLocal, Contribution.MATERIAUX, modif_materiauxValue);
+			Contribution.createContributionRemplacement(c11, this.mNoticeId, this.IDLocal, Contribution.MATERIAUX, modif_materiauxValue);
 			mContribXml.listContributionEnCours.add(c11);
 			valueModif= true;
 		}
@@ -977,7 +934,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c12 = new Contribution();
 			addInfoNoticeToContribution(c12);
-			Contribution.createContributionAjout(c12, this.notice_id, this.IDLocal, Contribution.DESCRIPTION, ajout_descriptionValue);
+			Contribution.createContributionAjout(c12, this.mNoticeId, this.IDLocal, Contribution.DESCRIPTION, ajout_descriptionValue);
 			mContribXml.listContributionEnCours.add(c12);
 			valueModif= true;
 		}
@@ -985,7 +942,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c13 = new Contribution();
 			addInfoNoticeToContribution(c13);
-			Contribution.createContributionRemplacement(c13, this.notice_id, this.IDLocal, Contribution.DESCRIPTION, modif_descriptionValue);
+			Contribution.createContributionRemplacement(c13, this.mNoticeId, this.IDLocal, Contribution.DESCRIPTION, modif_descriptionValue);
 			mContribXml.listContributionEnCours.add(c13);
 			valueModif= true;
 		}
@@ -993,7 +950,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c14 = new Contribution();
 			addInfoNoticeToContribution(c14);
-			Contribution.createContributionAjout(c14, this.notice_id, this.IDLocal, Contribution.ARTISTE, ajoutArtisteValue);
+			Contribution.createContributionAjout(c14, this.mNoticeId, this.IDLocal, Contribution.ARTISTE, ajoutArtisteValue);
 			mContribXml.listContributionEnCours.add(c14);
 			valueModif= true;
 		}
@@ -1001,7 +958,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c15 = new Contribution();
 			addInfoNoticeToContribution(c15);//rajoute les infos notice pour identification, puis on ajoute les modif de l"utilisateur
-			Contribution.createContributionRemplacement(c15, this.notice_id, this.IDLocal, Contribution.ARTISTE, ArtisteValue);
+			Contribution.createContributionRemplacement(c15, this.mNoticeId, this.IDLocal, Contribution.ARTISTE, ArtisteValue);
 			mContribXml.listContributionEnCours.add(c15);
 			valueModif= true;
 		}
@@ -1009,7 +966,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c15 = new Contribution();
 			addInfoNoticeToContribution(c15);//rajoute les infos notice pour identification, puis on ajoute les modif de l"utilisateur
-			Contribution.createContributionRemplacement(c15, this.notice_id, this.IDLocal, Contribution.NOM_SITE, modif_NomSiteValue);
+			Contribution.createContributionRemplacement(c15, this.mNoticeId, this.IDLocal, Contribution.NOM_SITE, modif_NomSiteValue);
 			mContribXml.listContributionEnCours.add(c15);
 			valueModif= true;
 		}
@@ -1017,7 +974,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c14 = new Contribution();
 			addInfoNoticeToContribution(c14);
-			Contribution.createContributionAjout(c14, this.notice_id, this.IDLocal, Contribution.NOM_SITE, ajoutNomSiteValue);
+			Contribution.createContributionAjout(c14, this.mNoticeId, this.IDLocal, Contribution.NOM_SITE, ajoutNomSiteValue);
 			mContribXml.listContributionEnCours.add(c14);
 			valueModif= true;
 		}
@@ -1025,7 +982,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c14 = new Contribution();
 			addInfoNoticeToContribution(c14);
-			Contribution.createContributionAjout(c14, this.notice_id, this.IDLocal, Contribution.NATURE, ajoutNatureValue);
+			Contribution.createContributionAjout(c14, this.mNoticeId, this.IDLocal, Contribution.NATURE, ajoutNatureValue);
 			mContribXml.listContributionEnCours.add(c14);
 			valueModif= true;
 		}
@@ -1033,7 +990,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c15 = new Contribution();
 			addInfoNoticeToContribution(c15);//rajoute les infos notice pour identification, puis on ajoute les modif de l"utilisateur
-			Contribution.createContributionRemplacement(c15, this.notice_id, this.IDLocal, Contribution.NATURE, modif_NatureValue);
+			Contribution.createContributionRemplacement(c15, this.mNoticeId, this.IDLocal, Contribution.NATURE, modif_NatureValue);
 			mContribXml.listContributionEnCours.add(c15);
 			valueModif= true;
 		}
@@ -1041,7 +998,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c14 = new Contribution();
 			addInfoNoticeToContribution(c14);
-			Contribution.createContributionAjout(c14, this.notice_id, this.IDLocal, Contribution.AUTRE, ajoutAutreValue);
+			Contribution.createContributionAjout(c14, this.mNoticeId, this.IDLocal, Contribution.AUTRE, ajoutAutreValue);
 			mContribXml.listContributionEnCours.add(c14);
 			valueModif= true;
 		}
@@ -1049,7 +1006,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c14 = new Contribution();
 			addInfoNoticeToContribution(c14);
-			Contribution.createContributionAjout(c14, this.notice_id, this.IDLocal, Contribution.ETAT, ajoutEtatValue);
+			Contribution.createContributionAjout(c14, this.mNoticeId, this.IDLocal, Contribution.ETAT, ajoutEtatValue);
 			mContribXml.listContributionEnCours.add(c14);
 			valueModif= true;
 		}
@@ -1057,7 +1014,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c14 = new Contribution();
 			addInfoNoticeToContribution(c14);
-			Contribution.createContributionAjout(c14, this.notice_id, this.IDLocal, Contribution.PETAT, ajoutPetatValue);
+			Contribution.createContributionAjout(c14, this.mNoticeId, this.IDLocal, Contribution.PETAT, ajoutPetatValue);
 			mContribXml.listContributionEnCours.add(c14);
 			valueModif= true;
 		}
@@ -1065,7 +1022,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c14 = new Contribution();
 			addInfoNoticeToContribution(c14);
-			Contribution.createContributionAjout(c14, this.notice_id, this.IDLocal, Contribution.PMR, ajoutPmrValue);
+			Contribution.createContributionAjout(c14, this.mNoticeId, this.IDLocal, Contribution.PMR, ajoutPmrValue);
 			mContribXml.listContributionEnCours.add(c14);
 			valueModif= true;
 		}
@@ -1074,7 +1031,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c14 = new Contribution();
 			addInfoNoticeToContribution(c14);
-			Contribution.createContributionAjout(c14, this.notice_id, this.IDLocal, Contribution.DETAIL_SITE, ajoutDetailSiteValue);
+			Contribution.createContributionAjout(c14, this.mNoticeId, this.IDLocal, Contribution.DETAIL_SITE, ajoutDetailSiteValue);
 			mContribXml.listContributionEnCours.add(c14);
 			valueModif= true;
 		}
@@ -1083,7 +1040,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c14 = new Contribution();
 			addInfoNoticeToContribution(c14);
-			Contribution.createContributionRemplacement(c14, this.notice_id, this.IDLocal, Contribution.DETAIL_SITE, modif_DetailSiteValue);
+			Contribution.createContributionRemplacement(c14, this.mNoticeId, this.IDLocal, Contribution.DETAIL_SITE, modif_DetailSiteValue);
 			mContribXml.listContributionEnCours.add(c14);
 			valueModif= true;
 		}
@@ -1091,7 +1048,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c15 = new Contribution();
 			addInfoNoticeToContribution(c15);//rajoute les infos notice pour identification, puis on ajoute les modif de l"utilisateur
-			Contribution.createContributionRemplacementCoordonnee(c15, this.notice_id, this.IDLocal, Contribution.COORDONNEES, this.latitude, this.longitude);
+			Contribution.createContributionRemplacementCoordonnee(c15, this.mNoticeId, this.IDLocal, Contribution.COORDONNEES, this.latitude, this.longitude);
 			mContribXml.listContributionEnCours.add(c15);
 			valueModif= true;
 		}
@@ -1099,7 +1056,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			Contribution c15 = new Contribution();
 			addInfoNoticeToContribution(c15);//rajoute les infos notice pour identification, puis on ajoute les modif de l"utilisateur
-			Contribution.createContributionAjoutCoordonnee(c15, this.notice_id, this.IDLocal, Contribution.COORDONNEES, this.latitude, this.longitude);
+			Contribution.createContributionAjoutCoordonnee(c15, this.mNoticeId, this.IDLocal, Contribution.COORDONNEES, this.latitude, this.longitude);
 			mContribXml.listContributionEnCours.add(c15);
 			valueModif= true;
 		}
@@ -1305,6 +1262,10 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
         .setPositiveButton(getResources().getString(R.string.mise_ajour),
                 new DialogInterface.OnClickListener(){
             public void onClick(DialogInterface dialog, int id){
+            	if( MainActivity.mLastLocation == null ) {
+					Toast.makeText(getApplication(), getResources().getString(R.string.desole_position_pas_recup), Toast.LENGTH_LONG).show();
+            		return;
+            	}
             	String lat = Double.toString(MainActivity.mLastLocation.getLatitude());
             	String longi = Double.toString(MainActivity.mLastLocation.getLongitude());
             	Log.d(DEBUG_TAG,"Latitude :" + lat);

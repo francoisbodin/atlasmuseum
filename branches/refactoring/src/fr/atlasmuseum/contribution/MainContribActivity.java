@@ -372,10 +372,8 @@ public class MainContribActivity extends Activity {
 
 	public void onClickCreateContrib()
 	{
-		String uniqueID = UUID.randomUUID().toString();
-		bundle.putString(Contribution.LOCALID, uniqueID);
-
 		Contribution2 contribution = new Contribution2(this);
+		contribution.setLocalId(UUID.randomUUID().toString());
 		bundle.putSerializable("contribution", contribution);
 		Intent intent= new Intent(this, ListChampsNoticeModif.class);
 		intent.putExtras(bundle);

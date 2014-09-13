@@ -16,7 +16,10 @@ public class Contribution2 implements Serializable {
 
 	private static final String DEBUG_TAG = "AtlasMuseum/Contribution2";
 	
-	int mId;
+	int mNoticeId;
+	String mLocalId;
+	String mLogin;
+	String mPassword;
 	HashMap<String,ContributionProperty> mProperties;
 	
 	public static enum PropertyType
@@ -80,7 +83,10 @@ public class Contribution2 implements Serializable {
 	static String champs_a_modifier = "champs a modifier ";//utilisé dans Activity, détermine quelle valeur de cPref est modifiée
 
 	public Contribution2(Activity context) {
-		mId = -1;
+		mNoticeId = 0;
+		mLocalId = "";
+		mLogin = "";
+		mPassword = "";
 		mProperties = new HashMap<String, ContributionProperty>();
 		
 		mProperties.put( Contribution.URL, new ContributionProperty(
@@ -374,20 +380,42 @@ public class Contribution2 implements Serializable {
 	}
 
 	public void updateFromDb(int index) {
-		mId = Integer.parseInt(SearchActivity.extractDataFromDb(index,"id"));
+		mNoticeId = Integer.parseInt(SearchActivity.extractDataFromDb(index,Contribution.IDNOTICE));
 
 		for (ContributionProperty value : mProperties.values()) {
 		    value.updateFromDb(index);
 		}
 	}
 
-	public int getId() {
-		return mId;
+	public int getNoticeId() {
+		return mNoticeId;
 	}
-	public void setId(int id) {
-		mId = id;
+	public void setNoticeId(int id) {
+		mNoticeId = id;
 	}
 	
+	public String getLocalId() {
+		return mLocalId;
+	}
+	public void setLocalId(String id) {
+		mLocalId = id;
+	}
+	
+	public String getLogin() {
+		return mLogin;
+	}
+	public void setLogin(String login) {
+		mLogin = login;
+	}
+	
+	public String getPassword() {
+		return mPassword;
+	}
+	public void setPassword(String password) {
+		mPassword = password;
+	}
+	
+
 	public ContributionProperty getProperty(String name) {
 		if( mProperties.containsKey(name) ) {
 			return mProperties.get(name);

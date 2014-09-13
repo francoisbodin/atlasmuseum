@@ -2,6 +2,8 @@ package fr.atlasmuseum.search;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
+
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.contribution.Contribution;
 import fr.atlasmuseum.contribution.Contribution2;
@@ -172,25 +174,23 @@ public class ShowNoticeActivity extends Activity{
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
 		
-		if(itemId == android.R.id.home)
-		{
+		if(itemId == android.R.id.home) {
 			super.onBackPressed();
 			finish();
 			return true;
 		}
     	
-		if (itemId == R.id.action_contrib)
-		{
-			//String uniqueID = UUID.randomUUID().toString();
-			//bundle.putString(Contribution.LOCALID, uniqueID);
-
+		if (itemId == R.id.action_contrib) {
 			bundle.putSerializable("contribution", mContribution);
+			mContribution.setLocalId(UUID.randomUUID().toString());
 			Intent intent = new Intent(this, ListChampsNoticeModif.class);
 			intent.putExtras(bundle);
 			startActivityForResult(intent, this.REQUEST_CONTRIB);
 			return true;
 		}
-		else return false;
+		else {
+			return false;
+		}
 		    
     }
     
