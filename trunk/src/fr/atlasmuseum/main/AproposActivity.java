@@ -29,7 +29,7 @@ public class AproposActivity extends Activity {
 		if (actionBar != null) {
 			actionBar.show();
 			actionBar.setDisplayHomeAsUpEnabled(true);
-			actionBar.setTitle(this.getResources().getString(R.string.title_apropos));
+			actionBar.setTitle(this.getResources().getString(R.string.menu_about));
 			actionBar.setDisplayShowTitleEnabled(true);
 		}
 	}
