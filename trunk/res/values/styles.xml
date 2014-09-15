@@ -20,6 +20,7 @@
         <item name="android:actionBarTabTextStyle">@style/MyActionBarTabText</item>
    		 <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Example</item>
         <item name="android:fastScrollOverlayPosition">atThumb</item>
+        <!-- <item name="homeAsUpIndicator">@drawable/up_indicator</item> -->
     </style>
 	
  <style name="ActionBar4" parent="@android:style/Widget.Holo.Light.ActionBar">
