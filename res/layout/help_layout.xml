@@ -11,37 +11,13 @@
     tools:ignore="DuplicateIds"
 	android:background="#ffffff" 
 	>
-
-    <!-- Titre de la page -->
-
-    <TextView
-        android:id="@+id/titleresearch2"
-        android:layout_width="260dip"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:gravity="center_horizontal"
-       
-        android:text="@string/aide"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/text_apropos"
+	
+    <WebView
+        android:id="@+id/webview_help"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="26dp"
         android:alpha="0.8"
-        android:gravity="center_horizontal"
-        android:hint="@string/aide_infos" />
-
-    <Button
-        android:id="@+id/clickscreen2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:background="@null"
-        android:text="" />
+        android:gravity="center_horizontal" />
 
 </RelativeLayout>

@@ -10,25 +10,28 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.WebView;
 import android.widget.Button;
 
 public class HelpActivity extends Activity{
 
-	private static final String DEBUG_TAG = "atlasmuseum/HelpActivity";
+	private static final String DEBUG_TAG = "AtlasMuseum/HelpActivity";
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.help_layout);
-        Log.d(DEBUG_TAG, "onCreate");
         
-        addListenerOnScreen();
+		Log.d(DEBUG_TAG, "onCreate()");
 
- 		//ACTION BAR
+		WebView webView = (WebView) findViewById(R.id.webview_help);
+		webView.loadUrl("file:///android_asset/aide.html");
+
+		// ACTION BAR
 		ActionBar actionBar = getActionBar();
 		if (actionBar != null) {
 			actionBar.show();
 			actionBar.setDisplayHomeAsUpEnabled(true);
-			// actionBar.setTitle(this.getResources().getString(R.string.actualites));
+			actionBar.setTitle(this.getResources().getString(R.string.menu_help));
 			actionBar.setDisplayShowTitleEnabled(true);
 		}
     }
@@ -47,23 +50,4 @@ public class HelpActivity extends Activity{
 			else return false;
 	    	
 	    }
-
-    public void addListenerOnScreen() {
-    	
-		final Context context = this;
-		Button icon = null;
-		
-		icon = (Button) findViewById(R.id.clickscreen2);
- 
-		icon.setOnClickListener(new OnClickListener() {
- 
-			@Override
-			public void onClick(View arg0) {
-			    Intent intent = new Intent(context, MainActivity.class);
-                            startActivity(intent);   
-			}
- 
-		});
- 
-	}
 }
