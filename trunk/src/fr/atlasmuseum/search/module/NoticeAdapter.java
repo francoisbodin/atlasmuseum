@@ -100,6 +100,7 @@ public class NoticeAdapter extends BaseAdapter  {
 	//utiliser dans ObjectFragmentActivity
 	public static File checkIfImageFileExists(String filename) throws IOException {
 		String dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
+		File imageF = new File(dcimDir + "/" + ATLASMUSEUM_ALBUM + "/" +filename);
 		if (imageF.exists()) return imageF;
 		else return null;
 	}
