@@ -255,7 +255,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 	//utiliser dans LoadingPhotoAsync
 	public static File checkIfImageFileExists(String filename) throws IOException {
 		File albumF = getAlbumDir();
-		File imageF = new File(albumF.getAbsolutePath() + "/" + filename +ATLASMUSEUM_IMAGE_SUFFIX);
+		File imageF = new File(albumF.getAbsolutePath() + "/" + filename);
 		if (imageF.exists()) return imageF;
 		else return null;
 	}
@@ -298,7 +298,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 		//Log.d(DEBUG_TAG, "timeStamp2 = " + timeStamp2);
 		//String imageFileName = ATLASMUSEUM_IMAGE_PREFIX + timeStamp;
 		File albumF = getAlbumDir();
-		File imageF =  new File(albumF.getAbsolutePath() + "/" + filename+ATLASMUSEUM_IMAGE_SUFFIX);
+		File imageF =  new File(albumF.getAbsolutePath() + "/" + filename);
 		return imageF;
 	}
 
