@@ -27,7 +27,8 @@ public class NoticeAdapter extends BaseAdapter  {
 	// Une liste de personnes
 	private List<NoticeOeuvre> listNotice;
 	private static final String ATLASMUSEUM_ALBUM = "atlasmuseum"; //TODO FBO to go in one file...
-	
+	public static final String ATLASMUSEUM_IMAGE_SUFFIX = ".jpg";
+
 	//Le contexte dans lequel est pr�sent notre adapter
 	private Context mContext;
 	    	
@@ -76,7 +77,7 @@ public class NoticeAdapter extends BaseAdapter  {
 		try {
 			fimage = checkIfImageFileExists(photoName);
 			String dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
-			String photopath = dcimDir + "/" + ATLASMUSEUM_ALBUM + "/" + photoName + ".png";
+			String photopath = dcimDir + "/" + ATLASMUSEUM_ALBUM + "/" + photoName + ATLASMUSEUM_IMAGE_SUFFIX;
 			if (fimage != null)
 			{
 				Bitmap bm = BitmapFactory.decodeFile(photopath);
@@ -99,7 +100,6 @@ public class NoticeAdapter extends BaseAdapter  {
 	//utiliser dans ObjectFragmentActivity
 	public static File checkIfImageFileExists(String filename) throws IOException {
 		String dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
-		File imageF = new File(dcimDir + "/" + ATLASMUSEUM_ALBUM + "/" +filename);
 		if (imageF.exists()) return imageF;
 		else return null;
 	}
