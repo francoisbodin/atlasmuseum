@@ -53,7 +53,7 @@ public class ContribPhoto extends Activity {
 	private static final int TAKE_PICTURE_REQUEST = 1;
 	String photoPath; //contient le chemin complet vers la photo prise si existante
 	private static final String ATLASMUSEUM_ALBUM = "atlasmuseum";
-	public static final String ATLASMUSEUM_IMAGE_SUFFIX = ".jpg";
+	public static final String ATLASMUSEUM_IMAGE_SUFFIX = ".png";
     ImageView mImagePreview;//zone d'affichage de la photo
 	Bundle mBundle;
 	

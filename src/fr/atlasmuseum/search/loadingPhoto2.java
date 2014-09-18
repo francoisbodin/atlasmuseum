@@ -171,7 +171,7 @@ public class loadingPhoto2 extends AsyncTask<String, String, Boolean> {
 			File fimage = SearchActivity.checkIfImageFileExists(photoThumb) ;
 			if (fimage == null)
 			{
-				Bitmap bm = LoadImageFromWebOperations(mContext.getContext().getString(R.string.images_url)+photoThumb);
+				Bitmap bm = LoadImageFromWebOperations("http://atlasmuseum.irisa.fr/images/"+photoThumb);
 				if (bm != null)
 				{
 					

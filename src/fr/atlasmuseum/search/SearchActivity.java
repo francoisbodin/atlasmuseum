@@ -37,7 +37,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 	static final String CURRENT_LONG = "curlong";
 	public static final String MAP_FOCUS_NOTICE = "mapfocusnotice";
 	private static final String ATLASMUSEUM_ALBUM = "atlasmuseum";
-	public static final String ATLASMUSEUM_IMAGE_SUFFIX = ".jpg";
+	public static final String ATLASMUSEUM_IMAGE_SUFFIX = ".png";
 	static public JsonRawData db = null;
 	private static String COME_FROM_SEARCHACT="pour le retour vers searchActivity";
 	final static String CHAMPS_ITEM ="champs_select";
@@ -255,7 +255,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 	//utiliser dans LoadingPhotoAsync
 	public static File checkIfImageFileExists(String filename) throws IOException {
 		File albumF = getAlbumDir();
-		File imageF = new File(albumF.getAbsolutePath() + "/" + filename);
+		File imageF = new File(albumF.getAbsolutePath() + "/" + filename +ATLASMUSEUM_IMAGE_SUFFIX);
 		if (imageF.exists()) return imageF;
 		else return null;
 	}
@@ -298,7 +298,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 		//Log.d(DEBUG_TAG, "timeStamp2 = " + timeStamp2);
 		//String imageFileName = ATLASMUSEUM_IMAGE_PREFIX + timeStamp;
 		File albumF = getAlbumDir();
-		File imageF =  new File(albumF.getAbsolutePath() + "/" + filename);
+		File imageF =  new File(albumF.getAbsolutePath() + "/" + filename+ATLASMUSEUM_IMAGE_SUFFIX);
 		return imageF;
 	}
 

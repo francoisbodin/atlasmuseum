@@ -84,7 +84,7 @@ public class LoadingPhotoAsync extends AsyncTask<String, String, Boolean> {
     			File fimage = SearchActivity.checkIfImageFileExists(fichierImage) ;
     			if (fimage == null){
     				Log.d(DEBUG_TAG, "Downloading image file");
-    				Bitmap bm = LoadImageFromWebOperations(mContext.getString(R.string.images_url)+fichierImage);
+    				Bitmap bm = LoadImageFromWebOperations("http://atlasmuseum.irisa.fr/images/"+fichierImage);
     				if (bm != null) {
     					int width = bm.getWidth();
     			        int height = bm.getHeight();
@@ -142,7 +142,7 @@ public class LoadingPhotoAsync extends AsyncTask<String, String, Boolean> {
 			File fimage = SearchActivity.checkIfImageFileExists(photoThumb) ;
 			if (fimage == null)
 			{
-				Bitmap bm = LoadImageFromWebOperations(mContext.getString(R.string.images_url)+photoThumb);
+				Bitmap bm = LoadImageFromWebOperations("http://atlasmuseum.irisa.fr/images/"+photoThumb);
 				if (bm != null)
 				{
 					
