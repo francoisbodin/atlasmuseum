@@ -9,21 +9,21 @@
     android:paddingTop="5dp"
     android:scrollbarThumbVertical="@drawable/list_view_scroll" >
 
+    
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <!-- CONTRIBUER -->
-
         <RelativeLayout
-            android:id="@+id/RelativContribuer"
+            android:id="@+id/layout_contribute"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="2dp" >
 
             <ImageView
-                android:id="@+id/icon"
+                android:id="@+id/icon_contribute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -33,10 +33,10 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/icon" >
+                android:layout_toRightOf="@+id/icon_contribute" >
 
                 <TextView
-                    android:id="@+id/text_contribuertitre"
+                    android:id="@+id/text_contribute_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/contribuer"
@@ -44,10 +44,10 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/text_contribuer"
+                    android:id="@+id/text_contribute"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/text_contribuertitre"
+                    android:layout_below="@+id/text_contribute_title"
                     android:text="@string/contribuer_message"
                     android:textColor="#686868"
                     android:textSize="13sp" />
@@ -58,16 +58,16 @@
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="#d9d9d9" />
+        
         <!-- CONTRIBUTION ENVOYEE -->
-
         <RelativeLayout
-            android:id="@+id/RelativEtatContrib"
+            android:id="@+id/layout_status"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="2dp" >
 
             <ImageView
-                android:id="@+id/icon2"
+                android:id="@+id/icon_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -77,10 +77,10 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/icon2" >
+                android:layout_toRightOf="@+id/icon_status" >
 
                 <TextView
-                    android:id="@+id/text_contribenvoytitre"
+                    android:id="@+id/text_status_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/envoyer_titre"
@@ -88,10 +88,10 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/text_contribenvoy"
+                    android:id="@+id/text_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/text_contribenvoytitre"
+                    android:layout_below="@+id/text_status_title"
                     android:text="@string/envoyer_message"
                     android:textColor="#686868"
                     android:textSize="13sp" />
@@ -105,13 +105,13 @@
         <!-- CONTRIBUTION save -->
 
         <RelativeLayout
-            android:id="@+id/RelativEnvoye"
+            android:id="@+id/layout_send"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="2dp" >
 
             <ImageView
-                android:id="@+id/icon3"
+                android:id="@+id/icon_saved"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -121,10 +121,10 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/icon3" >
+                android:layout_toRightOf="@+id/icon_saved" >
 
                 <TextView
-                    android:id="@+id/text_contribsavetitre"
+                    android:id="@+id/text_saved_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/contrib_save"
@@ -132,91 +132,35 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/text_contribsave"
+                    android:id="@+id/text_saved"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/text_contribsavetitre"
+                    android:layout_below="@+id/text_saved_title"
                     android:text="@string/contrib_save_message"
                     android:textColor="#686868"
                     android:textSize="13sp" />
             </RelativeLayout>
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/mButtonEnvoyer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Envoyer"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/CreateContrib"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Contribute" />
-
-            <Button
-                android:id="@+id/erase"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Effacer" />
-        </LinearLayout>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
             <TextView
-                android:id="@+id/infoContribtitre"
+                android:id="@+id/text_info_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/information"
                 android:textSize="15sp" />
 
-<!--
-            <TextView
-                android:id="@+id/infoContrib"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/infoContribtitre"
-                android:text="@string/info_contribution"
-                android:textSize="15sp" />
--->
-        
             <WebView
-                android:id="@+id/infoContrib"
+                android:id="@+id/text_info"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/infoContribtitre" />
+                android:layout_below="@+id/text_info_title" />
             
             </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-        </LinearLayout>
-
-        <ListView
-            android:id="@+id/list_view"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/button2"
-            android:visibility="gone" >
-        </ListView>
     </LinearLayout>
 
 </ScrollView>

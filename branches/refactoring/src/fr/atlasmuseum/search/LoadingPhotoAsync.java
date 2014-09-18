@@ -43,19 +43,21 @@ import android.widget.Toast;
  */
 public class LoadingPhotoAsync extends AsyncTask<String, String, Boolean> {
 	
-	ImageView imgView;
 	private ShowNoticeActivity mContext;
-	int idx;
+	String mPhotoPath;
+	ImageView mViewPhoto;
+	
 	private ProgressDialog mProgress;//barre d'avancement
 	private static final String DEBUG_TAG = "AtlasMuseum/chargementPhoto";
 	
 	String error;
 	
-	LoadingPhotoAsync(ShowNoticeActivity main, int idx) {
+	LoadingPhotoAsync(ShowNoticeActivity main, String photoPath, ImageView viewPhoto) {
 		Log.d(DEBUG_TAG,"lancement");
 		//this.imgView = mContext.getImageVew();
 		mContext = main;
-		this.idx=idx;
+		mPhotoPath = photoPath;
+		mViewPhoto = viewPhoto;
 	}
 
 
@@ -74,17 +76,13 @@ public class LoadingPhotoAsync extends AsyncTask<String, String, Boolean> {
 	
 	@Override
 	protected Boolean doInBackground(String... params) {
-		// TODO Auto-generated method stub
-
-		//ImageView imgView =(ImageView) mContext.findViewById(R.id.imageView1);
-    	Bitmap bmSmall = null;
+		Bitmap bmSmall = null;
     	try {
-    		String fichierImage = SearchActivity.extractDataFromDb(idx,"image_principale");
-    		if ("?".equals(fichierImage) == false){
-    			File fimage = SearchActivity.checkIfImageFileExists(fichierImage) ;
+    		if (! mPhotoPath.equals("")){
+    			File fimage = SearchActivity.checkIfImageFileExists(mPhotoPath) ;
     			if (fimage == null){
     				Log.d(DEBUG_TAG, "Downloading image file");
-    				Bitmap bm = LoadImageFromWebOperations("http://atlasmuseum.irisa.fr/images/"+fichierImage);
+    				Bitmap bm = LoadImageFromWebOperations("http://atlasmuseum.irisa.fr/images/"+mPhotoPath);
     				if (bm != null) {
     					int width = bm.getWidth();
     			        int height = bm.getHeight();
@@ -94,27 +92,27 @@ public class LoadingPhotoAsync extends AsyncTask<String, String, Boolean> {
     			        } else {
     			        	bmSmall = getResizedBitmap(bm,300,200);
     			        }
-    			        mContext.imgView = new ImageView(mContext);
-    			        mContext.imgView.setImageBitmap(bmSmall);
-    					File thefile = SearchActivity.createImageFile(fichierImage);
+    			        mViewPhoto = new ImageView(mContext);
+    			        mViewPhoto.setImageBitmap(bmSmall);
+    					File thefile = SearchActivity.createImageFile(mPhotoPath);
     					OutputStream fOut = null;
     					fOut = new FileOutputStream(thefile);
     					bmSmall.compress(Bitmap.CompressFormat.PNG, 90, fOut);
     					fOut.close();
     					
-    					loadThumbPhoto(fichierImage);
+    					loadThumbPhoto(mPhotoPath);
     					
     					return true;
     				} else {
-    					error =mContext.getString(R.string.prob_charg_image)+" "+fichierImage;
-    					Log.d(DEBUG_TAG, "Problme de chargement de l'image : "+fichierImage);
+    					error =mContext.getString(R.string.prob_charg_image)+" "+mPhotoPath;
+    					Log.d(DEBUG_TAG, "Problme de chargement de l'image : "+mPhotoPath);
     					return false;
     				}
     			} else {
     				Log.d(DEBUG_TAG, "Image file exist");
-    				mContext.imgView = new ImageView(mContext);
     				bmSmall = BitmapFactory.decodeFile(fimage.getAbsolutePath());
-    				imgView.setImageBitmap(bmSmall);
+    				mViewPhoto = new ImageView(mContext);
+    				mViewPhoto.setImageBitmap(bmSmall);
     				return true;
     			}
     		} else {

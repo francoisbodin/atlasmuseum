@@ -27,7 +27,7 @@ public class SearchUsingDate extends Activity{
 	private  ArrayAdapter<String> adapter;
 	private EditText beginDate;
 	private EditText endDate;
-	private static final String DEBUG_TAG = "SearchUsingDate";
+	private static final String DEBUG_TAG = "AtlasMuseum/SearchUsingDate";
 	private static final String SEARCH_DATE = "recherche par date";
 	private Button buttonOk;
 	private Bundle bundle;
@@ -91,7 +91,7 @@ public class SearchUsingDate extends Activity{
 	 }
 	 protected void afiicheError() {
 		// TODO Auto-generated method stub
-		Toast.makeText(this, "Vérifier les dates que vous avez entrées", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "Vï¿½rifier les dates que vous avez entrï¿½es", Toast.LENGTH_SHORT).show();
 	}
 	protected void rechercherLesOeuvre() {
 		// TODO Auto-generated method stub
@@ -106,12 +106,16 @@ public class SearchUsingDate extends Activity{
 			Log.d(DEBUG_TAG, "date: "+date_oeuvre);
 			if ((date_oeuvre != null) && !date_oeuvre.equals("?") )
 			{
-				int date = Integer.parseInt((date_oeuvre.toString()));;
+				try {
+					int date = Integer.parseInt((date_oeuvre.toString()));;
 				
-				if (date>= begin_int && end_int>= date)
-				{
-					bundle.putInt(Integer.toString(j),i);
-					j++;
+					if (date>= begin_int && end_int>= date)
+					{
+						bundle.putInt(Integer.toString(j),i);
+						j++;
+					}
+				} catch (NumberFormatException nfe) {
+					Log.d(DEBUG_TAG, "Bad date format:" + date_oeuvre);
 				}
 			}
 		}

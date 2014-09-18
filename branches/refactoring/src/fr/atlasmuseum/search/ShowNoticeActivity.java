@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.contribution.Contribution;
-import fr.atlasmuseum.contribution.Contribution2;
+import fr.atlasmuseum.contribution.Contribution;
 import fr.atlasmuseum.contribution.ContributionProperty;
 import fr.atlasmuseum.contribution.ListChampsNoticeModif;
 import fr.atlasmuseum.main.AtlasError;
@@ -34,15 +34,11 @@ public class ShowNoticeActivity extends Activity{
 
 	private static final String DEBUG_TAG = "AtlasMuseum/ShowNotice";
 	public static final String ARG_FRAGMENT = "IDFragment";
-	private Button btn_map;
-	private Button btn_acces_wikipedia;
-	private RelativeLayout mButtonPhoto;
 	
-	private Bundle bundle;
 	private int mDbIndex;
-	Contribution2 mContribution;
+	Contribution mContribution;
+	ImageView mViewPhoto;
 	
-	public ImageView imgView;//pour afficher l'image de la notice
 	private int REQUEST_CONTRIB=12345874;
 	
 	TextView creditphoto;
@@ -57,11 +53,11 @@ public class ShowNoticeActivity extends Activity{
 
         Log.d(DEBUG_TAG, "onCreate()");
     	
-    	bundle = getIntent().getExtras();
-    	mDbIndex = bundle.getInt("IDFragment");
+    	Bundle bundle = getIntent().getExtras();
+    	mDbIndex = bundle.getInt(ARG_FRAGMENT);
     	Log.d(DEBUG_TAG, "idBDD = " + mDbIndex);
     	
-    	mContribution = new Contribution2(this);
+    	mContribution = new Contribution();
     	mContribution.updateFromDb(mDbIndex);
     	
 		for (ContributionProperty prop : mContribution.getProperties()) {
@@ -100,14 +96,8 @@ public class ShowNoticeActivity extends Activity{
     		textViewVillePays.setText(ville+"-"+pays);
     	}
   	
-    	
-
-    	
-    	btn_map = (Button) findViewById(R.id.btn_map);
-    	imgView = (ImageView) findViewById(R.id.imageView1);
-    	ImageView littlemapbutton = (ImageView) findViewById(R.id.littlemapbutton);
-    	btn_acces_wikipedia = (Button) findViewById(R.id.btn_acces_wiki);
-    	btn_acces_wikipedia.setOnClickListener(new OnClickListener() {
+    	Button buttonWikipedia = (Button) findViewById(R.id.btn_acces_wiki);
+    	buttonWikipedia.setOnClickListener(new OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
 	        	Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -116,58 +106,51 @@ public class ShowNoticeActivity extends Activity{
 	        }
     	});
     	
-    	btn_map.setOnClickListener(new OnClickListener() {
+    	
+    	ImageView buttonMap = (ImageView) findViewById(R.id.littlemapbutton);
+    	buttonMap.setOnClickListener(new OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-	        	showMap();
+	        	Bundle extra = new Bundle();
+	    		Intent intent = new Intent(getApplication(), MapActivity.class);
+	    		extra.putInt("0",mDbIndex);
+	    		extra.putInt(SearchActivity.NB_ENTRIES,1);
+	    		extra.putInt(SearchActivity.MAP_FOCUS_NOTICE,1);
+	    		intent.putExtras(extra);
+	    		startActivity(intent);
 	        }
     	});
     	
-    	littlemapbutton.setOnClickListener(new OnClickListener() {
-	        @Override
-	        public void onClick(View v) {
-	        	showMap();
-	        }
-    	});
     	
-    	
-    	mButtonPhoto = (RelativeLayout) findViewById(R.id.image_loading);
-    	if (showExistingPhoto() == false) 
-    	{
-    		imgView.setVisibility(View.GONE);
-    		mButtonPhoto.setVisibility(View.VISIBLE);
-    		mButtonPhoto.setOnClickListener(new OnClickListener() {
+    	mViewPhoto = (ImageView) findViewById(R.id.imageView1);
+    	RelativeLayout buttonPhoto = (RelativeLayout) findViewById(R.id.image_loading);
+    	if (showExistingPhoto() == false) {
+    		mViewPhoto.setVisibility(View.GONE);
+    		buttonPhoto.setVisibility(View.VISIBLE);
+    		buttonPhoto.setOnClickListener(new OnClickListener() {
     			@Override
     			public void onClick(View v) {
-    				Log.i(DEBUG_TAG, "Button Photo activation");
     				showPhoto();
     			}
     		});
     	} 
-    	else 
-    	{ // hide button
-    		mButtonPhoto.setVisibility(View.GONE);
-    		imgView.setVisibility(View.VISIBLE);
+    	else { // hide button
+    		buttonPhoto.setVisibility(View.GONE);
+    		mViewPhoto.setVisibility(View.VISIBLE);
     	}
     	
-    	//pour autoriser le retour en cliquant sur l'icone de l'application dans l'action bar
-		////////////////////////////////////////////////////////////////////////////////////
-		////////////////////////////////////////////////////////////////////////////////////
-		////////////////////////////////////////////////////////////////////////////////////
-		//ACTION BAR
-		ActionBar actionBar = getActionBar();
-		if (actionBar != null)
-		{
-			actionBar.show();
-			
-			actionBar.setTitle(this.getResources().getString(R.string.notice_oeuvre));
-			actionBar.setDisplayShowTitleEnabled(true);
-			actionBar.setHomeButtonEnabled(true);
+    	ActionBar actionBar = getActionBar();
+    	if (actionBar != null) {
+    		actionBar.show();
 
-			actionBar.setDisplayHomeAsUpEnabled(true);
-			//actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);  
-				}
-    }//fin onCreate
+    		actionBar.setTitle(this.getResources().getString(R.string.notice_oeuvre));
+    		actionBar.setDisplayShowTitleEnabled(true);
+    		actionBar.setHomeButtonEnabled(true);
+
+    		actionBar.setDisplayHomeAsUpEnabled(true);
+    		//actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);  
+    	}
+    }
 
 
 	@Override
@@ -181,6 +164,7 @@ public class ShowNoticeActivity extends Activity{
 		}
     	
 		if (itemId == R.id.action_contrib) {
+			Bundle bundle = new Bundle();
 			bundle.putSerializable("contribution", mContribution);
 			mContribution.setLocalId(UUID.randomUUID().toString());
 			Intent intent = new Intent(this, ListChampsNoticeModif.class);
@@ -202,30 +186,14 @@ public class ShowNoticeActivity extends Activity{
         return super.onCreateOptionsMenu(menu);
 	}
 	
-    private void showMap(){
-    	Bundle extra = new Bundle();
-		Intent intent = new Intent(this, MapActivity.class);
-		extra.putInt("0",mDbIndex);
-		Log.i(DEBUG_TAG, "idx for MAP is "+mDbIndex);
-		extra.putInt(SearchActivity.NB_ENTRIES,1);
-		extra.putInt(SearchActivity.MAP_FOCUS_NOTICE,1);
-		intent.putExtras(extra);
-		startActivity(intent);
-	}
-    
-
     private Boolean showExistingPhoto(){
-    	ImageView imgView =(ImageView) findViewById(R.id.imageView1);
-    	Bitmap bmSmall = null;
     	try {
-    		String fichierImage = SearchActivity.extractDataFromDb(mDbIndex,"image_principale");
-    		Log.d(DEBUG_TAG, "id = "+mDbIndex);
-    		Log.d(DEBUG_TAG, "image file = "+fichierImage);
+    		String fichierImage = mContribution.getProperty(Contribution.PHOTO).getValue();
     		File fimage = SearchActivity.checkIfImageFileExists(fichierImage) ;
     		if (fimage != null) {
-    			Log.d(DEBUG_TAG, "showExistingPhoto Image file exist");
-    			bmSmall = BitmapFactory.decodeFile(fimage.getAbsolutePath());
-    			imgView.setImageBitmap(bmSmall);
+    			Bitmap bmSmall = BitmapFactory.decodeFile(fimage.getAbsolutePath());
+    			ImageView viewPhoto =(ImageView) findViewById(R.id.imageView1);
+    			viewPhoto.setImageBitmap(bmSmall);
     			return true;
     		}
     	} catch (IOException e) {
@@ -237,77 +205,19 @@ public class ShowNoticeActivity extends Activity{
     }
     
     private void showPhoto(){
-    	
-    	//ImageView imgView =(ImageView) findViewById(R.id.imageView1);
-    	
-    	LoadingPhotoAsync upl = new LoadingPhotoAsync(this, this.mDbIndex);
+    	LoadingPhotoAsync upl = new LoadingPhotoAsync(this, mContribution.getProperty(Contribution.PHOTO).getValue(), mViewPhoto);
     	upl.execute();
-    	
     }
-    
-    
-    // here we select the entries to display
-    Bundle selectEntries(){
-    	Bundle extra = new Bundle();
-    	// temporary setting
-    	extra.putInt(SearchActivity.MAP_FOCUS_NOTICE,1);
-    	extra.putInt(SearchActivity.NB_ENTRIES,1);
-    	extra.putInt(Integer.toString(0),getEntryNumberForFragment(mDbIndex));
-    	extra.putDouble(SearchActivity.CURRENT_LAT,0.0);
-    	extra.putDouble(SearchActivity.CURRENT_LONG,0.0);
-    	return extra;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	if(requestCode == this.REQUEST_CONTRIB) {
+    		if(resultCode == RESULT_OK) {
+    			Toast.makeText(this, getResources().getString(R.string.contrib_envoi_success), Toast.LENGTH_SHORT).show();
+    		}
+    	}
+    	else {
+    		super.onActivityResult(requestCode, resultCode, data);
+    	}
     }
-    
-   
-	////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////
-	/// HELPER ROUTINES ///
-	
-	int getEntryNumberForFragment(int idx){
-	if (bundle == null) return -1;
-	return bundle.getInt(Integer.toString(idx));
-	}
-	
-	int getNumberOfEntries(){
-	int v = bundle.getInt(SearchActivity.NB_ENTRIES);
-	Log.d(DEBUG_TAG, "getNumberOfEntries : " + v);
-	return v;
-	}
-	
-	Double getCurrentLatitude(){
-	Double v = bundle.getDouble(SearchActivity.CURRENT_LAT );
-	Log.d(DEBUG_TAG, "getCurrentLatitude : " + v);
-	return v;
-	}
-	
-	Double getCurrentLongitude(){
-	Double v = bundle.getDouble(SearchActivity.CURRENT_LONG );
-	Log.d(DEBUG_TAG, "getCurrentLongitude : " + v);
-	return v;
-	}
-	
-
-		public ImageView getImageVew() {
-			return this.imgView;
-		}
-
-		@Override
-		protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		    // TODO Auto-generated method stub
-		    Log.d(DEBUG_TAG, "result code="+requestCode);
-		    if(requestCode == this.REQUEST_CONTRIB)
-		    {
-		    	if(resultCode == RESULT_OK)
-		    	{
-
-			    	Toast.makeText(this, getResources().getString(R.string.contrib_envoi_success), Toast.LENGTH_SHORT).show();
-		    	}
-		    }
-		    else
-		    {
-		    	super.onActivityResult(requestCode, resultCode, data);
-		    }
-		    
-		}
 }

@@ -3,7 +3,6 @@ package fr.atlasmuseum.contribution;
 import java.util.ArrayList;
 import java.util.Arrays;
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.contribution.Contribution.type_contrib;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -34,7 +33,6 @@ public class ModifActivity extends Activity {
 	String value;//valeur donnée par l'utilisateur
 	ListView listV; //utiliser pour afficher
 	LinearLayout relativMain;
-	type_contrib typeContrib;//definit le type de contribution en cours
 	private ArrayList<CheckBoxElt> mCheckList;
 	private BaseAdapter adapter;
 	private TextView infos;
@@ -95,9 +93,9 @@ public class ModifActivity extends Activity {
 	}
 
 	private void gestionBundle() {
-		String title = mProp.getTitle();
+		String title = getResources().getString(mProp.getTitle());
 		String value = mProp.getValue();
-		String info = mProp.getInfo();
+		String info = getResources().getString(mProp.getInfo());
 		String choices[] = mProp.getChoices();
 		
 		titre_contrib.setText(title);
@@ -222,23 +220,14 @@ public class ModifActivity extends Activity {
 		intent.putExtra("position", mBundle.getInt("position"));
         intent.putExtra("property",mProp); 
 		setResult(RESULT_OK, intent);
-
-//		Intent intent = new Intent(this, ListChampsNoticeModif.class);
-//		intent.putExtras(mBundle);
-//		startActivity(intent);
-
 		finish();
 	}
 
 
 	@Override
 	public void onBackPressed() {
-		setResult(ListChampsNoticeModif.REQUEST_FINISH, null);//pour fermer l'activite precedente
-		Intent intent = new Intent(this, ListChampsNoticeModif.class);
-    	intent.putExtras(mBundle);
-        startActivity(intent);
-        finish();
-		//super.onBackPressed();
+		setResult(RESULT_CANCELED);
+		finish();
 	}
 	
 
@@ -246,19 +235,15 @@ public class ModifActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
 		
-		if(itemId == android.R.id.home)
-		{
-			setResult(ListChampsNoticeModif.REQUEST_FINISH, null);//pour fermer l'activite precedente
-			Intent intent = new Intent(this, ListChampsNoticeModif.class);
-	    	intent.putExtras(mBundle);
-	        startActivity(intent);
+		if(itemId == android.R.id.home)	{
+			setResult(RESULT_CANCELED);
 			finish();
 			return true;
 		}
-    	
-	
-		else return false;
-		    
+		else {
+			return false;
+		}
+
     }
 	
 }

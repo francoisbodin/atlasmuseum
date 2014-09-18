@@ -2,6 +2,9 @@ package fr.atlasmuseum.contribution;
 
 import java.io.Serializable;
 
+import org.jdom2.Attribute;
+import org.jdom2.Element;
+
 import fr.atlasmuseum.search.SearchActivity;
 
 public class ContributionProperty implements Serializable {
@@ -18,28 +21,29 @@ public class ContributionProperty implements Serializable {
 
 	private String mDbField;
 	private String mJsonField;
-	private String mTitle;
+	private int mTitle; /* reference to a resource string */
 	private String mValue;
 	private String mOriginalValue;
 	private String mDefaultValue;
-	private String mInfo;
+	private int mInfo; /* reference to a resource string */
 	private ContribType mType;
 	private String[] mChoices;
-	private Boolean mIsModified;
 	private int mShowViewText;
 	private int mShowViewToHide;
+	private Boolean mDumpInXML;
 	
 	public ContributionProperty(
 			String dbField,
 			String jsonField,
-			String title,
+			int title,
 			String value,
 			String defaultValue,
-			String info,
+			int info,
 			ContribType type,
 			String[] choices,
 			int showViewText,
-			int showViewToHide
+			int showViewToHide,
+			Boolean dumpInXML
 			) {
 		mDbField = dbField;
 		mJsonField = jsonField;
@@ -50,9 +54,9 @@ public class ContributionProperty implements Serializable {
 		mInfo = info;
 		mType = type;
 		mChoices = choices;
-		mIsModified = false;
 		mShowViewText = showViewText;
 		mShowViewToHide = showViewToHide;
+		mDumpInXML = dumpInXML;
 	}
 	
 	public String getDbField() {
@@ -69,10 +73,10 @@ public class ContributionProperty implements Serializable {
 		mJsonField = jsonField;
 	}
 
-	public String getTitle() {
+	public int getTitle() {
 		return mTitle;
 	}
-	public void setTitle(String title) {
+	public void setTitle(int title) {
 		mTitle = title;
 	}
 
@@ -82,7 +86,7 @@ public class ContributionProperty implements Serializable {
 	public void setValue(String value) {
 		mValue = value;
 		mValue = mValue.trim();
-		if( mValue == "?" ) mValue = "";
+		if( mValue.equals("?") ) mValue = "";
 	}
 
 	public String getOriginalValue() {
@@ -106,10 +110,10 @@ public class ContributionProperty implements Serializable {
 		setOriginalValue( value );
 	}
 	
-	public String getInfo() {
+	public int getInfo() {
 		return mInfo;
 	}
-	public void setInfo(String info) {
+	public void setInfo(int info) {
 		mInfo = info;
 	}
 
@@ -157,10 +161,33 @@ public class ContributionProperty implements Serializable {
 	}
 
 	public Boolean isModified() {
-		return mIsModified;
+		return (mOriginalValue != mValue);
 	}
 	
 	public void updateFromDb(int index) {
 		resetValue(SearchActivity.extractDataFromDb(index, mJsonField));
+	}
+	
+	public void updateFromXml(Element elemContrib) {
+		Element elem = elemContrib.getChild(mDbField); 
+		if( elem != null) {
+			resetValue(elem.getAttributeValue(Contribution.VALUE));
+		}
+	}
+	
+	public void addXML( Element parent, Boolean original ) {
+		if( ! mDumpInXML ) {
+			return;
+		}
+		if( mValue.equals("") && !original ) {
+			return;
+		}
+		if( mOriginalValue.equals("") && original ) {
+			return;
+		}
+		Element elem = new Element(mDbField);
+        Attribute attr = new Attribute(Contribution.VALUE, original ? mOriginalValue : mValue);
+        elem.setAttribute(attr);
+        parent.addContent(elem);
 	}
 }
