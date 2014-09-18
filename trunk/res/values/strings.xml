@@ -153,6 +153,7 @@
     <string name="url_send_am">http://atlasmuseum.irisa.fr/android/atlasmuseum_dld.php</string>
     <string name="url_send_refam">http://atlasmuseum.irisa.fr/android/atlasmuseum_dld.php</string>
     <string name="url_webview">http://atlasmuseum.irisa.fr/android/galerie.php</string>
+    <string name="images_url">http://atlasmuseum.irisa.fr/images/</string>
     
     <!-- loadingPhoto error -->
     <string name="image_non_dispo">image non disponible</string>

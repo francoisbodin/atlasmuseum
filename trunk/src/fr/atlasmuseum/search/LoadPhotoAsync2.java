@@ -44,7 +44,7 @@ import android.widget.Toast;
 public class LoadPhotoAsync2 extends AsyncTask<String, String, Boolean> {
 	
 	ImageView imgView;
-	ArrayList<String> listPhoto;//list des noms de photos à charger
+	ArrayList<String> listPhoto;//list des noms de photos ï¿½ charger
 	private ProgressDialog mProgress;//barre d'avancement
 	private static final String DEBUG_TAG = "AtlasMuseum/LoadingThumbPhoto";
 	
@@ -86,7 +86,7 @@ public class LoadPhotoAsync2 extends AsyncTask<String, String, Boolean> {
      protected void onProgressUpdate(String... values) {
          super.onProgressUpdate(values);
          String intro="Chargement des 50 thumb des oeuvres les plus proches\n";
-         String info ="\nOK:thumb téléchargé \n FAILED: problème de chargement";
+         String info ="\nOK:thumb tï¿½lï¿½chargï¿½ \n FAILED: problï¿½me de chargement";
          mProgress.setMessage(values[0].toString()+info);  
 
      }
@@ -111,7 +111,7 @@ public class LoadPhotoAsync2 extends AsyncTask<String, String, Boolean> {
 	    			File fimage = SearchActivity.checkIfImageFileExists(fichierImage) ;
 	    			if (fimage == null)
 	    			{
-	    				Bitmap bm = LoadImageFromWebOperations("http://atlasmuseum.irisa.fr/images/"+fichierImage);
+	    				Bitmap bm = LoadImageFromWebOperations(activity.getContext().getString(R.string.images_url)+fichierImage);
 	    				if (bm != null)
 	    				{
 	    					
@@ -125,7 +125,7 @@ public class LoadPhotoAsync2 extends AsyncTask<String, String, Boolean> {
 	    				else
 	    				{
 	    					publishProgress("thumb "+i+"/"+listPhoto.size()+"..FAILED");
-	    					Log.d(DEBUG_TAG, "Problème de chargement de l'image : "+fichierImage);
+	    					Log.d(DEBUG_TAG, "Problï¿½me de chargement de l'image : "+fichierImage);
 	    					
 	    				}
 	    			}

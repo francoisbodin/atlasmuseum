@@ -68,7 +68,7 @@ public class LoadAPhotoAsync extends AsyncTask<String, String, Boolean> {
 			if (fimage == null)
 			{
 				Log.d(DEBUG_TAG, "loading photo from web...."+photoName);
-				Bitmap bm = LoadImageFromWebOperations("http://atlasmuseum.irisa.fr/images/"+photoName);
+				Bitmap bm = LoadImageFromWebOperations(mContext.getContext().getString(R.string.images_url)+photoName);
 				if (bm != null)
 				{
 					
