@@ -1,14 +1,9 @@
 package fr.atlasmuseum.contribution;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.output.XMLOutputter;
 
 import android.app.ActionBar;
 import android.app.Activity;

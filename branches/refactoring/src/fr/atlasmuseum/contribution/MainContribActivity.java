@@ -130,40 +130,43 @@ public class MainContribActivity extends Activity {
 		relativEnvoi.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v){
-				if(! checkInternetConnection()) {
-					AtlasError.showErrorDialog(MainContribActivity.this, "7.1", "pas de connexion internet");
-					return;
-				}
-				
-				if(! Authentification.getisConnected()){
-					AtlasError.showErrorDialog(MainContribActivity.this, "7.3", "compte utilisateur requis");
-					return;
-				}
-				
-				File saveDir = new File( Contribution.getSaveDir(MainContribActivity.this) );
-				FilenameFilter filter = new FilenameFilter() {
-					public boolean accept(File dir, String name) {
-						return name.startsWith("new_") || name.startsWith("modif_");
-					}
-				};
-				String[] saveFiles = saveDir.list(filter);
-
-				if (saveFiles.length == 0) {
-					AtlasError.showErrorDialog(MainContribActivity.this, "7.2", "pas de contribution sauvegardée");
-					return;
-				}
-
-				for (String saveFile: saveFiles) {
-					Contribution contribution = Contribution.restoreFromFile(saveFile);
-					if( contribution == null ) {
-						continue;
-					}
-					contribution.setLogin(Authentification.getUsername());
-					contribution.setPassword(Authentification.getPassword());
-					
-					ContributionSend contributionSend = new ContributionSend(MainContribActivity.this, contribution);
-					contributionSend.execute();
-				}
+//				if(! checkInternetConnection()) {
+//					AtlasError.showErrorDialog(MainContribActivity.this, "7.1", "pas de connexion internet");
+//					return;
+//				}
+//				
+//				if(! Authentification.getisConnected()){
+//					AtlasError.showErrorDialog(MainContribActivity.this, "7.3", "compte utilisateur requis");
+//					return;
+//				}
+//				
+//				File saveDir = new File( Contribution.getSaveDir(MainContribActivity.this) );
+//				FilenameFilter filter = new FilenameFilter() {
+//					public boolean accept(File dir, String name) {
+//						return name.startsWith("new_") || name.startsWith("modif_");
+//					}
+//				};
+//				String[] saveFiles = saveDir.list(filter);
+//
+//				if (saveFiles.length == 0) {
+//					AtlasError.showErrorDialog(MainContribActivity.this, "7.2", "pas de contribution sauvegardée");
+//					return;
+//				}
+//
+//				for (String saveFile: saveFiles) {
+//					Contribution contribution = Contribution.restoreFromFile(saveFile);
+//					if( contribution == null ) {
+//						continue;
+//					}
+//					contribution.setLogin(Authentification.getUsername());
+//					contribution.setPassword(Authentification.getPassword());
+//					
+//					ContributionSend contributionSend = new ContributionSend(MainContribActivity.this, contribution);
+//					contributionSend.execute();
+//				}
+			
+				Intent intent= new Intent(MainContribActivity.this, SavedContributionsActivity.class);
+				startActivity(intent);
 			}
 		});
 	}

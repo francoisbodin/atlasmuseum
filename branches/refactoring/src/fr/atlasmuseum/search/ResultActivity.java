@@ -1,14 +1,11 @@
 package fr.atlasmuseum.search;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.main.AtlasError;
-import fr.atlasmuseum.main.MainActivity;
 import fr.atlasmuseum.search.module.NoticeAdapterWithDistance;
 import fr.atlasmuseum.search.module.NoticeCompar;
 import fr.atlasmuseum.search.module.NoticeOeuvre;
@@ -24,29 +21,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class ResultActivity extends Activity implements loadPhotoInterface {
 	private static final String DEBUG_TAG = "AtlasMuseum/ResultActivity";
-	private ListView lvSelection = null;
-	private Bundle bundle = null;
-	private  List<String> selectionStringList;
-	//Button button_carte
-	private Button mButtonCarte;
-	//Button button_accueil
-	private Button mButtonAccueil;
-	//action bar
-	private ActionBar actionBar = null;
 
-	//private TextView titreNbOeuvre;
+	private Bundle mBundle;
+	private ListView mListViewSelection;
 	
 	NoticeAdapterWithDistance noticeAdapter;
 	
@@ -55,18 +39,15 @@ public class ResultActivity extends Activity implements loadPhotoInterface {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.search_result_list_layout);
-        Log.d(DEBUG_TAG, "onCreateView");
-        bundle = getIntent().getExtras();
-        //titreNbOeuvre = (TextView) findViewById(R.id.titlelist);
-      //  titreNbOeuvre.setText(getNumberOfEntries()+" "+getResources().getString(R.string.title_list));
-        lvSelection = (ListView) findViewById(R.id.list_view);
-        List<NoticeOeuvre> listNotice = new ArrayList<NoticeOeuvre>();
+        Log.d(DEBUG_TAG, "onCreate()");
+        
+        mBundle = getIntent().getExtras();
+        
         ArrayList<NoticeCompar> compNoticeList = new ArrayList<NoticeCompar>();
-        int idx;
         
         Log.d(DEBUG_TAG+"/numberEntries", getNumberOfEntries()+" entries");
         int j=0;
-		for (idx = 0; idx < getNumberOfEntries(); idx++)
+		for (int idx = 0; idx < getNumberOfEntries(); idx++)
 		{
 			int idxloc = getEntryNumberForFragment(idx);
 			
@@ -77,7 +58,7 @@ public class ResultActivity extends Activity implements loadPhotoInterface {
 			String lieux = SearchActivity.extractDataFromDb(idxloc,"Siteville");
 			String pays = SearchActivity.extractDataFromDb(idxloc,"Sitepays");
 			int id= idxloc;
-			NoticeOeuvre notice = new NoticeOeuvre(nomOvreu, artiste,idxloc); //créé les notices
+			NoticeOeuvre notice = new NoticeOeuvre(nomOvreu, artiste,idxloc); //crï¿½ï¿½ les notices
 			try
 			{
 				int annee = Integer.valueOf(date);
@@ -113,23 +94,26 @@ public class ResultActivity extends Activity implements loadPhotoInterface {
 			j++;
 		}
 		Collections.sort(compNoticeList, NoticeCompar.NoticeDateComparator);
-		for(int i=0;i< compNoticeList.size();i++)
+		List<NoticeOeuvre> listNotice = new ArrayList<NoticeOeuvre>();
+        for(int i=0;i< compNoticeList.size();i++)
 		{
 			listNotice.add(compNoticeList.get(i).getOeuvre());
 		}
 		//NoticeAdapter noticeAdapter = new NoticeAdapter(this, listNotice);
 		noticeAdapter = new NoticeAdapterWithDistance(this, listNotice);
-		lvSelection.setAdapter(noticeAdapter);
+
+        mListViewSelection = (ListView) findViewById(R.id.list_view);
+        mListViewSelection.setAdapter(noticeAdapter);
 		
-		lvSelection.setAdapter(noticeAdapter);
-		//Enfin on met un écouteur d'évènement sur notre listView
-		lvSelection.setOnItemClickListener(new OnItemClickListener() {
+		mListViewSelection.setAdapter(noticeAdapter);
+		//Enfin on met un ï¿½couteur d'ï¿½vï¿½nement sur notre listView
+		mListViewSelection.setOnItemClickListener(new OnItemClickListener() {
 			@Override
         	@SuppressWarnings("unchecked")
          	public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-				//on récupère la HashMap contenant les infos de notre item (titre, description, img)
+				//on rï¿½cupï¿½re la HashMap contenant les infos de notre item (titre, description, img)
 				//lvSelection.getItemAtPosition(position).getClass();
-        		Log.d(DEBUG_TAG, "class ="+lvSelection.getItemAtPosition(position).getClass());
+        		Log.d(DEBUG_TAG, "class ="+mListViewSelection.getItemAtPosition(position).getClass());
         		/**NoticeOeuvre noticeSelected = (NoticeOeuvre) lvSelection.getItemAtPosition(position);
         		int idfrag = noticeSelected.getId();
 				bundle.putInt(ShowNoticeActivity.ARG_FRAGMENT,idfrag );//idfrag, c'est l'id dans la BDD
@@ -140,28 +124,14 @@ public class ResultActivity extends Activity implements loadPhotoInterface {
         	}
          });
  
-		//pour autoriser le retour en cliquant sur l'icone de l'application dans l'action bar
-		////////////////////////////////////////////////////////////////////////////////////
-		////////////////////////////////////////////////////////////////////////////////////
-		////////////////////////////////////////////////////////////////////////////////////
-		//ACTION BAR
-		actionBar = getActionBar();
-		if (actionBar != null)
-		{
+		ActionBar actionBar = getActionBar();
+		if (actionBar != null) {
 			actionBar.show();
 			actionBar.setTitle("Rechercher");
 			actionBar.setDisplayHomeAsUpEnabled(true);
 			actionBar.setDisplayShowTitleEnabled(true);
 			//actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);  
-				}
-		/**this.mButtonMapBas.setOnClickListener(new OnClickListener() {
-	    	@Override
-	    	public void onClick(View v) {
-	    		Log.i(DEBUG_TAG, "Button research activation");
-	    		showMap();
-	    	}
-	    });**/
-		
+		}
     }
 	
 
@@ -171,24 +141,24 @@ public class ResultActivity extends Activity implements loadPhotoInterface {
 	/// HELPER ROUTINES ///
 	
 	int getEntryNumberForFragment(int idx){
-		if (bundle == null) return -1;
-		return bundle.getInt(Integer.toString(idx));
+		if (mBundle == null) return -1;
+		return mBundle.getInt(Integer.toString(idx));
 	}
 	
 	int getNumberOfEntries(){
-		int v = bundle.getInt(SearchActivity.NB_ENTRIES);
+		int v = mBundle.getInt(SearchActivity.NB_ENTRIES);
 		Log.d(DEBUG_TAG, "getNumberOfEntries : " + v);
 		return v;
 	}
 	
 	Double getCurrentLatitude(){
-		Double v = bundle.getDouble(SearchActivity.CURRENT_LAT );
+		Double v = mBundle.getDouble(SearchActivity.CURRENT_LAT );
 		Log.d(DEBUG_TAG, "getCurrentLatitude : " + v);
 		return v;
 	}
 	
 	Double getCurrentLongitude(){
-		Double v = bundle.getDouble(SearchActivity.CURRENT_LONG );
+		Double v = mBundle.getDouble(SearchActivity.CURRENT_LONG );
 		Log.d(DEBUG_TAG, "getCurrentLongitude : " + v);
 		return v;
 	}
@@ -197,9 +167,9 @@ public class ResultActivity extends Activity implements loadPhotoInterface {
 		Intent intent = new Intent(getApplication(),MapActivity.class);
 		if (getNumberOfEntries() == 1) 
 		{
-			bundle.putInt(SearchActivity.MAP_FOCUS_NOTICE,1);
+			mBundle.putInt(SearchActivity.MAP_FOCUS_NOTICE,1);
 		}
-		intent.putExtras(bundle);
+		intent.putExtras(mBundle);
 		startActivity(intent);
 		finish();
 	}

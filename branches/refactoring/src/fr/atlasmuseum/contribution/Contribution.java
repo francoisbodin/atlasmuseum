@@ -451,6 +451,20 @@ public class Contribution implements Serializable {
 		mPassword = password;
 	}
 	
+	public String getDate() {
+		return mDate;
+	}
+	public void setDate(String date) {
+		mDate = date;
+	}
+	
+	public String getTime() {
+		return mTime;
+	}
+	public void setTime(String time) {
+		mTime = time;
+	}
+	
 
 	public ContributionProperty getProperty(String name) {
 		if( mProperties.containsKey(name) ) {
@@ -574,6 +588,12 @@ public class Contribution implements Serializable {
 	}
 	
 	void save( Context context ) {
+        Date date = new Date();
+  	  	SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+  	  	mDate = formatDate.format(date);
+  	  	SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
+  	  	mTime = formatTime.format(date);
+
 		File saveDir = new File( getSaveDir(context) );
 		String filename;
 		if( mNoticeId == 0 ) {

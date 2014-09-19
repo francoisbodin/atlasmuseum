@@ -327,4 +327,9 @@
      <string name="No">Non</string>
      <string name="dialog_restore_contribution_modif_title">Recharger la contribution sauvegardée ?</string>
      <string name="dialog_restore_contribution_modif_message">Il existe déjà une contribution sauvegardée pour cette notice. Souhaitez-vous la recharger ?</string>
+
+     <string name="title_saved_contributions">Contributions sauvegardées</string>
+     <string name="title_new_notice">NOUVELLES NOTICES</string>
+     <string name="title_modif_notice">NOTICES MODIFIEES</string>
+     
 </resources>
