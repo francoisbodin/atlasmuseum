@@ -6,12 +6,13 @@ import java.util.UUID;
 
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.contribution.Contribution;
-import fr.atlasmuseum.contribution.Contribution;
 import fr.atlasmuseum.contribution.ContributionProperty;
+import fr.atlasmuseum.contribution.ContributionRestoreDialogFragment;
 import fr.atlasmuseum.contribution.ListChampsNoticeModif;
 import fr.atlasmuseum.main.AtlasError;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,7 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class ShowNoticeActivity extends Activity{
+public class ShowNoticeActivity extends Activity implements ContributionRestoreDialogFragment.ContributionRestoreDialogListener{
 
 	private static final String DEBUG_TAG = "AtlasMuseum/ShowNotice";
 	public static final String ARG_FRAGMENT = "IDFragment";
@@ -164,18 +165,23 @@ public class ShowNoticeActivity extends Activity{
 		}
     	
 		if (itemId == R.id.action_contrib) {
-			Bundle bundle = new Bundle();
-			bundle.putSerializable("contribution", mContribution);
 			mContribution.setLocalId(UUID.randomUUID().toString());
-			Intent intent = new Intent(this, ListChampsNoticeModif.class);
-			intent.putExtras(bundle);
-			startActivityForResult(intent, this.REQUEST_CONTRIB);
+
+			// Check if a saved contribution matches this one
+			File saveDir = new File( Contribution.getSaveDir(this) );
+			File saveFile = new File( saveDir, "modif_" + Integer.toString(mContribution.getNoticeId()));
+			if( saveFile.exists() ) {
+				DialogFragment newFragment = new ContributionRestoreDialogFragment();
+			    newFragment.show(getFragmentManager(), "ContributionRestoreDialogFragment");
+			}
+			else {
+				modifyNotice(mContribution);
+			}
 			return true;
 		}
 		else {
 			return false;
 		}
-		    
     }
     
 
@@ -209,6 +215,14 @@ public class ShowNoticeActivity extends Activity{
     	upl.execute();
     }
 
+    private void modifyNotice( Contribution contribution ) {
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("contribution", contribution);
+		Intent intent = new Intent(this, ListChampsNoticeModif.class);
+		intent.putExtras(bundle);
+		startActivityForResult(intent, this.REQUEST_CONTRIB);
+    }
+    
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	if(requestCode == this.REQUEST_CONTRIB) {
@@ -220,4 +234,20 @@ public class ShowNoticeActivity extends Activity{
     		super.onActivityResult(requestCode, resultCode, data);
     	}
     }
+    
+	@Override
+	public void onRestoreSavedModifications() {
+		Log.d(DEBUG_TAG, "onRestoreSavedModifications()");
+		File saveDir = new File( Contribution.getSaveDir(this) );
+		File saveFile = new File( saveDir, "modif_" + Integer.toString(mContribution.getNoticeId()));		
+		Contribution contribution = Contribution.restoreFromFile(saveFile.getAbsolutePath());
+		modifyNotice(contribution);
+	}
+
+
+	@Override
+	public void onDiscardSavedModifications() {
+		modifyNotice(mContribution);
+	}
+
 }

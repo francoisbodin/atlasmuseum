@@ -323,4 +323,8 @@
      <string name="completer_au_moins_un_champs">Veuillez compléter au moins un champ pour contribuer</string>
      <string name="location_change_alert">Mettre à jour la localisation de l\'œuvre</string>
      
+     <string name="Yes">Oui</string>
+     <string name="No">Non</string>
+     <string name="dialog_restore_contribution_modif_title">Recharger la contribution sauvegardée ?</string>
+     <string name="dialog_restore_contribution_modif_message">Il existe déjà une contribution sauvegardée pour cette notice. Souhaitez-vous la recharger ?</string>
 </resources>

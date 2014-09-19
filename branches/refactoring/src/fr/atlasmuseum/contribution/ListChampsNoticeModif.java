@@ -43,9 +43,8 @@ import fr.atlasmuseum.main.MainActivity;
 import fr.atlasmuseum.search.loadPhotoInterface;
 import fr.atlasmuseum.search.loadingPhoto2;
 
-public class ListChampsNoticeModif extends Activity implements loadPhotoInterface {
+public class ListChampsNoticeModif extends Activity	implements loadPhotoInterface {
 	private static final String DEBUG_TAG = "AtlasMuseum/ListChampAct";
-	
 	
 	static final int REQUEST_MODIFY_PROPERTY = 1;
 	static final int REQUEST_TAKE_PICTURE = 2;
@@ -64,7 +63,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 
 	public ContributionPropertyAdapter mAdapter;
 	
-
+	
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -107,7 +106,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 					Bundle bundle = new Bundle();
 					bundle.putSerializable("position", position);
 					bundle.putSerializable("property", prop);
-					Intent intent = new Intent(getApplication(), ModifActivity.class);
+					Intent intent = new Intent(ListChampsNoticeModif.this, ModifActivity.class);
 					intent.putExtras(bundle);
 					startActivityForResult(intent, REQUEST_MODIFY_PROPERTY);	
 				}
@@ -125,7 +124,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 					File file = File.createTempFile(
 							/* prefix */ "photo_" + String.valueOf(mNoticeId) + "-",
 							/* suffix */ ".jpg",
-							/* directory */ Contribution.getAlbumDir());
+							/* directory */ Contribution.getPhotoDir());
 					mNewPhotoFilename = file.getAbsolutePath();
 					file.delete();
 				} catch (IOException e) {
@@ -150,7 +149,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 					File file = File.createTempFile(
 							/* prefix */ "photo_" + String.valueOf(mNoticeId) + "-",
 							/* suffix */ ".jpg",
-							/* directory */ Contribution.getAlbumDir());
+							/* directory */ Contribution.getPhotoDir());
 					mNewPhotoFilename = file.getAbsolutePath();
 					file.delete();
 				} catch (IOException e) {
@@ -195,7 +194,7 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 		{
 			actionBar.show();
 			actionBar.setDisplayHomeAsUpEnabled(true);
-			actionBar.setTitle(this.getResources().getString(R.string.Contribuer));
+			actionBar.setTitle(getResources().getString(R.string.Contribuer));
 			actionBar.setDisplayShowTitleEnabled(true);
 			//actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);  
 		}
@@ -262,34 +261,8 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
 			}
 		}
 		
-		// Get contributions already saved
-		List<Contribution> contributions = Contribution.getContributionsFromXmlString(Contribution.readSaveFile(this));
-
-		// Create the XML document with saved contributions 
-		Element root = new Element("xml");
-		Document document = new Document(root);
-		for( Contribution contribution : contributions) {
-			contribution.addToXML(root);
-		}
+		mContribution.save(this);
 		
-		// Add current contribution
-		mContribution.addToXML(root);
-
-		XMLOutputter xmlOutputter = new XMLOutputter(); 
-		String xmlString = xmlOutputter.outputString(document);
-
-		FileOutputStream outputStream;
-		deleteFile(Contribution.SAVE_FILE);
-		
-		try {
-			outputStream = openFileOutput(Contribution.SAVE_FILE, Context.MODE_APPEND);//create the file if no exists
-			outputStream.write(xmlString.getBytes());
-			outputStream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			Log.d(DEBUG_TAG+"ECHEC", "echec enregistrement");
-		}
-
 		setResult(RESULT_OK);
 		finish();
 		
@@ -512,5 +485,4 @@ public class ListChampsNoticeModif extends Activity implements loadPhotoInterfac
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }
-
 }

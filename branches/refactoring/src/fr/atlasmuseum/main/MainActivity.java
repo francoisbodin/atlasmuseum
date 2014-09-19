@@ -52,7 +52,6 @@ public class MainActivity extends Activity implements LocationProvider.OnLocatio
 	private int RESULT_CONNEXION=125455;
     
     public static SharedPreferences cPref; //preference pour le systeme de compte utilisateur, contient user et password AUTO_ISCHECK et DEJACO
-	private static final String SHARED_PREFERENCES = "fr.irisa.discovart.SHARED_PREFERENCES";
 	
     
     
@@ -298,19 +297,15 @@ public class MainActivity extends Activity implements LocationProvider.OnLocatio
 	}
 	
 	private void onClickActu() {
-		// TODO Auto-generated method stub
 		Intent intent= new Intent(this, ActuActivity.class); //lance la webview pour visualiser les contributions
 		startActivity(intent);
 	}
 	
 	private void onClickContribuer() {
-		// TODO Auto-generated method stub
 		Intent intent= new Intent(this, MainContribActivity.class); //lance la webview pour visualiser les contributions
 		startActivity(intent);
-		//finish();
 	}
 	private void onClickAPropos() {
-		// TODO Auto-generated method stub
 		Intent intent= new Intent(this, AproposActivity.class);
 		startActivity(intent);
 	}

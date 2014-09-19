@@ -2,7 +2,8 @@ package fr.atlasmuseum.contribution;
 
 
 
-import java.util.List;
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.UUID;
 
 import fr.atlasmuseum.R;
@@ -68,8 +69,17 @@ public class MainContribActivity extends Activity {
 		WebView textInfo = (WebView) findViewById(R.id.text_info);
 		textInfo.loadUrl("file:///android_asset/contribuer.html");
 
-		List<Contribution> contributions = Contribution.getContributionsFromXmlString(Contribution.readSaveFile(this));
-		textSavedTitle.setText(contributions.size()+" "+getResources().getString(contributions.size() <= 1 ? R.string.contrib_save : R.string.contrib_saves));
+		// Get number of saved contributions
+		File saveDir = new File( Contribution.getSaveDir(this) );
+		FilenameFilter filter = new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				return name.startsWith("new_") || name.startsWith("modif_");
+			}
+		};
+		int nbSavedContributions = saveDir.list(filter).length;
+
+		// Update contribute title with number of saved contributions
+		textSavedTitle.setText(nbSavedContributions+" "+getResources().getString(nbSavedContributions <= 1 ? R.string.contrib_save : R.string.contrib_saves));
 
 
 		ActionBar actionBar = getActionBar();
@@ -130,12 +140,24 @@ public class MainContribActivity extends Activity {
 					return;
 				}
 				
-				List<Contribution> contributions = Contribution.getContributionsFromXmlString(Contribution.readSaveFile(MainContribActivity.this));
-				if (contributions.size() == 0) {
+				File saveDir = new File( Contribution.getSaveDir(MainContribActivity.this) );
+				FilenameFilter filter = new FilenameFilter() {
+					public boolean accept(File dir, String name) {
+						return name.startsWith("new_") || name.startsWith("modif_");
+					}
+				};
+				String[] saveFiles = saveDir.list(filter);
+
+				if (saveFiles.length == 0) {
 					AtlasError.showErrorDialog(MainContribActivity.this, "7.2", "pas de contribution sauvegardée");
 					return;
 				}
-				for (Contribution contribution: contributions) {
+
+				for (String saveFile: saveFiles) {
+					Contribution contribution = Contribution.restoreFromFile(saveFile);
+					if( contribution == null ) {
+						continue;
+					}
 					contribution.setLogin(Authentification.getUsername());
 					contribution.setPassword(Authentification.getPassword());
 					

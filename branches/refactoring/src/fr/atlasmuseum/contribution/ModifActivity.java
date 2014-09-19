@@ -95,7 +95,7 @@ public class ModifActivity extends Activity {
 	private void gestionBundle() {
 		String title = getResources().getString(mProp.getTitle());
 		String value = mProp.getValue();
-		String info = getResources().getString(mProp.getInfo());
+		int info = mProp.getInfo();
 		String choices[] = mProp.getChoices();
 		
 		titre_contrib.setText(title);
@@ -107,12 +107,12 @@ public class ModifActivity extends Activity {
     		buttonOKBottom.setVisibility(View.GONE);
     		edit.setText( value );
     		
-    		if( info == "" ) {
+    		if( info == 0 ) {
     			infos.setVisibility(View.GONE);
     		}
     		else {
     			infos.setVisibility(View.VISIBLE);
-    			infos.setText(info);    			
+    			infos.setText(getResources().getString(info));    			
     		}
     		break;
     		
@@ -122,12 +122,12 @@ public class ModifActivity extends Activity {
     		buttonOKBottom.setVisibility(View.GONE);
     		date.setText( value );
     		
-    		if( info == "" ) {
+    		if( info == 0 ) {
     			infos.setVisibility(View.GONE);
     		}
     		else {
     			infos.setVisibility(View.VISIBLE);
-    			infos.setText(info);    			
+    			infos.setText(getResources().getString(info));    			
     		}
        		break;
        		

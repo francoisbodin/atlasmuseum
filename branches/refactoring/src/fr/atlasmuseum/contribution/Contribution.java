@@ -1,28 +1,22 @@
 package fr.atlasmuseum.contribution;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
 import java.io.Serializable;
-import java.io.StringReader;
+import java.io.StreamCorruptedException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
 import org.jdom2.Attribute;
-import org.jdom2.Document;
 import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
-
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
@@ -36,8 +30,6 @@ public class Contribution implements Serializable {
 
 	private static final String DEBUG_TAG = "AtlasMuseum/Contribution2";
 	
-	static final String SAVE_FILE = "contributions.xml";
-
 	static final String CONTRIBUTION = "contribution";
 	static final String VALUE = "value";
 
@@ -99,69 +91,6 @@ public class Contribution implements Serializable {
 	String mStatus;
 	HashMap<String,ContributionProperty> mProperties;
 	
-	public static enum StatusType {
-		SENT, enattente, EDITING, UNKNOW;
-	}
-	
-	public static enum PropertyType	{
-		titre, photo, couleur, date, materiaux, description, artiste, nature, nomsite, autre, etat, petat, pmr, localisation
-	}
-
-	// <contribution>
-	String xmlTypes[] = {
-			"type" /*remplacer/creer/ajout*/,
-			"statut" /*enattente/acceptee/annulee*/,
-			"modification" /*champ modifié en cas de modification*/,
-			"id",
-			"localid",
-			"auteur",
-			"passwd",
-			"latitude",
-			"longitude",
-			"photo",
-			"artiste",
-			"titre",
-			"description",
-			"materiaux",
-			"inauguration",
-			"etat",
-			"petat",
-			"nature",
-			"nomsite",
-			"detailsite",
-			"pmr",
-			"autre",
-			"date",
-			"heure"
-	};
-	//</contribution>
-	
-//	listeMateriaux
-//	listeNatures
-//	listeCouleurs
-//	listePrecision_etat_conservation
-//	listeAutre_precision_etat_conservation
-//	listePmr
-	
-	//String pour la ListView Ajouter/Modifier _ Utiliser pour récupérer les valeurs associées à l'aide de cPref
-	//exemple: String ajoutTitreValue = cPref.getString(ajout_titre, "");
-	final static String ajout_titre = "Ajouter un titre" ;
-	final static String ajout_photo = "Ajouter une photo";
-	final static String ajout_couleur = "Ajouter une couleur";
-	final static String ajout_date = "Ajouter la date d'inauguration";
-	final static String ajout_materiaux = "Ajouter des matériaux";
-	final static String ajout_description = "Ajouter une description";
-	final static String ajout_artiste = "Ajouter un artiste";
-	final static String ajout_nature = "Ajouter la nature de l'oeuvre";
-	final static String ajout_nomsite = "Ajouter le nom du site";
-	final static String ajout_autre = "Autres informations";
-	final static String ajout_etat = "Ajouter l'état de conservation";
-	final static String ajout_petat = "Précision sur l'état de conservation";
-	final static String  ajout_detailsite = "Ajouter detail site";
-	final static String ajout_pmr = "Définir l'accessibilité du site";
-	final static String ajout_localisation = "Ajouter localisation";
-	static String champs_a_modifier = "champs a modifier ";//utilisé dans Activity, détermine quelle valeur de cPref est modifiée
-
 	public Contribution() {
 		mNoticeId = 0;
 		mLocalId = "";
@@ -493,57 +422,6 @@ public class Contribution implements Serializable {
 		    value.updateFromDb(index);
 		}
 	}
-
-	static void updateFromXml(Contribution contribution, Element elemContrib) {
-		Element elemNoticeId = elemContrib.getChild(NOTICE_ID); 
-		if( elemNoticeId != null) {
-			contribution.mNoticeId = Integer.parseInt(elemNoticeId.getAttributeValue(VALUE));
-		}
-		
-		Element elemLocalId = elemContrib.getChild(LOCAL_ID); 
-		if( elemLocalId != null) {
-			contribution.mLocalId = elemNoticeId.getAttributeValue(VALUE);
-		}
-		
-		Element elemLogin = elemContrib.getChild(AUTEUR); 
-		if( elemLogin != null) {
-			contribution.mLogin = elemLogin.getAttributeValue(VALUE);
-		}
-		
-		Element elemPassword = elemContrib.getChild(PASSWORD); 
-		if( elemPassword != null) {
-			contribution.mPassword = elemLogin.getAttributeValue(VALUE);
-		}
-
-		Element elemDate = elemContrib.getChild(DATECONTRIBUTION); 
-		if( elemDate != null) {
-			contribution.mDate = elemDate.getAttributeValue(VALUE);
-		}
-
-		Element elemTime= elemContrib.getChild(HEURECONTRIBUTION); 
-		if( elemTime != null) {
-			contribution.mTime = elemDate.getAttributeValue(VALUE);
-		}
-
-		Element elemStatus = elemContrib.getChild(STATUT); 
-		if( elemStatus != null) {
-			contribution.mStatus = elemLogin.getAttributeValue(VALUE);
-		}
-
-		for (ContributionProperty value : contribution.mProperties.values()) {
-		    value.updateFromXml(elemContrib);
-		}
-
-		// If there is an modified property, set its original value to "" to make it different from value
-		Element elemModification = elemContrib.getChild(MODIFICATION); 
-		if( elemModification != null) {
-			String modification = elemNoticeId.getAttributeValue(VALUE);
-			ContributionProperty prop = contribution.getProperty(modification);
-			if( prop != null ) {
-				prop.setOriginalValue("");
-			}
-		}
-	}
 	
 	public int getNoticeId() {
 		return mNoticeId;
@@ -596,13 +474,15 @@ public class Contribution implements Serializable {
 		Log.d(DEBUG_TAG, "Dump contribution");
 	}
 	
-	private void addCommonXML( Element elemContrib ) {
+	private void addCommonToXML( Element elemContrib ) {
 		// Add a version number to identify the XML format
-		Element elemVersion = new Element("version");
-		Attribute attrVersion = new Attribute(VALUE, "2");
-		elemVersion.setAttribute(attrVersion);
-		elemContrib.addContent(elemVersion);
-		
+		Attribute attrVersion = new Attribute("version", "2");
+	    elemContrib.setAttribute(attrVersion);
+	    
+	    // Add status (enattente/acceptee/annulee)
+	    Attribute attrStatus = new Attribute(STATUT, ENATTENTE);
+	    elemContrib.setAttribute(attrStatus);
+	    
 		// Add notice id
 		if( mNoticeId != 0 ) {
 			Element elemNoticeId = new Element(NOTICE_ID);
@@ -617,10 +497,6 @@ public class Contribution implements Serializable {
         elemLocalId.setAttribute(attrLocalId);
         elemContrib.addContent(elemLocalId);
         
-	    // Add status (enattente/acceptee/annulee)
-	    Attribute attrStatus = new Attribute(STATUT, ENATTENTE);
-	    elemContrib.setAttribute(attrStatus);
-	    
 		// Add login
         if( ! mLogin.equals("") ) {
         	Element elemLogin = new Element(AUTEUR);
@@ -664,7 +540,7 @@ public class Contribution implements Serializable {
 			Attribute attr_type = new Attribute(TYPE, CREER);
 		    elemContrib.setAttribute(attr_type);
 		    
-			addCommonXML(elemContrib);
+			addCommonToXML(elemContrib);
 			
 	  	 	for (ContributionProperty prop : mProperties.values()) {
 				prop.addXML(elemContrib, false);
@@ -687,7 +563,7 @@ public class Contribution implements Serializable {
 	  		  	  	elemModif.setAttribute(attrModif);
 	  		  	  	elemContrib.addContent(elemModif);
 
-	  				addCommonXML(elemContrib);
+	  				addCommonToXML(elemContrib);
 	  				
 	  		  	 	for (ContributionProperty prop2 : mProperties.values()) {
 	  		  	 		prop2.addXML( elemContrib, prop.getDbField() != prop2.getDbField() );
@@ -696,80 +572,52 @@ public class Contribution implements Serializable {
 	  	 	}			
 		}
 	}
+	
+	void save( Context context ) {
+		File saveDir = new File( getSaveDir(context) );
+		String filename;
+		if( mNoticeId == 0 ) {
+			FilenameFilter filter = new FilenameFilter() {
+				public boolean accept(File dir, String name) {
+					return name.startsWith("new_");
+				}
+			};
+			filename = "new_" + Integer.toString(saveDir.list(filter).length);
+		}
+		else {
+			filename = "modif_" + Integer.toString(mNoticeId);
+		}
+		File file = new File(saveDir, filename );
+
+		try {
+			FileOutputStream fos = new FileOutputStream(file);
+			ObjectOutputStream os = new ObjectOutputStream(fos);
+			os.writeObject(this);
+			os.close();
+			fos.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+
 	/////////////////////////////
 	// Static helper functions //
 	/////////////////////////////
 	
-	static public String readSaveFile( Context context ) {
-		String contenu = "";
-		FileInputStream fIn;
-		try {
-			fIn = context.openFileInput(SAVE_FILE);
-
-			InputStreamReader isr = new InputStreamReader ( fIn ) ;
-			BufferedReader buffreader = new BufferedReader ( isr ) ;
-
-			String line;
-			while ((line=buffreader.readLine())!=null) {
-				contenu = contenu+line;
-			}
-			Log.d(DEBUG_TAG	, "contenu ="+contenu);
-		} catch (FileNotFoundException e) {
-			Log.d(DEBUG_TAG+"ECHEC file not found", "echec enregistrement");
-			e.printStackTrace();
-		} catch (IOException e) {
-			Log.d(DEBUG_TAG+"ECHEC ioException", "echec enregistrement");
-			e.printStackTrace();
+	static public String getSaveDir(Context context) {
+		File saveDir = new File( context.getFilesDir(), "save" );
+		if( saveDir.exists() && !saveDir.isDirectory()) {
+			saveDir.delete();
 		}
-		return contenu;
-
-//		try {
-//			File file = new File(ContribXml.nomFichier);
-//		    FileInputStream is;
-//			is = new FileInputStream(file);	    
-//			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-//			StringBuilder sb = new StringBuilder();
-//			String line = null;
-//			while ((line = reader.readLine()) != null) {
-//			  sb.append(line).append("\n");
-//			}
-//			reader.close();
-//			return sb.toString();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			return "";
-//		}
+		if( !saveDir.exists() ) {
+			saveDir.mkdir();
+		}
+		return saveDir.getAbsolutePath();
 	}
 	
-	static public List<Contribution> getContributionsFromXmlString( String xmlString ) {
-		List<Contribution> contributions = new ArrayList<Contribution>();
-
-		SAXBuilder saxBuilder = new SAXBuilder();
-		Reader stringReader = new StringReader(xmlString);
-		try {
-			Document document = saxBuilder.build(stringReader);
-			Element root = document.getRootElement();
-			List<?> list = root.getChildren(CONTRIBUTION);
-
-			Iterator<?> i = list.iterator();
-			while(i.hasNext()) {
-				Element elemContrib = (Element)i.next();
-				Contribution contribution = new Contribution();
-				updateFromXml(contribution, elemContrib);
-				contributions.add(contribution);
-			}
-		} catch (JDOMException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		
-		return contributions;
-	}
-
-	static public File getAlbumDir() {
+	static public File getPhotoDir() {
 		File storageDir = null;
 
 		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
@@ -790,4 +638,52 @@ public class Contribution implements Serializable {
 		return storageDir;
 	}
 
+	@SuppressWarnings("resource")
+	static public Contribution restoreFromFile( String filename ) {
+		File file = new File(filename);
+		if( ! file.exists() || ! file.isFile() ) {
+			return null;
+		}
+		
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		ObjectInputStream is;
+		try {
+			is = new ObjectInputStream(fis);
+		} catch (StreamCorruptedException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		Contribution contribution = null;
+		try {
+			contribution = (Contribution) is.readObject();
+		} catch (OptionalDataException e) {
+			e.printStackTrace();
+			return null;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		try {
+			is.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return contribution;
+	}
 }
