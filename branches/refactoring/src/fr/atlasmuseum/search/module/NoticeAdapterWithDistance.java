@@ -155,7 +155,7 @@ public class NoticeAdapterWithDistance extends BaseAdapter  {
 		String photoNotice=listNotice.get(position).getPhoto();//recupere le nom de la photo
 		
 		File image;
-		Drawable imgic = (Drawable)mContext.getContext().getApplicationContext().getResources().getDrawable(R.drawable.default_icon);
+		Drawable imgic = (Drawable)mContext.getContext().getApplicationContext().getResources().getDrawable(R.drawable.ic_load_thumb);
 		
 		try 
 		{

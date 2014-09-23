@@ -11,6 +11,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -23,7 +28,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -35,32 +40,30 @@ import fr.atlasmuseum.compte.Authentification;
 import fr.atlasmuseum.compte.ConnexionActivity;
 import fr.atlasmuseum.main.AtlasError;
 import fr.atlasmuseum.main.MainActivity;
-import fr.atlasmuseum.search.loadPhotoInterface;
-import fr.atlasmuseum.search.loadingPhoto2;
 
-public class ListChampsNoticeModif extends Activity	implements loadPhotoInterface {
-	private static final String DEBUG_TAG = "AtlasMuseum/ListChampAct";
+public class ListChampsNoticeModif extends Activity {
+	private static final String DEBUG_TAG = "AtlasMuseum/ListChampsNoticeModif";
 	
+	static final String SHARED_PREFERENCES = "fr.atlasmuseum.contribution.SHARED_PREFERENCES";
+
 	static final int REQUEST_MODIFY_PROPERTY = 1;
 	static final int REQUEST_TAKE_PICTURE = 2;
-	static final int REQUEST_CONNEXION = 1450233;
+	static final int REQUEST_CONNECTION = 3;
 	
 	private Bundle mBundle;
 	private Contribution mContribution;
 	private int mNoticeId;
-	private String mNewPhotoFilename;
 	
 	private List<ContributionProperty> mList;
 	
-	private RelativeLayout mLoadPhoto;
-	private ImageView mImageNotice;
-	private RelativeLayout mBlockModifierImage;
+	private RelativeLayout mLayoutLoadPicture;
+	private ImageView mViewModifPicture;
+	private RelativeLayout mLayoutModifPicture;
 
 	public ContributionPropertyAdapter mAdapter;
 	
 	
-	public void onCreate(Bundle savedInstanceState)
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.contrib_list_modif);
@@ -75,20 +78,16 @@ public class ListChampsNoticeModif extends Activity	implements loadPhotoInterfac
 		mContribution = (Contribution) mBundle.getSerializable("contribution");
 		mNoticeId = mContribution.getNoticeId();
 		
-		mNewPhotoFilename = "";
+		mLayoutModifPicture = (RelativeLayout) findViewById(R.id.modif_layout_picture);
+		mViewModifPicture = (ImageView) findViewById(R.id.modif_view_picture);
 		
-		mImageNotice = (ImageView) findViewById(R.id.imageView1);
-
-		mBlockModifierImage = (RelativeLayout) findViewById(R.id.relativeLayoutPhotoModifier);
-
 		mList = new ArrayList<ContributionProperty>();
 		mAdapter = new ContributionPropertyAdapter(ListChampsNoticeModif.this, mList);
 		ListView listView = (ListView) findViewById(R.id.list_view);
 		listView.setAdapter(mAdapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id)
-			{
+			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id)	{
 				ContributionProperty prop = (ContributionProperty) mAdapter.getItem(position);
 				String field = (String) prop.getDbField();
 				
@@ -109,58 +108,24 @@ public class ListChampsNoticeModif extends Activity	implements loadPhotoInterfac
 		});	
 
 
-		ImageButton buttoModifPhoto = (ImageButton) findViewById(R.id.modif_photo);
-		buttoModifPhoto.setOnClickListener(new OnClickListener() 
-		{
+		ImageButton buttonModifPicture = (ImageButton) findViewById(R.id.modif_button_take_picture);
+		buttonModifPicture.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				// Create a temp filename to store new picture
-				try {
-					File file = File.createTempFile(
-							/* prefix */ "photo_" + String.valueOf(mNoticeId) + "-",
-							/* suffix */ ".jpg",
-							/* directory */ Contribution.getPhotoDir());
-					mNewPhotoFilename = file.getAbsolutePath();
-					file.delete();
-				} catch (IOException e) {
-					// TODO: Display error message 
-					e.printStackTrace();
-					return;
-				}
-
-				Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(mNewPhotoFilename)));
-				startActivityForResult(takePictureIntent, REQUEST_TAKE_PICTURE);
+				takePicture();
 			}
 		});
 
-		mLoadPhoto = (RelativeLayout) findViewById(R.id.image_loading);
-		mLoadPhoto.setOnClickListener(new OnClickListener() 
-		{
+		mLayoutLoadPicture = (RelativeLayout) findViewById(R.id.modif_layout_load_picture);
+		mLayoutLoadPicture.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				// Create a temp filename to store new picture
-				try {
-					File file = File.createTempFile(
-							/* prefix */ "photo_" + String.valueOf(mNoticeId) + "-",
-							/* suffix */ ".jpg",
-							/* directory */ Contribution.getPhotoDir());
-					mNewPhotoFilename = file.getAbsolutePath();
-					file.delete();
-				} catch (IOException e) {
-					// TODO: Display error message 
-					e.printStackTrace();
-					return;
-				}
-
-				Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(mNewPhotoFilename)));
-				startActivityForResult(takePictureIntent, REQUEST_TAKE_PICTURE);
+				takePicture();
 			}
 		});
 
-		RelativeLayout annuler_button = (RelativeLayout) findViewById(R.id.buttonAnnuler);
-		annuler_button.setOnClickListener(new OnClickListener() 
+		Button buttonCancel = (Button) findViewById(R.id.button_cancel);
+		buttonCancel.setOnClickListener(new OnClickListener() 
 		{
 			@Override
 			public void onClick(View arg0) {
@@ -168,7 +133,7 @@ public class ListChampsNoticeModif extends Activity	implements loadPhotoInterfac
 			}
 		});
 
-		RelativeLayout buttonSave = (RelativeLayout) findViewById(R.id.mbuttonSave);
+		Button buttonSave = (Button) findViewById(R.id.button_save);
 		buttonSave.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -176,8 +141,8 @@ public class ListChampsNoticeModif extends Activity	implements loadPhotoInterfac
 			}
 		});
 
-		RelativeLayout buttonEnvoyer = (RelativeLayout) findViewById(R.id.mbuttonEnvoyer);
-		buttonEnvoyer.setOnClickListener(new OnClickListener() {
+		Button buttonSend = (Button) findViewById(R.id.button_send);
+		buttonSend.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				sendContributions();
@@ -201,18 +166,7 @@ public class ListChampsNoticeModif extends Activity	implements loadPhotoInterfac
 			getActionBar().setTitle("Ajout/Modif oeuvre existante"); // TODO : resourcify this string
 		}
 
-		ContributionProperty cp = mContribution.getProperty("photo");
-		if (! cp.getValue().equals("")) {
-			mLoadPhoto.setVisibility(View.GONE);
-			mBlockModifierImage.setVisibility(View.VISIBLE);
-			loadingPhoto2 upl = new loadingPhoto2(this, cp.getValue(), false);
-			upl.execute();
-		}
-		else {
-			mLoadPhoto.setVisibility(View.VISIBLE);
-			mBlockModifierImage.setVisibility(View.GONE);
-		}
-
+		// Populate the list view
 		String propsToShow[] = {
 				Contribution.TITRE,
 				Contribution.ARTISTE,
@@ -235,6 +189,17 @@ public class ListChampsNoticeModif extends Activity	implements loadPhotoInterfac
 		for (int i = 0; i < propsToShow.length; i++) {
 			mList.add(mContribution.getProperty(propsToShow[i]));
 		}
+	}
+
+    /*
+     * Called when the system detects that this Activity is now visible.
+     */
+	@Override
+	protected void onResume() {
+		Log.d(DEBUG_TAG, "onResume");
+		super.onResume();
+
+		updatePictureView();
 	}
 
 	public void saveContributions() {
@@ -348,25 +313,27 @@ public class ListChampsNoticeModif extends Activity	implements loadPhotoInterfac
 		else if(requestCode == REQUEST_TAKE_PICTURE) {
 			if( resultCode == RESULT_OK ) {
 				Log.d(DEBUG_TAG, "onActivityResult(REQUEST_TAKE_PICTURE, RESULT_OK)");
-				mLoadPhoto.setVisibility(View.GONE);
-				mBlockModifierImage.setVisibility(View.VISIBLE);
 
 				// Update the Activity Intent so the new photo will be preserved on screen rotation
 				Intent intent = getIntent();
 				Bundle bundle = intent.getExtras();
 				if( bundle.containsKey("contribution") ) {
 					ContributionProperty prop = mContribution.getProperty(Contribution.PHOTO);
-					prop.setValue(mNewPhotoFilename);
+			        SharedPreferences prefs = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+			        String newPhotoFilename = "";
+			        if( prefs.contains("newPhotoFilename") ) {
+			        	newPhotoFilename = prefs.getString("newPhotoFilename", "");
+				        prefs.edit().remove(newPhotoFilename).commit();
+			        }
+					prop.setValue(newPhotoFilename);
 					mContribution.setProperty(prop.getDbField(), prop);
 					bundle.putSerializable("contribution", mContribution);
 					intent.putExtras(bundle);
+					this.setIntent(intent);
 				}
-				loadingPhoto2 upl = new loadingPhoto2(this, (new File(mNewPhotoFilename)).getName(), true);
-				upl.execute();
 			}
-			mNewPhotoFilename = "";
 		}
-		else if(requestCode == REQUEST_CONNEXION) {
+		else if(requestCode == REQUEST_CONNECTION) {
 			if(requestCode == RESULT_OK) {
 				Log.d(DEBUG_TAG, "Connection success");
 			}
@@ -400,21 +367,6 @@ public class ListChampsNoticeModif extends Activity	implements loadPhotoInterfac
 	}
 
 	@Override
-	public Context getContext() {
-		return this;
-	}
-
-	@Override
-	public ImageView getImageView() {
-		return this.mImageNotice;
-	}
-
-	@Override
-	public BaseAdapter getNoticeAdapter() {
-		return null;
-	}
-
-	@Override
 	public void onBackPressed() {
 		finishWithWarning();
 	}
@@ -431,7 +383,7 @@ public class ListChampsNoticeModif extends Activity	implements loadPhotoInterfac
 		else if(itemId == R.id.action_account)
 		{
 			Intent intent= new Intent(this,ConnexionActivity.class);
-			startActivityForResult(intent, REQUEST_CONNEXION);
+			startActivityForResult(intent, REQUEST_CONNECTION);
 			return true;
 		}
 		else {
@@ -446,6 +398,118 @@ public class ListChampsNoticeModif extends Activity	implements loadPhotoInterfac
 		return super.onCreateOptionsMenu(menu);
 	}
 	
+	private void takePicture() {
+		// Create a temp filename to store new picture
+		String newPhotoFilename = "";
+		try {
+			File file = File.createTempFile(
+					/* prefix */ "photo_" + String.valueOf(mNoticeId) + "-",
+					/* suffix */ ".jpg",
+					/* directory */ Contribution.getPhotoDir());
+			newPhotoFilename = file.getAbsolutePath();
+			file.delete();
+		} catch (IOException e) {
+			// TODO: Display error message 
+			e.printStackTrace();
+			return;
+		}
+
+        SharedPreferences prefs = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        prefs.edit().putString("newPhotoFilename", newPhotoFilename).commit();
+		
+		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(newPhotoFilename)));
+		startActivityForResult(takePictureIntent, REQUEST_TAKE_PICTURE);
+	}
+	
+	private void updatePictureView() {
+    	String filename = mContribution.getProperty(Contribution.PHOTO).getValue();
+    	File file = new File(filename);
+    	if( file.exists() && file.isAbsolute() ) {
+			mLayoutLoadPicture.setVisibility(View.GONE);
+			mLayoutModifPicture.setVisibility(View.VISIBLE);
+			mViewModifPicture.setVisibility(View.VISIBLE);
+			
+			/* Get the size of the image */
+			BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+			bmOptions.inJustDecodeBounds = true;
+			
+			BitmapFactory.decodeFile(filename, bmOptions);
+
+			int photoW = bmOptions.outWidth;
+			int photoH = bmOptions.outHeight;
+			int rotation = 0;
+			
+			try {
+				ExifInterface exif = new ExifInterface(filename);
+				int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+				switch( orientation ) {
+				case ExifInterface.ORIENTATION_NORMAL:
+					break;
+				case ExifInterface.ORIENTATION_ROTATE_90:
+					rotation = 90;
+					break;
+				case ExifInterface.ORIENTATION_ROTATE_180:
+					rotation = 180;
+					break;
+				case ExifInterface.ORIENTATION_ROTATE_270:
+					rotation = 270;
+					break;
+				case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+				case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+				case ExifInterface.ORIENTATION_TRANSPOSE:
+				case ExifInterface.ORIENTATION_TRANSVERSE:
+				case ExifInterface.ORIENTATION_UNDEFINED:
+					break;
+				}
+			} catch (IOException e) {
+			}
+
+			if (rotation != 0) {
+				photoW = bmOptions.outHeight;
+				photoH = bmOptions.outWidth;
+			}
+			
+			int targetH = 512;
+			int targetW = targetH/photoH+photoW;
+			
+			int scaleFactor = Math.max((int)Math.ceil((double)photoW/targetW), (int)Math.ceil((double)photoH/targetH));
+
+			/* Set bitmap options to scale the image decode target */
+			bmOptions.inJustDecodeBounds = false;
+			bmOptions.inSampleSize = scaleFactor;
+			bmOptions.inPurgeable = true;
+
+			/* Decode the JPEG file into a Bitmap */
+			Bitmap bitmap = BitmapFactory.decodeFile(filename, bmOptions);
+
+			// If the image is rotated, we need to scale the image precisely
+			// because the ImageView scaling seems to be applied before rotation...
+			photoH = bitmap.getHeight();
+			photoW = bitmap.getWidth();
+
+			// calculate the scale
+			float scale = Math.max(((float) targetH) / photoH, ((float) targetW) / photoW);
+
+			// create a matrix for the manipulation
+			Matrix matrix = new Matrix();
+			// resize the bit map
+			matrix.postScale(scale, scale);
+			// rotate the Bitmap
+			matrix.postRotate(rotation);
+
+			// recreate the new Bitmap
+			Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, photoW, photoH, matrix, true);
+
+			//Drawable drawable = Drawable.createFromPath(file.getAbsolutePath());
+			mViewModifPicture.setImageBitmap(resizedBitmap);
+    	}
+    	else {
+			mLayoutLoadPicture.setVisibility(View.VISIBLE);
+			mLayoutModifPicture.setVisibility(View.GONE);
+    	}
+	}
+
 	private void showLocationChangeAlertToUser(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(getResources().getString(R.string.location_change_alert))

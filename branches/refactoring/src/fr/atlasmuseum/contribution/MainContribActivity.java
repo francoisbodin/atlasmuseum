@@ -10,8 +10,6 @@ import fr.atlasmuseum.R;
 import fr.atlasmuseum.compte.Authentification;
 import fr.atlasmuseum.compte.ConnexionActivity;
 import fr.atlasmuseum.main.AtlasError;
-import fr.atlasmuseum.main.MainActivity;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
@@ -20,7 +18,6 @@ import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -120,103 +117,32 @@ public class MainContribActivity extends Activity {
 					return;
 				}
 
-				Intent intent= new Intent(MainContribActivity.this, SuiviContribActivity.class);
+				Intent intent = new Intent(MainContribActivity.this, SuiviContribActivity.class);
 				startActivity(intent);
 			}
 		});
 
 
 		RelativeLayout relativEnvoi = (RelativeLayout) findViewById(R.id.layout_send);
-		relativEnvoi.setOnClickListener(new View.OnClickListener(){
+		relativEnvoi.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v){
-//				if(! checkInternetConnection()) {
-//					AtlasError.showErrorDialog(MainContribActivity.this, "7.1", "pas de connexion internet");
-//					return;
-//				}
-//				
-//				if(! Authentification.getisConnected()){
-//					AtlasError.showErrorDialog(MainContribActivity.this, "7.3", "compte utilisateur requis");
-//					return;
-//				}
-//				
-//				File saveDir = new File( Contribution.getSaveDir(MainContribActivity.this) );
-//				FilenameFilter filter = new FilenameFilter() {
-//					public boolean accept(File dir, String name) {
-//						return name.startsWith("new_") || name.startsWith("modif_");
-//					}
-//				};
-//				String[] saveFiles = saveDir.list(filter);
-//
-//				if (saveFiles.length == 0) {
-//					AtlasError.showErrorDialog(MainContribActivity.this, "7.2", "pas de contribution sauvegardée");
-//					return;
-//				}
-//
-//				for (String saveFile: saveFiles) {
-//					Contribution contribution = Contribution.restoreFromFile(saveFile);
-//					if( contribution == null ) {
-//						continue;
-//					}
-//					contribution.setLogin(Authentification.getUsername());
-//					contribution.setPassword(Authentification.getPassword());
-//					
-//					ContributionSend contributionSend = new ContributionSend(MainContribActivity.this, contribution);
-//					contributionSend.execute();
-//				}
-			
+			public void onClick(View v) {
 				Intent intent= new Intent(MainContribActivity.this, SavedContributionsActivity.class);
 				startActivity(intent);
 			}
 		});
 	}
 
-	public boolean checkInternetConnection()
-	{
-		ConnectivityManager cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-		boolean isWiFi = false;
-
-		if(activeNetwork!=null && ( activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)){
-			isWiFi = true;
-		}
-		else
-		{
-			isWiFi =false;
-		}
-		return isWiFi;
-	}
-
-
-	//	private void afficheContrib()
-//	{
-//		List<String> lcont = new ArrayList<String>();
-//		for(int i=0;i<contXml.listContrib.size();i++)
-//		{
-//			lcont.add(contXml.listContrib.get(i).getDate()+ " "+ contXml.listContrib.get(i).getHeure());
-//		}
-//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.xml.my_item_list, lcont);
-//		listViewContrib.setAdapter(adapter);
-//	}
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
-		Log.d(DEBUG_TAG, "result code="+requestCode);
-		if(requestCode == MainContribActivity.REQUEST_FINISH)
-		{
-
+		if( requestCode == REQUEST_FINISH ) {
 			this.recreate();
 		}
-		if(requestCode == REQUEST_CONNEXION )
-		{
-
+		else if( requestCode == REQUEST_CONNEXION ) {
 		}
-		else
-		{
+		else {
 			super.onActivityResult(requestCode, resultCode, data);
 		}
-
 	}
 
 
@@ -224,21 +150,18 @@ public class MainContribActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
 
-		if(itemId == android.R.id.home)
-		{
-			//super.onBackPressed();//forcement on vient de l'activit� MAIN
-			/**Intent intent= new Intent(this,MainActivity.class);
-			startActivity(intent);**/
+		if(itemId == android.R.id.home) {
 			finish();
 			return true;
 		}
-		if(itemId == R.id.action_account)
-		{
+		else if(itemId == R.id.action_account) {
 			Intent intent= new Intent(this,ConnexionActivity.class);
 			startActivityForResult(intent, REQUEST_CONNEXION);
 			return true;
 		}
-		else return false;
+		else {
+			return false;
+		}
 
 	}
 
@@ -251,9 +174,21 @@ public class MainContribActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
-		Intent intent = new Intent(this, MainActivity.class);
-		startActivity(intent);
 		finish();
+	}
+	
+	public boolean checkInternetConnection() {
+		ConnectivityManager cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+		boolean isWiFi = false;
+
+		if(activeNetwork!=null && ( activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)){
+			isWiFi = true;
+		}
+		else
+		{
+			isWiFi =false;
+		}
+		return isWiFi;
 	}
 }

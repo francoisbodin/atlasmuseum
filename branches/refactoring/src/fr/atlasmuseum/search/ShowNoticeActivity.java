@@ -1,7 +1,6 @@
 package fr.atlasmuseum.search;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.UUID;
 
 import fr.atlasmuseum.R;
@@ -9,13 +8,11 @@ import fr.atlasmuseum.contribution.Contribution;
 import fr.atlasmuseum.contribution.ContributionProperty;
 import fr.atlasmuseum.contribution.ContributionRestoreDialogFragment;
 import fr.atlasmuseum.contribution.ListChampsNoticeModif;
-import fr.atlasmuseum.main.AtlasError;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,14 +28,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class ShowNoticeActivity extends Activity implements ContributionRestoreDialogFragment.ContributionRestoreDialogListener{
+public class ShowNoticeActivity extends Activity implements ContributionRestoreDialogFragment.ContributionRestoreDialogListener, Contribution.ContributionModificationListener {
 
 	private static final String DEBUG_TAG = "AtlasMuseum/ShowNotice";
 	public static final String ARG_FRAGMENT = "IDFragment";
 	
 	private int mDbIndex;
 	Contribution mContribution;
-	ImageView mViewPhoto;
+	ImageView mViewPicture;
+	RelativeLayout mButtonLoadPicture;
 	
 	private int REQUEST_CONTRIB=12345874;
 	
@@ -122,24 +120,20 @@ public class ShowNoticeActivity extends Activity implements ContributionRestoreD
 	        }
     	});
     	
+    	mButtonLoadPicture = (RelativeLayout) findViewById(R.id.image_loading);
+		mButtonLoadPicture.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mContribution.loadPicture(ShowNoticeActivity.this);
+				updatePictureView();
+			}
+		});
+
+    	mViewPicture = (ImageView) findViewById(R.id.imageView1);
     	
-    	mViewPhoto = (ImageView) findViewById(R.id.imageView1);
-    	RelativeLayout buttonPhoto = (RelativeLayout) findViewById(R.id.image_loading);
-    	if (showExistingPhoto() == false) {
-    		mViewPhoto.setVisibility(View.GONE);
-    		buttonPhoto.setVisibility(View.VISIBLE);
-    		buttonPhoto.setOnClickListener(new OnClickListener() {
-    			@Override
-    			public void onClick(View v) {
-    				showPhoto();
-    			}
-    		});
-    	} 
-    	else { // hide button
-    		buttonPhoto.setVisibility(View.GONE);
-    		mViewPhoto.setVisibility(View.VISIBLE);
-    	}
+    	//updatePictureView();
     	
+
     	ActionBar actionBar = getActionBar();
     	if (actionBar != null) {
     		actionBar.show();
@@ -153,7 +147,7 @@ public class ShowNoticeActivity extends Activity implements ContributionRestoreD
     	}
     }
 
-
+    
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
@@ -184,6 +178,17 @@ public class ShowNoticeActivity extends Activity implements ContributionRestoreD
 		}
     }
     
+    /*
+     * Called when the system detects that this Activity is now visible.
+     */
+	@Override
+	protected void onResume() {
+		Log.d(DEBUG_TAG, "onResume");
+		super.onResume();
+
+		updatePictureView();
+	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -192,37 +197,7 @@ public class ShowNoticeActivity extends Activity implements ContributionRestoreD
         return super.onCreateOptionsMenu(menu);
 	}
 	
-    private Boolean showExistingPhoto(){
-    	try {
-    		String fichierImage = mContribution.getProperty(Contribution.PHOTO).getValue();
-    		File fimage = SearchActivity.checkIfImageFileExists(fichierImage) ;
-    		if (fimage != null) {
-    			Bitmap bmSmall = BitmapFactory.decodeFile(fimage.getAbsolutePath());
-    			ImageView viewPhoto =(ImageView) findViewById(R.id.imageView1);
-    			viewPhoto.setImageBitmap(bmSmall);
-    			return true;
-    		}
-    	} catch (IOException e) {
-    		Log.d(DEBUG_TAG, "Could not view photo");
-    		AtlasError.showErrorDialog(this, "5.1", "");// ERROR "notice n'a pas pu �tre visualis�"
-    		//Toast.makeText(getActivity(),"L'image de cette notice n'a pu �tre visualis�", Toast.LENGTH_SHORT).show();
-    	}
-    	return false;
-    }
-    
-    private void showPhoto(){
-    	LoadingPhotoAsync upl = new LoadingPhotoAsync(this, mContribution.getProperty(Contribution.PHOTO).getValue(), mViewPhoto);
-    	upl.execute();
-    }
 
-    private void modifyNotice( Contribution contribution ) {
-		Bundle bundle = new Bundle();
-		bundle.putSerializable("contribution", contribution);
-		Intent intent = new Intent(this, ListChampsNoticeModif.class);
-		intent.putExtras(bundle);
-		startActivityForResult(intent, this.REQUEST_CONTRIB);
-    }
-    
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	if(requestCode == this.REQUEST_CONTRIB) {
@@ -249,5 +224,32 @@ public class ShowNoticeActivity extends Activity implements ContributionRestoreD
 	public void onDiscardSavedModifications() {
 		modifyNotice(mContribution);
 	}
-
+	
+	@Override
+	public void onPictureModified() {
+		updatePictureView();
+	}
+	
+	private void modifyNotice( Contribution contribution ) {
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("contribution", contribution);
+		Intent intent = new Intent(this, ListChampsNoticeModif.class);
+		intent.putExtras(bundle);
+		startActivityForResult(intent, this.REQUEST_CONTRIB);
+	}
+	    
+	private void updatePictureView() {
+    	String filename = mContribution.getProperty(Contribution.PHOTO).getValue();
+    	File file = new File(filename);
+    	if( file.exists() && file.isAbsolute() ) {
+    		// Image already loaded
+    		mButtonLoadPicture.setVisibility(View.GONE);
+    		mViewPicture.setVisibility(View.VISIBLE);
+    		mViewPicture.setImageDrawable(Drawable.createFromPath(file.getAbsolutePath()));
+    	}
+    	else {
+    		mViewPicture.setVisibility(View.GONE);
+    		mButtonLoadPicture.setVisibility(View.VISIBLE);
+    	}
+	}
 }

@@ -8,11 +8,8 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
@@ -68,7 +65,7 @@ public class LoadAPhotoAsync extends AsyncTask<String, String, Boolean> {
 			if (fimage == null)
 			{
 				Log.d(DEBUG_TAG, "loading photo from web...."+photoName);
-				Bitmap bm = LoadImageFromWebOperations("http://atlasmuseum.irisa.fr/images/"+photoName);
+				Bitmap bm = LoadImageFromWebOperations(mContext.getContext().getString(R.string.images_url)+photoName);
 				if (bm != null)
 				{
 					

@@ -1,11 +1,10 @@
 package fr.atlasmuseum.search;
-import fr.atlasmuseum.search.module.NoticeAdapterWithDistance;
 import android.content.Context;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 /**
- * Implémenté par ListChampsNoticeModif, ResultListActivity
+ * Implï¿½mentï¿½ par ListChampsNoticeModif, ResultListActivity
  * @author Expert
  *
  */

@@ -1,5 +1,6 @@
 package fr.atlasmuseum.contribution;
 
+import java.io.File;
 import java.io.Serializable;
 
 import org.jdom2.Attribute;
@@ -166,12 +167,13 @@ public class ContributionProperty implements Serializable {
 	
 	public void updateFromDb(int index) {
 		resetValue(SearchActivity.extractDataFromDb(index, mJsonField));
-	}
-	
-	public void updateFromXml(Element elemContrib) {
-		Element elem = elemContrib.getChild(mDbField); 
-		if( elem != null) {
-			resetValue(elem.getAttributeValue(Contribution.VALUE));
+		
+		// Check if the image is in cache and update with absolute path
+		if( mDbField == Contribution.PHOTO ) {
+			File file = new File(Contribution.getPhotoDir(), mValue);
+			if( file.exists() ) {
+				resetValue(file.getAbsolutePath());
+			}
 		}
 	}
 	

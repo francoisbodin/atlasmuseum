@@ -1,30 +1,43 @@
 package fr.atlasmuseum.contribution;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.StreamCorruptedException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import org.jdom2.Attribute;
 import org.jdom2.Element;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 import fr.atlasmuseum.R;
+import fr.atlasmuseum.contribution.ContributionRestoreDialogFragment.ContributionRestoreDialogListener;
 import fr.atlasmuseum.search.JsonRawData;
 import fr.atlasmuseum.search.SearchActivity;
 
 public class Contribution implements Serializable {
+
+    public interface ContributionModificationListener {
+        public void onPictureModified();
+    }
 
 	private static final long serialVersionUID = 7388740279075848884L;
 
@@ -587,7 +600,7 @@ public class Contribution implements Serializable {
 		}
 	}
 	
-	void save( Context context ) {
+	public void save( Context context ) {
         Date date = new Date();
   	  	SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
   	  	mDate = formatDate.format(date);
@@ -595,19 +608,18 @@ public class Contribution implements Serializable {
   	  	mTime = formatTime.format(date);
 
 		File saveDir = new File( getSaveDir(context) );
-		String filename;
+		File file;
 		if( mNoticeId == 0 ) {
-			FilenameFilter filter = new FilenameFilter() {
-				public boolean accept(File dir, String name) {
-					return name.startsWith("new_");
+			for (int i = 1 ; ; i++) {
+				file = new File( saveDir, "new_" + Integer.toString(i));
+				if( ! file.exists() ) {
+					break;
 				}
-			};
-			filename = "new_" + Integer.toString(saveDir.list(filter).length);
+			}
 		}
 		else {
-			filename = "modif_" + Integer.toString(mNoticeId);
+			file = new File(saveDir, "modif_" + Integer.toString(mNoticeId));
 		}
-		File file = new File(saveDir, filename );
 
 		try {
 			FileOutputStream fos = new FileOutputStream(file);
@@ -621,7 +633,23 @@ public class Contribution implements Serializable {
 		}
 	}
 	
-
+	public void loadPicture( Context context ) {
+		ContributionProperty property = getProperty(Contribution.PHOTO);
+    	String filename = property.getValue();
+    	if( filename.equals("") ) {
+    		// No picture in this notice
+    		return;
+    	}
+    	
+    	File file = new File(filename);
+    	if( file.exists() && file.isAbsolute() ) {
+    		// Already loaded
+    		return;
+    	}
+    	
+    	new PictureDownloader(context).execute(filename);
+	}
+	
 	/////////////////////////////
 	// Static helper functions //
 	/////////////////////////////
@@ -705,5 +733,125 @@ public class Contribution implements Serializable {
 		}
 		
 		return contribution;
+	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * Background Async Task to download file
+	 * */
+	class PictureDownloader extends AsyncTask<String, String, String> {
+	 
+		private Context mContext;
+		private ContributionModificationListener mListener;
+		private ProgressDialog mProgress;
+		//private static final String DEBUG_TAG = "AtlasMuseum/Contribution.PictureDownloader";
+
+		PictureDownloader(Context context) {
+			mContext = context;
+			
+	        try {
+	            // Instantiate the ContributionModificationListener so we can send events to the host
+	        	mListener = (ContributionModificationListener) context;
+	        } catch (ClassCastException e) {
+	            // The activity doesn't implement the interface, throw exception
+	            throw new ClassCastException(context.toString() + " must implement ContributionModificationListener");
+	        }
+
+		}
+		
+	    /**
+	     * Before starting background thread
+	     * Show Progress Bar Dialog
+	     * */
+	    @Override
+	    protected void onPreExecute() {
+	        super.onPreExecute();
+			mProgress = new ProgressDialog(mContext);
+			mProgress.setMessage(mContext.getResources().getString(R.string.uploading));
+			mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+			mProgress.setCancelable(true);
+			mProgress.setIndeterminate(false);
+            mProgress.setMax(100);
+            mProgress.show();
+	    }
+	 
+	    /**
+	     * Downloading file in background thread
+	     * */
+	    @Override
+	    protected String doInBackground(String... args) {
+	        int count;
+	        try {
+	        	URL url = new URL(mContext.getString(R.string.images_url) + args[0]);
+	        	File outputFile = new File(Contribution.getPhotoDir(), args[0]);
+	    	            
+	            URLConnection conection = url.openConnection();
+	            conection.connect();
+	            // getting file length
+	            int lenghtOfFile = conection.getContentLength();
+	 
+	            // input stream to read file - with 8k buffer
+	            InputStream input = new BufferedInputStream(url.openStream(), 8192);
+	 
+	            // Output stream to write file
+	            OutputStream output = new FileOutputStream(outputFile.getAbsoluteFile());
+	 
+	            byte data[] = new byte[1024];
+	 
+	            long total = 0;
+	 
+	            while ((count = input.read(data)) != -1) {
+	                total += count;
+	                // publishing the progress....
+	                // After this onProgressUpdate will be called
+	                publishProgress(""+(int)((total*100)/lenghtOfFile));
+	 
+	                // writing data to file
+	                output.write(data, 0, count);
+	            }
+	 
+	            // flushing output
+	            output.flush();
+	 
+	            // closing streams
+	            output.close();
+	            input.close();
+	 
+	            return outputFile.getAbsolutePath();
+	        }
+	        catch (Exception e) {
+	            Log.e("Error: ", e.getMessage());
+	            return null;
+	        }
+	    }
+	 
+	    /**
+	     * Updating progress bar
+	     * */
+	    protected void onProgressUpdate(String... progress) {
+	        // setting progress percentage
+	        mProgress.setProgress(Integer.parseInt(progress[0]));
+	   }
+	 
+	    /**
+	     * After completing background task
+	     * Dismiss the progress dialog
+	     * **/
+	    @Override
+	    protected void onPostExecute(String filename) {
+        	ContributionProperty property = getProperty(Contribution.PHOTO);
+        	property.resetValue(filename);
+        	
+        	// Notify parent activity that the property has been modified
+        	mListener.onPictureModified();
+        	
+	    	mProgress.hide();
+			mProgress.cancel();
+	    }
+	 
 	}
 }
