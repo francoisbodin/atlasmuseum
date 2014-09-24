@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,41 +9,28 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".LoaderActivity"
     android:background="#ffda00"
-    tools:ignore="DuplicateIds" >
-	 <Button
-	     android:id="@+id/clickscreen"
-	     android:layout_width="wrap_content"
-	     android:layout_height="wrap_content"
-	     android:layout_alignParentBottom="true"
-	     android:layout_alignParentLeft="true"
-	     android:layout_alignParentRight="true"
-	     android:layout_alignParentTop="true"
-	     android:background = "@null"
-	     android:text="" />
+    android:gravity="center" >
+    
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="20dp"
+        android:contentDescription="@string/app_name"
+        android:gravity="center_horizontal|bottom"
+        android:src="@drawable/icone" />
 
-	 <RelativeLayout
-	     android:layout_width="wrap_content"
-	     android:layout_height="wrap_content"
-	     android:layout_centerHorizontal="true"
-	     android:layout_centerVertical="true"
-	     android:gravity="center" >
-
-	     <ImageView
-	         android:id="@+id/imageView1"
-	         android:layout_width="200dp"
-	         android:layout_height="200dp"
-	         android:layout_alignParentTop="true"
-	         android:layout_centerHorizontal="true"
-	         android:paddingBottom="20dp"
-	         android:contentDescription="@string/app_name"
-	         android:src="@drawable/icone" />
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal|top"
+        android:layout_weight="1" >
+             
 	     <TextView
-	         android:id="@+id/app_name"
+	         android:id="@+id/text_title"
 	         android:layout_width="wrap_content"
 	         android:layout_height="wrap_content"
-	         android:layout_below="@+id/imageView1"
-	         android:layout_centerHorizontal="true"
 	         android:text="@string/app_name"
 	         android:textColor="#4d4d4d"
 	         android:textSize="40sp"
@@ -51,36 +38,30 @@
 	         android:textStyle="bold" />
 
 	     <TextView
-	         android:id="@+id/text_intro2"
-	         android:layout_width="wrap_content"
-	         android:layout_height="wrap_content"
-	         android:layout_below="@+id/text_intro1"
-	         android:layout_centerHorizontal="true"
-	         android:textStyle="bold"
-	         android:textSize="20sp"
-	         android:hint="@string/intro2" />
-
-	     <TextView
 	         android:id="@+id/text_intro1"
 	         android:layout_width="wrap_content"
 	         android:layout_height="wrap_content"
-	         android:layout_alignParentLeft="true"
-	         android:layout_below="@+id/app_name"
 	         android:textColor="#4d4d4d"
 	         android:textStyle="bold"
 	         android:textSize="20sp"
-	         android:layout_centerHorizontal="true"
 	         android:hint="@string/intro1" />
+
+         <TextView
+             android:id="@+id/text_intro2"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textStyle="bold"
+             android:textSize="20sp"
+             android:hint="@string/intro2" />
 
 	     <TextView
 	         android:id="@+id/text_version"
 	         android:layout_width="wrap_content"
 	         android:layout_height="wrap_content"
 	         android:textColor="#ffff47"
-	          android:textSize="20sp"
-	         android:textStyle="bold"
-	          android:layout_below="@+id/text_intro2"
-	         android:layout_centerHorizontal="true"
-	         android:hint="" /> <!-- @string/version_number -->
-	 </RelativeLayout>
-</RelativeLayout>
+	         android:textSize="20sp"
+	         android:textStyle="bold" />
+
+	 </LinearLayout>
+	 
+</LinearLayout>
