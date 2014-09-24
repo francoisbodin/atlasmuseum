@@ -1,7 +1,5 @@
 package fr.atlasmuseum.main;
 
-import java.util.Hashtable;
-
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;

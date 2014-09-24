@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 
 public class SavedContributionAdapter extends BaseAdapter {
+	@SuppressWarnings("unused")
 	private static final String DEBUG_TAG = "AtlasMuseum/ContributionPropertyAdapter";
 
 	private Context mContext;

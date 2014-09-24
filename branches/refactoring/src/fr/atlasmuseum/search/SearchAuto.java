@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.google.android.gms.internal.mb;
 import com.irisa.unpourcent.location.LocationStruct;
 
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.main.MainActivity;
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -31,7 +31,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SearchAuto extends Activity{
+@SuppressLint("DefaultLocale") public class SearchAuto extends Activity{
 
 	private static final String DEBUG_TAG = "SearchActivity";
 	public ListView lvSelection=null;
@@ -287,7 +287,6 @@ public class SearchAuto extends Activity{
 			}
 	 }
 		void disabledBouton(String champs) {
-		// TODO Auto-generated method stub
 			switch(champs)
 			{
 			case "artiste":
@@ -463,8 +462,6 @@ public class SearchAuto extends Activity{
    			LocationStruct mLastLocation = MainActivity.mLastLocation;
    			
    			int i,j=0;//j = nbEntries trouv�, et i pour parcourir 
-   			double distanceClosest = 100000000.0;
-   			int indexDistanceClosest = -1;
    			Intent intent = new Intent(this, ListActivity.class);
    			Log.d(DEBUG_TAG, "Build list: "+SearchActivity.db.nbentries+" entries");
    			Bundle extra = new Bundle();

@@ -22,18 +22,17 @@ import java.util.HashMap;
 import org.jdom2.Attribute;
 import org.jdom2.Element;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.contribution.ContributionRestoreDialogFragment.ContributionRestoreDialogListener;
 import fr.atlasmuseum.search.JsonRawData;
 import fr.atlasmuseum.search.SearchActivity;
 
-public class Contribution implements Serializable {
+@SuppressLint("SimpleDateFormat") public class Contribution implements Serializable {
 
     public interface ContributionModificationListener {
         public void onPictureModified();

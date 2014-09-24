@@ -3,30 +3,26 @@ package fr.atlasmuseum.contribution;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import fr.atlasmuseum.R;
 
 public class RadioListAdapter extends BaseAdapter
 {
 
-	private static final String DEBUG_TAG = "CheckBoxAdapter";
+	@SuppressWarnings("unused")
+	private static final String DEBUG_TAG = "AtlasMuseum/RadioListAdapter";
 	private  String[] listRadio;
 
 	
 	private Context mContext;
 	String valueSelected;
-	//Un mécanisme pour gérer l'affichage graphique depuis un layout XML
+	//Un mÃ©canisme pour gÃ©rer l'affichage graphique depuis un layout XML
 	private LayoutInflater mInflater;
 
 	public ArrayList<ViewHolder> listView;
@@ -40,8 +36,6 @@ public class RadioListAdapter extends BaseAdapter
 	   mContext = context;
 	   listRadio = listElt;
 		mInflater = LayoutInflater.from(mContext);
-	
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.main.MainActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -18,17 +17,15 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class SearchUsingDate extends Activity{
 	
-	private  ArrayAdapter<String> adapter;
 	private EditText beginDate;
 	private EditText endDate;
 	private static final String DEBUG_TAG = "AtlasMuseum/SearchUsingDate";
-	private static final String SEARCH_DATE = "recherche par date";
+	private final String SEARCH_DATE = "recherche par date";
 	private Button buttonOk;
 	private Bundle bundle;
 	
@@ -90,11 +87,9 @@ public class SearchUsingDate extends Activity{
 			
 	 }
 	 protected void afiicheError() {
-		// TODO Auto-generated method stub
 		Toast.makeText(this, "V�rifier les dates que vous avez entr�es", Toast.LENGTH_SHORT).show();
 	}
 	protected void rechercherLesOeuvre() {
-		// TODO Auto-generated method stub
 		Log.d(DEBUG_TAG, "Build list: "+SearchActivity.db.nbentries+" entries");
 		
 		int begin_int = Integer.parseInt((this.beginDate.getText().toString()));
@@ -123,7 +118,6 @@ public class SearchUsingDate extends Activity{
 		bundle.putBoolean(this.SEARCH_DATE, true);
 	}
 	private boolean isInputGood() {
-			// TODO Auto-generated method stub
 		 String begin = this.beginDate.getText().toString().trim();
 		 String end = this.endDate.getText().toString().trim();
 		 Log.d(DEBUG_TAG, "begin date ="+begin);

@@ -4,18 +4,10 @@ import fr.atlasmuseum.R;
 import fr.atlasmuseum.compte.Authentification;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.net.wifi.WifiConfiguration.AuthAlgorithm;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.webkit.GeolocationPermissions;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 public class SuiviContribActivity extends Activity {
 	WebView webView;

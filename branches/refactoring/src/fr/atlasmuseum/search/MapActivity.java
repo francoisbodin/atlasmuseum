@@ -1,62 +1,32 @@
 package fr.atlasmuseum.search;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Enumeration;
-import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.ClusterManager.OnClusterClickListener;
 import com.google.maps.android.clustering.ClusterManager.OnClusterItemClickListener;
-import com.irisa.unpourcent.location.LocationStruct;
-import com.irisa.unpourcent.location.LocationProvider;
-import com.irisa.unpourcent.location.LocationUtils;
-
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.main.AtlasError;
 import fr.atlasmuseum.main.MainActivity;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class MapActivity extends Activity {
 	private static final String DEBUG_TAG = "UnPourCent/MapActivity";
 	private Bundle bundle = null;
     private GoogleMap googleMap = null;
-    private Context ContextApps = null;
     private ClusterManager<MyItem> mClusterManager = null;
     GoogleMap getMap(){
     	return googleMap;
@@ -69,10 +39,6 @@ public class MapActivity extends Activity {
 			return Pos;
 		}
 
-		public void setPos(int pos) {
-			Pos = pos;
-		}
-
 		public MyItem(double lat, double lng, int num) {
             mPosition = new LatLng(lat, lng);
             Pos = num;
@@ -82,15 +48,11 @@ public class MapActivity extends Activity {
         public LatLng getPosition() {
             return mPosition;
         }
-        String getTitle(){
-        	return "4";
-        }
     }
     
     private void addItems() {
         // Add clusters
         int idx;
-		LatLng oeuvre = null;
 		for (idx = 0; idx < getNumberOfEntries(); idx++){
 			int idxloc = getEntryNumberForFragment(idx);
 			Log.i(DEBUG_TAG, "idxloc inside MAP is "+idxloc);
@@ -99,7 +61,7 @@ public class MapActivity extends Activity {
 				double lati = Double.parseDouble(SearchActivity.extractDataFromDb(idxloc,"latitude"));
 				Log.d(DEBUG_TAG, "value of longitude =" +String.valueOf(longi)+";"+ String.valueOf(lati));
 				if ((longi != 0.0) && (lati != 0.0)){
-					 oeuvre = new LatLng(longi, lati);
+					 new LatLng(longi, lati);
 					 MyItem offsetItem = new MyItem(lati, longi,idxloc);
 					 mClusterManager.addItem(offsetItem);
 				}
@@ -138,7 +100,7 @@ public class MapActivity extends Activity {
 		bundle = getIntent().getExtras();
 		initilizeMap();
 		
-		//tester si GPS activŽ??
+		//tester si GPS activï¿½??
 		
 		
 		if (getMap()!=null){
@@ -160,7 +122,6 @@ public class MapActivity extends Activity {
 
 				@Override
 				public boolean onClusterItemClick(MyItem item) {
-					// TODO Auto-generated method stub
 					//Toast.makeText(getApplicationContext(),"in setOnClusterItemClickListener", Toast.LENGTH_SHORT).show();
 					showNotice(item.getPos());
 					return false;
@@ -188,12 +149,6 @@ public class MapActivity extends Activity {
 				}
 	}
 
-	private void showAccueil(){
-		Intent intent = new Intent(this, SearchActivity.class);
-		Log.d(DEBUG_TAG, "Going to Accueil");
-		startActivity(intent);
-	}
-	
 	private void showNotice(int position){
 		Bundle nbundle = new Bundle();
 		Log.d(DEBUG_TAG, "showNotice Trying to display entry:" + position);
@@ -295,7 +250,6 @@ public class MapActivity extends Activity {
     
     @Override
     public void onBackPressed() {
-    	// TODO Auto-generated method stub
     	if(bundle.containsKey(SearchActivity.getCOME_FROM_SEARCHACT()))
     	{
     		Intent intent= new Intent(this,SearchActivity.class);

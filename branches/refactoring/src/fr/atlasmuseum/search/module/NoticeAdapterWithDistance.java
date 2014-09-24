@@ -1,39 +1,25 @@
 package fr.atlasmuseum.search.module;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.google.android.gms.internal.mc;
-
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.main.MainActivity;
 import fr.atlasmuseum.search.SearchActivity;
 import fr.atlasmuseum.search.ShowNoticeActivity;
 import fr.atlasmuseum.search.loadPhotoInterface;
@@ -42,7 +28,7 @@ import fr.atlasmuseum.search.loadPhotoInterface;
  * Permet l'affichage de notice dans la listView
  * sans affichage d'images
  */
-public class NoticeAdapterWithDistance extends BaseAdapter  {
+@SuppressLint("DefaultLocale") public class NoticeAdapterWithDistance extends BaseAdapter  {
 	private static final String DEBUG_TAG = "NoticeAdapterWithDistance";
 	public Typeface font_bold;
 	public Typeface font_regular;
@@ -60,19 +46,16 @@ public class NoticeAdapterWithDistance extends BaseAdapter  {
 	
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return listNotice.size();
 	}
 
 	@Override
 	public Object getItem(int arg0) {
-		// TODO Auto-generated method stub
 		return listNotice.get(arg0);
 	}
 
 	@Override
 	public long getItemId(int arg0) {
-		// TODO Auto-generated method stub
 		return arg0;
 	}
 

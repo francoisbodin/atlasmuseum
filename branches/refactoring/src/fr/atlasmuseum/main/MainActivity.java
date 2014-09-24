@@ -24,10 +24,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends Activity implements LocationProvider.OnLocationChanged {
 	
@@ -143,7 +141,6 @@ public class MainActivity extends Activity implements LocationProvider.OnLocatio
 	}
 	
 	private void afficheInfo() {
-		// TODO Auto-generated method stub
 		Log.i(DEBUG_TAG, "cpref-Autoischeck = "+cPref.getBoolean("AUTO_ISCHECK", false));
 		Log.i(DEBUG_TAG, "cpref-dejaco = "+cPref.getBoolean("DEJACO", false));
 		Log.i(DEBUG_TAG, "cpref-user = "+cPref.getString("user", "unknow"));
@@ -159,7 +156,6 @@ public class MainActivity extends Activity implements LocationProvider.OnLocatio
 	}
 	
 	private void autologin(boolean auto) {
-		// TODO Auto-generated method stub
 		
 			String username=cPref.getString("user", "");
 			
@@ -182,7 +178,6 @@ public class MainActivity extends Activity implements LocationProvider.OnLocatio
 			recreate();
 		}
 	private void setActionForButton() {
-		// TODO Auto-generated method stub
 		  //setting the actions for freesearch
 		mButtonExplorer.setOnClickListener(new OnClickListener() {
 	        @Override
@@ -256,7 +251,6 @@ public class MainActivity extends Activity implements LocationProvider.OnLocatio
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    // TODO Auto-generated method stub
 	    super.onActivityResult(requestCode, resultCode, data);
 	    if(requestCode == RESULT_CONNEXION)
 	    {

@@ -1,11 +1,8 @@
 package fr.atlasmuseum.search.module;
-
-
-import java.util.ArrayList;
 /**
- * Classe qui décrit une notice
+ * Classe qui dï¿½crit une notice
  * 
- * Utilisé dans ResultActivity
+ * Utilisï¿½ dans ResultActivity
  */
 public class NoticeOeuvre {
 	
@@ -105,11 +102,9 @@ public class NoticeOeuvre {
 	}
 
 	public int getDistance() {
-		// TODO Auto-generated method stub
 		return distance;
 	}
 	public void setDistance(int distance2) {
-		// TODO Auto-generated method stub
 		distance =distance2;
 	}
 

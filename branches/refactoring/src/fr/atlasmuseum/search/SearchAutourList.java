@@ -1,6 +1,5 @@
 package fr.atlasmuseum.search;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,11 +24,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -56,9 +52,9 @@ public class SearchAutourList extends Activity implements loadPhotoInterface{
         
         ArrayList<NoticeCompar> compNoticeList = new ArrayList<NoticeCompar>();
         
-		listNotice = new ArrayList<NoticeOeuvre>();//va contenir les notices d'oeuvre trié suivant la distance
+		listNotice = new ArrayList<NoticeOeuvre>();//va contenir les notices d'oeuvre triï¿½ suivant la distance
         int idxloc;
-        int j = 0;//nombre d'oeuvre trouvée aux alentours
+        int j = 0;//nombre d'oeuvre trouvï¿½e aux alentours
         LocationStruct mLastLocation = MainActivity.mLastLocation;
         if (mLastLocation != null)
 		{
@@ -94,14 +90,14 @@ public class SearchAutourList extends Activity implements loadPhotoInterface{
 							if (distance < radiusValue)
 							{
 								bundle.putInt(Integer.toString(j), idxloc);
-								NoticeOeuvre notice = new NoticeOeuvre(nomOvreu, artiste,idxloc); //créé une notice
+								NoticeOeuvre notice = new NoticeOeuvre(nomOvreu, artiste,idxloc); //crï¿½ï¿½ une notice
 								try
 								{
 									int annee = Integer.valueOf(date);
 									notice.setAnnee(annee);
 								}catch(Exception e) {notice.setAnnee(1000000);}
 								
-								Log.d(DEBUG_TAG, "id oeuvre ajouté ="+notice.getId());
+								Log.d(DEBUG_TAG, "id oeuvre ajoutï¿½ ="+notice.getId());
 								notice.setVille(lieux);
 								notice.setPays(pays);
 								notice.setLatitude(lati);
@@ -147,7 +143,7 @@ public class SearchAutourList extends Activity implements loadPhotoInterface{
 		else
 		{
 			Log.d(DEBUG_TAG, "mLaslocation null");
-			AtlasError.showErrorDialog(SearchAutourList.this, "8.1", "imppossible de récupérer votre position pour le moment.");
+			AtlasError.showErrorDialog(SearchAutourList.this, "8.1", "imppossible de rï¿½cupï¿½rer votre position pour le moment.");
 		}
         
         
@@ -157,12 +153,12 @@ public class SearchAutourList extends Activity implements loadPhotoInterface{
 		Log.d(DEBUG_TAG, "fin chargement... ");
 		noticeAdapter = new NoticeAdapterWithDistance(this, listNotice);
 		lvSelection.setAdapter(noticeAdapter);
-		//Enfin on met un écouteur d'évènement sur notre listView
+		//Enfin on met un ï¿½couteur d'ï¿½vï¿½nement sur notre listView
 				lvSelection.setOnItemClickListener(new OnItemClickListener() {
 				
 					@Override
 		         	public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-						//on récupère la HashMap contenant les infos de notre item (titre, description, img)
+						//on rï¿½cupï¿½re la HashMap contenant les infos de notre item (titre, description, img)
 						//lvSelection.getItemAtPosition(position).getClass();
 		        		Log.d(DEBUG_TAG, "class ="+lvSelection.getItemAtPosition(position).getClass());
 		        		
@@ -296,7 +292,6 @@ public class SearchAutourList extends Activity implements loadPhotoInterface{
 	
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
 		Intent intent= new Intent(this,SearchActivity.class);
 		
 		startActivity(intent);

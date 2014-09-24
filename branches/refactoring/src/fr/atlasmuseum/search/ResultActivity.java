@@ -57,7 +57,6 @@ public class ResultActivity extends Activity implements loadPhotoInterface {
 			String photo = SearchActivity.extractDataFromDb(idxloc,"image_principale");
 			String lieux = SearchActivity.extractDataFromDb(idxloc,"Siteville");
 			String pays = SearchActivity.extractDataFromDb(idxloc,"Sitepays");
-			int id= idxloc;
 			NoticeOeuvre notice = new NoticeOeuvre(nomOvreu, artiste,idxloc); //cr�� les notices
 			try
 			{
@@ -109,7 +108,6 @@ public class ResultActivity extends Activity implements loadPhotoInterface {
 		//Enfin on met un �couteur d'�v�nement sur notre listView
 		mListViewSelection.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-        	@SuppressWarnings("unchecked")
          	public void onItemClick(AdapterView<?> a, View v, int position, long id) {
 				//on r�cup�re la HashMap contenant les infos de notre item (titre, description, img)
 				//lvSelection.getItemAtPosition(position).getClass();
@@ -219,21 +217,18 @@ public class ResultActivity extends Activity implements loadPhotoInterface {
 
 	@Override
 	public NoticeAdapterWithDistance getNoticeAdapter() {
-		// TODO Auto-generated method stub
 		return this.noticeAdapter;
 	}
 
 
 	@Override
 	public Context getContext() {
-		// TODO Auto-generated method stub
 		return ResultActivity.this;
 	}
 
 
 	@Override
 	public ImageView getImageView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

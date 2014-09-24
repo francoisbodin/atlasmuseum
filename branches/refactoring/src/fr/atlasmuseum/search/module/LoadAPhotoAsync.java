@@ -58,7 +58,6 @@ public class LoadAPhotoAsync extends AsyncTask<String, String, Boolean> {
 	
 	@Override
 	protected Boolean doInBackground(String... params) {
-		// TODO Auto-generated method stub
 		File fimage;
 		try {
 			fimage = SearchActivity.checkIfImageFileExists(photoName);

@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 public class MainContribActivity extends Activity {
 
+	@SuppressWarnings("unused")
 	private static final String DEBUG_TAG = "AtlasMuseum/MainContribAcitivity";
 	
 	private int REQUEST_CONNEXION=1245;

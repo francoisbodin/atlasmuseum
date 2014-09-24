@@ -1,7 +1,6 @@
 package fr.atlasmuseum.main;
 
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.compte.Authentification;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;

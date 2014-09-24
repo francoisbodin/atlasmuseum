@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 
 /**
- * classe qui permet de ranger les notices, suivant distance ou par ordre alphabetique suivant différent keys
+ * classe qui permet de ranger les notices, suivant distance ou par ordre alphabetique suivant diffï¿½rent keys
  * 
  *
  */
@@ -17,7 +17,6 @@ public class NoticeCompar implements Comparable<NoticeCompar>{
 	
 	
 	public NoticeCompar(NoticeOeuvre notice, int j) {
-		// TODO Auto-generated constructor stub
 		this.index=j;
 		this.oeuvre=notice;
 	}
@@ -50,8 +49,6 @@ public class NoticeCompar implements Comparable<NoticeCompar>{
 	//compare les titres des NoticeCompar
 	@Override
 	public int compareTo(NoticeCompar nComp) {
-		// TODO Auto-generated method stub
-		
 		return (int) (getOeuvre().getDistance() - nComp.getOeuvre().getDistance());
 		
 	}

@@ -8,20 +8,17 @@ import com.irisa.unpourcent.location.LocationStruct;
 
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.main.MainActivity;
-import fr.atlasmuseum.search.module.NoticeCompar;
 import fr.atlasmuseum.search.module.SimpleAdapterSearch;
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,7 +27,7 @@ import android.widget.TextView;
  * Liste l'ensemble des auteurs ou pays ou villes
  *
  */
-public class ListActivity extends Activity  {
+@SuppressLint("DefaultLocale") public class ListActivity extends Activity  {
 	
 	private static final String DEBUG_TAG = "AtlasMuseum/ListActivity";
 	private ListView lvSelection = null;
@@ -38,10 +35,6 @@ public class ListActivity extends Activity  {
 	private  List<String> selectionStringList;
 	private  SimpleAdapterSearch adapter;
 	private TextView TitreHaut;
-	//Button button_carte
-	private Button mButtonCarte;
-	//Button button_accueil
-	private Button mButtonAccueil;
 	//action bar
 	private ActionBar actionBar = null;
 
@@ -184,8 +177,6 @@ public class ListActivity extends Activity  {
   			LocationStruct mLastLocation = MainActivity.mLastLocation;
   			
   			int i,j=0;//j = nbEntries trouvé, et i pour parcourir 
-  			double distanceClosest = 100000000.0;
-  			int indexDistanceClosest = -1;
   			Intent intent = new Intent(this, ListActivity.class);
   			Log.d(DEBUG_TAG, "Build list: "+SearchActivity.db.nbentries+" entries");
   			Bundle extra = new Bundle();
