@@ -7,16 +7,15 @@ import java.io.FilenameFilter;
 import java.util.UUID;
 
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.compte.Authentification;
 import fr.atlasmuseum.compte.ConnexionActivity;
 import fr.atlasmuseum.main.AtlasError;
+import fr.atlasmuseum.main.MainActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -108,12 +107,14 @@ public class MainContribActivity extends Activity {
 		relativEtatContrib.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				if(! checkInternetConnection()) {
+				if(! MainActivity.checkInternetConnection(MainContribActivity.this)) {
 					AtlasError.showErrorDialog(MainContribActivity.this, "7.1", "pas internet connexion");
 					return;
 				}
 
-				if(! Authentification.getisConnected()) {
+				SharedPreferences prefs = getSharedPreferences(ConnexionActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+				String username = prefs.getString(ConnexionActivity.PREF_KEY_USERNAME, "");
+				if( username.equals("") ) {
 					AtlasError.showErrorDialog(MainContribActivity.this, "7.3", "compte util requis");
 					return;
 				}
@@ -176,20 +177,5 @@ public class MainContribActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		finish();
-	}
-	
-	public boolean checkInternetConnection() {
-		ConnectivityManager cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-		boolean isWiFi = false;
-
-		if(activeNetwork!=null && ( activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)){
-			isWiFi = true;
-		}
-		else
-		{
-			isWiFi =false;
-		}
-		return isWiFi;
 	}
 }

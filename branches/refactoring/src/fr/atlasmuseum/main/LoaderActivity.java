@@ -10,7 +10,9 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.location.LocationManager;
@@ -48,7 +50,17 @@ public class LoaderActivity extends Activity  {
 		} catch (NameNotFoundException e) {
 		}
         
-		
+		LinearLayout layout = (LinearLayout)findViewById(R.id.layout);
+		layout.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(LoaderActivity.this, MainActivity.class);
+				startActivity(intent);
+				finish();
+			};
+		});
+
+
         
 		//check if GPS is activated
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -60,15 +72,6 @@ public class LoaderActivity extends Activity  {
         }
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        super.dispatchTouchEvent(ev);
-		Intent intent = new Intent(LoaderActivity.this, MainActivity.class);
-		startActivity(intent);
-		finish();
-		return true;
-    }
-    
     private void showGPSDisabledAlertToUser(){
     	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
     	alertDialogBuilder.setMessage(getResources().getString(R.string.gps_click_to_enable));

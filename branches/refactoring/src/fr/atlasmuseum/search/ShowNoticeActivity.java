@@ -28,7 +28,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class ShowNoticeActivity extends Activity implements ContributionRestoreDialogFragment.ContributionRestoreDialogListener, Contribution.ContributionModificationListener {
+public class ShowNoticeActivity extends Activity
+                                implements ContributionRestoreDialogFragment.ContributionRestoreDialogListener,
+                                           Contribution.ContributionModificationListener {
 
 	private static final String DEBUG_TAG = "AtlasMuseum/ShowNotice";
 	public static final String ARG_FRAGMENT = "IDFragment";

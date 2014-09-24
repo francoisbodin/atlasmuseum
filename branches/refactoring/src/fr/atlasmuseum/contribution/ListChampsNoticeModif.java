@@ -16,8 +16,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -36,7 +34,6 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.compte.Authentification;
 import fr.atlasmuseum.compte.ConnexionActivity;
 import fr.atlasmuseum.main.AtlasError;
 import fr.atlasmuseum.main.MainActivity;
@@ -44,7 +41,7 @@ import fr.atlasmuseum.main.MainActivity;
 public class ListChampsNoticeModif extends Activity {
 	private static final String DEBUG_TAG = "AtlasMuseum/ListChampsNoticeModif";
 	
-	static final String SHARED_PREFERENCES = "fr.atlasmuseum.contribution.SHARED_PREFERENCES";
+	static final String SHARED_PREFERENCES = "fr.atlasmuseum.contribution.ListChampsNoticeModif.SHARED_PREFERENCES";
 
 	static final int REQUEST_MODIFY_PROPERTY = 1;
 	static final int REQUEST_TAKE_PICTURE = 2;
@@ -203,11 +200,14 @@ public class ListChampsNoticeModif extends Activity {
 	}
 
 	public void saveContributions() {
-		// Add login/password information
-		if(Authentification.getisConnected()) {
-			mContribution.setLogin(Authentification.getUsername());
-			mContribution.setPassword(Authentification.getPassword());
-		}
+//		// Add login/password information
+//		SharedPreferences prefs = getSharedPreferences(ConnexionActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+//		String username = prefs.getString(ConnexionActivity.PREF_KEY_USERNAME, "");
+//		String password = prefs.getString(ConnexionActivity.PREF_KEY_PASSWORD, "");
+//		if( ! username.equals("") && ! password.equals("") ) {
+//			mContribution.setLogin(username);
+//			mContribution.setPassword(password);
+//		}
 
 		// Update location if needed for new notice
 		if(MainActivity.mLastLocation != null && mContribution.getNoticeId() == 0) {
@@ -230,21 +230,21 @@ public class ListChampsNoticeModif extends Activity {
 		//Toast.makeText(this, this.getResources().getString(R.string.completer_au_moins_un_champs), Toast.LENGTH_LONG).show();
 	}
 	protected void sendContributions() {
-		if(! checkInternetConnection()) {
+		if(! MainActivity.checkInternetConnection(this)) {
 			AtlasError.showErrorDialog(ListChampsNoticeModif.this, "7.1", "pas internet connexion");
 			return;
 		}
 
-		if(! Authentification.getisConnected()) {
+		SharedPreferences prefs = getSharedPreferences(ConnexionActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+		String username = prefs.getString(ConnexionActivity.PREF_KEY_USERNAME, "");
+		String password = prefs.getString(ConnexionActivity.PREF_KEY_PASSWORD, "");
+		if( username.equals("") || password.equals("") ) {
 			AtlasError.showErrorDialog(ListChampsNoticeModif.this, "7.3", "compte util requis");
 			return;
 		}
 
-		// Add login/password information
-		if(Authentification.getisConnected()) {
-			mContribution.setLogin(Authentification.getUsername());
-			mContribution.setPassword(Authentification.getPassword());
-		}
+		mContribution.setLogin(username);
+		mContribution.setPassword(password);
 
 		// Update location if needed for new notice
 		if(MainActivity.mLastLocation != null && mContribution.getNoticeId() == 0) {
@@ -262,22 +262,6 @@ public class ListChampsNoticeModif extends Activity {
 		contributionSend.execute();
 		
 		//Toast.makeText(this, getResources().getString(R.string.completer_au_moins_un_champs), Toast.LENGTH_LONG).show();;
-	}
-
-	public boolean checkInternetConnection()
-	{
-		ConnectivityManager cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-		boolean isWiFi = false;
-
-		if(activeNetwork!=null && ( activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)){
-			isWiFi = true;
-		}
-		else
-		{
-			isWiFi =false;
-		}
-		return isWiFi;
 	}
 
 	@Override
@@ -341,8 +325,7 @@ public class ListChampsNoticeModif extends Activity {
 	}
 
 
-	public void finishWithWarning()
-	{
+	public void finishWithWarning()	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(this.getResources().getString(R.string.app_name));
 		builder.setMessage(this.getResources().getString(R.string.leave_contrib));
