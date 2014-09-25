@@ -11,7 +11,8 @@
         android:layout_height="0dp"
         android:background="@drawable/backrepeat"
         android:orientation="vertical"
-        android:layout_weight="1" >
+        android:gravity="center"
+        android:layout_weight="2" >
 
         <RelativeLayout
             android:id="@+id/modif_layout_picture"
@@ -45,8 +46,10 @@
             android:visibility="gone" >
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"
                 android:src="@drawable/ic_load_photo_notice_empty"/>
 
             <RelativeLayout
@@ -79,7 +82,7 @@
 
     <ListView
         android:id="@+id/list_view"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:listSelector="@drawable/on_pressed_listview_background"
         android:paddingLeft="@dimen/activity_horizontal_margin"

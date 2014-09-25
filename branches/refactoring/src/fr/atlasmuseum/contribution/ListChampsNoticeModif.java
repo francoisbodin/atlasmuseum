@@ -12,6 +12,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -78,6 +80,27 @@ public class ListChampsNoticeModif extends Activity {
 		mLayoutModifPicture = (RelativeLayout) findViewById(R.id.modif_layout_picture);
 		mViewModifPicture = (ImageView) findViewById(R.id.modif_view_picture);
 		
+		mViewModifPicture.setOnClickListener(new OnClickListener() {	
+			@Override
+			public void onClick(View v) {
+				String filename = mContribution.getProperty(Contribution.PHOTO).getValue();
+		    	File file = new File(filename);
+		    	if( ! file.exists() || ! file.isAbsolute() ) {
+		    		return;
+		    	}
+		    	
+		    	Intent intent = new Intent(Intent.ACTION_VIEW);
+				final PackageManager packageManager = getPackageManager();
+				List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+				if( list.size() == 0 ) {
+					return;
+				}
+
+				intent.setDataAndType(Uri.fromFile(file), "image/*");
+				startActivity(intent);
+			}
+		});
+
 		mList = new ArrayList<ContributionProperty>();
 		mAdapter = new ContributionPropertyAdapter(ListChampsNoticeModif.this, mList);
 		ListView listView = (ListView) findViewById(R.id.list_view);
@@ -122,8 +145,7 @@ public class ListChampsNoticeModif extends Activity {
 		});
 
 		Button buttonCancel = (Button) findViewById(R.id.button_cancel);
-		buttonCancel.setOnClickListener(new OnClickListener() 
-		{
+		buttonCancel.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				finishWithWarning();
@@ -147,8 +169,7 @@ public class ListChampsNoticeModif extends Activity {
 		});
 
 		ActionBar actionBar = getActionBar();
-		if (actionBar != null)
-		{
+		if (actionBar != null) {
 			actionBar.show();
 			actionBar.setDisplayHomeAsUpEnabled(true);
 			actionBar.setTitle(getResources().getString(R.string.Contribuer));
@@ -200,15 +221,11 @@ public class ListChampsNoticeModif extends Activity {
 	}
 
 	public void saveContributions() {
-//		// Add login/password information
-//		SharedPreferences prefs = getSharedPreferences(ConnexionActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-//		String username = prefs.getString(ConnexionActivity.PREF_KEY_USERNAME, "");
-//		String password = prefs.getString(ConnexionActivity.PREF_KEY_PASSWORD, "");
-//		if( ! username.equals("") && ! password.equals("") ) {
-//			mContribution.setLogin(username);
-//			mContribution.setPassword(password);
-//		}
-
+		if( ! mContribution.isModified() ) {
+			Toast.makeText(this, this.getResources().getString(R.string.completer_au_moins_un_champs), Toast.LENGTH_LONG).show();
+			return;
+		}
+		
 		// Update location if needed for new notice
 		if(MainActivity.mLastLocation != null && mContribution.getNoticeId() == 0) {
 			ContributionProperty propLatitude = mContribution.getProperty(Contribution.LATITUDE);
@@ -225,11 +242,14 @@ public class ListChampsNoticeModif extends Activity {
 		
 		setResult(RESULT_OK);
 		finish();
-		
-		// TODO: check we have at least one modification in current contribution
-		//Toast.makeText(this, this.getResources().getString(R.string.completer_au_moins_un_champs), Toast.LENGTH_LONG).show();
 	}
+	
 	protected void sendContributions() {
+		if( ! mContribution.isModified() ) {
+			Toast.makeText(this, this.getResources().getString(R.string.completer_au_moins_un_champs), Toast.LENGTH_LONG).show();
+			return;
+		}
+
 		if(! MainActivity.checkInternetConnection(this)) {
 			AtlasError.showErrorDialog(ListChampsNoticeModif.this, "7.1", "pas internet connexion");
 			return;
@@ -265,11 +285,9 @@ public class ListChampsNoticeModif extends Activity {
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if(requestCode == REQUEST_MODIFY_PROPERTY)
-		{
+		if(requestCode == REQUEST_MODIFY_PROPERTY) {
 			if( resultCode == RESULT_OK ) {
 				Log.d(DEBUG_TAG, "onActivityResult(REQUEST_MODIFY_PROPERTY, RESULT_OK)");
 				
@@ -326,6 +344,12 @@ public class ListChampsNoticeModif extends Activity {
 
 
 	public void finishWithWarning()	{
+		if( ! mContribution.isModified() ) {
+			setResult(RESULT_CANCELED);
+			finish();
+			return;
+		}
+		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(this.getResources().getString(R.string.app_name));
 		builder.setMessage(this.getResources().getString(R.string.leave_contrib));
@@ -454,7 +478,7 @@ public class ListChampsNoticeModif extends Activity {
 			}
 			
 			int targetH = 512;
-			int targetW = targetH/photoH+photoW;
+			int targetW = (int) (((double)targetH)/photoH*photoW);
 			
 			int scaleFactor = Math.max((int)Math.ceil((double)photoW/targetW), (int)Math.ceil((double)photoH/targetH));
 

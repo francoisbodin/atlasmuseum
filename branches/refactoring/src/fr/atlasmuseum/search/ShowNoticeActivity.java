@@ -1,6 +1,7 @@
 package fr.atlasmuseum.search;
 
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 import fr.atlasmuseum.R;
@@ -12,6 +13,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -132,9 +135,27 @@ public class ShowNoticeActivity extends Activity
 		});
 
     	mViewPicture = (ImageView) findViewById(R.id.imageView1);
-    	
-    	//updatePictureView();
-    	
+    	mViewPicture.setOnClickListener(new OnClickListener() {	
+			@Override
+			public void onClick(View v) {
+				String filename = mContribution.getProperty(Contribution.PHOTO).getValue();
+		    	File file = new File(filename);
+		    	if( ! file.exists() || ! file.isAbsolute() ) {
+		    		return;
+		    	}
+		    	
+		    	Intent intent = new Intent(Intent.ACTION_VIEW);
+				final PackageManager packageManager = getPackageManager();
+				List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+				if( list.size() == 0 ) {
+					return;
+				}
+
+				intent.setDataAndType(Uri.fromFile(file), "image/*");
+				startActivity(intent);
+			}
+		});
+
 
     	ActionBar actionBar = getActionBar();
     	if (actionBar != null) {

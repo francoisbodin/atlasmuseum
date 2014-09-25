@@ -1,31 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical"
-  android:layout_width="fill_parent"
-   android:layout_height="fill_parent"
-   
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-   >
-	
-           <TextView
-                android:id="@+id/contrib_titre"
-                 android:text="ex:Date"
-                 android:textColor="#656565"
-                 android:textSize="18dp"
-                 android:layout_marginLeft="5dp"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"/>
-               
-           
-               <TextView
-                android:id="@+id/contrib_value"
-                 android:text="2014"
-                 android:textColor="#0edede"
-                 android:layout_marginLeft="5dp"
-                  android:textSize="18dp"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"/>
-               
-              
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingBottom="15dp"
+    android:paddingTop="15dp" >
+
+    <TextView
+        android:id="@+id/contrib_titre"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textColor="#656565"
+        android:textSize="18dp" />
+    
+    <TextView
+        android:id="@+id/contrib_value"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textColor="#0edede"
+        android:textSize="18dp" />
+
 </LinearLayout>

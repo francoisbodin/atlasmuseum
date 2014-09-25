@@ -495,6 +495,15 @@ import fr.atlasmuseum.search.SearchActivity;
 		return mProperties.values();
 	}
 	
+	public Boolean isModified() {
+		for (ContributionProperty prop : mProperties.values()) {
+		    if( ! prop.getValue().equals(prop.getOriginalValue()) ) {
+		    	return true;
+		    }
+		}
+		return false;
+	}
+	
 	public void dumpDebug() {
 		//Log.d(DEBUG_TAG, "Dump contribution: id = " + mId + " - Titre = " + mProperties.get("titre").getValue());
 		Log.d(DEBUG_TAG, "Dump contribution");

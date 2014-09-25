@@ -60,7 +60,7 @@ public class ContributionPropertyAdapter extends BaseAdapter {
 		ContributionProperty elt = mListElement.get(position);//élément courant de la liste
 
 		String title = mContext.getResources().getString(elt.getTitle());
-		if( elt.getValue() != elt.getOriginalValue() ) {
+		if( ! elt.getValue().equals(elt.getOriginalValue()) ) {
 			title += "*";
 			valueView.setTextColor(Color.parseColor("#0EBABA"));				
 		}
