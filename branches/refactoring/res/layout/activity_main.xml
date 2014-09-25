@@ -23,6 +23,7 @@
                 android:id="@+id/view_explore"
                 android:layout_width="@dimen/ic_accueil_widthheight"
                 android:layout_height="@dimen/ic_accueil_widthheight"
+                android:paddingBottom="5dp"
                 android:src="@drawable/ic_accueil_search" />
 
             <TextView
@@ -46,6 +47,7 @@
             <ImageView
                 android:layout_width="@dimen/ic_accueil_widthheight"
                 android:layout_height="@dimen/ic_accueil_widthheight"
+                android:paddingBottom="5dp"
                 android:src="@drawable/ic_accueil_contribuer" />
 
             <TextView
@@ -76,6 +78,7 @@
             <ImageView
                 android:layout_width="@dimen/ic_accueil_widthheight"
                 android:layout_height="@dimen/ic_accueil_widthheight"
+                android:paddingBottom="5dp"
                 android:src="@drawable/ic_accueil_favoris" />
 
             <TextView
@@ -100,6 +103,7 @@
             <ImageView
                 android:layout_width="@dimen/ic_accueil_widthheight"
                 android:layout_height="@dimen/ic_accueil_widthheight"
+                android:paddingBottom="5dp"
                 android:src="@drawable/ic_accueil_profil" />
 
             <TextView
@@ -130,6 +134,7 @@
             <ImageView
                 android:layout_width="@dimen/ic_accueil_widthheight"
                 android:layout_height="@dimen/ic_accueil_widthheight"
+                android:paddingBottom="5dp"
                 android:src="@drawable/ic_accueil_actu" />
 
             <TextView
@@ -154,6 +159,7 @@
             <ImageView
                 android:layout_width="@dimen/ic_accueil_widthheight"
                 android:layout_height="@dimen/ic_accueil_widthheight"
+                android:paddingBottom="5dp"
                 android:src="@drawable/ic_accueil_apropos" />
 
             <TextView
