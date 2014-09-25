@@ -3,278 +3,168 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal"
-         >
-			<RelativeLayout 
-			    android:id="@+id/mButtonExplorer"
-			    android:layout_width="match_parent"
-        	    android:layout_height="match_parent"
-			     android:layout_weight="1"
-        	    android:background="#ffe600"
-        	    
-			    >
+        android:orientation="horizontal" >
 
-			    <RelativeLayout
-			        android:layout_width="wrap_content"
-			        
-			        android:layout_height="wrap_content"
-			        android:layout_centerHorizontal="true"
-			        android:layout_centerVertical="true" >
+        <LinearLayout
+            android:id="@+id/button_explore"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ffe600"
+            android:gravity="center"
+            android:orientation="vertical" >
 
-			        <TextView
-			            android:id="@+id/txt_view_search"
-			            android:layout_width="wrap_content"
-			            android:layout_height="wrap_content"
-			            android:layout_below="@+id/imgsearch"
-			            android:focusable="false"
-			            android:text="@string/explorer"
-			            android:textSize="18dp" />
+            <ImageView
+                android:id="@+id/view_explore"
+                android:layout_width="@dimen/ic_accueil_widthheight"
+                android:layout_height="@dimen/ic_accueil_widthheight"
+                android:src="@drawable/ic_accueil_search" />
 
-			        <ImageView
-			            android:id="@+id/imgsearch"
-			            android:layout_width="@dimen/ic_accueil_widthheight"
-			            android:layout_height="@dimen/ic_accueil_widthheight"
-			            android:layout_alignParentTop="true"
-			            android:layout_centerHorizontal="true"
-			            android:src="@drawable/ic_accueil_search" />
+            <TextView
+                android:id="@+id/text_explore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:text="@string/main_explore"
+                android:textSize="18sp" />
+        </LinearLayout>
 
-			    </RelativeLayout>
-			    
-			</RelativeLayout>
-        	
-			<!--  bouton contribuer -->
-        	 <RelativeLayout 
-        	 	android:id="@+id/mButtonContribuer"
-		        android:layout_width="match_parent"
-		        android:layout_height="match_parent"
-		        android:layout_gravity="center"
-		        
-        	     android:background="#ffe000"
-		        android:focusable="false"
-		        android:layout_weight="1"
-        	     
-        	     >
-        	      <RelativeLayout
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_centerHorizontal="true"
-			        android:layout_centerVertical="true" >
+        <LinearLayout
+            android:id="@+id/button_contribute"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ffe000"
+            android:gravity="center"
+            android:orientation="vertical" >
 
-			        <TextView
-			            android:id="@+id/txt_view_contribuer"
-			            android:layout_width="wrap_content"
-			            android:layout_height="wrap_content"
-			            android:layout_below="@+id/imgcontrib"
-			            android:focusable="false"
-			            android:text="@string/Contribuer"
-				        android:textSize="18dp" />
+            <ImageView
+                android:layout_width="@dimen/ic_accueil_widthheight"
+                android:layout_height="@dimen/ic_accueil_widthheight"
+                android:src="@drawable/ic_accueil_contribuer" />
 
-			        <ImageView
-			            android:id="@+id/imgcontrib"
-			            android:layout_width="@dimen/ic_accueil_widthheight"
-			            android:layout_height="@dimen/ic_accueil_widthheight"
-			            android:layout_alignParentTop="true"
-			            android:layout_centerHorizontal="true"
-			            android:src="@drawable/ic_accueil_contribuer" />
+            <TextView
+                android:id="@+id/text_contribute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:text="@string/main_contribute"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
 
-			    </RelativeLayout>
-        	     
-        	     
-        	     
-        	 </RelativeLayout><!-- fin contribuer -->
-			
-
-	</LinearLayout>
-     
-     <LinearLayout 
-         android:layout_width="fill_parent"
-      android:layout_height="0dp"
-         android:orientation="horizontal"
-         android:layout_weight="1"
-         >
-		
-			<!-- debut Aide -->
-			<RelativeLayout 
-			    android:id="@+id/mButtonAide"
-        	     android:layout_width="match_parent"
-        	     android:layout_height="match_parent"
-        	     android:layout_weight="1"
-        	     android:background="#4d4d4d"
-        	     android:focusable="false"
-        	     android:textSize="18dp" 
-
-			    >
-			    
-			    
-			    <RelativeLayout
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_centerHorizontal="true"
-			        android:layout_centerVertical="true" >
-
-			        <TextView
-			            android:id="@+id/txt_view_aide"
-			            android:layout_width="wrap_content"
-			            android:layout_height="wrap_content"
-			            android:layout_below="@+id/imgfav"
-			            android:focusable="false"
-			            android:textColor="#ffffff"
-			            android:text="@string/aide"
-			            android:textSize="18dp" />
-
-			        <ImageView
-			            android:id="@+id/imgfav"
-			            android:layout_width="@dimen/ic_accueil_widthheight"
-			            android:layout_height="@dimen/ic_accueil_widthheight"
-			            android:layout_alignParentTop="true"
-			            android:layout_centerHorizontal="true"
-			            android:src="@drawable/ic_accueil_favoris" />
-
-			    </RelativeLayout>
-			    
-			</RelativeLayout>
-        	 <!-- fin Aide -->
-       <!--  bouton mon profil -->
-       <RelativeLayout 
-           android:id="@+id/mButtonProfil"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:background="#707070"
-        android:focusable="false"
-        android:layout_weight="1"
-           >
-            <RelativeLayout
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_centerHorizontal="true"
-			        android:layout_centerVertical="true" >
-
-			        <TextView
-			            android:id="@+id/txt_view_profil"
-			            android:layout_width="wrap_content"
-			            android:layout_height="wrap_content"
-			            android:layout_below="@+id/imgprofil"
-			            android:focusable="false"
-			            android:text="Mon profil"
-				        android:textColor="#ffffff"
-				        
-				        android:textSize="18dp" />
-
-			        <ImageView
-			            android:id="@+id/imgprofil"
-			            android:layout_width="@dimen/ic_accueil_widthheight"
-			            android:layout_height="@dimen/ic_accueil_widthheight"
-			            android:layout_alignParentTop="true"
-			            android:layout_centerHorizontal="true"
-			            android:src="@drawable/ic_accueil_profil" />
-
-			    </RelativeLayout>
-           
-           
-       </RelativeLayout> <!-- fin mon profil -->
-             
-         
-         
-     </LinearLayout>
-    
- 
-     <LinearLayout 
-         android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-         >
-       <!--  bouton actualités -->
-         <RelativeLayout 
-            android:id="@+id/mButtonActu"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        
-	        android:focusable="false"
-	        android:background="#dcdcdc"
-	        android:layout_weight="1" 
-             
-             >
-             
-             <RelativeLayout
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_centerHorizontal="true"
-			        android:layout_centerVertical="true" >
+        android:orientation="horizontal" >
 
-			        <TextView
-			            android:id="@+id/txt_view_actu"
-			            android:layout_width="wrap_content"
-			            android:layout_height="wrap_content"
-			            android:layout_below="@+id/imgactu"
-			            android:focusable="false"
-				        android:textColor="#333333"
-				        android:text="actu"
-				        android:textSize="18dp" />
+        <LinearLayout
+            android:id="@+id/button_help"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#4d4d4d"
+            android:gravity="center"
+            android:orientation="vertical" >
 
-			        <ImageView
-			            android:id="@+id/imgactu"
-			            android:layout_width="@dimen/ic_accueil_widthheight"
-			            android:layout_height="@dimen/ic_accueil_widthheight"
-			            android:layout_alignParentTop="true"
-			            android:layout_centerHorizontal="true"
-			            android:src="@drawable/ic_accueil_actu" />
+            <ImageView
+                android:layout_width="@dimen/ic_accueil_widthheight"
+                android:layout_height="@dimen/ic_accueil_widthheight"
+                android:src="@drawable/ic_accueil_favoris" />
 
-			    </RelativeLayout>
-             
-             
-             
-         </RelativeLayout> <!-- fin actualités -->
+            <TextView
+                android:id="@+id/text_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:text="@string/main_help"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+        </LinearLayout>
 
-         <!--  bouton a propos -->
-		<RelativeLayout 
-		    android:id="@+id/mButtonAPropos"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#eeeeee"
-       
-        android:textSize="18dp"
-        android:focusable="false"
-        android:layout_weight="1"
-		    
-		    >
-		    
-		    
-		     <RelativeLayout
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_centerHorizontal="true"
-			        android:layout_centerVertical="true" >
+        <LinearLayout
+            android:id="@+id/button_profil"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#707070"
+            android:gravity="center"
+            android:orientation="vertical" >
 
-			        <TextView
-			            android:id="@+id/txt_view_apropos"
-			            android:layout_width="wrap_content"
-			            android:layout_height="wrap_content"
-			            android:layout_below="@+id/imgapropos"
-			            android:focusable="false"
-			             android:text="@string/menu_about"
-				        android:textColor="#333333"
-				        
-				        android:textSize="18dp" />
+            <ImageView
+                android:layout_width="@dimen/ic_accueil_widthheight"
+                android:layout_height="@dimen/ic_accueil_widthheight"
+                android:src="@drawable/ic_accueil_profil" />
 
-			        <ImageView
-			            android:id="@+id/imgapropos"
-			            android:layout_width="@dimen/ic_accueil_widthheight"
-			            android:layout_height="@dimen/ic_accueil_widthheight"
-			            android:layout_alignParentTop="true"
-			            android:layout_centerHorizontal="true"
-			            android:src="@drawable/ic_accueil_apropos" />
+            <TextView
+                android:id="@+id/text_profil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:text="@string/main_profil"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
 
-			    </RelativeLayout>
-		    
-		</RelativeLayout>
-		
-     </LinearLayout>
-		
-		
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:id="@+id/button_news"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#dcdcdc"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="@dimen/ic_accueil_widthheight"
+                android:layout_height="@dimen/ic_accueil_widthheight"
+                android:src="@drawable/ic_accueil_actu" />
+
+            <TextView
+                android:id="@+id/text_news"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:text="@string/main_news"
+                android:textColor="#333333"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/button_about"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#eeeeee"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="@dimen/ic_accueil_widthheight"
+                android:layout_height="@dimen/ic_accueil_widthheight"
+                android:src="@drawable/ic_accueil_apropos" />
+
+            <TextView
+                android:id="@+id/text_about"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:text="@string/main_about"
+                android:textColor="#333333"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>

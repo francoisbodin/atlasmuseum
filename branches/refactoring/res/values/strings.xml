@@ -1,17 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">atlasmuseum</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-	<string name="version_number">03/09/2014</string>
-    
-    <string name="settings_name">AtlasMuseum Settings</string>
+    <string name="app_name">Atlasmuseum</string>
 
+    <!-- Settings strings -->
+    <string name="action_settings">Paramètres</string>
+	<string name="settings_name">Paramètres d\'Atlasmuseum</string>
+
+	<!-- MainActivity strings -->
+	<string name="main_explore">EXPLORER</string>
+    <string name="main_contribute">CONTRIBUER</string>
+	<string name="main_help">AIDE</string>
+    <string name="main_profil">MON PROFIL</string>
+    <string name="main_connection">CONNECTER</string>
+    <string name="main_disconnection">DÉCONNECTER</string>
+    <string name="main_news">ACTUALITÉS</string>
+    <string name="main_about">A PROPOS</string>
+    	   
+	
+	<!-- LoarderActivity strings -->
+    <string name="loader_intro1">L\'atlas mobile des œuvres d\'art</string>
+    <string name="loader_intro2">dans l\'espace public</string>
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <string name="action_clean">Clean</string>
-    <string name="intro1">L\'atlas mobile des œuvres d\'art</string>
-    <string name="intro2">dans l\'espace public</string>
-    <string name="apropos">Cette application a été mise en œvre avec le concours d\'un tas de gens biens.</string>
+    
     <string name="title_search">RECHERCHER DES ŒUVRES</string><!--  ALT+0140 -->
     <string name="title_list">ŒUVRES TROUVEES</string>
     <string name="title_search_rayon">Autour de moi :</string>
@@ -37,11 +57,9 @@
     <string name="action_clean2">Reset</string>
     <string name="menu_help">Aide</string>
     <string name="menu_locate">Carte</string>
-    <string name="explorer">Explorer</string>
     <string name="actualites">Actualités</string>
     <string name="mon_profil">Mon profil</string>
-    <string name="aide">Aide</string>
-     <string name="aide_infos">Centre d\'aide Atlasmuseum</string>
+    <string name="aide_infos">Centre d\'aide Atlasmuseum</string>
 <!-- Settings -->
     <string name="pref_server_default">Default</string>
     <string name="pref_server_test">Test</string>
@@ -132,8 +150,6 @@
 	
     
     <string name="mdp">Mot de passe</string>
-    <string name="connexion">Connexion</string>
-    <string name="deconnexion">Déconnexion</string>
     <string name="memoriser_mdp">Se souvenir de moi</string>
     <string name="photo_save:">Sauvegarde photo :</string>
     <string name="send_photo_saved">Envoi des photos sauvegardées... </string>

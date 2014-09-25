@@ -23,7 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends Activity
@@ -57,27 +57,27 @@ public class MainActivity extends Activity
 		
 		Typeface font = Typeface.createFromAsset(getAssets(), "RobotoCondensed-Bold.ttf");
 		
-		TextView textSearch = (TextView) findViewById(R.id.txt_view_search);
-		textSearch.setTypeface(font);
+		TextView textExplore = (TextView) findViewById(R.id.text_explore);
+		textExplore.setTypeface(font);
 		
-		TextView textContribute = (TextView) findViewById(R.id.txt_view_contribuer);
+		TextView textContribute = (TextView) findViewById(R.id.text_contribute);
 		textContribute.setTypeface(font);
 		
-		TextView textHelp = (TextView) findViewById(R.id.txt_view_aide);
+		TextView textHelp = (TextView) findViewById(R.id.text_help);
 		textHelp.setTypeface(font);
 		
-		mTextProfil = (TextView) findViewById(R.id.txt_view_profil);
+		mTextProfil = (TextView) findViewById(R.id.text_profil);
 		mTextProfil.setTypeface(font);
 		
-		TextView textNews = (TextView) findViewById(R.id.txt_view_actu);
+		TextView textNews = (TextView) findViewById(R.id.text_news);
 		textNews.setTypeface(font);
 		
-		TextView textAbout = (TextView) findViewById(R.id.txt_view_apropos);
+		TextView textAbout = (TextView) findViewById(R.id.text_about);
 		textAbout.setTypeface(font);
 		
 		
-		RelativeLayout buttonExplorer = (RelativeLayout) findViewById(R.id.mButtonExplorer);
-		buttonExplorer.setOnClickListener(new OnClickListener() {
+		LinearLayout buttonExplore = (LinearLayout) findViewById(R.id.button_explore);
+		buttonExplore.setOnClickListener(new OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
 	    		Intent intent = new Intent(MainActivity.this, SearchActivity.class);
@@ -85,8 +85,8 @@ public class MainActivity extends Activity
 	        }
 	    });
 		
-		RelativeLayout buttonContribuer = (RelativeLayout) findViewById(R.id.mButtonContribuer);
-		buttonContribuer.setOnClickListener(new OnClickListener() {
+		LinearLayout buttonContribute = (LinearLayout) findViewById(R.id.button_contribute);
+		buttonContribute.setOnClickListener(new OnClickListener() {
 	    	@Override
 	    	public void onClick(View v) {
 	    		Intent intent = new Intent(MainActivity.this, MainContribActivity.class); 
@@ -94,12 +94,21 @@ public class MainActivity extends Activity
 	    	}
 	    });
 		
-		RelativeLayout buttonProfil = (RelativeLayout) findViewById(R.id.mButtonProfil);
+		LinearLayout buttonHelp = (LinearLayout) findViewById(R.id.button_help);
+		buttonHelp.setOnClickListener(new OnClickListener() {
+	    	@Override
+	    	public void onClick(View v) {
+	    		Intent intent = new Intent(MainActivity.this, HelpActivity.class);
+	    		startActivity(intent);
+	    	}
+	    });
+		
+		LinearLayout buttonProfil = (LinearLayout) findViewById(R.id.button_profil);
 		buttonProfil.setOnClickListener(new OnClickListener() {
 	    	@Override
 	    	public void onClick(View v) {
 	    		if( mConnected ) {
-	    			mTextProfil.setText(getResources().getString(R.string.connexion));
+	    			mTextProfil.setText(getResources().getString(R.string.main_connection));
 	    			mConnected = false;
 	    			return;
 	    		}
@@ -114,8 +123,8 @@ public class MainActivity extends Activity
 	    	}
 	    });
 		
-		RelativeLayout buttonActu = (RelativeLayout) findViewById(R.id.mButtonActu);
-		buttonActu.setOnClickListener(new OnClickListener() {
+		LinearLayout buttonNews = (LinearLayout) findViewById(R.id.button_news);
+		buttonNews.setOnClickListener(new OnClickListener() {
 	    	@Override
 	    	public void onClick(View v) {
 	    		Intent intent = new Intent(MainActivity.this, ActuActivity.class);
@@ -124,20 +133,11 @@ public class MainActivity extends Activity
 		});
 			
 		
-		RelativeLayout buttonAPropos = (RelativeLayout) findViewById(R.id.mButtonAPropos);
-		buttonAPropos.setOnClickListener(new OnClickListener() {
+		LinearLayout buttonAbout = (LinearLayout) findViewById(R.id.button_about);
+		buttonAbout.setOnClickListener(new OnClickListener() {
 	    	@Override
 	    	public void onClick(View v) {
 	    		Intent intent = new Intent(MainActivity.this, AproposActivity.class);
-	    		startActivity(intent);
-	    	}
-	    });
-		
-		RelativeLayout buttonHelp = (RelativeLayout) findViewById(R.id.mButtonAide);
-		buttonHelp.setOnClickListener(new OnClickListener() {
-	    	@Override
-	    	public void onClick(View v) {
-	    		Intent intent = new Intent(MainActivity.this, HelpActivity.class);
 	    		startActivity(intent);
 	    	}
 	    });
@@ -178,7 +178,7 @@ public class MainActivity extends Activity
 			updateLocation();
 		}
 		
-		mTextProfil.setText(this.getResources().getString(mConnected ? R.string.deconnexion : R.string.connexion));
+		mTextProfil.setText(this.getResources().getString(mConnected ? R.string.main_disconnection : R.string.main_connection));
 		
 		// Try auto-login
 		if(mConnected || ! checkInternetConnection(this)) {
@@ -296,13 +296,13 @@ public class MainActivity extends Activity
 	
 	@Override
 	public void onConnectionOk() {
-		mTextProfil.setText(this.getResources().getString(R.string.deconnexion));
+		mTextProfil.setText(this.getResources().getString(R.string.main_disconnection));
 		mConnected = true;
 	}
 
 	@Override
 	public void onConnectionFailed() {
-		mTextProfil.setText(this.getResources().getString(R.string.connexion));
+		mTextProfil.setText(this.getResources().getString(R.string.main_connection));
 		mConnected = false;
 	}
     

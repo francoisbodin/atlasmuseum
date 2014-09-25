@@ -45,7 +45,7 @@
 	         android:textColor="#4d4d4d"
 	         android:textStyle="bold"
 	         android:textSize="20sp"
-	         android:hint="@string/intro1" />
+	         android:hint="@string/loader_intro1" />
 
          <TextView
              android:id="@+id/text_intro2"
@@ -53,7 +53,7 @@
              android:layout_height="wrap_content"
              android:textStyle="bold"
              android:textSize="20sp"
-             android:hint="@string/intro2" />
+             android:hint="@string/loader_intro2" />
 
 	     <TextView
 	         android:id="@+id/text_version"
