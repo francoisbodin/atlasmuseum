@@ -224,9 +224,17 @@ public class ShowNoticeActivity extends Activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	if(requestCode == this.REQUEST_CONTRIB) {
-    		if(resultCode == RESULT_OK) {
+			switch(resultCode) {
+			case ListChampsNoticeModif.RESULT_SAVED:
+				Toast.makeText(this, getResources().getString(R.string.contrib_save), Toast.LENGTH_SHORT).show();
+				break;
+			case ListChampsNoticeModif.RESULT_SENT:
     			Toast.makeText(this, getResources().getString(R.string.contrib_envoi_success), Toast.LENGTH_SHORT).show();
-    		}
+				break;
+			case RESULT_CANCELED:
+			default:
+				break;
+			}
     	}
     	else {
     		super.onActivityResult(requestCode, resultCode, data);

@@ -10,13 +10,17 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="#ffffff">
     
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1">
+        
     <TextView
         android:id="@+id/text_new_notice"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:paddingBottom="@dimen/normal_padding"
-        android:paddingTop="@dimen/normal_padding"
         android:text="@string/title_new_notice"
         android:textColor="#ffda00"
         android:textSize="14sp" />
@@ -34,14 +38,17 @@
         android:listSelector="@drawable/on_pressed_listview_background"
         android:scrollbarThumbVertical="@drawable/list_view_scroll" />
     
-    
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1">
+        
     <TextView
         android:id="@+id/text_modif_notice"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:paddingBottom="@dimen/normal_padding"
-        android:paddingTop="@dimen/normal_padding"
         android:text="@string/title_modif_notice"
         android:textColor="#ffda00"
         android:textSize="14sp" />
@@ -59,5 +66,5 @@
         android:listSelector="@drawable/on_pressed_listview_background"
         android:scrollbarThumbVertical="@drawable/list_view_scroll" />
     
-    
+    </LinearLayout>
 </LinearLayout>

@@ -24,15 +24,18 @@ import android.view.Window;
 import android.webkit.WebView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainContribActivity extends Activity {
 
 	@SuppressWarnings("unused")
 	private static final String DEBUG_TAG = "AtlasMuseum/MainContribAcitivity";
 	
-	private int REQUEST_CONNEXION=1245;
-	public static int REQUEST_FINISH=154213;
+	static private int REQUEST_CONTRIBUTE = 1;
+	static private int REQUEST_CONNEXION = 2;
 
+	TextView mTextSavedTitle;
+	
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
@@ -54,8 +57,8 @@ public class MainContribActivity extends Activity {
 		TextView textStatus = (TextView) findViewById(R.id.text_status);
 		textStatus.setTypeface(fontLight);
 
-		TextView textSavedTitle = (TextView) findViewById(R.id.text_saved_title);
-		textSavedTitle.setTypeface(fontBold);
+		mTextSavedTitle = (TextView) findViewById(R.id.text_saved_title);
+		mTextSavedTitle.setTypeface(fontBold);
 
 		TextView textSaved = (TextView) findViewById(R.id.text_saved);
 		textSaved.setTypeface(fontLight);
@@ -66,19 +69,8 @@ public class MainContribActivity extends Activity {
 		WebView textInfo = (WebView) findViewById(R.id.text_info);
 		textInfo.loadUrl("file:///android_asset/contribuer.html");
 
-		// Get number of saved contributions
-		File saveDir = new File( Contribution.getSaveDir(this) );
-		FilenameFilter filter = new FilenameFilter() {
-			public boolean accept(File dir, String name) {
-				return name.startsWith("new_") || name.startsWith("modif_");
-			}
-		};
-		int nbSavedContributions = saveDir.list(filter).length;
-
-		// Update contribute title with number of saved contributions
-		textSavedTitle.setText(nbSavedContributions+" "+getResources().getString(nbSavedContributions <= 1 ? R.string.contrib_save : R.string.contrib_saves));
-
-
+		updateSavedContributionNumber();
+		
 		ActionBar actionBar = getActionBar();
 		if (actionBar != null) {
 			actionBar.show();
@@ -99,7 +91,7 @@ public class MainContribActivity extends Activity {
 				bundle.putSerializable("contribution", contribution);
 				Intent intent= new Intent(MainContribActivity.this, ListChampsNoticeModif.class);
 				intent.putExtras(bundle);
-				startActivityForResult(intent, MainContribActivity.REQUEST_FINISH);
+				startActivityForResult(intent, REQUEST_CONTRIBUTE );
 			}
 		});
 
@@ -135,10 +127,37 @@ public class MainContribActivity extends Activity {
 		});
 	}
 
+	private void updateSavedContributionNumber() {
+		// Get number of saved contributions
+		File saveDir = new File( Contribution.getSaveDir(this) );
+		FilenameFilter filter = new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				return name.startsWith("new_") || name.startsWith("modif_");
+			}
+		};
+		int nbSavedContributions = saveDir.list(filter).length;
+
+		// Update contribute title with number of saved contributions
+		mTextSavedTitle.setText(nbSavedContributions+" "+getResources().getString(nbSavedContributions <= 1 ? R.string.contrib_save : R.string.contrib_saves));
+
+	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if( requestCode == REQUEST_FINISH ) {
-			this.recreate();
+		if( requestCode == REQUEST_CONTRIBUTE  ) {
+			switch(resultCode) {
+			case ListChampsNoticeModif.RESULT_SAVED:
+				Toast.makeText(this, getResources().getString(R.string.contrib_save), Toast.LENGTH_SHORT).show();
+				updateSavedContributionNumber();
+				break;
+			case ListChampsNoticeModif.RESULT_SENT:
+    			Toast.makeText(this, getResources().getString(R.string.contrib_envoi_success), Toast.LENGTH_SHORT).show();
+				updateSavedContributionNumber();
+				break;
+			case RESULT_CANCELED:
+			default:
+				break;
+			}
 		}
 		else if( requestCode == REQUEST_CONNEXION ) {
 		}

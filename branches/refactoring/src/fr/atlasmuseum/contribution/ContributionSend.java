@@ -16,7 +16,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import fr.atlasmuseum.R;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -27,15 +26,30 @@ import android.util.Log;
 
 public class ContributionSend extends AsyncTask<String, String, Boolean> {
 
+    public interface ContributionSendListener {
+        public void onContributionSent(Boolean success);
+    }
+
 	private static final String DEBUG_TAG = "AtlasMuseum/ContributionSend";
 	
 	private Context mContext;
+	private ContributionSendListener mListener;
 	private Contribution mContribution;
 	private ProgressDialog mProgress;
+	
 	
 	public ContributionSend( Context context, Contribution contribution ) {
 		mContext = context;
 		mContribution = contribution;
+		
+        // Verify that the host activity implements the callback interface
+        try {
+            // Instantiate the ContributionSendListener so we can send events to the host
+            mListener = (ContributionSendListener) mContext;
+        } catch (ClassCastException e) {
+            // The activity doesn't implement the interface, throw exception
+            throw new ClassCastException(mContext.toString() + " must implement ContributionSendListener");
+        }
 	}
 	
 	@Override
@@ -43,7 +57,7 @@ public class ContributionSend extends AsyncTask<String, String, Boolean> {
 		Log.d(DEBUG_TAG, "onPreExecute");
 	    super.onPreExecute();
 	    mProgress = new ProgressDialog(mContext);
-		mProgress.setMessage(mContext.getResources().getString(R.string.send_photo_saved));
+		mProgress.setMessage(mContext.getResources().getString(R.string.sending_contrib_file));
 		mProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		mProgress.setCancelable(false);
 		mProgress.show();
@@ -57,6 +71,7 @@ public class ContributionSend extends AsyncTask<String, String, Boolean> {
 		nvps = new ArrayList<NameValuePair>();
 		ContributionProperty prop = mContribution.getProperty(Contribution.PHOTO);
 		if( prop.isModified() && ! prop.getValue().equals("")) {
+			onProgressUpdate(mContext.getResources().getString(R.string.send_photo_saved ));
 			String path = prop.getValue();
 			File file = new File(path);
 			InputStream is;
@@ -73,10 +88,10 @@ public class ContributionSend extends AsyncTask<String, String, Boolean> {
 			bitmap.compress(Bitmap.CompressFormat.JPEG, 90, os);  
 			byte[] bytearray = os.toByteArray();
 			String string = Base64.encodeToString(bytearray, Base64.DEFAULT);
-
-			nvps.add(new BasicNameValuePair("arg_photo", string));
+			
 			nvps.add(new BasicNameValuePair("arg_name", file.getName()));
-
+			nvps.add(new BasicNameValuePair("arg_photo", string));
+			
 			HttpJson httpJ = new HttpJson();
 			
 			JSONArray result = httpJ.getJSONFromUrl("http://atlasmuseum.irisa.fr/scripts/storeContribImage.php", nvps);
@@ -103,6 +118,7 @@ public class ContributionSend extends AsyncTask<String, String, Boolean> {
 		}
 		
 		// Send contributions
+		onProgressUpdate(mContext.getResources().getString(R.string.sending_contrib_file));
 		nvps = new ArrayList<NameValuePair>();
 		
 		Element root = new Element("xml");
@@ -144,6 +160,7 @@ public class ContributionSend extends AsyncTask<String, String, Boolean> {
 
 	@Override
 	protected void onProgressUpdate(String... progress) {
+		mProgress.setMessage(mContext.getResources().getString(R.string.sending_contrib_file));
 	}
 
 	@Override
@@ -161,6 +178,8 @@ public class ContributionSend extends AsyncTask<String, String, Boolean> {
 		else {
 			Log.d(DEBUG_TAG, "onPostExecute(): Failed to send contribution");
 		}
+		
+		mListener.onContributionSent(result);
 	}
 
 }

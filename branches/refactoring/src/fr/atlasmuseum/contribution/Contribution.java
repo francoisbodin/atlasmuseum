@@ -101,6 +101,8 @@ import fr.atlasmuseum.search.SearchActivity;
 	String mDate;
 	String mTime;
 	String mStatus;
+	String mSavedFilename;
+	
 	HashMap<String,ContributionProperty> mProperties;
 	
 	public Contribution() {
@@ -111,6 +113,7 @@ import fr.atlasmuseum.search.SearchActivity;
 		mDate = "";
 		mTime = "";
 		mStatus = "";
+		mSavedFilename = "";
 		mProperties = new HashMap<String, ContributionProperty>();
 		
 		mProperties.put( URL, new ContributionProperty(
@@ -477,6 +480,16 @@ import fr.atlasmuseum.search.SearchActivity;
 		mTime = time;
 	}
 	
+	public String getSavedFilename() {
+		if( mSavedFilename == null ) {
+			mSavedFilename = "";
+		}
+		return mSavedFilename;
+	}
+	public void setSavedFilename(String savedFilename) {
+		mSavedFilename = savedFilename;
+	}
+	
 
 	public ContributionProperty getProperty(String name) {
 		if( mProperties.containsKey(name) ) {
@@ -615,20 +628,31 @@ import fr.atlasmuseum.search.SearchActivity;
   	  	SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
   	  	mTime = formatTime.format(date);
 
-		File saveDir = new File( getSaveDir(context) );
-		File file;
-		if( mNoticeId == 0 ) {
-			for (int i = 1 ; ; i++) {
-				file = new File( saveDir, "new_" + Integer.toString(i));
-				if( ! file.exists() ) {
-					break;
+		File file = null;
+  	  	if( mSavedFilename != null && ! mSavedFilename.equals("") ) {
+  	  		file = new File(mSavedFilename);
+  	  		if( ! file.exists() ) {
+  	  			mSavedFilename = "";
+  	  			file = null;
+  	  		}
+  	  	}
+  	  	
+		if (file == null) {
+			File saveDir = new File(getSaveDir(context));
+			if (mNoticeId == 0) {
+				for (int i = 1;; i++) {
+					file = new File(saveDir, "new_" + Integer.toString(i));
+					if (!file.exists()) {
+						break;
+					}
 				}
+			} else {
+				file = new File(saveDir, "modif_" + Integer.toString(mNoticeId));
 			}
 		}
-		else {
-			file = new File(saveDir, "modif_" + Integer.toString(mNoticeId));
-		}
-
+		
+		mSavedFilename = file.getAbsolutePath();
+	
 		try {
 			FileOutputStream fos = new FileOutputStream(file);
 			ObjectOutputStream os = new ObjectOutputStream(fos);

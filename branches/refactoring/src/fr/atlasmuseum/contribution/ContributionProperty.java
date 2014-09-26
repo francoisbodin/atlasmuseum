@@ -162,7 +162,7 @@ public class ContributionProperty implements Serializable {
 	}
 
 	public Boolean isModified() {
-		return (mOriginalValue != mValue);
+		return (! mOriginalValue.equals(mValue));
 	}
 	
 	public void updateFromDb(int index) {

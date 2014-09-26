@@ -40,7 +40,7 @@ import fr.atlasmuseum.compte.ConnexionActivity;
 import fr.atlasmuseum.main.AtlasError;
 import fr.atlasmuseum.main.MainActivity;
 
-public class ListChampsNoticeModif extends Activity {
+public class ListChampsNoticeModif extends Activity implements ContributionSend.ContributionSendListener {
 	private static final String DEBUG_TAG = "AtlasMuseum/ListChampsNoticeModif";
 	
 	static final String SHARED_PREFERENCES = "fr.atlasmuseum.contribution.ListChampsNoticeModif.SHARED_PREFERENCES";
@@ -48,6 +48,9 @@ public class ListChampsNoticeModif extends Activity {
 	static final int REQUEST_MODIFY_PROPERTY = 1;
 	static final int REQUEST_TAKE_PICTURE = 2;
 	static final int REQUEST_CONNECTION = 3;
+	
+	public static final int RESULT_SAVED = 1;
+	public static final int RESULT_SENT = 2;
 	
 	private Bundle mBundle;
 	private Contribution mContribution;
@@ -240,7 +243,7 @@ public class ListChampsNoticeModif extends Activity {
 		
 		mContribution.save(this);
 		
-		setResult(RESULT_OK);
+		setResult(RESULT_SAVED);
 		finish();
 	}
 	
@@ -405,6 +408,20 @@ public class ListChampsNoticeModif extends Activity {
 		return super.onCreateOptionsMenu(menu);
 	}
 	
+	@Override
+	public void onContributionSent(Boolean success) {
+		if( success ) {
+			String filename = mContribution.getSavedFilename();
+			if( ! filename.equals("") ) {
+				File file = new File(filename);
+				if( file.exists() ) {
+					file.delete();
+				}
+			}
+			setResult(RESULT_SENT);
+			finish();
+		}
+	}
 	private void takePicture() {
 		// Create a temp filename to store new picture
 		String newPhotoFilename = "";
@@ -565,4 +582,5 @@ public class ListChampsNoticeModif extends Activity {
 		AlertDialog alert = alertDialogBuilder.create();
 		alert.show();
 	}
+
 }
