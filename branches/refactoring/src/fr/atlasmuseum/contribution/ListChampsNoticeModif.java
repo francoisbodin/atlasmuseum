@@ -111,8 +111,8 @@ public class ListChampsNoticeModif extends Activity {
 				ContributionProperty prop = (ContributionProperty) mAdapter.getItem(position);
 				String field = (String) prop.getDbField();
 				
-				if( field == Contribution.LATITUDE ||
-				    field == Contribution.LONGITUDE) {
+				if( field.equals(Contribution.LATITUDE) ||
+				    field.equals(Contribution.LONGITUDE)) {
 					// TODO: handle special case for location
 					showLocationChangeAlertToUser();
 				}
@@ -517,38 +517,52 @@ public class ListChampsNoticeModif extends Activity {
     	}
 	}
 
-	private void showLocationChangeAlertToUser(){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage(getResources().getString(R.string.location_change_alert))
-        .setCancelable(false)
-        .setPositiveButton(getResources().getString(R.string.mise_ajour),
-                new DialogInterface.OnClickListener(){
-            public void onClick(DialogInterface dialog, int id){
-            	if( MainActivity.mLastLocation == null ) {
-					Toast.makeText(getApplication(), getResources().getString(R.string.desole_position_pas_recup), Toast.LENGTH_LONG).show();
-            		return;
-            	}
-            	String lat = Double.toString(MainActivity.mLastLocation.getLatitude());
-            	String longi = Double.toString(MainActivity.mLastLocation.getLongitude());
-            	Log.d(DEBUG_TAG,"Latitude :" + lat);
-    			Log.d(DEBUG_TAG,"Longitude :" + longi);
-    			//ListChampsNoticeModif.cPref.edit().putString(ListChampsNoticeModif.LATITUDE,""+MainActivity.mLastLocation.getLatitude()).commit();
-				//ListChampsNoticeModif.cPref.edit().putString(ListChampsNoticeModif.LONGITUDE,""+MainActivity.mLastLocation.getLongitude()).commit();
-				// on doit relancer l'activité pour un affichage ok
-				setResult(RESULT_OK);//pour fermer l'activité ListChampsNoticeModif précédente
-				Intent intent = new Intent(getApplication(), ListChampsNoticeModif.class);
-	        	intent.putExtras(mBundle);
-	  			startActivity(intent);
-	  			finish();
-            }
-        });
-        alertDialogBuilder.setNegativeButton(getResources().getString(R.string.annuler),
-                new DialogInterface.OnClickListener(){
-            public void onClick(DialogInterface dialog, int id){
-                dialog.cancel();
-            }
-        });
-        AlertDialog alert = alertDialogBuilder.create();
-        alert.show();
-    }
+	private void showLocationChangeAlertToUser() {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		alertDialogBuilder.setMessage(getResources().getString(R.string.location_change_alert));
+		alertDialogBuilder.setCancelable(false);
+		alertDialogBuilder.setPositiveButton(
+				getResources().getString(R.string.mise_ajour),
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						if (MainActivity.mLastLocation == null) {
+							Toast.makeText(
+									getApplication(),
+									getResources().getString(R.string.desole_position_pas_recup),
+									Toast.LENGTH_LONG).show();
+							return;
+						}
+						String latitude = Double.toString(MainActivity.mLastLocation.getLatitude());
+						ContributionProperty propertyLatitude = mContribution.getProperty(Contribution.LATITUDE);
+						propertyLatitude.setValue(latitude);
+
+						String longitude = Double.toString(MainActivity.mLastLocation.getLongitude());
+						ContributionProperty propertyLongitude = mContribution.getProperty(Contribution.LONGITUDE);
+						propertyLongitude.setValue(longitude);
+						
+						// Update current ListView
+						mAdapter.notifyDataSetChanged();
+						
+						// Update the Activity Intent so that modifications will be preserved on screen rotation
+						Intent intent = getIntent();
+						Bundle bundle = intent.getExtras();
+						if( bundle.containsKey("contribution") ) {
+							mContribution.setProperty(Contribution.LATITUDE, propertyLatitude);
+							mContribution.setProperty(Contribution.LONGITUDE, propertyLongitude);
+							bundle.putSerializable("contribution", mContribution);
+							intent.putExtras(bundle);
+							ListChampsNoticeModif.this.setIntent(intent);
+						}
+					}
+				});
+		alertDialogBuilder.setNegativeButton(
+				getResources().getString(R.string.annuler),
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
+		AlertDialog alert = alertDialogBuilder.create();
+		alert.show();
+	}
 }
