@@ -409,7 +409,7 @@ public class ListChampsNoticeModif extends Activity implements ContributionSend.
 	}
 	
 	@Override
-	public void onContributionSent(Boolean success) {
+	public void onContributionSent(Boolean success, String status) {
 		if( success ) {
 			String filename = mContribution.getSavedFilename();
 			if( ! filename.equals("") ) {
@@ -421,7 +421,11 @@ public class ListChampsNoticeModif extends Activity implements ContributionSend.
 			setResult(RESULT_SENT);
 			finish();
 		}
+		else {
+			Toast.makeText(this, getResources().getString(R.string.upload_failed, status), Toast.LENGTH_LONG).show();;
+		}
 	}
+	
 	private void takePicture() {
 		// Create a temp filename to store new picture
 		String newPhotoFilename = "";

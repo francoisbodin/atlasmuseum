@@ -73,7 +73,7 @@
     <string name="uploadingd">Uploading data…</string>
     <string name="get_server_location_failed">Can\'t retrieve updload location from server</string>
     <string name="http_request_failed">HTTP request failed</string>
-    <string name="upload_failed">Upload failed (%1$s)</string>
+    <string name="upload_failed">Echec de l\'envoi (%1$s)</string>
     <string name="empty_result">Empty result</string>
     <string name="data_sent_to">Data sent to %1$s</string>
 	

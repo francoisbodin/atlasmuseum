@@ -1,33 +1,33 @@
 package fr.atlasmuseum.contribution;
 
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.XMLOutputter;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import fr.atlasmuseum.R;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Base64;
 import android.util.Log;
 
-public class ContributionSend extends AsyncTask<String, String, Boolean> {
+public class ContributionSend extends AsyncTask<String, Integer, Boolean> {
 
     public interface ContributionSendListener {
-        public void onContributionSent(Boolean success);
+        public void onContributionSent(Boolean success, String status);
     }
 
 	private static final String DEBUG_TAG = "AtlasMuseum/ContributionSend";
@@ -36,11 +36,12 @@ public class ContributionSend extends AsyncTask<String, String, Boolean> {
 	private ContributionSendListener mListener;
 	private Contribution mContribution;
 	private ProgressDialog mProgress;
-	
+	private String mStatus;
 	
 	public ContributionSend( Context context, Contribution contribution ) {
 		mContext = context;
 		mContribution = contribution;
+		mStatus = "";
 		
         // Verify that the host activity implements the callback interface
         try {
@@ -56,71 +57,16 @@ public class ContributionSend extends AsyncTask<String, String, Boolean> {
 	protected void onPreExecute() {
 		Log.d(DEBUG_TAG, "onPreExecute");
 	    super.onPreExecute();
-	    mProgress = new ProgressDialog(mContext);
+		mProgress = new ProgressDialog(mContext);
 		mProgress.setMessage(mContext.getResources().getString(R.string.sending_contrib_file));
-		mProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		mProgress.setCancelable(false);
+		mProgress.setMax(100);
 		mProgress.show();
 	}
 
 	@Override
 	protected Boolean doInBackground(String... params) {
-		ArrayList<NameValuePair> nvps;
-		
-		// Send picture if new
-		nvps = new ArrayList<NameValuePair>();
-		ContributionProperty prop = mContribution.getProperty(Contribution.PHOTO);
-		if( prop.isModified() && ! prop.getValue().equals("")) {
-			onProgressUpdate(mContext.getResources().getString(R.string.send_photo_saved ));
-			String path = prop.getValue();
-			File file = new File(path);
-			InputStream is;
-			try {
-				is = new FileInputStream(file);
-			}
-			catch (FileNotFoundException e) {
-				Log.i(DEBUG_TAG, "Can't read " + path);
-				e.printStackTrace();
-				return false;
-			}
-			ByteArrayOutputStream os = new ByteArrayOutputStream(1000);
-			Bitmap bitmap = BitmapFactory.decodeStream(is, null, null);
-			bitmap.compress(Bitmap.CompressFormat.JPEG, 90, os);  
-			byte[] bytearray = os.toByteArray();
-			String string = Base64.encodeToString(bytearray, Base64.DEFAULT);
-			
-			nvps.add(new BasicNameValuePair("arg_name", file.getName()));
-			nvps.add(new BasicNameValuePair("arg_photo", string));
-			
-			HttpJson httpJ = new HttpJson();
-			
-			JSONArray result = httpJ.getJSONFromUrl("http://atlasmuseum.irisa.fr/scripts/storeContribImage.php", nvps);
-			if (result != null && result.length() > 0) {
-				JSONObject json_data;
-				try {
-					json_data = result.getJSONObject(0);
-					String server_status = json_data.getString("commandstatus");
-					Log.i(DEBUG_TAG, "doInBackground(): Feedback from server: " + server_status);
-					if (! server_status.equals("ok")) {
-						Log.w(DEBUG_TAG, "doInBackground(): Photo " + file.getAbsolutePath() + " mal envoyée");
-						return false;
-					}
-					else {
-						Log.d(DEBUG_TAG, "doInBackground(): Photo " + file.getAbsolutePath() + " bien envoyée");
-					}				
-				}
-				catch (JSONException e) {
-					Log.w(DEBUG_TAG, "doInBackground(): JSONException");
-					e.printStackTrace();
-					return false;
-				}
-			}
-		}
-		
-		// Send contributions
-		onProgressUpdate(mContext.getResources().getString(R.string.sending_contrib_file));
-		nvps = new ArrayList<NameValuePair>();
-		
 		Element root = new Element("xml");
 		Document document = new Document(root);
 		mContribution.addToXML(root);
@@ -128,39 +74,127 @@ public class ContributionSend extends AsyncTask<String, String, Boolean> {
 		XMLOutputter xmlOutputter = new XMLOutputter(); 
 		String xmlString = xmlOutputter.outputString(document);
 
-		nvps.add(new BasicNameValuePair("argxml", xmlString));
-		
-		HttpJson httpJ = new HttpJson();
-		
-		JSONArray result = httpJ.getJSONFromUrl("http://atlasmuseum.irisa.fr/scripts/receiveContributionFile.php", nvps);
-		if (result != null && result.length() > 0) {
-			JSONObject json_data;
-			try	{
-				json_data = result.getJSONObject(0);
-				String server_status = json_data.getString("commandstatus");
-				
-				Log.i(DEBUG_TAG, "doInBackground(): Feedback from server: " + server_status);
-				if (! server_status.equals("ok")) {
-					Log.w(DEBUG_TAG, "doInBackground(): Contribution mal envoyée");
-					return false;
-				}
-				else {
-					Log.d(DEBUG_TAG, "doInBackground(): Contribution bien envoyée");
-				}
-			
-			} catch (JSONException e) {
-				Log.w(DEBUG_TAG, "doInBackground(): JSONException");
-				e.printStackTrace();
-				return false;
-			}
-		}
+		// create the json data structure to be sent...
+		Map<String,String> postValues = new HashMap<String,String>();
+		postValues.put("argxml", xmlString);
 
+		ContributionProperty prop = mContribution.getProperty(Contribution.PHOTO);
+		String path = prop.getValue();
+		File file = new File(path);
+		if( prop.isModified() && ! prop.getValue().equals("")) {
+			postValues.put("image_filename", file.getName());
+		}
+		
+		try { // open a URL connection to the Servlet
+		    String lineEnd = "\r\n";
+		    String twoHyphens = "--";
+		    String boundary = "xxxxxxxx";
+
+            URL url = new URL("http://atlasmuseum.irisa.fr/atlas/scripts/receive_contribution.php");            
+            
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoInput(true); // Allow Inputs
+            conn.setDoOutput(true); // Allow Outputs
+            conn.setUseCaches(false); // Don't use a Cached Copy
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Connection", "Keep-Alive");
+            conn.setRequestProperty("ENCTYPE", "multipart/form-data");
+            conn.setRequestProperty("Cache-Control", "no-cache");
+            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+            
+            DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
+            
+            for (Map.Entry<String, String> e : postValues.entrySet()) {
+            	dos.writeBytes(twoHyphens + boundary + lineEnd);
+            	dos.writeBytes("Content-Disposition: form-data; name=\"" + e.getKey() + "\"" + lineEnd);
+            	dos.writeBytes("Content-Type: text/plain; charset=" + lineEnd);
+            	dos.writeBytes(lineEnd);
+            	dos.writeBytes(e.getValue());
+            	dos.writeBytes(lineEnd);
+            	dos.flush();
+            }
+            
+            if( prop.isModified() && ! prop.getValue().equals("")) {
+    			FileInputStream fileInputStream = new FileInputStream(file);
+
+                dos.writeBytes(twoHyphens + boundary + lineEnd);
+    			dos.writeBytes("Content-Disposition: form-data; name=\"image\";filename=\"" + file.getName() + "\"" + lineEnd);
+    			dos.writeBytes(lineEnd);
+    			int bytesAvailable = fileInputStream.available();
+    			int bufferSize = (int) file.length()/200; // suppose you want to write file in 200 chunks
+    			byte[] buffer = new byte[bufferSize];
+    			int sentBytes = 0;
+    			// read file and write it into form...
+    			int bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+    			while (bytesRead > 0) {
+    				dos.write(buffer, 0, bufferSize);
+    				// Update progress dialog
+    				sentBytes += bufferSize;
+    				publishProgress((int)((float)sentBytes * 100 / bytesAvailable));
+    				//Log.d(DEBUG_TAG, "sentBytes = " + sentBytes + " / " + bytesAvailable);
+    				bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+    			}
+    			// send multipart form data necessary after file data...
+                fileInputStream.close();
+    			dos.writeBytes(lineEnd);
+    		}
+    		
+    		dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+            
+            // Responses from the server (code and message)
+            int serverResponseCode = conn.getResponseCode();
+            Log.d(DEBUG_TAG, "Server response code = "+ serverResponseCode);
+            String serverResponseMessage = conn.getResponseMessage();
+            Log.d(DEBUG_TAG, "Server response message = "+ serverResponseMessage);
+            // close streams
+            dos.flush();
+            dos.close();
+            
+            if (serverResponseCode != HttpURLConnection.HTTP_OK) {
+            	mStatus = serverResponseMessage;
+            	return false;
+            }
+            
+            InputStream responseStream = new BufferedInputStream(conn.getInputStream());
+
+            BufferedReader responseStreamReader = new BufferedReader(new InputStreamReader(responseStream));
+            String line = "";
+            StringBuilder stringBuilder = new StringBuilder();
+            while ((line = responseStreamReader.readLine()) != null) {
+                stringBuilder.append(line).append("\n");
+            }
+            responseStreamReader.close();
+
+            String string_response = stringBuilder.toString();
+            Log.d(DEBUG_TAG, "response = " + string_response);
+            
+            JSONObject json_response = new JSONObject(string_response);
+            if( ! json_response.has("status") ) {
+            	mStatus = "Bad response from server";
+            	return false;
+            }
+            if( ! json_response.getString("status").equals("ok") ) {
+            	mStatus = json_response.getString("status");
+            	return false;
+            }
+        } catch (MalformedURLException e) {
+        	mStatus = "MalformedURLException: " + e.getMessage();
+            e.printStackTrace();
+            return false;
+        } catch (Exception e) {
+        	mStatus = "Exception: " + e.getMessage();
+            e.printStackTrace();
+            return false;
+        }
+
+		
 		return true;
 	}
 
 	@Override
-	protected void onProgressUpdate(String... progress) {
-		mProgress.setMessage(mContext.getResources().getString(R.string.sending_contrib_file));
+	protected void onProgressUpdate(Integer... progress) {
+		//Log.d(DEBUG_TAG, "onProgessUpdate(" + progress[0] + ")");
+		mProgress.setProgress(progress[0]);
 	}
 
 	@Override
@@ -179,7 +213,7 @@ public class ContributionSend extends AsyncTask<String, String, Boolean> {
 			Log.d(DEBUG_TAG, "onPostExecute(): Failed to send contribution");
 		}
 		
-		mListener.onContributionSent(result);
+		mListener.onContributionSent(result, mStatus);
 	}
 
 }
