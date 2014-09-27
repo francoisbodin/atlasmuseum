@@ -187,8 +187,13 @@ public class ContributionProperty implements Serializable {
 		if( mOriginalValue.equals("") && original ) {
 			return;
 		}
+		
+		String value = original ? mOriginalValue : mValue;
+		if( mDbField.equals(Contribution.PHOTO) ) {
+			value = new File(value).getName();
+		}
 		Element elem = new Element(mDbField);
-        Attribute attr = new Attribute(Contribution.VALUE, original ? mOriginalValue : mValue);
+        Attribute attr = new Attribute(Contribution.VALUE, value);
         elem.setAttribute(attr);
         parent.addContent(elem);
 	}

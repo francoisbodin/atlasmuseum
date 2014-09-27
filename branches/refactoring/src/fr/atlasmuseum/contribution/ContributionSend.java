@@ -90,7 +90,7 @@ public class ContributionSend extends AsyncTask<String, Integer, Boolean> {
 		    String twoHyphens = "--";
 		    String boundary = "xxxxxxxx";
 
-            URL url = new URL("http://atlasmuseum.irisa.fr/atlas/scripts/receive_contribution.php");            
+            URL url = new URL("http://atlasmuseum.irisa.fr/scripts/receive_contribution.php");            
             
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoInput(true); // Allow Inputs
