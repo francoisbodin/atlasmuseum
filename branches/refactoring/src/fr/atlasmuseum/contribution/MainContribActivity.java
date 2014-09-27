@@ -33,6 +33,7 @@ public class MainContribActivity extends Activity {
 	
 	static private int REQUEST_CONTRIBUTE = 1;
 	static private int REQUEST_CONNEXION = 2;
+	static private int REQUEST_VIEW_SAVED_CONTRIBUTIONS = 3;
 
 	TextView mTextSavedTitle;
 	
@@ -121,8 +122,8 @@ public class MainContribActivity extends Activity {
 		relativEnvoi.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent= new Intent(MainContribActivity.this, SavedContributionsActivity.class);
-				startActivity(intent);
+				Intent intent = new Intent(MainContribActivity.this, SavedContributionsActivity.class);
+				startActivityForResult(intent, REQUEST_VIEW_SAVED_CONTRIBUTIONS);
 			}
 		});
 	}
@@ -160,6 +161,9 @@ public class MainContribActivity extends Activity {
 			}
 		}
 		else if( requestCode == REQUEST_CONNEXION ) {
+		}
+		else if( requestCode == REQUEST_VIEW_SAVED_CONTRIBUTIONS ) {
+			updateSavedContributionNumber();
 		}
 		else {
 			super.onActivityResult(requestCode, resultCode, data);

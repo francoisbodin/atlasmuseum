@@ -64,8 +64,7 @@ public class SavedContributionsActivity extends Activity {
 		mListViewNew.setAdapter(mAdapterNew);
 		mListViewNew.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id)
-			{
+			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id)	{
 				Contribution contribution = (Contribution) mAdapterNew.getItem(position);
 				Bundle bundle = new Bundle();
 				bundle.putSerializable("contribution", contribution);
@@ -79,7 +78,6 @@ public class SavedContributionsActivity extends Activity {
 			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 				AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
 				Contribution contribution = (Contribution) mAdapterNew.getItem(info.position);
-				
 				menu.setHeaderTitle(contribution.getDate() + " " + contribution.getTime());
 				menu.add(Menu.NONE, 0, 0, "Supprimer");
 			}
@@ -104,7 +102,7 @@ public class SavedContributionsActivity extends Activity {
 			@Override
 			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 				AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-				Contribution contribution = (Contribution) mAdapterNew.getItem(info.position);
+				Contribution contribution = (Contribution) mAdapterModif.getItem(info.position);
 				
 				menu.setHeaderTitle(contribution.getDate() + " " + contribution.getTime());
 				menu.add(Menu.NONE, 0, 0, "Supprimer");
@@ -186,7 +184,18 @@ public class SavedContributionsActivity extends Activity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-		Contribution contribution = mListModif.get(info.position);
+		ListView listView = (ListView) info.targetView.getParent();
+		List<Contribution> list;
+		if( listView == mListViewNew ) {
+			list = mListNew;
+		}
+		else if( listView == mListViewModif ) {
+			list = mListModif;
+		}
+		else {
+			return false;
+		}
+		Contribution contribution = list.get(info.position);
 		String filename = contribution.getSavedFilename();
 		File file = new File(filename);
 		if(filename != null && ! filename.equals("") && file.exists()) {
