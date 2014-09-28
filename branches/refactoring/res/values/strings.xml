@@ -3,11 +3,11 @@
 
     <string name="app_name">Atlasmuseum</string>
 
-    <!-- Settings strings -->
+  <!-- Settings strings -->
     <string name="action_settings">Paramètres</string>
 	<string name="settings_name">Paramètres d\'Atlasmuseum</string>
 
-	<!-- MainActivity strings -->
+  <!-- MainActivity strings -->
 	<string name="main_explore">EXPLORER</string>
     <string name="main_contribute">CONTRIBUER</string>
 	<string name="main_help">AIDE</string>
@@ -18,13 +18,15 @@
     <string name="main_about">A PROPOS</string>
     	   
 	
-	<!-- LoarderActivity strings -->
+  <!-- LoaderActivity strings -->
     <string name="loader_intro1">L\'atlas mobile des œuvres d\'art</string>
     <string name="loader_intro2">dans l\'espace public</string>
     
     
-    
-    
+  <!-- ContributionSender strings -->
+    <string name="contribution_send_url">http://atlasmuseum.irisa.fr/scripts/receive_contribution.php</string>
+    <!-- <string name="contribution_send_url">http://erix.dscloud.me/atlas/scripts/receive_contribution.php</string> -->
+    <string name="sending_contribution">Envoi de la contribution</string>
     
     
     

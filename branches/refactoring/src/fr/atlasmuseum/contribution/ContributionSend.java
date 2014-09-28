@@ -10,9 +10,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.output.XMLOutputter;
@@ -58,9 +55,9 @@ public class ContributionSend extends AsyncTask<String, Integer, Boolean> {
 		Log.d(DEBUG_TAG, "onPreExecute");
 	    super.onPreExecute();
 		mProgress = new ProgressDialog(mContext);
-		mProgress.setMessage(mContext.getResources().getString(R.string.sending_contrib_file));
-		mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		mProgress.setCancelable(false);
+		mProgress.setMessage(mContext.getResources().getString(R.string.sending_contribution));
+		mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		mProgress.setMax(100);
 		mProgress.show();
 	}
@@ -74,23 +71,12 @@ public class ContributionSend extends AsyncTask<String, Integer, Boolean> {
 		XMLOutputter xmlOutputter = new XMLOutputter(); 
 		String xmlString = xmlOutputter.outputString(document);
 
-		// create the json data structure to be sent...
-		Map<String,String> postValues = new HashMap<String,String>();
-		postValues.put("argxml", xmlString);
-
-		ContributionProperty prop = mContribution.getProperty(Contribution.PHOTO);
-		String path = prop.getValue();
-		File file = new File(path);
-		if( prop.isModified() && ! prop.getValue().equals("")) {
-			postValues.put("image_filename", file.getName());
-		}
-		
 		try { // open a URL connection to the Servlet
 		    String lineEnd = "\r\n";
 		    String twoHyphens = "--";
 		    String boundary = "xxxxxxxx";
 
-            URL url = new URL("http://atlasmuseum.irisa.fr/scripts/receive_contribution.php");            
+            URL url = new URL(mContext.getResources().getString(R.string.contribution_send_url));
             
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoInput(true); // Allow Inputs
@@ -104,24 +90,30 @@ public class ContributionSend extends AsyncTask<String, Integer, Boolean> {
             
             DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
             
-            for (Map.Entry<String, String> e : postValues.entrySet()) {
+            dos.writeBytes(twoHyphens + boundary + lineEnd);
+			dos.writeBytes("Content-Disposition: form-data; name=\"xml\";filename=\"file.xml\"" + lineEnd);
+        	dos.writeBytes(lineEnd);
+        	dos.writeBytes(new String(xmlString.getBytes(), "ISO-8859-1"));
+			dos.writeBytes(lineEnd);
+		
+			ContributionProperty prop = mContribution.getProperty(Contribution.PHOTO);
+            if( prop.isModified() && ! prop.getValue().equals("")) {
+    			String imageFilename = prop.getValue();
+    			File imageFile = new File(imageFilename);
             	dos.writeBytes(twoHyphens + boundary + lineEnd);
-            	dos.writeBytes("Content-Disposition: form-data; name=\"" + e.getKey() + "\"" + lineEnd);
+            	dos.writeBytes("Content-Disposition: form-data; name=\"image_filename\"" + lineEnd);
             	dos.writeBytes("Content-Type: text/plain; charset=" + lineEnd);
             	dos.writeBytes(lineEnd);
-            	dos.writeBytes(e.getValue());
+            	dos.writeBytes(imageFile.getName());
             	dos.writeBytes(lineEnd);
             	dos.flush();
-            }
-            
-            if( prop.isModified() && ! prop.getValue().equals("")) {
-    			FileInputStream fileInputStream = new FileInputStream(file);
-
+            	
+    			FileInputStream fileInputStream = new FileInputStream(imageFile);
                 dos.writeBytes(twoHyphens + boundary + lineEnd);
-    			dos.writeBytes("Content-Disposition: form-data; name=\"image\";filename=\"" + file.getName() + "\"" + lineEnd);
+    			dos.writeBytes("Content-Disposition: form-data; name=\"image\";filename=\"" + imageFile.getName() + "\"" + lineEnd);
     			dos.writeBytes(lineEnd);
     			int bytesAvailable = fileInputStream.available();
-    			int bufferSize = (int) file.length()/200; // suppose you want to write file in 200 chunks
+    			int bufferSize = (int) imageFile.length()/200; // suppose you want to write file in 200 chunks
     			byte[] buffer = new byte[bufferSize];
     			int sentBytes = 0;
     			// read file and write it into form...
