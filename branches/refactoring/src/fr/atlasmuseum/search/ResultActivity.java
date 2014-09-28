@@ -68,7 +68,7 @@ public class ResultActivity extends Activity implements loadPhotoInterface {
 			notice.setDistance(-1);
 			notice.setPays(pays);
 			notice.setVille(lieux);
-			Log.d(DEBUG_TAG,"name ="+artiste);
+			//Log.d(DEBUG_TAG,"name ="+artiste);
 			if ((artiste!=null) && (nomOvreu !=null) && (nomOvreu !=null))
 			{
 				NoticeCompar n = new NoticeCompar(notice, j);
@@ -111,7 +111,7 @@ public class ResultActivity extends Activity implements loadPhotoInterface {
          	public void onItemClick(AdapterView<?> a, View v, int position, long id) {
 				//on r�cup�re la HashMap contenant les infos de notre item (titre, description, img)
 				//lvSelection.getItemAtPosition(position).getClass();
-        		Log.d(DEBUG_TAG, "class ="+mListViewSelection.getItemAtPosition(position).getClass());
+        		//Log.d(DEBUG_TAG, "class ="+mListViewSelection.getItemAtPosition(position).getClass());
         		/**NoticeOeuvre noticeSelected = (NoticeOeuvre) lvSelection.getItemAtPosition(position);
         		int idfrag = noticeSelected.getId();
 				bundle.putInt(ShowNoticeActivity.ARG_FRAGMENT,idfrag );//idfrag, c'est l'id dans la BDD

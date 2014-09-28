@@ -371,7 +371,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 				if ((found == false) && (valuechamps != null))
 				{
 					valueStringList.add(valuechamps);
-					Log.d(DEBUG_TAG, "adding elt to "+champs+" :" + valueStringList.get(nbEntries));
+					//Log.d(DEBUG_TAG, "adding elt to "+champs+" :" + valueStringList.get(nbEntries));
 					extra.putInt(Integer.toString(j),i); 
 					nbEntries++;
 				}

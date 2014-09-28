@@ -33,7 +33,7 @@ import android.widget.Toast;
 
 @SuppressLint("DefaultLocale") public class SearchAuto extends Activity{
 
-	private static final String DEBUG_TAG = "SearchActivity";
+	private static final String DEBUG_TAG = "AtlasMuseum/SearchAuto";
 	public ListView lvSelection=null;
 	public EditText inputSearch;
 	private  List<String> selectionStringList;
@@ -207,7 +207,7 @@ import android.widget.Toast;
 					String artiste  = SearchActivity.extractDataFromDb(idx,"artiste");
 					String titre  = SearchActivity.extractDataFromDb(idx,"titre");
 					String ville  = SearchActivity.extractDataFromDb(idx,"Siteville");
-					Log.d(DEBUG_TAG,"name ="+artiste);				
+					//Log.d(DEBUG_TAG,"name ="+artiste);				
 					if (!(artiste.equals("?")))
 					{
 						artiste = artiste.trim();
@@ -236,7 +236,7 @@ import android.widget.Toast;
 					String artiste  = SearchActivity.extractDataFromDb(idx,"Siteregion");
 					String titre  = SearchActivity.extractDataFromDb(idx,"Sitenom");
 					String ville  = SearchActivity.extractDataFromDb(idx,"Siteville");
-					Log.d(DEBUG_TAG,"name ="+artiste);				
+					//Log.d(DEBUG_TAG,"name ="+artiste);				
 					if (!(artiste.equals("?")))
 					{
 						artiste = artiste.trim();
@@ -272,7 +272,7 @@ import android.widget.Toast;
 				{
 					
 					String artiste  = SearchActivity.extractDataFromDb(idx,champs);
-					Log.d(DEBUG_TAG,"name ="+artiste);				
+					//Log.d(DEBUG_TAG,"name ="+artiste);				
 					if ((artiste != null))
 					{
 						artiste = artiste.trim();
@@ -283,7 +283,7 @@ import android.widget.Toast;
 			Collections.sort(selectionStringList);
 			for(int i=0; i<selectionStringList.size();i++)
 			{
-				Log.d(DEBUG_TAG, i+": "+selectionStringList.get(i));
+				//Log.d(DEBUG_TAG, i+": "+selectionStringList.get(i));
 			}
 	 }
 		void disabledBouton(String champs) {
