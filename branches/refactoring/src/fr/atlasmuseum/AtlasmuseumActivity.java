@@ -3,8 +3,8 @@ package fr.atlasmuseum;
 
 
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.account.ConnexionActivity;
-import fr.atlasmuseum.account.ConnexionAsync;
+import fr.atlasmuseum.account.ConnectionActivity;
+import fr.atlasmuseum.account.ConnectionAsync;
 import fr.atlasmuseum.contribution.MainContribActivity;
 import fr.atlasmuseum.location.LocationProvider;
 import fr.atlasmuseum.location.LocationStruct;
@@ -29,7 +29,7 @@ import android.widget.TextView;
 
 public class AtlasmuseumActivity extends Activity
                                  implements LocationProvider.OnLocationChanged,
-                                            ConnexionAsync.ConnectionListener {
+                                            ConnectionAsync.ConnectionListener {
 	
 	private static final String DEBUG_TAG = "AtlasMuseum/AtlasmuseumActivity";
 	static final String STATE_CONNECTED = "connected";
@@ -119,7 +119,7 @@ public class AtlasmuseumActivity extends Activity
 	    			return;
 	    		}
 	    		
-	    		Intent intent = new Intent(AtlasmuseumActivity.this, ConnexionActivity.class);
+	    		Intent intent = new Intent(AtlasmuseumActivity.this, ConnectionActivity.class);
 	    		startActivityForResult(intent, REQUEST_CONNECTION);
 	    	}
 	    });
@@ -185,14 +185,14 @@ public class AtlasmuseumActivity extends Activity
 		if(mConnected || ! checkInternetConnection(this)) {
 			return;
 		}
-		SharedPreferences prefs = getSharedPreferences(ConnexionActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-		if(! prefs.getBoolean(ConnexionActivity.PREF_KEY_AUTO_LOGIN, false)) {
+		SharedPreferences prefs = getSharedPreferences(ConnectionActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+		if(! prefs.getBoolean(ConnectionActivity.PREF_KEY_AUTO_LOGIN, false)) {
 			return;
 		}
-		String username = prefs.getString(ConnexionActivity.PREF_KEY_USERNAME, "");
-		String password = prefs.getString(ConnexionActivity.PREF_KEY_PASSWORD, "");
+		String username = prefs.getString(ConnectionActivity.PREF_KEY_USERNAME, "");
+		String password = prefs.getString(ConnectionActivity.PREF_KEY_PASSWORD, "");
 		if( ! username.equals("") && ! password.equals("") ) {
-			ConnexionAsync connection = new ConnexionAsync(this, username, password);
+			ConnectionAsync connection = new ConnectionAsync(this, username, password);
 			connection.execute();
 		}
 	}

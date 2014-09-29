@@ -15,12 +15,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-public class ConnexionActivity extends Activity implements ConnexionAsync.ConnectionListener
+public class ConnectionActivity extends Activity implements ConnectionAsync.ConnectionListener
 {
 	@SuppressWarnings("unused")
-	private static final String DEBUG_TAG = "AtlasMuseum/ConnexionActivity";
+	private static final String DEBUG_TAG = "AtlasMuseum/ConnectionActivity";
 	
-	public static final String SHARED_PREFERENCES = "fr.atlasmuseum.compte.ConnectionActivity.SHARED_PREFERENCES";
+	public static final String SHARED_PREFERENCES = "fr.atlasmuseum.account.ConnectionActivity.SHARED_PREFERENCES";
 	public static final String PREF_KEY_USERNAME = "username";
 	public static final String PREF_KEY_PASSWORD = "password";
 	public static final String PREF_KEY_REMEMBER_ME = "remember_me";
@@ -40,7 +40,7 @@ public class ConnexionActivity extends Activity implements ConnexionAsync.Connec
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ecran_co);
+		setContentView(R.layout.connection_activity);
 
 		mPrefs = getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
 
@@ -62,13 +62,13 @@ public class ConnexionActivity extends Activity implements ConnexionAsync.Connec
 		mButtonLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-	    		if( ! AtlasmuseumActivity.checkInternetConnection(ConnexionActivity.this)) {
-	    			AtlasError.showErrorDialog(ConnexionActivity.this, "7.1", "pas de connexion internet");
+	    		if( ! AtlasmuseumActivity.checkInternetConnection(ConnectionActivity.this)) {
+	    			AtlasError.showErrorDialog(ConnectionActivity.this, "7.1", "pas de connexion internet");
 	    			return;
 	    		}
 	    		
-				ConnexionAsync connection = new ConnexionAsync(
-						ConnexionActivity.this,
+				ConnectionAsync connection = new ConnectionAsync(
+						ConnectionActivity.this,
 						mTextUsername.getText().toString().trim(),
 						mTextPassword.getText().toString().trim());
 				connection.execute();

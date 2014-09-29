@@ -113,7 +113,7 @@
              android:label="@string/app_name" >
             </activity>
              <activity
-            android:name="fr.atlasmuseum.account.ConnexionActivity"
+            android:name="fr.atlasmuseum.account.ConnectionActivity"
              android:label="@string/app_name" >
             </activity>
             

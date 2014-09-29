@@ -1,7 +1,7 @@
 package fr.atlasmuseum.contribution;
 
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.account.ConnexionActivity;
+import fr.atlasmuseum.account.ConnectionActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
@@ -19,8 +19,8 @@ public class SuiviContribActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.news_activity);
 		
-		SharedPreferences prefs = getSharedPreferences(ConnexionActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-		String username = prefs.getString(ConnexionActivity.PREF_KEY_USERNAME, "");
+		SharedPreferences prefs = getSharedPreferences(ConnectionActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+		String username = prefs.getString(ConnectionActivity.PREF_KEY_USERNAME, "");
 		
 		WebView webView = (WebView) findViewById(R.id.webview);
 		webView.loadUrl("http://atlasmuseum.irisa.fr/scripts/listContribUser.php?id_user="+username);

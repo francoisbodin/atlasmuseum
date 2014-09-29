@@ -37,7 +37,7 @@ import android.widget.Toast;
 
 import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.account.ConnexionActivity;
+import fr.atlasmuseum.account.ConnectionActivity;
 import fr.atlasmuseum.main.AtlasError;
 
 public class ListChampsNoticeModif extends Activity implements ContributionSender.ContributionSenderListener {
@@ -258,9 +258,9 @@ public class ListChampsNoticeModif extends Activity implements ContributionSende
 			return;
 		}
 
-		SharedPreferences prefs = getSharedPreferences(ConnexionActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-		String username = prefs.getString(ConnexionActivity.PREF_KEY_USERNAME, "");
-		String password = prefs.getString(ConnexionActivity.PREF_KEY_PASSWORD, "");
+		SharedPreferences prefs = getSharedPreferences(ConnectionActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+		String username = prefs.getString(ConnectionActivity.PREF_KEY_USERNAME, "");
+		String password = prefs.getString(ConnectionActivity.PREF_KEY_PASSWORD, "");
 		if( username.equals("") || password.equals("") ) {
 			AtlasError.showErrorDialog(ListChampsNoticeModif.this, "7.3", "compte util requis");
 			return;
@@ -392,7 +392,7 @@ public class ListChampsNoticeModif extends Activity implements ContributionSende
 		}
 		else if(itemId == R.id.action_account)
 		{
-			Intent intent= new Intent(this,ConnexionActivity.class);
+			Intent intent= new Intent(this,ConnectionActivity.class);
 			startActivityForResult(intent, REQUEST_CONNECTION);
 			return true;
 		}

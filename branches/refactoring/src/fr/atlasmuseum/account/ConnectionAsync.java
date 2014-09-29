@@ -16,14 +16,14 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-public class ConnexionAsync extends AsyncTask<String, String, Boolean> {
+public class ConnectionAsync extends AsyncTask<String, String, Boolean> {
 	
     public interface ConnectionListener {
         public void onConnectionOk();
         public void onConnectionFailed();
     }
 
-	private static final String DEBUG_TAG = "AtlasMuseum/ConnexionAsync";
+	private static final String DEBUG_TAG = "AtlasMuseum/ConnectionAsync";
 	
 	private Context mContext;
 	private ConnectionListener mListener;
@@ -57,7 +57,7 @@ public class ConnexionAsync extends AsyncTask<String, String, Boolean> {
 	}
 
 	
-	public ConnexionAsync(Activity context, String username, String password) {
+	public ConnectionAsync(Activity context, String username, String password) {
 		mContext = context;
 		mUsername = username;
 		mPassword = password;

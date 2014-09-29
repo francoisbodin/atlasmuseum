@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.account.ConnexionActivity;
+import fr.atlasmuseum.account.ConnectionActivity;
 import fr.atlasmuseum.main.AtlasError;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -105,8 +105,8 @@ public class MainContribActivity extends Activity {
 					return;
 				}
 
-				SharedPreferences prefs = getSharedPreferences(ConnexionActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-				String username = prefs.getString(ConnexionActivity.PREF_KEY_USERNAME, "");
+				SharedPreferences prefs = getSharedPreferences(ConnectionActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+				String username = prefs.getString(ConnectionActivity.PREF_KEY_USERNAME, "");
 				if( username.equals("") ) {
 					AtlasError.showErrorDialog(MainContribActivity.this, "7.3", "compte util requis");
 					return;
@@ -180,7 +180,7 @@ public class MainContribActivity extends Activity {
 			return true;
 		}
 		else if(itemId == R.id.action_account) {
-			Intent intent= new Intent(this,ConnexionActivity.class);
+			Intent intent= new Intent(this,ConnectionActivity.class);
 			startActivityForResult(intent, REQUEST_CONNEXION);
 			return true;
 		}
