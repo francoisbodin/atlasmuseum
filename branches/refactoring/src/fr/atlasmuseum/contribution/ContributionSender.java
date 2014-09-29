@@ -21,21 +21,21 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class ContributionSend extends AsyncTask<String, Integer, Boolean> {
+public class ContributionSender extends AsyncTask<String, Integer, Boolean> {
 
-    public interface ContributionSendListener {
+    public interface ContributionSenderListener {
         public void onContributionSent(Boolean success, String status);
     }
 
 	private static final String DEBUG_TAG = "AtlasMuseum/ContributionSend";
 	
 	private Context mContext;
-	private ContributionSendListener mListener;
+	private ContributionSenderListener mListener;
 	private Contribution mContribution;
 	private ProgressDialog mProgress;
 	private String mStatus;
 	
-	public ContributionSend( Context context, Contribution contribution ) {
+	public ContributionSender( Context context, Contribution contribution ) {
 		mContext = context;
 		mContribution = contribution;
 		mStatus = "";
@@ -43,7 +43,7 @@ public class ContributionSend extends AsyncTask<String, Integer, Boolean> {
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the ContributionSendListener so we can send events to the host
-            mListener = (ContributionSendListener) mContext;
+            mListener = (ContributionSenderListener) mContext;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(mContext.toString() + " must implement ContributionSendListener");

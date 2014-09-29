@@ -40,7 +40,7 @@ import fr.atlasmuseum.R;
 import fr.atlasmuseum.compte.ConnexionActivity;
 import fr.atlasmuseum.main.AtlasError;
 
-public class ListChampsNoticeModif extends Activity implements ContributionSend.ContributionSendListener {
+public class ListChampsNoticeModif extends Activity implements ContributionSender.ContributionSenderListener {
 	private static final String DEBUG_TAG = "AtlasMuseum/ListChampsNoticeModif";
 	
 	static final String SHARED_PREFERENCES = "fr.atlasmuseum.contribution.ListChampsNoticeModif.SHARED_PREFERENCES";
@@ -281,7 +281,7 @@ public class ListChampsNoticeModif extends Activity implements ContributionSend.
 			}
 		}
 
-		ContributionSend contributionSend = new ContributionSend(this, mContribution);
+		ContributionSender contributionSend = new ContributionSender(this, mContribution);
 		contributionSend.execute();
 		
 		//Toast.makeText(this, getResources().getString(R.string.completer_au_moins_un_champs), Toast.LENGTH_LONG).show();;
