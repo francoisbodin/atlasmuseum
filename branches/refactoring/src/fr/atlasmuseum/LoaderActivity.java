@@ -1,6 +1,7 @@
-package fr.atlasmuseum.main;
+package fr.atlasmuseum;
 
 import fr.atlasmuseum.R;
+import fr.atlasmuseum.main.MainActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -26,7 +27,7 @@ public class LoaderActivity extends Activity  {
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.loader);
+        setContentView(R.layout.loader_activity);
         Log.d(DEBUG_TAG, "onCreate");
         
         getActionBar().hide();
