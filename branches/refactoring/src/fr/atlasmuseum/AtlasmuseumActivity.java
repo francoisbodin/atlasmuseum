@@ -9,7 +9,6 @@ import fr.atlasmuseum.compte.ConnexionActivity;
 import fr.atlasmuseum.compte.ConnexionAsync;
 import fr.atlasmuseum.contribution.MainContribActivity;
 import fr.atlasmuseum.main.AtlasError;
-import fr.atlasmuseum.main.HelpActivity;
 import fr.atlasmuseum.search.SearchActivity;
 import android.app.Activity;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package fr.atlasmuseum.main;
+package fr.atlasmuseum;
 
 import fr.atlasmuseum.R;
 import android.app.ActionBar;
@@ -26,7 +26,7 @@ public class HelpActivity extends Activity{
 		if (actionBar != null) {
 			actionBar.show();
 			actionBar.setDisplayHomeAsUpEnabled(true);
-			actionBar.setTitle(this.getResources().getString(R.string.menu_help));
+			actionBar.setTitle(this.getResources().getString(R.string.main_help));
 			actionBar.setDisplayShowTitleEnabled(true);
 		}
     }
