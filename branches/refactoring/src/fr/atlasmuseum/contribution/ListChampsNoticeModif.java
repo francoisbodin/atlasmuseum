@@ -35,10 +35,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.compte.ConnexionActivity;
 import fr.atlasmuseum.main.AtlasError;
-import fr.atlasmuseum.main.MainActivity;
 
 public class ListChampsNoticeModif extends Activity implements ContributionSend.ContributionSendListener {
 	private static final String DEBUG_TAG = "AtlasMuseum/ListChampsNoticeModif";
@@ -230,14 +230,14 @@ public class ListChampsNoticeModif extends Activity implements ContributionSend.
 		}
 		
 		// Update location if needed for new notice
-		if(MainActivity.mLastLocation != null && mContribution.getNoticeId() == 0) {
+		if(AtlasmuseumActivity.mLastLocation != null && mContribution.getNoticeId() == 0) {
 			ContributionProperty propLatitude = mContribution.getProperty(Contribution.LATITUDE);
 			if( propLatitude.getValue() == "" ) {
-				propLatitude.setValue(String.valueOf(MainActivity.mLastLocation.getLatitude()));
+				propLatitude.setValue(String.valueOf(AtlasmuseumActivity.mLastLocation.getLatitude()));
 			}
 			ContributionProperty propLongitude= mContribution.getProperty(Contribution.LONGITUDE);
 			if( propLongitude.getValue() == "" ) {
-				propLongitude.setValue(String.valueOf(MainActivity.mLastLocation.getLongitude()));
+				propLongitude.setValue(String.valueOf(AtlasmuseumActivity.mLastLocation.getLongitude()));
 			}
 		}
 		
@@ -253,7 +253,7 @@ public class ListChampsNoticeModif extends Activity implements ContributionSend.
 			return;
 		}
 
-		if(! MainActivity.checkInternetConnection(this)) {
+		if(! AtlasmuseumActivity.checkInternetConnection(this)) {
 			AtlasError.showErrorDialog(ListChampsNoticeModif.this, "7.1", "pas internet connexion");
 			return;
 		}
@@ -270,14 +270,14 @@ public class ListChampsNoticeModif extends Activity implements ContributionSend.
 		mContribution.setPassword(password);
 
 		// Update location if needed for new notice
-		if(MainActivity.mLastLocation != null && mContribution.getNoticeId() == 0) {
+		if(AtlasmuseumActivity.mLastLocation != null && mContribution.getNoticeId() == 0) {
 			ContributionProperty propLatitude = mContribution.getProperty(Contribution.LATITUDE);
 			if( propLatitude.getValue() == "" ) {
-				propLatitude.setValue(String.valueOf(MainActivity.mLastLocation.getLatitude()));
+				propLatitude.setValue(String.valueOf(AtlasmuseumActivity.mLastLocation.getLatitude()));
 			}
 			ContributionProperty propLongitude= mContribution.getProperty(Contribution.LONGITUDE);
 			if( propLongitude.getValue() == "" ) {
-				propLongitude.setValue(String.valueOf(MainActivity.mLastLocation.getLongitude()));
+				propLongitude.setValue(String.valueOf(AtlasmuseumActivity.mLastLocation.getLongitude()));
 			}
 		}
 
@@ -546,18 +546,18 @@ public class ListChampsNoticeModif extends Activity implements ContributionSend.
 				getResources().getString(R.string.mise_ajour),
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						if (MainActivity.mLastLocation == null) {
+						if (AtlasmuseumActivity.mLastLocation == null) {
 							Toast.makeText(
 									getApplication(),
 									getResources().getString(R.string.desole_position_pas_recup),
 									Toast.LENGTH_LONG).show();
 							return;
 						}
-						String latitude = Double.toString(MainActivity.mLastLocation.getLatitude());
+						String latitude = Double.toString(AtlasmuseumActivity.mLastLocation.getLatitude());
 						ContributionProperty propertyLatitude = mContribution.getProperty(Contribution.LATITUDE);
 						propertyLatitude.setValue(latitude);
 
-						String longitude = Double.toString(MainActivity.mLastLocation.getLongitude());
+						String longitude = Double.toString(AtlasmuseumActivity.mLastLocation.getLongitude());
 						ContributionProperty propertyLongitude = mContribution.getProperty(Contribution.LONGITUDE);
 						propertyLongitude.setValue(longitude);
 						

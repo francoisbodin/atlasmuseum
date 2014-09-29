@@ -6,10 +6,10 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.UUID;
 
+import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.compte.ConnexionActivity;
 import fr.atlasmuseum.main.AtlasError;
-import fr.atlasmuseum.main.MainActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
@@ -100,7 +100,7 @@ public class MainContribActivity extends Activity {
 		relativEtatContrib.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				if(! MainActivity.checkInternetConnection(MainContribActivity.this)) {
+				if(! AtlasmuseumActivity.checkInternetConnection(MainContribActivity.this)) {
 					AtlasError.showErrorDialog(MainContribActivity.this, "7.1", "pas internet connexion");
 					return;
 				}

@@ -6,9 +6,9 @@ import java.util.List;
 
 import com.irisa.unpourcent.location.LocationStruct;
 
+import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.main.AtlasError;
-import fr.atlasmuseum.main.MainActivity;
 import fr.atlasmuseum.search.module.NoticeAdapterWithDistance;
 import fr.atlasmuseum.search.module.NoticeCompar;
 import fr.atlasmuseum.search.module.NoticeOeuvre;
@@ -52,10 +52,10 @@ public class SearchAutourList extends Activity implements loadPhotoInterface{
         
         ArrayList<NoticeCompar> compNoticeList = new ArrayList<NoticeCompar>();
         
-		listNotice = new ArrayList<NoticeOeuvre>();//va contenir les notices d'oeuvre tri� suivant la distance
+		listNotice = new ArrayList<NoticeOeuvre>();//va contenir les notices d'oeuvre triées suivant la distance
         int idxloc;
-        int j = 0;//nombre d'oeuvre trouv�e aux alentours
-        LocationStruct mLastLocation = MainActivity.mLastLocation;
+        int j = 0;//nombre d'oeuvres trouvées aux alentours
+        LocationStruct mLastLocation = AtlasmuseumActivity.mLastLocation;
         if (mLastLocation != null)
 		{
 			double lat1 = mLastLocation.getLatitude();

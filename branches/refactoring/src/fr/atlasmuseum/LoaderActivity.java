@@ -1,7 +1,6 @@
 package fr.atlasmuseum;
 
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.main.MainActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -55,7 +54,7 @@ public class LoaderActivity extends Activity  {
 		layout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(LoaderActivity.this, MainActivity.class);
+				Intent intent = new Intent(LoaderActivity.this, AtlasmuseumActivity.class);
 				startActivity(intent);
 				finish();
 			};

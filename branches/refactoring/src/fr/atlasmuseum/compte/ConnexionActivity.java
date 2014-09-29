@@ -1,8 +1,8 @@
 package fr.atlasmuseum.compte;
 
+import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.main.AtlasError;
-import fr.atlasmuseum.main.MainActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
@@ -62,7 +62,7 @@ public class ConnexionActivity extends Activity implements ConnexionAsync.Connec
 		mButtonLogin.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-	    		if( ! MainActivity.checkInternetConnection(ConnexionActivity.this)) {
+	    		if( ! AtlasmuseumActivity.checkInternetConnection(ConnexionActivity.this)) {
 	    			AtlasError.showErrorDialog(ConnexionActivity.this, "7.1", "pas de connexion internet");
 	    			return;
 	    		}

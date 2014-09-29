@@ -9,9 +9,10 @@ import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.ClusterManager.OnClusterClickListener;
 import com.google.maps.android.clustering.ClusterManager.OnClusterItemClickListener;
+
+import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.main.AtlasError;
-import fr.atlasmuseum.main.MainActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -74,9 +75,9 @@ public class MapActivity extends Activity {
     
     private void setUpClusterer() {
         // Position the map.
-    	if ((MainActivity.mLastLocation != null) && !focusOnNotice()){
-    		getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(MainActivity.mLastLocation.getLatitude(),
-    				MainActivity.mLastLocation.getLongitude()), 4.0f));
+    	if ((AtlasmuseumActivity.mLastLocation != null) && !focusOnNotice()){
+    		getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(AtlasmuseumActivity.mLastLocation.getLatitude(),
+    				AtlasmuseumActivity.mLastLocation.getLongitude()), 4.0f));
     	}
 
         // Initialize the manager with the context and the map.

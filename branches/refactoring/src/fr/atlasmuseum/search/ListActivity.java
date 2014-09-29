@@ -6,8 +6,8 @@ import java.util.List;
 
 import com.irisa.unpourcent.location.LocationStruct;
 
+import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.main.MainActivity;
 import fr.atlasmuseum.search.module.SimpleAdapterSearch;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -174,7 +174,7 @@ import android.widget.TextView;
    */
   		private void showList(String c, String cText, Boolean startIntent){
   			
-  			LocationStruct mLastLocation = MainActivity.mLastLocation;
+  			LocationStruct mLastLocation = AtlasmuseumActivity.mLastLocation;
   			
   			int i,j=0;//j = nbEntries trouvé, et i pour parcourir 
   			Intent intent = new Intent(this, ListActivity.class);

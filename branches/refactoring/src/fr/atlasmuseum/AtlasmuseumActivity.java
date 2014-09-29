@@ -1,4 +1,4 @@
-package fr.atlasmuseum.main;
+package fr.atlasmuseum;
 
 import com.irisa.unpourcent.location.LocationProvider;
 import com.irisa.unpourcent.location.LocationStruct;
@@ -8,6 +8,8 @@ import fr.atlasmuseum.R;
 import fr.atlasmuseum.compte.ConnexionActivity;
 import fr.atlasmuseum.compte.ConnexionAsync;
 import fr.atlasmuseum.contribution.MainContribActivity;
+import fr.atlasmuseum.main.AtlasError;
+import fr.atlasmuseum.main.HelpActivity;
 import fr.atlasmuseum.search.SearchActivity;
 import android.app.Activity;
 import android.content.Context;
@@ -26,11 +28,11 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MainActivity extends Activity
-                          implements LocationProvider.OnLocationChanged,
-                                                      ConnexionAsync.ConnectionListener {
+public class AtlasmuseumActivity extends Activity
+                                 implements LocationProvider.OnLocationChanged,
+                                            ConnexionAsync.ConnectionListener {
 	
-	private static final String DEBUG_TAG = "AtlasMuseum/MainActivity";
+	private static final String DEBUG_TAG = "AtlasMuseum/AtlasmuseumActivity";
 	static final String STATE_CONNECTED = "connected";
 
 	private static final int REQUEST_CONNECTION = 125455;
@@ -51,7 +53,7 @@ public class MainActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.d(DEBUG_TAG, "onCreate");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.atlasmuseum_activity);
 		
 		mConnected = false;
 		
@@ -80,7 +82,7 @@ public class MainActivity extends Activity
 		buttonExplore.setOnClickListener(new OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-	    		Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+	    		Intent intent = new Intent(AtlasmuseumActivity.this, SearchActivity.class);
 	    		startActivity(intent);
 	        }
 	    });
@@ -89,7 +91,7 @@ public class MainActivity extends Activity
 		buttonContribute.setOnClickListener(new OnClickListener() {
 	    	@Override
 	    	public void onClick(View v) {
-	    		Intent intent = new Intent(MainActivity.this, MainContribActivity.class); 
+	    		Intent intent = new Intent(AtlasmuseumActivity.this, MainContribActivity.class); 
 	    		startActivity(intent);
 	    	}
 	    });
@@ -98,7 +100,7 @@ public class MainActivity extends Activity
 		buttonHelp.setOnClickListener(new OnClickListener() {
 	    	@Override
 	    	public void onClick(View v) {
-	    		Intent intent = new Intent(MainActivity.this, HelpActivity.class);
+	    		Intent intent = new Intent(AtlasmuseumActivity.this, HelpActivity.class);
 	    		startActivity(intent);
 	    	}
 	    });
@@ -113,12 +115,12 @@ public class MainActivity extends Activity
 	    			return;
 	    		}
 
-	    		if( ! checkInternetConnection(MainActivity.this)) {
-	    			AtlasError.showErrorDialog(MainActivity.this, "7.1", "pas de connexion internet");
+	    		if( ! checkInternetConnection(AtlasmuseumActivity.this)) {
+	    			AtlasError.showErrorDialog(AtlasmuseumActivity.this, "7.1", "pas de connexion internet");
 	    			return;
 	    		}
 	    		
-	    		Intent intent = new Intent(MainActivity.this, ConnexionActivity.class);
+	    		Intent intent = new Intent(AtlasmuseumActivity.this, ConnexionActivity.class);
 	    		startActivityForResult(intent, REQUEST_CONNECTION);
 	    	}
 	    });
@@ -127,7 +129,7 @@ public class MainActivity extends Activity
 		buttonNews.setOnClickListener(new OnClickListener() {
 	    	@Override
 	    	public void onClick(View v) {
-	    		Intent intent = new Intent(MainActivity.this, ActuActivity.class);
+	    		Intent intent = new Intent(AtlasmuseumActivity.this, NewsActivity.class);
 	    		startActivity(intent);
 	    	}
 		});
@@ -137,7 +139,7 @@ public class MainActivity extends Activity
 		buttonAbout.setOnClickListener(new OnClickListener() {
 	    	@Override
 	    	public void onClick(View v) {
-	    		Intent intent = new Intent(MainActivity.this, AproposActivity.class);
+	    		Intent intent = new Intent(AtlasmuseumActivity.this, AboutActivity.class);
 	    		startActivity(intent);
 	    	}
 	    });

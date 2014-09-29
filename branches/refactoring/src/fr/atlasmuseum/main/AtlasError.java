@@ -1,5 +1,6 @@
 package fr.atlasmuseum.main;
 
+import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,7 +14,7 @@ import android.widget.Toast;
  *
  */
 public class AtlasError extends Activity {
-	public MainActivity m;
+	public AtlasmuseumActivity m;
 	final String IMG_NOT_SEND = this.getString(R.string.id_non_valide);
 	
 //AtlasError.showErrorDialog(SignUPActivity.this, "2.1", COMPTE_EXISTANT);

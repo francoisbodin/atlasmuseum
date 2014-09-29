@@ -17,7 +17,7 @@ public class SuiviContribActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.contrib_webview);
+		setContentView(R.layout.news_activity);
 		
 		SharedPreferences prefs = getSharedPreferences(ConnexionActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE);
 		String username = prefs.getString(ConnexionActivity.PREF_KEY_USERNAME, "");
