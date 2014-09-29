@@ -37,7 +37,7 @@ import android.widget.Toast;
 
 import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.compte.ConnexionActivity;
+import fr.atlasmuseum.account.ConnexionActivity;
 import fr.atlasmuseum.main.AtlasError;
 
 public class ListChampsNoticeModif extends Activity implements ContributionSender.ContributionSenderListener {

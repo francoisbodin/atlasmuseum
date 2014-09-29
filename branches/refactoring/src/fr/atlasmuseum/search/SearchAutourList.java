@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.irisa.unpourcent.location.LocationStruct;
 
 import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
+import fr.atlasmuseum.location.LocationStruct;
 import fr.atlasmuseum.main.AtlasError;
 import fr.atlasmuseum.search.module.NoticeAdapterWithDistance;
 import fr.atlasmuseum.search.module.NoticeCompar;

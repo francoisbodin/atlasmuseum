@@ -1,7 +1,7 @@
 package fr.atlasmuseum.contribution;
 
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.compte.ConnexionActivity;
+import fr.atlasmuseum.account.ConnexionActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;

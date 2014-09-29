@@ -1,13 +1,13 @@
 package fr.atlasmuseum;
 
-import com.irisa.unpourcent.location.LocationProvider;
-import com.irisa.unpourcent.location.LocationStruct;
 
 
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.compte.ConnexionActivity;
-import fr.atlasmuseum.compte.ConnexionAsync;
+import fr.atlasmuseum.account.ConnexionActivity;
+import fr.atlasmuseum.account.ConnexionAsync;
 import fr.atlasmuseum.contribution.MainContribActivity;
+import fr.atlasmuseum.location.LocationProvider;
+import fr.atlasmuseum.location.LocationStruct;
 import fr.atlasmuseum.main.AtlasError;
 import fr.atlasmuseum.search.SearchActivity;
 import android.app.Activity;

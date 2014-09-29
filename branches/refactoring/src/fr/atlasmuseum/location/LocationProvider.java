@@ -1,4 +1,4 @@
-package com.irisa.unpourcent.location;
+package fr.atlasmuseum.location;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -8,16 +8,12 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
-
-import fr.atlasmuseum.R;
-
 
 
 public class LocationProvider implements
@@ -29,6 +25,8 @@ public class LocationProvider implements
 		public void onLocationUpdated(Location location);
 	}
 	
+    private static final String DEBUG_TAG = "AtlasMuseum/LocationProvider";
+
 	Activity mContext;
 	OnLocationChanged mCallback;
 	
@@ -41,8 +39,6 @@ public class LocationProvider implements
     // Whether updates should start in onConnected or not
     private Boolean mUpdateRequested;
     
-    private static final String DEBUG_TAG = "UnPourCent/LocationProvider";
-
     /**
      * Constructor
      */
@@ -76,7 +72,7 @@ public class LocationProvider implements
      */
     @Override
     public void onConnected(Bundle bundle) {
-        Log.i(DEBUG_TAG, mContext.getString(R.string.connected));
+        Log.i(DEBUG_TAG, "onConnected");
 
         if( mUpdateRequested == true ) {
         	startPeriodicUpdates();
@@ -89,7 +85,7 @@ public class LocationProvider implements
      */
     @Override
     public void onDisconnected() {
-    	Log.i(DEBUG_TAG, mContext.getString(R.string.disconnected));
+    	Log.i(DEBUG_TAG, "onDisconnected");
     }
 
     /*
@@ -133,7 +129,6 @@ public class LocationProvider implements
      */
     @Override
     public void onLocationChanged(Location location) {
-    	//Log.i(DEBUG_TAG, mContext.getString(R.string.location_updated) + " = " + LocationUtils.getLatLng(mContext, location));
     	mCallback.onLocationUpdated( location );
     }
 
@@ -163,7 +158,7 @@ public class LocationProvider implements
 				return;
 			}
 			mLocationClient.requestLocationUpdates(mLocationRequest, this);
-			Log.i(DEBUG_TAG, mContext.getString(R.string.location_requested));
+			Log.i(DEBUG_TAG, "startPeriodicUpdates: Location requested");
 		}
     }
 
@@ -179,7 +174,7 @@ public class LocationProvider implements
 				return;
 			}
     		mLocationClient.removeLocationUpdates(this);
-    		Log.i(DEBUG_TAG, mContext.getString(R.string.location_updates_stopped));
+    		Log.i(DEBUG_TAG, "stopPeriodicUpdates: location updates stopped");
     	}
     }
     
@@ -196,7 +191,7 @@ public class LocationProvider implements
         // If Google Play services is available
         if (ConnectionResult.SUCCESS == resultCode) {
             // In debug mode, log the status
-            Log.d(DEBUG_TAG, mContext.getString(R.string.play_services_available));
+            Log.d(DEBUG_TAG, "servicesConnected: Play Services available");
 
             // Continue
             return true;

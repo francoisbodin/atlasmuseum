@@ -1,5 +1,4 @@
-package fr.atlasmuseum.compte;
-
+package fr.atlasmuseum.account;
 
 import java.util.ArrayList;
 
@@ -23,7 +22,6 @@ public class ConnexionAsync extends AsyncTask<String, String, Boolean> {
         public void onConnectionOk();
         public void onConnectionFailed();
     }
-
 
 	private static final String DEBUG_TAG = "AtlasMuseum/ConnexionAsync";
 	
@@ -80,7 +78,7 @@ public class ConnexionAsync extends AsyncTask<String, String, Boolean> {
 		Log.d(DEBUG_TAG, "onPreExecute");
 	    super.onPreExecute();
 		mProgress = new ProgressDialog(mContext);
-		mProgress.setMessage(mContext.getResources().getString(R.string.connexion_encours));
+		mProgress.setMessage(mContext.getResources().getString(R.string.account_connecting));
 		mProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		mProgress.setCancelable(false);
 		mProgress.show();
@@ -148,7 +146,7 @@ public class ConnexionAsync extends AsyncTask<String, String, Boolean> {
 		
 		if( result ) {
 			Log.d(DEBUG_TAG, "connection success");
-			Toast.makeText(mContext, mContext.getResources().getString(R.string.CONNECTED_AS)+" "+mUsername, Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, mContext.getResources().getString(R.string.account_connected_as)+" "+mUsername, Toast.LENGTH_SHORT).show();
 			mListener.onConnectionOk();
 			return;
 		}

@@ -1,4 +1,4 @@
-package com.irisa.unpourcent.location;
+package fr.atlasmuseum.location;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package fr.atlasmuseum.compte;
+package fr.atlasmuseum.account;
 
 import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;

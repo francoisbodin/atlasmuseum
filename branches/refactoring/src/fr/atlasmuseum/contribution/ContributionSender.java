@@ -56,7 +56,7 @@ public class ContributionSender extends AsyncTask<String, Integer, Boolean> {
 	    super.onPreExecute();
 		mProgress = new ProgressDialog(mContext);
 		mProgress.setCancelable(false);
-		mProgress.setMessage(mContext.getResources().getString(R.string.sending_contribution));
+		mProgress.setMessage(mContext.getResources().getString(R.string.contribution_sending));
 		mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		mProgress.setMax(100);
 		mProgress.show();

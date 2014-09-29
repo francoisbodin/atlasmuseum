@@ -20,14 +20,15 @@
     <string name="main_disconnection">DÉCONNECTER</string>
     <string name="main_news">ACTUALITÉS</string>
     <string name="main_about">A PROPOS</string>
-    	   
-	
     
   <!-- ContributionSender strings -->
     <string name="contribution_send_url">http://atlasmuseum.irisa.fr/scripts/receive_contribution.php</string>
     <!-- <string name="contribution_send_url">http://erix.dscloud.me/atlas/scripts/receive_contribution.php</string> -->
-    <string name="sending_contribution">Envoi de la contribution</string>
+    <string name="contribution_sending">Envoi de la contribution…</string>
     
+  <!-- Account strings -->
+    <string name="account_connecting">Connexion en cours…</string>
+    <string name="account_connected_as">Connecté en tant que</string>
     
     
     
@@ -56,20 +57,11 @@
     <string name="menu_refresh">Rafraichir</string>
     <string name="menu_about">A propos</string>
     <string name="menu_settings">Paramètres</string>
-    <string name="action_clean2">Reset</string>
     <string name="menu_help">Aide</string>
     <string name="menu_locate">Carte</string>
     <string name="actualites">Actualités</string>
     <string name="mon_profil">Mon profil</string>
     <string name="aide_infos">Centre d\'aide Atlasmuseum</string>
-<!-- Settings -->
-    <string name="pref_server_default">Default</string>
-    <string name="pref_server_test">Test</string>
-    <string name="pref_server_title">Server</string>
-    <string name="pref_author_title">Author</string>
-    <string name="pref_author_summary">Enter you name</string>
-    <string name="pref_server_am">AtlasMuseum</string>
-    <string name="pref_server_refam">AtlasMuseum Ref.</string>
 
     <!-- Upload/Server messages -->
     <string name="uploadingd">Uploading data…</string>
@@ -87,66 +79,6 @@
 	<string name="GPSactivatedmes">GPS activé</string>
     
     
-    <!-- Location Messages -->
-    <string name="connected">Client connected</string>
-    <string name="disconnected">Client disconnected</string>
-    <string name="location_requested">Periodic updates requested</string>
-    <string name="location_updated">Location updated</string>
-    <string name="location_updates_stopped">Periodic updates stopped</string>
-    <string name="resolved">Error resolved. Please re-try operation.</string>
-    <string name="no_resolution">Google Play services: unable to resolve connection error.</string>
-    <string name="play_services_available">Google Play services is available</string>
-
-    <!-- Latitude, longitude format -->
-    <string name="latitude_longitude">%1$.8f, %2$.8f</string>
-    <string name="latlng">Lat/Long:</string>
-    <string name="default_radius">10000</string>
-    <string name="default_ville">Ville</string>
-    <string name="default_region">Alsace</string>
-    <string name="default_collection">Commandes publique</string>
-    <string name="default_titre">titre</string>
-    <string name="default_artiste">artiste</string>
-    <string name="default_texte">recherche</string>
-
-    <!-- UI Labels -->
-    <string name="image_preview">Image Preview</string>
-    <string name="button_take">Take Picture</string>
-    <string name="button_location">Location Icon</string>
-    <string name="button_refresh">Refresh Location</string>
-    <string name="button_send">See</string>
-    <string name="button_accueil">Accueil</string>
-    <string name="button_carte">CARTE</string>
-    <string name="button_selection">Sélection</string>
-    <string name="button_atlasmuseum">Wiki</string>
-    <string name="button_photo">Charger Photo</string>
-    <string name="button_presdemoi">Œuvre la plus proche</string>
-    <string name="button_liste">LISTE</string>
-
-    <!-- UI Hints -->
-    <string name="hint_location">Coordinates</string>
-    <string name="hint_comment">Add your comments</string>
-    <string name="hint_status">status</string>
-    <string name="hint_titre">titre</string>
-    <string name="hint_ville">Ville</string>
-    <string name="hint_region">région</string>
-    <string name="hint_collection">collection</string>
-    <string name="hint_artiste">artiste</string>
-    <string name="hint_inauguration">inauguration</string>
-    <string name="hint_search">recherche par mot-clé</string>
-    <string name="hint_radius">rayon en mètres</string>
-    <string name="hint_Siteville">ville</string>
-    <string name="hint_Sitenom">nom site</string>
-    <string name="hint_image_principale">image</string>
-    <string name="hint_mot_cle">mots cles</string>
-    <string name="hint_couleurs">couleurs</string>
-    <string name="hint_precision_materiaux">materiaux extra</string>
-    <string name="hint_materiaux">materiaux</string>
-    <string name="hint_mouvement_artistes">mouvement artiste</string>
-    <string name="hint_nature">nature</string>
-    <string name="hint_texte">recherche</string>
-     <string name="hint_begin_date">début</string>
-      <string name="hint_end_date">fin</string>
-	
 	
 	<string name="camera_unavailable">L\'appareil photo n\'est pas disponible.</string>
 	
@@ -154,15 +86,14 @@
     <string name="mdp">Mot de passe</string>
     <string name="memoriser_mdp">Se souvenir de moi</string>
     <string name="photo_save:">Sauvegarde photo :</string>
-    <string name="send_photo_saved">Envoi des photos sauvegardées... </string>
-     <string name="sending_contrib_file">Envoi des contributions....</string>
+    <string name="send_photo_saved">Envoi des photos sauvegardées…</string>
+     <string name="sending_contrib_file">Envoi des contributions…</string>
     <string name="uploading">uploading</string> <!--  loadingPhoto2 -->
     
     
     <string name="au_moins_champ_pour_contribuer">Veuillez compléter au moins un champ pour contribuer</string>
     <!--  CONNEXION -->
-    <string name="connexion_encours">Connexion en cours...</string>
-	<string name="PB_UserChecker">Connexion...</string> <!--  -->
+	<string name="PB_UserChecker">Connexion…</string> <!--  -->
 	<string name="OK">OK</string>
       <!-- URLs -->
     <string name="url_get_location">http://atlasmuseum.irisa.fr/android/php/atlas_upl.php</string>
@@ -186,9 +117,6 @@
     
     <string name="URL_SIGNUP"> "http://atlasmuseum.irisa.fr/android/php/ajout_utilisateur.php"</string>
    
-    <!--  COMPTE UTILISATEUR -->
-    <string name="CONNECTED_AS">Connecté en tant que </string> <!-- AutoCheckerAsync -->
-    
     <!-- Message ERROR-->
     <string name="ECHEC_ENVOI_OEUVRE">Echec de l\'envoi</string> <!-- Uploader -->
     <string name="id_non_valide">Pas de réponse du serveur, veuillez rééssayer ultérieurement</string> <!-- Uploader.getNewIdTag() -->

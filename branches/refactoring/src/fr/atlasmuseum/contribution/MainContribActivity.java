@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.compte.ConnexionActivity;
+import fr.atlasmuseum.account.ConnexionActivity;
 import fr.atlasmuseum.main.AtlasError;
 import android.app.ActionBar;
 import android.app.Activity;
