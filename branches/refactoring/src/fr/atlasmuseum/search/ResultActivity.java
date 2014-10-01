@@ -132,82 +132,29 @@ public class ResultActivity extends Activity implements loadPhotoInterface {
 		}
     }
 	
-
-	////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////
-	/// HELPER ROUTINES ///
-	
-	int getEntryNumberForFragment(int idx){
-		if (mBundle == null) return -1;
-		return mBundle.getInt(Integer.toString(idx));
-	}
-	
-	int getNumberOfEntries(){
-		int v = mBundle.getInt(SearchActivity.NB_ENTRIES);
-		Log.d(DEBUG_TAG, "getNumberOfEntries : " + v);
-		return v;
-	}
-	
-	Double getCurrentLatitude(){
-		Double v = mBundle.getDouble(SearchActivity.CURRENT_LAT );
-		Log.d(DEBUG_TAG, "getCurrentLatitude : " + v);
-		return v;
-	}
-	
-	Double getCurrentLongitude(){
-		Double v = mBundle.getDouble(SearchActivity.CURRENT_LONG );
-		Log.d(DEBUG_TAG, "getCurrentLongitude : " + v);
-		return v;
-	}
-	
-	private void showMap(){
-		Intent intent = new Intent(getApplication(),MapActivity.class);
-		if (getNumberOfEntries() == 1) 
-		{
-			mBundle.putInt(SearchActivity.MAP_FOCUS_NOTICE,1);
-		}
-		intent.putExtras(mBundle);
-		startActivity(intent);
-		finish();
-	}
-	
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
 		
-		if(itemId == android.R.id.home)
-		{
+		if(itemId == android.R.id.home)	{
 			super.onBackPressed();
 			finish();
 			return true;
 		}
 		
-		if(itemId == R.id.action_map)
-		{
-			this.showMap();
+		if(itemId == R.id.action_map) {
+			Intent intent = new Intent(getApplication(),MapActivity.class);
+			if (getNumberOfEntries() == 1) {
+				mBundle.putInt(SearchActivity.MAP_FOCUS_NOTICE,1);
+			}
+			intent.putExtras(mBundle);
+			startActivity(intent);
 			return true;
 		}
 		else return false;
     	
     }
 
-    public boolean checkInternetConnection()
-    {
-    	ConnectivityManager cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-		boolean isWiFi = false;
-
-		if(activeNetwork!=null && ( activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)){
-			isWiFi = true;
-		}
-		else
-		{
-			isWiFi =false;
-		}
-		return isWiFi;
-    }
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		//Inflate the menu; this adds items to the action bar if it is present.
@@ -231,4 +178,20 @@ public class ResultActivity extends Activity implements loadPhotoInterface {
 	public ImageView getImageView() {
 		return null;
 	}
+
+	///////////////////////
+	/// HELPER ROUTINES ///
+	///////////////////////
+	
+	int getEntryNumberForFragment(int idx){
+		if (mBundle == null) return -1;
+		return mBundle.getInt(Integer.toString(idx));
+	}
+	
+	int getNumberOfEntries(){
+		int v = mBundle.getInt(SearchActivity.NB_ENTRIES);
+		Log.d(DEBUG_TAG, "getNumberOfEntries : " + v);
+		return v;
+	}
+	
 }

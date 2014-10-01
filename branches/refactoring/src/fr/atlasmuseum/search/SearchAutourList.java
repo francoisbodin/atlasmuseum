@@ -8,7 +8,6 @@ import java.util.List;
 import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.helper.AtlasError;
-import fr.atlasmuseum.location.LocationStruct;
 import fr.atlasmuseum.search.module.NoticeAdapterWithDistance;
 import fr.atlasmuseum.search.module.NoticeCompar;
 import fr.atlasmuseum.search.module.NoticeOeuvre;
@@ -16,6 +15,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -55,7 +55,7 @@ public class SearchAutourList extends Activity implements loadPhotoInterface{
 		listNotice = new ArrayList<NoticeOeuvre>();//va contenir les notices d'oeuvre triées suivant la distance
         int idxloc;
         int j = 0;//nombre d'oeuvres trouvées aux alentours
-        LocationStruct mLastLocation = AtlasmuseumActivity.mLastLocation;
+        Location mLastLocation = AtlasmuseumActivity.mLastLocation;
         if (mLastLocation != null)
 		{
 			double lat1 = mLastLocation.getLatitude();

@@ -86,33 +86,37 @@ public class MapActivity extends Activity {
 	        // Add clusters
 			for (int idx = 0; idx < mBundle.getInt(SearchActivity.NB_ENTRIES); idx++) {
 				int idxloc = getEntryNumberForFragment(idx);
+				double latitude = 0;
+				double longitude = 0;
 				try {
-					double longi = Double.parseDouble(SearchActivity.extractDataFromDb(idxloc,"longitude"));
-					double lati = Double.parseDouble(SearchActivity.extractDataFromDb(idxloc,"latitude"));
-					if ((longi != 0.0) && (lati != 0.0)){
-						 new LatLng(longi, lati);
-						 MyItem offsetItem = new MyItem(lati, longi, idxloc);
+					latitude = Double.parseDouble(SearchActivity.extractDataFromDb(idxloc,"latitude"));
+					longitude = Double.parseDouble(SearchActivity.extractDataFromDb(idxloc,"longitude"));
+					if ((longitude != 0.0) && (latitude != 0.0)){
+						 new LatLng(latitude, longitude);
+						 MyItem offsetItem = new MyItem(latitude, longitude, idxloc);
 						 mClusterManager.addItem(offsetItem);
 					}
 				}
 				catch(Exception e){
 					//AtlasError.showErrorDialog(MapActivity.this, "4.2", "");
-	                Log.d(DEBUG_TAG, "Issue with double conversion");
+	                Log.d(DEBUG_TAG, "Issue with double conversion ("+SearchActivity.extractDataFromDb(idxloc,"latitude")+" - "+SearchActivity.extractDataFromDb(idxloc,"longitude")+")");
 	            }
 			}
 			
 			// Zoom if only one marker
 			if(  mBundle.getInt(SearchActivity.NB_ENTRIES) == 1 ) {
 				int idxloc = getEntryNumberForFragment(0);
+				double latitude = 0;
+				double longitude = 0;
 				try {
-					double latitutde = Double.parseDouble(SearchActivity.extractDataFromDb(idxloc,"latitude"));
-					double longitude = Double.parseDouble(SearchActivity.extractDataFromDb(idxloc,"longitude"));
-					if ((longitude != 0.0) && (latitutde != 0.0)){
-						mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitutde,longitude), 12.0f));
+					latitude = Double.parseDouble(SearchActivity.extractDataFromDb(idxloc,"latitude"));
+					longitude = Double.parseDouble(SearchActivity.extractDataFromDb(idxloc,"longitude"));
+					if ((longitude != 0.0) && (latitude != 0.0)){
+						mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude), 12.0f));
 					}
 				}
 				catch(Exception e){
-					Log.d(DEBUG_TAG, "Issue with double conversion");
+					Log.d(DEBUG_TAG, "Issue with double conversion ("+SearchActivity.extractDataFromDb(idxloc,"latitude")+" - "+SearchActivity.extractDataFromDb(idxloc,"longitude")+")");
 	            }
 			}
 

@@ -41,7 +41,7 @@ public class AtlasmuseumActivity extends Activity
 	
 	//location stuff
 	private LocationProvider mLocationProvider;
-    public static LocationStruct mLastLocation = new LocationStruct();
+    public static Location mLastLocation = null;
   
     private Boolean mUpdateLocationRequested = true;
     
@@ -148,6 +148,7 @@ public class AtlasmuseumActivity extends Activity
 		mLocationProvider = new LocationProvider(this);
 		mLastLocation = null;
 		mUpdateLocationRequested = false;
+		mLocationProvider.connect();
 		startLocationUpdate();
 		updateLocation();
 	}
@@ -156,7 +157,6 @@ public class AtlasmuseumActivity extends Activity
 	protected void onStart() {
 		Log.d(DEBUG_TAG, "onStart");
 		super.onStart();
-		mLocationProvider.connect();
 	}
 	
 	@Override
@@ -174,10 +174,6 @@ public class AtlasmuseumActivity extends Activity
 	protected void onResume() {
 		Log.d(DEBUG_TAG, "onResume");
 		super.onResume();
-		
-		if (mLastLocation == null ) {
-			updateLocation();
-		}
 		
 		mTextProfil.setText(this.getResources().getString(mConnected ? R.string.main_disconnection : R.string.main_connection));
 		
@@ -200,7 +196,6 @@ public class AtlasmuseumActivity extends Activity
 	@Override
 	protected void onPause() {
 		Log.d(DEBUG_TAG, "onPause");
-		stopLocationUpdate();
 		super.onPause();
 	}
 	
@@ -218,13 +213,14 @@ public class AtlasmuseumActivity extends Activity
 	@Override
 	protected void onStop() {
 		Log.d(DEBUG_TAG, "onStop");
-		mLocationProvider.disconnect();
 		super.onStop();
 	}
 	
 	@Override
 	protected void onDestroy() {
 		Log.d(DEBUG_TAG, "onDestroy");
+		stopLocationUpdate();
+		mLocationProvider.disconnect();
 		super.onDestroy();
 	}	
 	
@@ -284,13 +280,13 @@ public class AtlasmuseumActivity extends Activity
 	}
 
 	public void onLocationUpdated( Location location ) {
-		Log.d(DEBUG_TAG, "onLocationUpdated");
+		Log.d(DEBUG_TAG, "onLocationUpdated: Latitude = " + location.getLatitude() + " - Longitude = " + location.getLongitude() + " - Accuracy = " + location.getAccuracy());
 		if( location == null ) {
 			return;
 		}
 		if( mUpdateLocationRequested ) {
 			mUpdateLocationRequested = false;
-			mLastLocation = new LocationStruct(location);
+			mLastLocation = new Location(location);
 			Log.d(DEBUG_TAG, "Location updated");
 		}
 	}

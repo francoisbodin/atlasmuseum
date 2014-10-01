@@ -7,12 +7,12 @@ import java.util.List;
 
 import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.location.LocationStruct;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.text.Editable;
@@ -459,7 +459,7 @@ import android.widget.Toast;
     //fonction de recherche de cText dans le champs c
    		private void showList(String c, String cText, Boolean startIntent){
    			
-   			LocationStruct mLastLocation = AtlasmuseumActivity.mLastLocation;
+   			Location mLastLocation = AtlasmuseumActivity.mLastLocation;
    			
    			int i,j=0;//j = nbEntries trouv�, et i pour parcourir 
    			Intent intent = new Intent(this, ListActivity.class);
