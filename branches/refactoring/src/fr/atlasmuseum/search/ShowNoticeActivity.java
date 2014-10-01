@@ -184,7 +184,7 @@ public class ShowNoticeActivity extends Activity
 			return true;
 		}
     	
-		if (itemId == R.id.action_contrib) {
+		if (itemId == R.id.action_edit) {
 			mContribution.setLocalId(UUID.randomUUID().toString());
 
 			// Check if a saved contribution matches this one
@@ -197,6 +197,14 @@ public class ShowNoticeActivity extends Activity
 			else {
 				modifyNotice(mContribution);
 			}
+			return true;
+		}
+		else if (itemId == R.id.action_itinerary) {
+			String latitude = mContribution.getProperty(Contribution.LATITUDE).getValue();
+			String longitude = mContribution.getProperty(Contribution.LONGITUDE).getValue();
+			Intent intent = new Intent(android.content.Intent.ACTION_VIEW, 
+				    Uri.parse("http://maps.google.com/maps?daddr="+latitude+","+longitude));
+			startActivity(intent);
 			return true;
 		}
 		else {

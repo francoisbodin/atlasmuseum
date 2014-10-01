@@ -1,9 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/action_contrib"
-        android:icon="@drawable/ic_contrib"
-        android:title="@string/action_clean"
+        android:id="@+id/action_itinerary"
+        android:icon="@drawable/ic_action_itinerary"
+        android:title="@string/action_itinerary"
+        android:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_edit"
+        android:icon="@drawable/ic_action_edit"
+        android:title="@string/action_edit"
         android:showAsAction="ifRoom" />
 
 </menu>

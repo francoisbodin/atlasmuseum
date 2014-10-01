@@ -63,22 +63,23 @@
     
     <string name="contribution_uploading">Téléchargement de l\'image</string>
     <string name="contribution_url_images">http://atlasmuseum.irisa.fr/images/</string>
+
+    <string name="action_edit">Editer</string>
+    <string name="action_itinerary">Itinéraire</string>
     
   <!-- Saved Contributions strings -->
-     <string name="saved_contributions_title">Contributions sauvegardées</string>
-     <string name="saved_contributions_new_notices">NOUVELLES NOTICES</string>
-     <string name="saved_contributions_modif_notices">NOTICES MODIFIEES</string>
-    
-     
-   <!-- Dialog Restore Contribution strings -->      
-     <string name="dialog_restore_contribution_modif_title">Recharger la contribution sauvegardée ?</string>
-     <string name="dialog_restore_contribution_modif_message">Il existe déjà une contribution sauvegardée pour cette notice. Souhaitez-vous la recharger ?</string>
+    <string name="saved_contributions_title">Contributions sauvegardées</string>
+    <string name="saved_contributions_new_notices">NOUVELLES NOTICES</string>
+    <string name="saved_contributions_modif_notices">NOTICES MODIFIEES</string>
+         
+  <!-- Dialog Restore Contribution strings -->      
+    <string name="dialog_restore_contribution_modif_title">Recharger la contribution sauvegardée ?</string>
+    <string name="dialog_restore_contribution_modif_message">Il existe déjà une contribution sauvegardée pour cette notice. Souhaitez-vous la recharger ?</string>
 
-   <!-- Edit Contribution strings -->
-     <string name="edit_contribution_not_modified">Veuillez compléter au moins un champ pour contribuer</string>
-     <string name="edit_contribution_update_location">Mettre à jour la localisation de l\'œuvre</string>
+  <!-- Edit Contribution strings -->
+    <string name="edit_contribution_not_modified">Veuillez compléter au moins un champ pour contribuer</string>
+    <string name="edit_contribution_update_location">Mettre à jour la localisation de l\'œuvre</string>
  
-    <string name="action_clean">Clean</string>
     
     <string name="title_search">RECHERCHER DES ŒUVRES</string><!--  ALT+0140 -->
     <string name="title_list">ŒUVRES TROUVEES</string>
