@@ -11,8 +11,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
-public class SuiviContribActivity extends Activity {
-	private static final String DEBUG_TAG = "AtlasMuseum/SuiviContribActivity";
+public class SentContributionsActivity extends Activity {
+	private static final String DEBUG_TAG = "AtlasMuseum/SentContributionsActivity";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

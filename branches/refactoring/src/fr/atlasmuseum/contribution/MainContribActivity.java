@@ -112,7 +112,7 @@ public class MainContribActivity extends Activity {
 					return;
 				}
 
-				Intent intent = new Intent(MainContribActivity.this, SuiviContribActivity.class);
+				Intent intent = new Intent(MainContribActivity.this, SentContributionsActivity.class);
 				startActivity(intent);
 			}
 		});

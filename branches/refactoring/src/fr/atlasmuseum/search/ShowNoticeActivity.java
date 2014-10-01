@@ -35,7 +35,7 @@ public class ShowNoticeActivity extends Activity
                                 implements ContributionRestoreDialogFragment.ContributionRestoreDialogListener,
                                            Contribution.ContributionModificationListener {
 
-	private static final String DEBUG_TAG = "AtlasMuseum/ShowNotice";
+	private static final String DEBUG_TAG = "AtlasMuseum/ShowNoticeActivity";
 	public static final String ARG_FRAGMENT = "IDFragment";
 	
 	private int mDbIndex;
@@ -53,7 +53,7 @@ public class ShowNoticeActivity extends Activity
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
-        setContentView(R.layout.show_notice_layout_new);
+        setContentView(R.layout.show_notice_activity);
 
         Log.d(DEBUG_TAG, "onCreate()");
     	
