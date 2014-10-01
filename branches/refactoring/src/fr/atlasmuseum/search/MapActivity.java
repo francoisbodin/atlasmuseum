@@ -115,11 +115,8 @@ public class MapActivity extends Activity {
 					Log.d(DEBUG_TAG, "Issue with double conversion");
 	            }
 			}
-			//if ((oeuvre != null)&& focusOnNotice()) {
-			//	getMap().animateCamera(CameraUpdateFactory.newLatLngZoom(oeuvre, 12.0f));
-			//}
-		    //THERE IS A BUG WITH THIS CODE
-		    mClusterManager.setOnClusterClickListener(new OnClusterClickListener<MyItem>() {
+
+			mClusterManager.setOnClusterClickListener(new OnClusterClickListener<MyItem>() {
 				@Override
 				public boolean onClusterClick(Cluster<MyItem> cluster) {
 					return true;
