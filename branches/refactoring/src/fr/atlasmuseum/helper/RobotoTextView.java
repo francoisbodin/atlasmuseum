@@ -1,4 +1,4 @@
-package fr.atlasmuseum.main;
+package fr.atlasmuseum.helper;
 
 import android.content.Context;
 import android.graphics.Typeface;

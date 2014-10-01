@@ -1,4 +1,4 @@
-package fr.atlasmuseum.main;
+package fr.atlasmuseum.helper;
 
 import java.util.Hashtable;
 

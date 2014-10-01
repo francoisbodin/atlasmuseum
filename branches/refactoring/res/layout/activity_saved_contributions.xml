@@ -21,7 +21,7 @@
         android:id="@+id/text_new_notice"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/title_new_notice"
+        android:text="@string/saved_contributions_new_notices"
         android:textColor="#ffda00"
         android:textSize="14sp" />
 
@@ -49,7 +49,7 @@
         android:id="@+id/text_modif_notice"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/title_modif_notice"
+        android:text="@string/saved_contributions_modif_notices"
         android:textColor="#ffda00"
         android:textSize="14sp" />
 

@@ -6,23 +6,21 @@
     android:orientation="vertical"
     android:padding="6dip" >
  
-  
- 	<RadioButton
-        android:id="@+id/radioButton1"
+    <CheckBox
+        android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="false"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:layout_alignParentLeft="true"
         android:focusable="false"
-	         />
+        android:focusableInTouchMode="false" />
+ 
     <TextView
-        android:id="@+id/valeur"
-        textColor="#333333"
+        android:id="@+id/name"
+        android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18dp"
-        android:layout_toRightOf="@+id/radioButton1"
+        android:layout_toRightOf="@+id/checkbox"
         android:text="TextView" />
  
 </RelativeLayout>

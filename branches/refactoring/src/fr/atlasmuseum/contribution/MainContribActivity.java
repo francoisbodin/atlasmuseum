@@ -9,7 +9,7 @@ import java.util.UUID;
 import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.account.ConnectionActivity;
-import fr.atlasmuseum.main.AtlasError;
+import fr.atlasmuseum.helper.AtlasError;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
@@ -90,7 +90,7 @@ public class MainContribActivity extends Activity {
 				contribution.setLocalId(UUID.randomUUID().toString());
 				Bundle bundle = new Bundle();
 				bundle.putSerializable("contribution", contribution);
-				Intent intent= new Intent(MainContribActivity.this, ListChampsNoticeModif.class);
+				Intent intent= new Intent(MainContribActivity.this, EditContributionActivity.class);
 				intent.putExtras(bundle);
 				startActivityForResult(intent, REQUEST_CONTRIBUTE );
 			}
@@ -147,11 +147,11 @@ public class MainContribActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if( requestCode == REQUEST_CONTRIBUTE  ) {
 			switch(resultCode) {
-			case ListChampsNoticeModif.RESULT_SAVED:
+			case EditContributionActivity.RESULT_SAVED:
 				Toast.makeText(this, getResources().getString(R.string.contrib_save), Toast.LENGTH_SHORT).show();
 				updateSavedContributionNumber();
 				break;
-			case ListChampsNoticeModif.RESULT_SENT:
+			case EditContributionActivity.RESULT_SENT:
     			Toast.makeText(this, getResources().getString(R.string.contrib_envoi_success), Toast.LENGTH_SHORT).show();
 				updateSavedContributionNumber();
 				break;

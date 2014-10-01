@@ -7,8 +7,8 @@ import java.util.List;
 
 import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
+import fr.atlasmuseum.helper.AtlasError;
 import fr.atlasmuseum.location.LocationStruct;
-import fr.atlasmuseum.main.AtlasError;
 import fr.atlasmuseum.search.module.NoticeAdapterWithDistance;
 import fr.atlasmuseum.search.module.NoticeCompar;
 import fr.atlasmuseum.search.module.NoticeOeuvre;

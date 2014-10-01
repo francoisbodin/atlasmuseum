@@ -9,7 +9,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.main.AtlasError;
+import fr.atlasmuseum.data.JsonRawData;
+import fr.atlasmuseum.helper.AtlasError;
 import fr.atlasmuseum.search.module.SimpleAdapterSearch;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;

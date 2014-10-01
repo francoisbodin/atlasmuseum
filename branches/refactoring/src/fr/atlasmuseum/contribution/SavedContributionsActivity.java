@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.atlasmuseum.R;
+import fr.atlasmuseum.account.ConnectionActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -18,14 +19,13 @@ import android.view.View;
 import android.view.Window;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class SavedContributionsActivity extends Activity {
 	
-	private static final String DEBUG_TAG = "AtlasMuseum/SavedContributionActivity";
+	private static final String DEBUG_TAG = "AtlasMuseum/SavedContributionsActivity";
 
 	static final int REQUEST_EDIT_CONTRIBUTION = 1;
 
@@ -68,7 +68,7 @@ public class SavedContributionsActivity extends Activity {
 				Contribution contribution = (Contribution) mAdapterNew.getItem(position);
 				Bundle bundle = new Bundle();
 				bundle.putSerializable("contribution", contribution);
-				Intent intent = new Intent(SavedContributionsActivity.this, ListChampsNoticeModif.class);
+				Intent intent = new Intent(SavedContributionsActivity.this, EditContributionActivity.class);
 				intent.putExtras(bundle);
 				startActivityForResult(intent, REQUEST_EDIT_CONTRIBUTION);
 			}
@@ -93,7 +93,7 @@ public class SavedContributionsActivity extends Activity {
 				Contribution contribution = (Contribution) mAdapterModif.getItem(position);
 				Bundle bundle = new Bundle();
 				bundle.putSerializable("contribution", contribution);
-				Intent intent = new Intent(SavedContributionsActivity.this, ListChampsNoticeModif.class);
+				Intent intent = new Intent(SavedContributionsActivity.this, EditContributionActivity.class);
 				intent.putExtras(bundle);
 				startActivityForResult(intent, REQUEST_EDIT_CONTRIBUTION);
 			}
@@ -115,7 +115,7 @@ public class SavedContributionsActivity extends Activity {
 		ActionBar actionBar = getActionBar();
 		if (actionBar != null) {
 			actionBar.show();
-			actionBar.setTitle(getResources().getString(R.string.title_saved_contributions));
+			actionBar.setTitle(getResources().getString(R.string.saved_contributions_title));
 			actionBar.setDisplayHomeAsUpEnabled(true);
 			actionBar.setDisplayShowTitleEnabled(true);
 			//actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);  
@@ -126,11 +126,11 @@ public class SavedContributionsActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(requestCode == REQUEST_EDIT_CONTRIBUTION) {
 			switch(resultCode) {
-			case ListChampsNoticeModif.RESULT_SAVED:
+			case EditContributionActivity.RESULT_SAVED:
 				Toast.makeText(this, getResources().getString(R.string.contrib_save), Toast.LENGTH_SHORT).show();
 				updateSavedContributionLists();
 				break;
-			case ListChampsNoticeModif.RESULT_SENT:
+			case EditContributionActivity.RESULT_SENT:
     			Toast.makeText(this, getResources().getString(R.string.contrib_envoi_success), Toast.LENGTH_SHORT).show();
 				updateSavedContributionLists();
 				break;
@@ -204,5 +204,17 @@ public class SavedContributionsActivity extends Activity {
 		}
 		return true;
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int itemId = item.getItemId();
 
+		if(itemId == android.R.id.home) {
+			finish();
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }

@@ -127,7 +127,7 @@
              android:label="@string/app_name" >
             </activity>
               <activity
-            android:name="fr.atlasmuseum.contribution.ListChampsNoticeModif"
+            android:name="fr.atlasmuseum.contribution.EditContributionActivity"
              android:label="@string/app_name" >
             </activity>
             <activity
@@ -135,7 +135,7 @@
              android:label="@string/app_name" >
             </activity>
             <activity
-            android:name="fr.atlasmuseum.contribution.ModifActivity"
+            android:name="fr.atlasmuseum.contribution.EditPropertyActivity"
              android:label="@string/app_name" >
             </activity>
             <activity

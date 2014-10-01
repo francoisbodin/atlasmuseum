@@ -38,12 +38,12 @@ import android.widget.Toast;
 import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.account.ConnectionActivity;
-import fr.atlasmuseum.main.AtlasError;
+import fr.atlasmuseum.helper.AtlasError;
 
-public class ListChampsNoticeModif extends Activity implements ContributionSender.ContributionSenderListener {
-	private static final String DEBUG_TAG = "AtlasMuseum/ListChampsNoticeModif";
+public class EditContributionActivity extends Activity implements ContributionSender.ContributionSenderListener {
+	private static final String DEBUG_TAG = "AtlasMuseum/EditContributionActivity";
 	
-	static final String SHARED_PREFERENCES = "fr.atlasmuseum.contribution.ListChampsNoticeModif.SHARED_PREFERENCES";
+	static final String SHARED_PREFERENCES = "fr.atlasmuseum.contribution.EditContributionActivity.java.SHARED_PREFERENCES";
 
 	static final int REQUEST_MODIFY_PROPERTY = 1;
 	static final int REQUEST_TAKE_PICTURE = 2;
@@ -68,7 +68,7 @@ public class ListChampsNoticeModif extends Activity implements ContributionSende
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
-		setContentView(R.layout.contrib_list_modif);
+		setContentView(R.layout.edit_contribution_activity);
 
 		Log.d(DEBUG_TAG, "onCreate()");
 		
@@ -105,7 +105,7 @@ public class ListChampsNoticeModif extends Activity implements ContributionSende
 		});
 
 		mList = new ArrayList<ContributionProperty>();
-		mAdapter = new ContributionPropertyAdapter(ListChampsNoticeModif.this, mList);
+		mAdapter = new ContributionPropertyAdapter(EditContributionActivity.this, mList);
 		ListView listView = (ListView) findViewById(R.id.list_view);
 		listView.setAdapter(mAdapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -123,7 +123,7 @@ public class ListChampsNoticeModif extends Activity implements ContributionSende
 					Bundle bundle = new Bundle();
 					bundle.putSerializable("position", position);
 					bundle.putSerializable("property", prop);
-					Intent intent = new Intent(ListChampsNoticeModif.this, ModifActivity.class);
+					Intent intent = new Intent(EditContributionActivity.this, EditPropertyActivity.class);
 					intent.putExtras(bundle);
 					startActivityForResult(intent, REQUEST_MODIFY_PROPERTY);	
 				}
@@ -225,7 +225,7 @@ public class ListChampsNoticeModif extends Activity implements ContributionSende
 
 	public void saveContributions() {
 		if( ! mContribution.isModified() ) {
-			Toast.makeText(this, this.getResources().getString(R.string.completer_au_moins_un_champs), Toast.LENGTH_LONG).show();
+			Toast.makeText(this, this.getResources().getString(R.string.edit_contribution_not_modified), Toast.LENGTH_LONG).show();
 			return;
 		}
 		
@@ -249,12 +249,12 @@ public class ListChampsNoticeModif extends Activity implements ContributionSende
 	
 	protected void sendContributions() {
 		if( ! mContribution.isModified() ) {
-			Toast.makeText(this, this.getResources().getString(R.string.completer_au_moins_un_champs), Toast.LENGTH_LONG).show();
+			Toast.makeText(this, this.getResources().getString(R.string.edit_contribution_not_modified), Toast.LENGTH_LONG).show();
 			return;
 		}
 
 		if(! AtlasmuseumActivity.checkInternetConnection(this)) {
-			AtlasError.showErrorDialog(ListChampsNoticeModif.this, "7.1", "pas internet connexion");
+			AtlasError.showErrorDialog(EditContributionActivity.this, "7.1", "pas internet connexion");
 			return;
 		}
 
@@ -262,7 +262,7 @@ public class ListChampsNoticeModif extends Activity implements ContributionSende
 		String username = prefs.getString(ConnectionActivity.PREF_KEY_USERNAME, "");
 		String password = prefs.getString(ConnectionActivity.PREF_KEY_PASSWORD, "");
 		if( username.equals("") || password.equals("") ) {
-			AtlasError.showErrorDialog(ListChampsNoticeModif.this, "7.3", "compte util requis");
+			AtlasError.showErrorDialog(EditContributionActivity.this, "7.3", "compte util requis");
 			return;
 		}
 
@@ -540,10 +540,10 @@ public class ListChampsNoticeModif extends Activity implements ContributionSende
 
 	private void showLocationChangeAlertToUser() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-		alertDialogBuilder.setMessage(getResources().getString(R.string.location_change_alert));
+		alertDialogBuilder.setMessage(getResources().getString(R.string.edit_contribution_update_location));
 		alertDialogBuilder.setCancelable(false);
 		alertDialogBuilder.setPositiveButton(
-				getResources().getString(R.string.mise_ajour),
+				getResources().getString(R.string.update),
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						if (AtlasmuseumActivity.mLastLocation == null) {
@@ -572,7 +572,7 @@ public class ListChampsNoticeModif extends Activity implements ContributionSende
 							mContribution.setProperty(Contribution.LONGITUDE, propertyLongitude);
 							bundle.putSerializable("contribution", mContribution);
 							intent.putExtras(bundle);
-							ListChampsNoticeModif.this.setIntent(intent);
+							EditContributionActivity.this.setIntent(intent);
 						}
 					}
 				});

@@ -25,7 +25,7 @@ public class ContributionProperty implements Serializable {
 	private int mTitle; /* reference to a resource string */
 	private String mValue;
 	private String mOriginalValue;
-	private String mDefaultValue;
+	private int mDefaultValue;
 	private int mInfo; /* reference to a resource string */
 	private ContribType mType;
 	private String[] mChoices;
@@ -38,7 +38,7 @@ public class ContributionProperty implements Serializable {
 			String jsonField,
 			int title,
 			String value,
-			String defaultValue,
+			int defaultValue,
 			int info,
 			ContribType type,
 			String[] choices,
@@ -99,10 +99,10 @@ public class ContributionProperty implements Serializable {
 		if( mOriginalValue == "?" ) mOriginalValue = "";
 	}
 
-	public String getDefaultValue() {
+	public int getDefaultValue() {
 		return mDefaultValue;
 	}
-	public void setDefaultValue(String defaultValue) {
+	public void setDefaultValue(int defaultValue) {
 		mDefaultValue = defaultValue;
 	}
 

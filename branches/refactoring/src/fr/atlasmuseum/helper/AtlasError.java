@@ -1,4 +1,4 @@
-package fr.atlasmuseum.main;
+package fr.atlasmuseum.helper;
 
 import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;

@@ -2,7 +2,7 @@ package fr.atlasmuseum.account;
 
 import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.main.AtlasError;
+import fr.atlasmuseum.helper.AtlasError;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;

@@ -62,15 +62,23 @@ public class SavedContributionAdapter extends BaseAdapter {
 		
 		Contribution contribution = mContributions.get(position);
 
-		String title = contribution.getProperty(Contribution.TITRE).getValue();
+		ContributionProperty propertyTitle = contribution.getProperty(Contribution.TITRE);
+		String title = propertyTitle.getValue();
 		if( title.equals("") ) {
-			title = contribution.getProperty(Contribution.TITRE).getDefaultValue();
+			int defaultValue = propertyTitle.getDefaultValue();
+			if( defaultValue != 0 ) {
+				title = mContext.getResources().getString(defaultValue);
+			}
 		}
 		textTitle.setText(title);
 
-		String author = contribution.getProperty(Contribution.ARTISTE).getValue();
+		ContributionProperty propertyAuthor = contribution.getProperty(Contribution.ARTISTE);
+		String author = propertyAuthor.getValue();
 		if( author.equals("") ) {
-			author = contribution.getProperty(Contribution.ARTISTE).getDefaultValue();
+			int defaultValue = propertyAuthor.getDefaultValue();
+			if( defaultValue != 0 ) {
+				author = mContext.getResources().getString(defaultValue);
+			}
 		}
 		textAuthor.setText(author);
 		

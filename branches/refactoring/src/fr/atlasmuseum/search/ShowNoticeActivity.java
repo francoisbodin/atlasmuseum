@@ -8,7 +8,7 @@ import fr.atlasmuseum.R;
 import fr.atlasmuseum.contribution.Contribution;
 import fr.atlasmuseum.contribution.ContributionProperty;
 import fr.atlasmuseum.contribution.ContributionRestoreDialogFragment;
-import fr.atlasmuseum.contribution.ListChampsNoticeModif;
+import fr.atlasmuseum.contribution.EditContributionActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -72,7 +72,10 @@ public class ShowNoticeActivity extends Activity
     		TextView viewText = (TextView) findViewById(showViewText);
     		String value = prop.getValue();
     		if( value == "" ) {
-    			value = prop.getDefaultValue();
+    			int defaultValue = prop.getDefaultValue();
+    			if( defaultValue != 0 ) {
+    				value = getResources().getString(defaultValue);
+    			}
     		}
     		if( value != "" ) {
     			viewText.setText(value);
@@ -225,10 +228,10 @@ public class ShowNoticeActivity extends Activity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	if(requestCode == this.REQUEST_CONTRIB) {
 			switch(resultCode) {
-			case ListChampsNoticeModif.RESULT_SAVED:
+			case EditContributionActivity.RESULT_SAVED:
 				Toast.makeText(this, getResources().getString(R.string.contrib_save), Toast.LENGTH_SHORT).show();
 				break;
-			case ListChampsNoticeModif.RESULT_SENT:
+			case EditContributionActivity.RESULT_SENT:
     			Toast.makeText(this, getResources().getString(R.string.contrib_envoi_success), Toast.LENGTH_SHORT).show();
 				break;
 			case RESULT_CANCELED:
@@ -264,7 +267,7 @@ public class ShowNoticeActivity extends Activity
 	private void modifyNotice( Contribution contribution ) {
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("contribution", contribution);
-		Intent intent = new Intent(this, ListChampsNoticeModif.class);
+		Intent intent = new Intent(this, EditContributionActivity.class);
 		intent.putExtras(bundle);
 		startActivityForResult(intent, this.REQUEST_CONTRIB);
 	}

@@ -203,7 +203,7 @@
                         android:id="@+id/oeuvre_nature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/Nature"
+                        android:text="@string/prop_title_nature"
                         android:textColor="#999999"
                         android:textSize="18sp" />
 
@@ -257,7 +257,7 @@
                         android:id="@+id/oeuvre_materiaux"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/Materiaux"
+                        android:text="@string/prop_title_materiaux"
                         android:textColor="#999999"
                         android:textSize="18sp" />
 
@@ -294,7 +294,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_marginTop="5dp"
-                        android:text="@string/Description"
+                        android:text="@string/prop_title_description"
                         android:textColor="#999999"
                         android:textSize="18sp" />
 
@@ -333,7 +333,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_below="@+id/oeuvre_mots_cles_separator"
                         android:layout_marginTop="5dp"
-                        android:text="@string/Mots_cles"
+                        android:text="@string/prop_title_mots_cles"
                         android:textColor="#999999"
                         android:textSize="18sp" />
 
@@ -372,7 +372,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_below="@+id/oeuvre_contexte_separator"
                         android:layout_marginTop="5dp"
-                        android:text="@string/Contexte"
+                        android:text="@string/prop_title_contexte"
                         android:textColor="#999999"
                         android:textSize="18sp" />
 
@@ -411,7 +411,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_marginTop="5dp"
-                        android:text="@string/Mouvement"
+                        android:text="@string/prop_title_mouvement"
                         android:textColor="#999999"
                         android:textSize="18sp" />
 
@@ -465,7 +465,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:text="@string/Nom_du_site"
+                        android:text="@string/prop_title_site_nom"
                         android:textColor="#999999"
                         android:textSize="18sp" />
 
@@ -493,7 +493,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:text="@string/ville"
+                        android:text="@string/prop_title_ville"
                         android:textColor="#999999"
                         android:textSize="18sp" />
 
@@ -521,7 +521,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:text="@string/Region"
+                        android:text="@string/prop_title_region"
                         android:textColor="#999999"
                         android:textSize="18sp" />
 
@@ -549,7 +549,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:text="@string/Pays"
+                        android:text="@string/prop_title_pays"
                         android:textColor="#999999"
                         android:textSize="18sp" />
 
@@ -585,7 +585,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_below="@+id/site_site_detailsite_separator"
                         android:layout_marginTop="5dp"
-                        android:text="@string/Detail_site"
+                        android:text="@string/prop_title_site_detail"
                         android:textColor="#999999"
                         android:textSize="18sp" />
 
@@ -623,7 +623,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_below="@+id/site_pmr_separator"
                         android:layout_marginTop="5dp"
-                        android:text="@string/accessibilite_pmr"
+                        android:text="@string/prop_title_pmr"
                         android:textColor="#999999"
                         android:textSize="18sp" />
 

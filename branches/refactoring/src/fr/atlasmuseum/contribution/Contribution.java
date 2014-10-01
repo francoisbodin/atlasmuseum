@@ -29,7 +29,7 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.search.JsonRawData;
+import fr.atlasmuseum.data.JsonRawData;
 import fr.atlasmuseum.search.SearchActivity;
 
 @SuppressLint("SimpleDateFormat") public class Contribution implements Serializable {
@@ -121,7 +121,7 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* jsonField */ "url",
 				/* title */ 0,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
@@ -134,7 +134,7 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* jsonField */ "creditphoto",
 				/* title */ 0,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
@@ -147,7 +147,7 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* jsonField */ "image_principale",
 				/* title */ 0,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
@@ -158,9 +158,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put(TITRE, new ContributionProperty(
 				/* dbField */ TITRE,
 				/* jsonField */ "titre",
-				/* title */ R.string.Titre,
+				/* title */ R.string.prop_title_titre,
 				/* value */ "",
-				/* defaultValue */ "Pas de titre", // TODO : resourcify
+				/* defaultValue */ R.string.prop_default_titre,
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
@@ -171,9 +171,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put(ARTISTE, new ContributionProperty(
 				/* dbField */ ARTISTE,
 				/* jsonField */ "artiste",
-				/* title */ R.string.Artiste,
+				/* title */ R.string.prop_title_artiste,
 				/* value */ "",
-				/* defaultValue */ "Unknown", // TODO : resourcify
+				/* defaultValue */ R.string.prop_default_artiste,
 				/* info */ 0, // TODO: ajouter les infos
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
@@ -184,9 +184,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put(COULEUR, new ContributionProperty(
 				/* dbField */ COULEUR,
 				/* jsonField */ "couleur",
-				/* title */ R.string.Couleurs,
+				/* title */ R.string.prop_title_couleurs,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.check,
 				/* choices */ JsonRawData.listeCouleurs,
@@ -197,10 +197,10 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put( DATE_INAUGURATION, new ContributionProperty(
 				/* dbField */ DATE_INAUGURATION,
 				/* jsonField */ "inauguration",
-				/* title */ R.string.Date,
+				/* title */ R.string.prop_title_date,
 				/* value */ "",
-				/* defaultValue */ "",
-				/* info */ R.string.contrib_date_infos,
+				/* defaultValue */ 0,
+				/* info */ R.string.prop_info_date,
 				/* type */ ContributionProperty.ContribType.date,
 				/* choices */ null,
 				/* showViewText */ R.id.notice_annee,
@@ -210,9 +210,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put(DESCRIPTION, new ContributionProperty(
 				/* dbField */ DESCRIPTION,
 				/* jsonField */ "description",
-				/* title */ R.string.Description,
+				/* title */ R.string.prop_title_description,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
@@ -223,9 +223,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put( MATERIAUX, new ContributionProperty(
 				/* dbField */ MATERIAUX,
 				/* jsonField */ "materiaux",
-				/* title */ R.string.Materiaux,
+				/* title */ R.string.prop_title_materiaux,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.check,
 				/* choices */ JsonRawData.listeMateriaux,
@@ -236,9 +236,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put( NOM_SITE, new ContributionProperty(
 				/* dbField */ NOM_SITE,
 				/* jsonField */ "Sitenom",
-				/* title */ R.string.Nom_du_site,
+				/* title */ R.string.prop_title_site_nom,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0, // TODO: ajouter les infos
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
@@ -249,9 +249,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put( DETAIL_SITE, new ContributionProperty(
 				/* dbField */ DETAIL_SITE,
 				/* jsonField */ "Sitedetails",
-				/* title */ R.string.Detail_site,
+				/* title */ R.string.prop_title_site_detail,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0, // TODO: ajouter les infos
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
@@ -262,9 +262,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put( NATURE, new ContributionProperty(
 				/* dbField */ NATURE,
 				/* jsonField */ "nature",
-				/* title */ R.string.Nature,
+				/* title */ R.string.prop_title_nature,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.radio,
 				/* choices */ JsonRawData.listeNatures,
@@ -275,9 +275,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put( LATITUDE, new ContributionProperty(
 				/* dbField */ LATITUDE,
 				/* jsonField */ "latitude",
-				/* title */ R.string.Latitude,
+				/* title */ R.string.prop_title_latitude,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
@@ -288,9 +288,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put( LONGITUDE, new ContributionProperty(
 				/* dbField */ LONGITUDE,
 				/* jsonField */ "longitude",
-				/* title */ R.string.Longitude,
+				/* title */ R.string.prop_title_longitude,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
@@ -301,9 +301,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put( AUTRE, new ContributionProperty(
 				/* dbField */ AUTRE,
 				/* jsonField */ "autre",
-				/* title */ R.string.Autres_infos,
+				/* title */ R.string.prop_title_infos,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0, // TODO: ajouter les infos
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
@@ -314,9 +314,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put( ETAT, new ContributionProperty(
 				/* dbField */ ETAT,
 				/* jsonField */ "precision_etat_conservation",
-				/* title */ R.string.Etat_de_conservation,
+				/* title */ R.string.prop_title_etat,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.radio,
 				/* choices */ JsonRawData.listePrecision_etat_conservation,
@@ -327,9 +327,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put( PETAT, new ContributionProperty(
 				/* dbField */ PETAT,
 				/* jsonField */ "autre_precision_etat_conservation",
-				/* title */ R.string.Precision_sur_l_etat_de_conservation,
+				/* title */ R.string.prop_title_etat_precision,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.check,
 				/* choices */ JsonRawData.listeAutre_precision_etat_conservation,
@@ -340,9 +340,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put( PMR, new ContributionProperty(
 				/* dbField */ PMR,
 				/* jsonField */ "",
-				/* title */ R.string.accessibilite_pmr,
+				/* title */ R.string.prop_title_pmr,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0, // TODO: ajouter les infos
 				/* type */ ContributionProperty.ContribType.radio,
 				/* choices */ JsonRawData.listePmr,
@@ -353,9 +353,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put( MOT_CLE, new ContributionProperty(
 				/* dbField */ MOT_CLE,
 				/* jsonField */ "mot_cle",
-				/* title */ R.string.Mots_cles,
+				/* title */ R.string.prop_title_mots_cles,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
@@ -366,9 +366,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put( CONTEXTE_PRODUCTION, new ContributionProperty(
 				/* dbField */ CONTEXTE_PRODUCTION,
 				/* jsonField */ "contexte_production",
-				/* title */ R.string.Contexte,
+				/* title */ R.string.prop_title_contexte,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
@@ -379,9 +379,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put( VILLE, new ContributionProperty(
 				/* dbField */ VILLE,
 				/* jsonField */ "Siteville",
-				/* title */ R.string.ville,
+				/* title */ R.string.prop_title_ville,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
@@ -392,9 +392,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put( REGION, new ContributionProperty(
 				/* dbField */ REGION,
 				/* jsonField */ "Siteregion",
-				/* title */ R.string.Region,
+				/* title */ R.string.prop_title_region,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
@@ -405,9 +405,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put( PAYS, new ContributionProperty(
 				/* dbField */ PAYS,
 				/* jsonField */ "Sitepays",
-				/* title */ R.string.Pays,
+				/* title */ R.string.prop_title_pays,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
@@ -418,9 +418,9 @@ import fr.atlasmuseum.search.SearchActivity;
 		mProperties.put( MOUVEMENT, new ContributionProperty(
 				/* dbField */ MOUVEMENT,
 				/* jsonField */ "mouvement_artistes",
-				/* title */ R.string.Mouvement,
+				/* title */ R.string.prop_title_mouvement,
 				/* value */ "",
-				/* defaultValue */ "",
+				/* defaultValue */ 0,
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
@@ -777,11 +777,13 @@ import fr.atlasmuseum.search.SearchActivity;
 	 * */
 	class PictureDownloader extends AsyncTask<String, String, String> {
 	 
+		@SuppressWarnings("unused")
+		private static final String DEBUG_TAG = "AtlasMuseum/Contribution.PictureDownloader";
+
 		private Context mContext;
 		private ContributionModificationListener mListener;
 		private ProgressDialog mProgress;
-		//private static final String DEBUG_TAG = "AtlasMuseum/Contribution.PictureDownloader";
-
+		
 		PictureDownloader(Context context) {
 			mContext = context;
 			
@@ -803,7 +805,7 @@ import fr.atlasmuseum.search.SearchActivity;
 	    protected void onPreExecute() {
 	        super.onPreExecute();
 			mProgress = new ProgressDialog(mContext);
-			mProgress.setMessage(mContext.getResources().getString(R.string.uploading));
+			mProgress.setMessage(mContext.getResources().getString(R.string.contribution_uploading));
 			mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			mProgress.setCancelable(true);
 			mProgress.setIndeterminate(false);
@@ -818,9 +820,9 @@ import fr.atlasmuseum.search.SearchActivity;
 	    protected String doInBackground(String... args) {
 	        int count;
 	        try {
-	        	URL url = new URL(mContext.getString(R.string.images_url) + args[0]);
+	        	URL url = new URL(mContext.getString(R.string.contribution_url_images) + args[0]);
 	        	File outputFile = new File(Contribution.getPhotoDir(), args[0]);
-	    	            
+	    	    
 	            URLConnection conection = url.openConnection();
 	            conection.connect();
 	            // getting file length
