@@ -1,4 +1,4 @@
-package fr.atlasmuseum.contribution;
+package fr.atlasmuseum.helper;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

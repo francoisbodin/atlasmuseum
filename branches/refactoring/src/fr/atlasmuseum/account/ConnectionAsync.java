@@ -7,8 +7,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.contribution.HttpJson;
 import fr.atlasmuseum.helper.AtlasError;
+import fr.atlasmuseum.helper.HttpJson;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
