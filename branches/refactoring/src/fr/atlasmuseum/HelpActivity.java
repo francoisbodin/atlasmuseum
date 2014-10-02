@@ -14,7 +14,7 @@ public class HelpActivity extends Activity{
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.help_layout);
+        setContentView(R.layout.help_activity);
         
 		Log.d(DEBUG_TAG, "onCreate()");
 

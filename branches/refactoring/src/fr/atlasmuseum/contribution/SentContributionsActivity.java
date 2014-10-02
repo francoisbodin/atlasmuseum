@@ -17,12 +17,12 @@ public class SentContributionsActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.news_activity);
+		setContentView(R.layout.sent_contributions_activity);
 		
 		SharedPreferences prefs = getSharedPreferences(ConnectionActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE);
 		String username = prefs.getString(ConnectionActivity.PREF_KEY_USERNAME, "");
 		
-		WebView webView = (WebView) findViewById(R.id.webview);
+		WebView webView = (WebView) findViewById(R.id.webview_sent);
 		webView.loadUrl("http://atlasmuseum.irisa.fr/scripts/listContribUser.php?id_user="+username);
 		Log.d(DEBUG_TAG, "webview starts... ");
 		

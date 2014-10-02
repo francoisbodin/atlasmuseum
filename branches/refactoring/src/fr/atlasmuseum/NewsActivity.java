@@ -17,7 +17,7 @@ public class NewsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.news_activity);
 
-		WebView webView = (WebView) findViewById(R.id.webview);
+		WebView webView = (WebView) findViewById(R.id.webview_help);
 		webView.loadUrl("http://atlasmuseum.irisa.fr/scripts/actu.html");
 
 		ActionBar actionBar = getActionBar();
