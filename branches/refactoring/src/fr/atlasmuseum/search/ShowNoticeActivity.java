@@ -43,7 +43,7 @@ public class ShowNoticeActivity extends Activity
 	ImageView mViewPicture;
 	RelativeLayout mButtonLoadPicture;
 	
-	private int REQUEST_CONTRIB=12345874;
+	private int REQUEST_CONTRIB = 12345874;
 	
 	TextView creditphoto;
 	
@@ -113,18 +113,20 @@ public class ShowNoticeActivity extends Activity
 	        }
     	});
     	
-    	
     	ImageView buttonMap = (ImageView) findViewById(R.id.littlemapbutton);
     	buttonMap.setOnClickListener(new OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-	        	Bundle extra = new Bundle();
-	    		Intent intent = new Intent(getApplication(), MapActivity.class);
-	    		extra.putInt("0",mDbIndex);
-	    		extra.putInt(SearchActivity.NB_ENTRIES,1);
-	    		extra.putInt(SearchActivity.MAP_FOCUS_NOTICE,1);
-	    		intent.putExtras(extra);
-	    		startActivity(intent);
+	    		String label = mContribution.getProperty(Contribution.TITRE).getValue();
+	    		String latitude = mContribution.getProperty(Contribution.LATITUDE).getValue();
+				String longitude = mContribution.getProperty(Contribution.LONGITUDE).getValue();
+	    		String uriBegin = "geo:"+latitude+","+longitude;
+	    		String query = latitude+","+longitude+"(" + label + ")";
+	    		String encodedQuery = Uri.encode( query  );
+	    		String uriString = uriBegin + "?q=" + encodedQuery;
+	    		Uri uri = Uri.parse( uriString );
+	    		Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri );
+	    		startActivity( intent );
 	        }
     	});
     	
@@ -203,7 +205,7 @@ public class ShowNoticeActivity extends Activity
 			String latitude = mContribution.getProperty(Contribution.LATITUDE).getValue();
 			String longitude = mContribution.getProperty(Contribution.LONGITUDE).getValue();
 			Intent intent = new Intent(android.content.Intent.ACTION_VIEW, 
-				    Uri.parse("http://maps.google.com/maps?daddr="+latitude+","+longitude));
+				                       Uri.parse("http://maps.google.com/maps?daddr="+latitude+","+longitude));
 			startActivity(intent);
 			return true;
 		}
