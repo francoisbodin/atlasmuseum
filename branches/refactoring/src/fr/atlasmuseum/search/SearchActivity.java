@@ -100,28 +100,28 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 				case 0:
 					getActionBar().setSelectedNavigationItem(0);
 					genereBundle(bundle, "tous");
-					intent = new Intent(getApplication(), SearchAutoCompleteActivity.class);
+					intent = new Intent(SearchActivity.this, SearchAutoCompleteActivity.class);
 					break;
 
 				case 1:
 					getActionBar().setSelectedNavigationItem(0);
-					intent = new Intent(getApplication(), SearchUsingDate.class);
+					intent = new Intent(SearchActivity.this, SearchByDateActivity.class);
 					break;
 
 				case 2:
 					bundle.putString(SearchActivity.CHAMPS_ITEM, "artiste");
 					genereBundle(bundle, "artiste");
-					intent = new Intent(getApplication(), ListActivity.class);
+					intent = new Intent(SearchActivity.this, ListActivity.class);
 					break;
 				case 3:
 					bundle.putString(SearchActivity.CHAMPS_ITEM, "Siteville");
 					genereBundle(bundle, "Siteville");
-					intent = new Intent(getApplication(), ListActivity.class);
+					intent = new Intent(SearchActivity.this, ListActivity.class);
 					break;
 				case 4:
 					bundle.putString(SearchActivity.CHAMPS_ITEM, "Sitepays");
 					genereBundle(bundle, "Sitepays");
-					intent = new Intent(getApplication(), ListActivity.class);
+					intent = new Intent(SearchActivity.this, ListActivity.class);
 					break;
 				}
 				intent.putExtras(bundle);

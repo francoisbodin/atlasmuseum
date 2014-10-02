@@ -543,7 +543,7 @@ public class EditContributionActivity extends Activity implements ContributionSe
 		alertDialogBuilder.setMessage(getResources().getString(R.string.edit_contribution_update_location));
 		alertDialogBuilder.setCancelable(false);
 		alertDialogBuilder.setPositiveButton(
-				getResources().getString(R.string.update),
+				getResources().getString(R.string.Update),
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						if (AtlasmuseumActivity.mLastLocation == null) {

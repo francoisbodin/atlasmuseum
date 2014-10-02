@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/save"
+            android:text="@string/Save"
             android:textSize="18dp" />
 
         <Button
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/update"
+            android:text="@string/Update"
             android:textSize="18dp" />
     </LinearLayout>
   

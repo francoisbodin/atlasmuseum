@@ -5,8 +5,9 @@
   <!-- Common strings -->
      <string name="Yes">Oui</string>
      <string name="No">Non</string>
-     <string name="update">Mise à jour</string>
-     <string name="save">Sauvegarder</string>
+     <string name="Update">Mise à jour</string>
+     <string name="Save">Sauvegarder</string>
+     <string name="Search">Rechercher</string>
      
   <!-- Settings strings -->
     <string name="action_settings">Paramètres</string>
@@ -85,6 +86,15 @@
     <string name="search_by_title">Rechercher par titre</string>
     <string name="search_by_artist">Rechercher par artiste</string>
     <string name="search_by_place">Rechercher par lieu</string>
+    
+  <!-- Search By Date search -->
+    <string name="search_by_date">Rechercher par date</string>
+    <string name="search_check_date_format">Vérifiez les dates que vous avez entrées</string>
+    <string name="search_by_date_info">Indiquez seulement l\'année. Par exemple : 2009</string>
+    <string name="search_by_date_title">Selectionnez une période</string>
+    <string name="search_by_date_from">De</string>
+    <string name="search_by_date_until">à</string>
+    
     
     
     <string name="title_search">RECHERCHER DES ŒUVRES</string><!--  ALT+0140 -->
@@ -237,12 +247,6 @@
       <string name="tous">Tous</string> <!--criteres de recherche  -->
        <string name="title_autour_de_moi">Autour de moi</string>
       
-     <!-- Date search -->
-     <string name="select_periode">Selectionnez une période</string>
-     <string name="from">De</string>
-     <string name="recherche_par_date">Rechercher par date</string>
-     <string name="until">à</string>
-      <string name="date_txt">Indiquez seulement l\'année. Par exemple : 2009</string>
      
       <!-- Vues dans la listModif contribution -->
      

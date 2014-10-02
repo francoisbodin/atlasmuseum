@@ -139,7 +139,7 @@
              android:label="@string/app_name" >
             </activity>
             <activity
-            android:name="fr.atlasmuseum.search.SearchUsingDate"
+            android:name="fr.atlasmuseum.search.SearchByDateActivity"
              android:label="@string/app_name" >
             </activity>
              <activity
