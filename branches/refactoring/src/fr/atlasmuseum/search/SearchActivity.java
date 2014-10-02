@@ -83,7 +83,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 		}
 		
 		ArrayList<String> selectionStringList = new ArrayList<String>();
-		selectionStringList.add(getResources().getString(R.string.recherche_titre_artiste_lieux));//0
+		selectionStringList.add(getResources().getString(R.string.search_all));//0
 		selectionStringList.add(getResources().getString(R.string.recherche_date));//1
 		selectionStringList.add(getResources().getString(R.string.liste_artistes));//2
 		selectionStringList.add(getResources().getString(R.string.liste_villes));//3
@@ -99,9 +99,8 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 				switch(position) {
 				case 0:
 					getActionBar().setSelectedNavigationItem(0);
-					bundle.putString(SearchActivity.CHAMPS_ITEM, "tous");
 					genereBundle(bundle, "tous");
-					intent = new Intent(getApplication(), SearchAuto.class);
+					intent = new Intent(getApplication(), SearchAutoCompleteActivity.class);
 					break;
 
 				case 1:

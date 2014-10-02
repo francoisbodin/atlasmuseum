@@ -80,6 +80,12 @@
     <string name="edit_contribution_not_modified">Veuillez compléter au moins un champ pour contribuer</string>
     <string name="edit_contribution_update_location">Mettre à jour la localisation de l\'œuvre</string>
  
+  <!-- Search strings -->
+    <string name="search_all">Rechercher par artiste, titre, lieu</string> 
+    <string name="search_by_title">Rechercher par titre</string>
+    <string name="search_by_artist">Rechercher par artiste</string>
+    <string name="search_by_place">Rechercher par lieu</string>
+    
     
     <string name="title_search">RECHERCHER DES ŒUVRES</string><!--  ALT+0140 -->
     <string name="title_list">ŒUVRES TROUVEES</string>
@@ -223,15 +229,11 @@
      <string name="date">Date</string> <!-- searchActivity - Date -->
      <string name="materiaux">Matériaux</string> <!-- searchActivity - Matériaux -->
      <string name="couleurs">Couleurs</string> <!-- searchActivity - Couleurs -->
-     <string name="recherche_titre_artiste_lieux">Rechercher par artiste, titre, lieu</string> <!--criteres de recherche  -->
      <string name="titre">Titre</string> <!--criteres de recherche  -->
      
      <string name="liste_villes">Liste des villes</string> <!--criteres de recherche  -->
   	<string name="liste_pays">Liste des pays</string> <!--criteres de recherche  -->
   <string name="recherche_date">Rechercher par date</string> <!--criteres de recherche  -->
-  <string name="rechercher_par_titre">Rechercher par titre</string> <!--criteres de recherche  -->
-   <string name="rechercher_par_artiste">Rechercher par artiste</string> <!--criteres de recherche  -->
-   <string name="rechercher_par_lieux">Rechercher par lieu</string> <!--criteres de recherche  -->
       <string name="tous">Tous</string> <!--criteres de recherche  -->
        <string name="title_autour_de_moi">Autour de moi</string>
       
