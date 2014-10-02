@@ -99,7 +99,6 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 				switch(position) {
 				case 0:
 					getActionBar().setSelectedNavigationItem(0);
-					genereBundle(bundle, "tous");
 					intent = new Intent(SearchActivity.this, SearchAutoCompleteActivity.class);
 					break;
 
@@ -110,18 +109,15 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 
 				case 2:
 					bundle.putString(SearchActivity.CHAMPS_ITEM, "artiste");
-					genereBundle(bundle, "artiste");
-					intent = new Intent(SearchActivity.this, ListActivity.class);
+					intent = new Intent(SearchActivity.this, SearchListActivity.class);
 					break;
 				case 3:
 					bundle.putString(SearchActivity.CHAMPS_ITEM, "Siteville");
-					genereBundle(bundle, "Siteville");
-					intent = new Intent(SearchActivity.this, ListActivity.class);
+					intent = new Intent(SearchActivity.this, SearchListActivity.class);
 					break;
 				case 4:
 					bundle.putString(SearchActivity.CHAMPS_ITEM, "Sitepays");
-					genereBundle(bundle, "Sitepays");
-					intent = new Intent(SearchActivity.this, ListActivity.class);
+					intent = new Intent(SearchActivity.this, SearchListActivity.class);
 					break;
 				}
 				intent.putExtras(bundle);
@@ -136,33 +132,6 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 		super.onDestroy();
 	}	
 
-	private void genereBundle(Bundle extra, String champs){
-		int i,j;
-		int nbEntries = 0;
-		boolean found = false;
-		List<String> valueStringList = new ArrayList<String>();;
-		for (i = 0 ; i < db.nbentries ; i++) {	
-			String valuechamps = extractDataFromDb(i,champs);
-			if (valuechamps != null) {
-				valuechamps = valuechamps.trim();
-				found = false;
-				for (j = 0 ; j < nbEntries && (found == false) ; j++)//nbEntries est le nombre d'elt qu'on a deja trouvé
-				{
-					if ((valuechamps != null)  && (valuechamps.equals(valueStringList.get(j))) ) {
-						found = true;
-					}
-				}
-				if ((found == false) && (valuechamps != null)) {
-					valueStringList.add(valuechamps);
-					extra.putInt(Integer.toString(j),i); 
-					nbEntries++;
-				}
-			}
-		}
-
-		extra.putInt(SearchActivity.NB_ENTRIES,nbEntries);
-	}
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int itemId = item.getItemId();
@@ -173,16 +142,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 			return true;
 		}
 		else return false;
-
 	}
-
-
-	@Override
-	public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
-		// Do Nothing
-
-	}
-
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction arg1) {
@@ -209,6 +169,10 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 		}
 	}
 
+	@Override
+	public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
+		// Do Nothing
+	}
 
 	@Override
 	public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {

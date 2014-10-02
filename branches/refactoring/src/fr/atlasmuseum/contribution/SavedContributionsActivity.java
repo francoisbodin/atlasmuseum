@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.account.ConnectionActivity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -43,8 +42,7 @@ public class SavedContributionsActivity extends Activity {
 	SavedContributionAdapter mAdapterNew;
 	SavedContributionAdapter mAdapterModif;
 
-	public void onCreate(Bundle savedInstanceState)
-    {
+	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_saved_contributions);
@@ -88,8 +86,7 @@ public class SavedContributionsActivity extends Activity {
 		mListViewModif.setAdapter(mAdapterModif);
 		mListViewModif.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id)
-			{
+			public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
 				Contribution contribution = (Contribution) mAdapterModif.getItem(position);
 				Bundle bundle = new Bundle();
 				bundle.putSerializable("contribution", contribution);
