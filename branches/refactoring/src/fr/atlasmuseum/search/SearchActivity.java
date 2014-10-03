@@ -3,8 +3,6 @@ package fr.atlasmuseum.search;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,7 +44,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
-		setContentView(R.layout.rechercher);
+		setContentView(R.layout.simple_list_layout);
 
 		Log.d(DEBUG_TAG, "onCreate");
 		
@@ -152,7 +150,7 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 			break;
 		case 1:	//autour de moi
 			getActionBar().setSelectedNavigationItem(0);
-			intent = new Intent(this, SearchAutourList.class);
+			intent = new Intent(this, SearchAroundActivity.class);
 			startActivity(intent);
 			break;
 		case 2: //map
@@ -213,16 +211,14 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 
 	//utiliser dans LoadingPhotoAsync
 	public static File checkIfImageFileExists(String filename) throws IOException {
-		File albumF = getAlbumDir();
-		File imageF = new File(albumF.getAbsolutePath() + "/" + filename);
+		File imageF = new File(getAlbumDir(), filename);
 		if (imageF.exists()) return imageF;
 		else return null;
 	}
 
 	//utiliser dans LoadingPhotoAsync
 	public static File checkIfPhotoFileExists(String filename) throws IOException {
-		File albumF = getAlbumDir();
-		File imageF = new File(albumF.getAbsolutePath() + "/" + filename);
+		File imageF = new File(getAlbumDir(), filename);
 		if (imageF.exists()) return imageF;
 		else return null;
 	}

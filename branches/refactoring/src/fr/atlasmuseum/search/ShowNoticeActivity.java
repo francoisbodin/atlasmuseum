@@ -9,6 +9,7 @@ import fr.atlasmuseum.contribution.Contribution;
 import fr.atlasmuseum.contribution.ContributionProperty;
 import fr.atlasmuseum.contribution.ContributionRestoreDialogFragment;
 import fr.atlasmuseum.contribution.EditContributionActivity;
+import fr.atlasmuseum.helper.PictureDownloader.PictureDownloaderListener;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -33,7 +34,7 @@ import android.widget.Toast;
 
 public class ShowNoticeActivity extends Activity
                                 implements ContributionRestoreDialogFragment.ContributionRestoreDialogListener,
-                                           Contribution.ContributionModificationListener {
+                                           PictureDownloaderListener {
 
 	private static final String DEBUG_TAG = "AtlasMuseum/ShowNoticeActivity";
 	public static final String ARG_FRAGMENT = "IDFragment";
@@ -270,7 +271,9 @@ public class ShowNoticeActivity extends Activity
 	}
 	
 	@Override
-	public void onPictureModified() {
+	public void onPictureDownloaded(String filename) {
+    	ContributionProperty property = mContribution.getProperty(Contribution.PHOTO);
+    	property.resetValue(filename);
 		updatePictureView();
 	}
 	

@@ -1,44 +1,35 @@
 package fr.atlasmuseum.contribution;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.StreamCorruptedException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import org.jdom2.Attribute;
 import org.jdom2.Element;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.data.JsonRawData;
+import fr.atlasmuseum.helper.PictureDownloader;
 import fr.atlasmuseum.search.SearchActivity;
 
 @SuppressLint("SimpleDateFormat") public class Contribution implements Serializable {
 
-    public interface ContributionModificationListener {
-        public void onPictureModified();
-    }
-
-	private static final long serialVersionUID = 7388740279075848884L;
+	private static final long serialVersionUID = 5484011696084997686L;
 
 	private static final String DEBUG_TAG = "AtlasMuseum/Contribution2";
 	
@@ -94,6 +85,7 @@ import fr.atlasmuseum.search.SearchActivity;
 	public static final String PAYS = "Sitepays";
 	public static final String MOUVEMENT = "mouvement_artistes";
 
+	int mDbId;
 	int mNoticeId;
 	String mLocalId;
 	String mLogin;
@@ -102,10 +94,12 @@ import fr.atlasmuseum.search.SearchActivity;
 	String mTime;
 	String mStatus;
 	String mSavedFilename;
+	int mDistance;
 	
 	HashMap<String,ContributionProperty> mProperties;
 	
 	public Contribution() {
+		mDbId = 0;
 		mNoticeId = 0;
 		mLocalId = "";
 		mLogin = "";
@@ -114,6 +108,7 @@ import fr.atlasmuseum.search.SearchActivity;
 		mTime = "";
 		mStatus = "";
 		mSavedFilename = "";
+		mDistance = -1;
 		mProperties = new HashMap<String, ContributionProperty>();
 		
 		mProperties.put( URL, new ContributionProperty(
@@ -203,8 +198,8 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* info */ R.string.prop_info_date,
 				/* type */ ContributionProperty.ContribType.date,
 				/* choices */ null,
-				/* showViewText */ R.id.notice_annee,
-				/* showViewToHide */ R.id.notice_annee,
+				/* showViewText */ R.id.text_year,
+				/* showViewToHide */ R.id.text_year,
 				/* dumpInXML */ true) );
 		
 		mProperties.put(DESCRIPTION, new ContributionProperty(
@@ -431,11 +426,19 @@ import fr.atlasmuseum.search.SearchActivity;
 	}
 
 	public void updateFromDb(int index) {
-		mNoticeId = Integer.parseInt(SearchActivity.extractDataFromDb(index,NOTICE_ID));
+		mDbId = index;
+		mNoticeId = Integer.parseInt(SearchActivity.extractDataFromDb(mDbId,NOTICE_ID));
 
 		for (ContributionProperty value : mProperties.values()) {
 		    value.updateFromDb(index);
 		}
+	}
+	
+	public int getDbId() {
+		return mDbId;
+	}
+	public void setDbId(int id) {
+		mDbId = id;
 	}
 	
 	public int getNoticeId() {
@@ -488,6 +491,13 @@ import fr.atlasmuseum.search.SearchActivity;
 	}
 	public void setSavedFilename(String savedFilename) {
 		mSavedFilename = savedFilename;
+	}
+	
+	public int getDistance() {
+		return mDistance;
+	}
+	public void setDistance(int distance) {
+		mDistance = distance;
 	}
 	
 
@@ -682,6 +692,31 @@ import fr.atlasmuseum.search.SearchActivity;
     	new PictureDownloader(context).execute(filename);
 	}
 	
+	public void loadThumb( Context context ) {
+		ContributionProperty property = getProperty(Contribution.PHOTO);
+    	String filename = property.getValue();
+    	if( filename.equals("") ) {
+    		// No picture in this notice
+    		return;
+    	}
+    	
+    	String thumbFilename;
+    	File file = new File(filename);
+    	if( file.isAbsolute() ) {
+    		// Picture already downloaded, get the name
+    		File thumbFile = new File( file.getParentFile(), "thumb_"+file.getName());
+    		if( thumbFile.exists() ) {
+    			return;
+    		}
+    		thumbFilename = thumbFile.getName();
+    	}
+    	else {
+    		thumbFilename = "thumb_"+filename;
+    	}
+    	
+    	new PictureDownloader(context).execute(thumbFilename);
+	}
+
 	/////////////////////////////
 	// Static helper functions //
 	/////////////////////////////
@@ -767,125 +802,25 @@ import fr.atlasmuseum.search.SearchActivity;
 		return contribution;
 	}
 	
-	
-	
-	
-	
-	
-	/**
-	 * Background Async Task to download file
-	 * */
-	class PictureDownloader extends AsyncTask<String, String, String> {
-	 
-		@SuppressWarnings("unused")
-		private static final String DEBUG_TAG = "AtlasMuseum/Contribution.PictureDownloader";
+	public static Comparator<Contribution> DistanceComparator = new Comparator<Contribution>() {
+	    public int compare(Contribution contrib1, Contribution contrib2) {
+			return (int) (contrib1.getDistance() - contrib2.getDistance());
+	    }
+	};
 
-		private Context mContext;
-		private ContributionModificationListener mListener;
-		private ProgressDialog mProgress;
-		
-		PictureDownloader(Context context) {
-			mContext = context;
-			
-	        try {
-	            // Instantiate the ContributionModificationListener so we can send events to the host
-	        	mListener = (ContributionModificationListener) context;
-	        } catch (ClassCastException e) {
-	            // The activity doesn't implement the interface, throw exception
-	            throw new ClassCastException(context.toString() + " must implement ContributionModificationListener");
-	        }
+	public static Comparator<Contribution> DateComparator = new Comparator<Contribution>() {
+	    public int compare(Contribution contrib1, Contribution contrib2) {
+	    	int year1 = 0;
+	    	int year2 = 0;
+	    	try {
+	    		year1 = Integer.parseInt(contrib1.getProperty(Contribution.DATE_INAUGURATION).getValue());
+	    		year2 = Integer.parseInt(contrib2.getProperty(Contribution.DATE_INAUGURATION).getValue());
+	    	}
+	    	catch( NumberFormatException e ) {
+	    		return 0;
+	    	}
+	    	return year1 - year2;
+	    }
+	};
 
-		}
-		
-	    /**
-	     * Before starting background thread
-	     * Show Progress Bar Dialog
-	     * */
-	    @Override
-	    protected void onPreExecute() {
-	        super.onPreExecute();
-			mProgress = new ProgressDialog(mContext);
-			mProgress.setMessage(mContext.getResources().getString(R.string.contribution_uploading));
-			mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			mProgress.setCancelable(true);
-			mProgress.setIndeterminate(false);
-            mProgress.setMax(100);
-            mProgress.show();
-	    }
-	 
-	    /**
-	     * Downloading file in background thread
-	     * */
-	    @Override
-	    protected String doInBackground(String... args) {
-	        int count;
-	        try {
-	        	URL url = new URL(mContext.getString(R.string.contribution_url_images) + args[0]);
-	        	File outputFile = new File(Contribution.getPhotoDir(), args[0]);
-	    	    
-	            URLConnection conection = url.openConnection();
-	            conection.connect();
-	            // getting file length
-	            int lenghtOfFile = conection.getContentLength();
-	 
-	            // input stream to read file - with 8k buffer
-	            InputStream input = new BufferedInputStream(url.openStream(), 8192);
-	 
-	            // Output stream to write file
-	            OutputStream output = new FileOutputStream(outputFile.getAbsoluteFile());
-	 
-	            byte data[] = new byte[1024];
-	 
-	            long total = 0;
-	 
-	            while ((count = input.read(data)) != -1) {
-	                total += count;
-	                // publishing the progress....
-	                // After this onProgressUpdate will be called
-	                publishProgress(""+(int)((total*100)/lenghtOfFile));
-	 
-	                // writing data to file
-	                output.write(data, 0, count);
-	            }
-	 
-	            // flushing output
-	            output.flush();
-	 
-	            // closing streams
-	            output.close();
-	            input.close();
-	 
-	            return outputFile.getAbsolutePath();
-	        }
-	        catch (Exception e) {
-	            Log.e("Error: ", e.getMessage());
-	            return null;
-	        }
-	    }
-	 
-	    /**
-	     * Updating progress bar
-	     * */
-	    protected void onProgressUpdate(String... progress) {
-	        // setting progress percentage
-	        mProgress.setProgress(Integer.parseInt(progress[0]));
-	   }
-	 
-	    /**
-	     * After completing background task
-	     * Dismiss the progress dialog
-	     * **/
-	    @Override
-	    protected void onPostExecute(String filename) {
-        	ContributionProperty property = getProperty(Contribution.PHOTO);
-        	property.resetValue(filename);
-        	
-        	// Notify parent activity that the property has been modified
-        	mListener.onPictureModified();
-        	
-	    	mProgress.hide();
-			mProgress.cancel();
-	    }
-	 
-	}
 }

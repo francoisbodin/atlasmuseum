@@ -147,7 +147,7 @@
              android:label="@string/app_name" >
             </activity>
             <activity
-            android:name="fr.atlasmuseum.search.SearchAutourList"
+            android:name="fr.atlasmuseum.search.SearchAroundActivity"
              android:label="@string/app_name" >
             </activity>
             <activity

@@ -6,15 +6,12 @@ import java.util.List;
 
 
 import fr.atlasmuseum.R;
-import fr.atlasmuseum.search.module.NoticeAdapterWithDistance;
-import fr.atlasmuseum.search.module.NoticeCompar;
-import fr.atlasmuseum.search.module.NoticeOeuvre;
+import fr.atlasmuseum.contribution.Contribution;
+import fr.atlasmuseum.helper.PictureDownloader.PictureDownloaderListener;
+import fr.atlasmuseum.search.module.NoticeAdapter;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,102 +19,49 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class ResultActivity extends Activity implements loadPhotoInterface {
+public class ResultActivity extends Activity implements PictureDownloaderListener {
+	
 	private static final String DEBUG_TAG = "AtlasMuseum/ResultActivity";
 
 	private Bundle mBundle;
-	private ListView mListViewSelection;
+	private ListView mListView;
 	
-	NoticeAdapterWithDistance noticeAdapter;
+	NoticeAdapter mAdapter;
 	
-	public void onCreate(Bundle savedInstanceState)
-    {
+	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
-        setContentView(R.layout.search_result_list_layout);
+        setContentView(R.layout.simple_list_layout);
         Log.d(DEBUG_TAG, "onCreate()");
         
         mBundle = getIntent().getExtras();
         
-        ArrayList<NoticeCompar> compNoticeList = new ArrayList<NoticeCompar>();
+        List<Contribution> listNotice = new ArrayList<Contribution>();
         
-        Log.d(DEBUG_TAG+"/numberEntries", getNumberOfEntries()+" entries");
-        int j=0;
-		for (int idx = 0; idx < getNumberOfEntries(); idx++)
-		{
-			int idxloc = getEntryNumberForFragment(idx);
-			
-			String artiste  = SearchActivity.extractDataFromDb(idxloc,"artiste");
-			String nomOvreu  = SearchActivity.extractDataFromDb(idxloc,"titre");
-			String date = SearchActivity.extractDataFromDb(idxloc,"inauguration");
-			String photo = SearchActivity.extractDataFromDb(idxloc,"image_principale");
-			String lieux = SearchActivity.extractDataFromDb(idxloc,"Siteville");
-			String pays = SearchActivity.extractDataFromDb(idxloc,"Sitepays");
-			NoticeOeuvre notice = new NoticeOeuvre(nomOvreu, artiste,idxloc); //cr�� les notices
-			try
-			{
-				int annee = Integer.valueOf(date);
-				notice.setAnnee(annee);
-			}catch(Exception e) {notice.setAnnee(1000000);}
-			
-			notice.setPhoto(photo);
-			notice.setDistance(-1);
-			notice.setPays(pays);
-			notice.setVille(lieux);
-			//Log.d(DEBUG_TAG,"name ="+artiste);
-			if ((artiste!=null) && (nomOvreu !=null) && (nomOvreu !=null))
-			{
-				NoticeCompar n = new NoticeCompar(notice, j);
-				compNoticeList.add(n);
-				//listNotice.add(notice );//on ajoute la notice
-			}
-			//Toast.makeText(this, "+1 notice", Toast.LENGTH_SHORT);
-			
-			/**chargement de la liste photo
-			 * 
-			 */
-			/**try
-        	{
-            	File fimage = SearchActivity.checkIfImageFileExists("thumb_"+photo) ;
-    			if(fimage == null || !listPhoto.contains(photo))//l'image n'existe pas deja dans listphoto
-    			{
-    				listPhoto.add("thumb_"+photo);
-    				Log.d(DEBUG_TAG+"/ajoutPhotoToLoad", photo);
-    			}
-        	}
-        	catch(Exception e){}**/
-			j++;
+        for (int idx = 0; idx < getNumberOfEntries() ; idx++ ) {
+			int idxloc = mBundle.getInt(Integer.toString(idx));
+			Contribution contribution = new Contribution();
+			contribution.updateFromDb(idxloc);
+			listNotice.add(contribution);
 		}
-		Collections.sort(compNoticeList, NoticeCompar.NoticeDateComparator);
-		List<NoticeOeuvre> listNotice = new ArrayList<NoticeOeuvre>();
-        for(int i=0;i< compNoticeList.size();i++)
-		{
-			listNotice.add(compNoticeList.get(i).getOeuvre());
-		}
-		//NoticeAdapter noticeAdapter = new NoticeAdapter(this, listNotice);
-		noticeAdapter = new NoticeAdapterWithDistance(this, listNotice);
+		Collections.sort(listNotice, Contribution.DateComparator);
 
-        mListViewSelection = (ListView) findViewById(R.id.list_view);
-        mListViewSelection.setAdapter(noticeAdapter);
-		
-		mListViewSelection.setAdapter(noticeAdapter);
-		//Enfin on met un �couteur d'�v�nement sur notre listView
-		mListViewSelection.setOnItemClickListener(new OnItemClickListener() {
+		mAdapter = new NoticeAdapter(this, listNotice);
+
+        mListView = (ListView) findViewById(R.id.list_view);
+        mListView.setAdapter(mAdapter);
+		mListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
          	public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-				//on r�cup�re la HashMap contenant les infos de notre item (titre, description, img)
-				//lvSelection.getItemAtPosition(position).getClass();
-        		//Log.d(DEBUG_TAG, "class ="+mListViewSelection.getItemAtPosition(position).getClass());
-        		/**NoticeOeuvre noticeSelected = (NoticeOeuvre) lvSelection.getItemAtPosition(position);
-        		int idfrag = noticeSelected.getId();
-				bundle.putInt(ShowNoticeActivity.ARG_FRAGMENT,idfrag );//idfrag, c'est l'id dans la BDD
-    			Intent intent = new Intent(getApplication(), ShowNoticeActivity.class);
+				Contribution contribution = (Contribution) mListView.getItemAtPosition(position);
+				Bundle bundle = new Bundle();
+				bundle.putInt(ShowNoticeActivity.ARG_FRAGMENT, contribution.getDbId() );
+    			Intent intent = new Intent(ResultActivity.this, ShowNoticeActivity.class);
     			intent.putExtras(bundle);
-    			startActivity(intent);**/
+    			startActivity(intent);
     			
         	}
          });
@@ -143,7 +87,7 @@ public class ResultActivity extends Activity implements loadPhotoInterface {
 		}
 		
 		if(itemId == R.id.action_map) {
-			Intent intent = new Intent(getApplication(),MapActivity.class);
+			Intent intent = new Intent(ResultActivity.this,MapActivity.class);
 			if (getNumberOfEntries() == 1) {
 				mBundle.putInt(SearchActivity.MAP_FOCUS_NOTICE,1);
 			}
@@ -163,30 +107,14 @@ public class ResultActivity extends Activity implements loadPhotoInterface {
 	}
 
 	@Override
-	public NoticeAdapterWithDistance getNoticeAdapter() {
-		return this.noticeAdapter;
-	}
-
-
-	@Override
-	public Context getContext() {
-		return ResultActivity.this;
-	}
-
-
-	@Override
-	public ImageView getImageView() {
-		return null;
+	public void onPictureDownloaded(String filename) {
+		mAdapter.notifyDataSetChanged();
 	}
 
 	///////////////////////
 	/// HELPER ROUTINES ///
 	///////////////////////
 	
-	int getEntryNumberForFragment(int idx){
-		if (mBundle == null) return -1;
-		return mBundle.getInt(Integer.toString(idx));
-	}
 	
 	int getNumberOfEntries(){
 		int v = mBundle.getInt(SearchActivity.NB_ENTRIES);

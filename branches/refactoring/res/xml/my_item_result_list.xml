@@ -6,18 +6,18 @@
 	android:orientation="vertical"
 	>
 	
-	<TextView android:text="Nom" android:id="@+id/notice_Titre"
+	<TextView android:text="Nom" android:id="@+id/test_title"
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content">
 		</TextView>
 		
-	<TextView android:text="Prénom" android:id="@+id/notice_auteur"
+	<TextView android:text="Prénom" android:id="@+id/text_author"
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content"
 		>
 		</TextView>
 		
-	<TextView android:text="Prénom" android:id="@+id/notice_annee"
+	<TextView android:text="Prénom" android:id="@+id/text_year"
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content">
 		</TextView>

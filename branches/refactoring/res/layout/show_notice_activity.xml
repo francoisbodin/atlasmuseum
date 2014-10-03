@@ -128,7 +128,7 @@
                     android:background="#d9d9d9" /> <!-- fin separator -->
 
                 <TextView
-                    android:id="@+id/notice_annee"
+                    android:id="@+id/text_year"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/normal_padding"
