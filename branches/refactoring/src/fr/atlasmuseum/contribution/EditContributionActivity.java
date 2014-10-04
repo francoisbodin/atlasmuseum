@@ -175,7 +175,7 @@ public class EditContributionActivity extends Activity implements ContributionSe
 		if (actionBar != null) {
 			actionBar.show();
 			actionBar.setDisplayHomeAsUpEnabled(true);
-			actionBar.setTitle(getResources().getString(R.string.Contribuer));
+			actionBar.setTitle(getResources().getString(R.string.Contribute));
 			actionBar.setDisplayShowTitleEnabled(true);
 			//actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);  
 		}
@@ -355,7 +355,7 @@ public class EditContributionActivity extends Activity implements ContributionSe
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(this.getResources().getString(R.string.app_name));
-		builder.setMessage(this.getResources().getString(R.string.leave_contrib));
+		builder.setMessage(this.getResources().getString(R.string.edit_contribution_leave_warning));
 		
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 	           public void onClick(DialogInterface dialog, int id) {
@@ -404,7 +404,7 @@ public class EditContributionActivity extends Activity implements ContributionSe
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		//Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.contribuer_menu, menu);
+		getMenuInflater().inflate(R.menu.menu_account, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 	

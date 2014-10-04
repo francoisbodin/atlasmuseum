@@ -73,7 +73,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
-                android:text="@string/contrib_acces_visibilite"
                 android:textSize="15sp" />
 
             <Button

@@ -146,7 +146,7 @@ public class ConnectionAsync extends AsyncTask<String, String, Boolean> {
 		
 		if( result ) {
 			Log.d(DEBUG_TAG, "connection success");
-			Toast.makeText(mContext, mContext.getResources().getString(R.string.account_connected_as)+" "+mUsername, Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, mContext.getResources().getString(R.string.account_connected_as, mUsername), Toast.LENGTH_SHORT).show();
 			mListener.onConnectionOk();
 			return;
 		}

@@ -112,7 +112,7 @@ public class SearchAroundActivity extends Activity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		//Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.discovart, menu);
+		getMenuInflater().inflate(R.menu.menu_map, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 

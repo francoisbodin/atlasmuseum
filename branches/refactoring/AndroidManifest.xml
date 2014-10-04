@@ -131,7 +131,7 @@
              android:label="@string/app_name" >
             </activity>
             <activity
-            android:name="fr.atlasmuseum.contribution.MainContribActivity"
+            android:name="fr.atlasmuseum.contribution.ContributeActivity"
              android:label="@string/app_name" >
             </activity>
             <activity

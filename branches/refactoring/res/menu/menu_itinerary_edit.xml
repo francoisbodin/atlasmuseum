@@ -3,13 +3,13 @@
     <item
         android:id="@+id/action_itinerary"
         android:icon="@drawable/ic_action_itinerary"
-        android:title="@string/action_itinerary"
+        android:title="@string/Itinerary"
         android:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_edit"
         android:icon="@drawable/ic_action_edit"
-        android:title="@string/action_edit"
+        android:title="@string/Edit"
         android:showAsAction="ifRoom" />
 
 </menu>

@@ -230,7 +230,7 @@ public class ShowNoticeActivity extends Activity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		//Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.show_notice_menu, menu);
+		getMenuInflater().inflate(R.menu.menu_itinerary_edit, menu);
         return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -240,10 +240,10 @@ public class ShowNoticeActivity extends Activity
     	if(requestCode == this.REQUEST_CONTRIB) {
 			switch(resultCode) {
 			case EditContributionActivity.RESULT_SAVED:
-				Toast.makeText(this, getResources().getString(R.string.contrib_save), Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, getResources().getString(R.string.saved_contribution), Toast.LENGTH_SHORT).show();
 				break;
 			case EditContributionActivity.RESULT_SENT:
-    			Toast.makeText(this, getResources().getString(R.string.contrib_envoi_success), Toast.LENGTH_SHORT).show();
+    			Toast.makeText(this, getResources().getString(R.string.contribution_sent), Toast.LENGTH_SHORT).show();
 				break;
 			case RESULT_CANCELED:
 			default:

@@ -83,9 +83,9 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 		ArrayList<String> selectionStringList = new ArrayList<String>();
 		selectionStringList.add(getResources().getString(R.string.search_all));//0
 		selectionStringList.add(getResources().getString(R.string.recherche_date));//1
-		selectionStringList.add(getResources().getString(R.string.liste_artistes));//2
-		selectionStringList.add(getResources().getString(R.string.liste_villes));//3
-		selectionStringList.add(getResources().getString(R.string.liste_pays));//4
+		selectionStringList.add(getResources().getString(R.string.list_author));//2
+		selectionStringList.add(getResources().getString(R.string.list_city));//3
+		selectionStringList.add(getResources().getString(R.string.list_country));//4
 		mAdapter = new SimpleAdapterSearch(this, selectionStringList);
 		mListView.setAdapter(mAdapter);
 		

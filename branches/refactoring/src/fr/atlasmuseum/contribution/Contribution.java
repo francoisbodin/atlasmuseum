@@ -299,7 +299,7 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* title */ R.string.prop_title_infos,
 				/* value */ "",
 				/* defaultValue */ 0,
-				/* info */ 0, // TODO: ajouter les infos
+				/* info */ R.string.prop_info_infos,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
 				/* showViewText */ 0,
@@ -338,7 +338,7 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* title */ R.string.prop_title_pmr,
 				/* value */ "",
 				/* defaultValue */ 0,
-				/* info */ 0, // TODO: ajouter les infos
+				/* info */ R.string.prop_info_pmr,
 				/* type */ ContributionProperty.ContribType.radio,
 				/* choices */ JsonRawData.listePmr,
 				/* showViewText */ R.id.site_pmr_value,

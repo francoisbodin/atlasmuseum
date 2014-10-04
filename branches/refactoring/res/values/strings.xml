@@ -3,21 +3,26 @@
     <string name="app_name">Atlasmuseum</string>
 
   <!-- Common strings -->
-     <string name="Yes">Oui</string>
-     <string name="No">Non</string>
-     <string name="Update">Mise à jour</string>
-     <string name="Save">Sauvegarder</string>
-     <string name="Search">Rechercher</string>
-     
-  <!-- Settings strings -->
-    <string name="action_settings">Paramètres</string>
-	<string name="settings_name">Paramètres d\'Atlasmuseum</string>
+    <string name="Yes">Oui</string>
+    <string name="No">Non</string>
+    <string name="Update">Mise à jour</string>
+    <string name="Save">Sauvegarder</string>
+    <string name="Search">Rechercher</string>
+    <string name="SAVE">SAUVEGARDER</string>
+    <string name="CANCEL">ANNULER</string>
+    <string name="SEND">ENVOYER</string>
+    <string name="Contribute">Contribuer</string>
+    <string name="Validate">Valider</string>
+    <string name="Ok">Ok</string>
+    <string name="Information">Informations</string>
+    <string name="Edit">Editer</string>
+    <string name="Itinerary">Itinéraire</string>
 
   <!-- LoaderActivity strings -->
     <string name="loader_intro1">L\'atlas mobile des œuvres d\'art</string>
     <string name="loader_intro2">dans l\'espace public</string>
     
-  <!-- MainActivity strings -->
+  <!-- AtlasmuseumActivity strings -->
 	<string name="main_explore">EXPLORER</string>
     <string name="main_contribute">CONTRIBUER</string>
 	<string name="main_help">AIDE</string>
@@ -34,7 +39,8 @@
     
   <!-- Account strings -->
     <string name="account_connecting">Connexion en cours…</string>
-    <string name="account_connected_as">Connecté en tant que</string>
+    <string name="account_connected_as">Connecté en tant que %1$s</string>
+    <string name="action_account">Accès au compte</string>
     
   <!-- Contribution strings -->
     <string name="prop_title_titre">Titre</string>
@@ -52,9 +58,11 @@
     <string name="prop_title_latitude">Latitude</string>
     <string name="prop_title_longitude">Longitude</string>
     <string name="prop_title_infos">Autres informations sur l\'œuvre</string>
+    <string name="prop_info_infos">Indiquez les informations permettant de faciliter la perception de l\'œuvre: horaires d\'ouverture, chemin d\'accès, meilleur endroit où se placer pour voir l\'œuvre, etc.</string>
     <string name="prop_title_etat">Etat de conservation</string>
     <string name="prop_title_etat_precision">Précision sur l\'état de conservation</string>
     <string name="prop_title_pmr">Accessibilité PMR</string>
+    <string name="prop_info_pmr">Site accessible aux personnes à mobilité réduite</string>
     <string name="prop_title_mots_cles">Mots clés</string>
     <string name="prop_title_contexte">Contexte</string>
     <string name="prop_title_ville">Ville</string>
@@ -65,14 +73,16 @@
     <string name="contribution_uploading">Téléchargement de l\'image</string>
     <string name="contribution_url_images">http://atlasmuseum.irisa.fr/images/</string>
 
-    <string name="action_edit">Editer</string>
-    <string name="action_itinerary">Itinéraire</string>
+    <string name="contribution_sent">Contribution envoyée avec succès</string>
+    <string name="contribution_upload_image">Téléchargez la photo</string>
+    
     
   <!-- Saved Contributions strings -->
-    <string name="saved_contributions_title">Contributions sauvegardées</string>
+    <string name="saved_contribution">Contribution sauvegardée</string>
+    <string name="saved_contributions">Contributions sauvegardées</string>
     <string name="saved_contributions_new_notices">NOUVELLES NOTICES</string>
     <string name="saved_contributions_modif_notices">NOTICES MODIFIEES</string>
-         
+    
   <!-- Dialog Restore Contribution strings -->      
     <string name="dialog_restore_contribution_modif_title">Recharger la contribution sauvegardée ?</string>
     <string name="dialog_restore_contribution_modif_message">Il existe déjà une contribution sauvegardée pour cette notice. Souhaitez-vous la recharger ?</string>
@@ -80,20 +90,32 @@
   <!-- Edit Contribution strings -->
     <string name="edit_contribution_not_modified">Veuillez compléter au moins un champ pour contribuer</string>
     <string name="edit_contribution_update_location">Mettre à jour la localisation de l\'œuvre</string>
- 
+    <string name="edit_contribution_leave_warning">Vous êtes sur le point de quitter une contribution en cours. Voulez-vous vraiment quitter?</string>
+    
   <!-- Search strings -->
     <string name="search_all">Rechercher par artiste, titre, lieu</string> 
     <string name="search_by_title">Rechercher par titre</string>
     <string name="search_by_artist">Rechercher par artiste</string>
     <string name="search_by_place">Rechercher par lieu</string>
+    <string name="list_author">Liste des artistes</string>
+    <string name="list_city">Liste des villes</string>
+    <string name="list_country">Liste des pays</string>
     
-  <!-- Search By Date search -->
+  <!-- Search By Date strings -->
     <string name="search_by_date">Rechercher par date</string>
     <string name="search_check_date_format">Vérifiez les dates que vous avez entrées</string>
     <string name="search_by_date_info">Indiquez seulement l\'année. Par exemple : 2009</string>
     <string name="search_by_date_title">Selectionnez une période</string>
     <string name="search_by_date_from">De</string>
     <string name="search_by_date_until">à</string>
+    
+  <!-- Contribute strings -->
+    <string name="contribute_create_contribution">Proposez une œuvre qui n\'est pas encore référencée dans Atlasmuseum</string>
+    <string name="contribute_contributions_sent_title">Contributions envoyées</string>
+    <string name="contribute_contributions_sent_text">Suivez l\'état de vos contributions</string>
+    <string name="contribute_saved_contributions_text">Envoyez vos contributions sauvegardées</string>
+    
+    
     
     
     
@@ -110,7 +132,6 @@
    	<string name="TITREString">TITRE</string>
 	<string name="Envoyer">Envoyer</string>
 	<string name="CreateContrib">Create Contrib</string>
-	<string name="Contribute">Contribute</string>
 	<string name="Effacer">Effacer</string>
 	
 	
@@ -134,14 +155,12 @@
     <string name="data_sent_to">Data sent to %1$s</string>
 	
 	<!--  GPS -->
-     <string name="gps_click_to_enable">Le GPS est désactivé, il est souhaitable de le démarrer pour le bon fonctionnement de l\'application. Ok?</string>
+    <string name="gps_click_to_enable">Le GPS est désactivé, il est souhaitable de le démarrer pour le bon fonctionnement de l\'application. Ok?</string>
     <string name="gsp_link_to_enable">Aller à la page d\'activation</string>
     <string name="annuler">Annuler</string>
     <string name="desole_position_pas_recup">Désolé, votre position ne peut être récupérée</string>
 	<string name="GPSactivatedmes">GPS activé</string>
     
-    
-	
 	<string name="camera_unavailable">L\'appareil photo n\'est pas disponible.</string>
 	
     
@@ -232,7 +251,6 @@
     <!-- Liste pour la recherche -->
     <string name="artiste">Artiste</string> <!-- searchActivity - artiste -->
      <string name="lieux">Lieu (nom du site, ville, région ...)</string> <!-- searchActivity- Lieux (nom du site, villes, région ...) -->
-     <string name="liste_artistes">Liste des artistes</string> <!-- searchActivity -->
       <string name="lieu_simple">Lieu</string> <!-- searchActivity- Lieu (nom du site, villes, région ...) -->
      <string name="pays">Pays</string> <!-- searchActivity - Pays -->
      <string name="titre_oeuvre">Titre de l\'œuvre</string> <!-- searchActivity - Titre de l\'oeuvre)s -->
@@ -241,8 +259,6 @@
      <string name="couleurs">Couleurs</string> <!-- searchActivity - Couleurs -->
      <string name="titre">Titre</string> <!--criteres de recherche  -->
      
-     <string name="liste_villes">Liste des villes</string> <!--criteres de recherche  -->
-  	<string name="liste_pays">Liste des pays</string> <!--criteres de recherche  -->
   <string name="recherche_date">Rechercher par date</string> <!--criteres de recherche  -->
       <string name="tous">Tous</string> <!--criteres de recherche  -->
        <string name="title_autour_de_moi">Autour de moi</string>
@@ -261,36 +277,8 @@
       <string name="voir_article_atlasmuseum">Voir l\'article sur atlasmuseum.net</string>
       <string name="prendre_photo">Prendre une photo</string>
       
-     <!--  AJOUT OEUVRE -->
-     <string name="Ajouter">Ajouter</string>
-     <string name="en_cours">En cours</string>
-     
       <!-- Notice -->
-     <string name="description">Description</string>
-     <string name="images">Images</string>
      <string name="carte_des_oeuvres">Carte des œuvres</string>
      <string name="notice_oeuvre">Notice de l\'œuvre</string>
-     <string name="Ok">Ok</string>
-     <string name="site_accessible_pmr">Site accessible aux personnes à mobilité réduite</string>
-     <string name="telecharger_photo">Téléchargez la photo</string>
      
-     <!-- Contribution -->
-     <string name="SAUVEGARDER">SAUVEGARDER</string>
-     <string name="ANNULER">ANNULER</string>
-     <string name="ENVOYER">ENVOYER</string>
-     
-     <string name="contrib_envoi_success">contribution envoyée avec succès</string>
-     <string name="Contribuer">Contribuer</string>
-     <string name="Valider">Valider</string>
-     <string name="contrib_acces_visibilite">Indiquez les informations permettant de faciliter la perception de l\'œuvre: horaires d\'ouverture, chemin d\accès, meilleur endroit où se placer pour voir l\'œuvre, etc.</string>
-     <string name="contrib_saves">Contributions sauvegardées</string>
-      <string name="contrib_save">Contribution sauvegardée</string>
-     <string name="contrib_save_message">Envoyez vos contributions sauvegardées</string>
-     <string name="information">Informations</string>
-     <string name="envoyer_titre">Contributions envoyées</string>
-      <string name="envoyer_message">Suivez l\'état de vos contributions</string>
-      <string name="contribuer">Contribuer</string>
-     <string name="contribuer_message">Proposez une œuvre qui n\'est pas encore référencée dans Atlasmuseum</string>
-     <string name="info_contribution">Le contenu proposé ici est fourni librement, sans engagement aucun de part et d\'autre, et aucun type d\'accord ou contrat n\'est établi entre vous et les propriétaires ou les utilisateurs de ce site, les propriétaires des serveurs sur lesquels il est logé, les contributeurs individuels d\'Atlasmuseum, tout administrateur de projet, les bureaucrates, les développeurs, les administrateurs systèmes ou bien tout autre personne qui n\'est en aucune manière liée à ce projet ou à des projets fils qui peuvent être soumis à vos réclamations directes.</string>
-     <string name="leave_contrib">Vous êtes sur le point de quitter une contribution en cours. Voulez-vous vraiment quitter?</string>
 </resources>

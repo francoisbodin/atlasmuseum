@@ -30,7 +30,7 @@ public class SentContributionsActivity extends Activity {
  		if (actionBar != null) {
  			actionBar.show();
  			actionBar.setDisplayHomeAsUpEnabled(true);
- 			actionBar.setTitle(this.getResources().getString(R.string.Contribuer));
+ 			actionBar.setTitle(this.getResources().getString(R.string.Contribute));
  			actionBar.setDisplayShowTitleEnabled(true);
  		}         
 	}

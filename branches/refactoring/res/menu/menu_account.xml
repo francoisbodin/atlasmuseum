@@ -3,7 +3,7 @@
     <item
         android:id="@+id/action_account"
         android:icon="@drawable/ic_account"
-        android:title="acces au compte"
+        android:title="@string/action_account"
         android:showAsAction="ifRoom" />
 
 </menu>

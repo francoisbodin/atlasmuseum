@@ -5,7 +5,7 @@ package fr.atlasmuseum;
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.account.ConnectionActivity;
 import fr.atlasmuseum.account.ConnectionAsync;
-import fr.atlasmuseum.contribution.MainContribActivity;
+import fr.atlasmuseum.contribution.ContributeActivity;
 import fr.atlasmuseum.helper.AtlasError;
 import fr.atlasmuseum.location.LocationProvider;
 import fr.atlasmuseum.location.LocationStruct;
@@ -90,7 +90,7 @@ public class AtlasmuseumActivity extends Activity
 		buttonContribute.setOnClickListener(new OnClickListener() {
 	    	@Override
 	    	public void onClick(View v) {
-	    		Intent intent = new Intent(AtlasmuseumActivity.this, MainContribActivity.class); 
+	    		Intent intent = new Intent(AtlasmuseumActivity.this, ContributeActivity.class); 
 	    		startActivity(intent);
 	    	}
 	    });
@@ -245,25 +245,6 @@ public class AtlasmuseumActivity extends Activity
 	}
 	
 	   
-    @Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-	
 	private void startLocationUpdate() {
 		Log.d(DEBUG_TAG, "startLocationUpdate");
 		mLocationProvider.startPeriodicUpdates();
@@ -280,10 +261,10 @@ public class AtlasmuseumActivity extends Activity
 	}
 
 	public void onLocationUpdated( Location location ) {
-		Log.d(DEBUG_TAG, "onLocationUpdated: Latitude = " + location.getLatitude() + " - Longitude = " + location.getLongitude() + " - Accuracy = " + location.getAccuracy());
 		if( location == null ) {
 			return;
 		}
+		Log.d(DEBUG_TAG, "onLocationUpdated: Latitude = " + location.getLatitude() + " - Longitude = " + location.getLongitude() + " - Accuracy = " + location.getAccuracy());
 		if( mUpdateLocationRequested ) {
 			mUpdateLocationRequested = false;
 			mLastLocation = new Location(location);

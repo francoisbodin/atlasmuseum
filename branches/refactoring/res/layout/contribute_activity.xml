@@ -39,7 +39,7 @@
                     android:id="@+id/text_contribute_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/contribuer"
+                    android:text="@string/Contribute"
                     android:textColor="#333333"
                     android:textSize="18sp" />
 
@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/text_contribute_title"
-                    android:text="@string/contribuer_message"
+                    android:text="@string/contribute_create_contribution"
                     android:textColor="#686868"
                     android:textSize="13sp" />
             </RelativeLayout>
@@ -83,7 +83,7 @@
                     android:id="@+id/text_status_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/envoyer_titre"
+                    android:text="@string/contribute_contributions_sent_title"
                     android:textColor="#333333"
                     android:textSize="18sp" />
 
@@ -92,7 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/text_status_title"
-                    android:text="@string/envoyer_message"
+                    android:text="@string/contribute_contributions_sent_text"
                     android:textColor="#686868"
                     android:textSize="13sp" />
             </RelativeLayout>
@@ -127,7 +127,7 @@
                     android:id="@+id/text_saved_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/contrib_save"
+                    android:text="@string/saved_contribution"
                     android:textColor="#333333"
                     android:textSize="18sp" />
 
@@ -136,7 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/text_saved_title"
-                    android:text="@string/contrib_save_message"
+                    android:text="@string/contribute_saved_contributions_text"
                     android:textColor="#686868"
                     android:textSize="13sp" />
             </RelativeLayout>
@@ -150,7 +150,7 @@
                 android:id="@+id/text_info_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/information"
+                android:text="@string/Information"
                 android:textSize="15sp" />
 
             <WebView

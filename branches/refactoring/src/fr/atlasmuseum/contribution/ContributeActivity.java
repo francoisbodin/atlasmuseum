@@ -26,7 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainContribActivity extends Activity {
+public class ContributeActivity extends Activity {
 
 	@SuppressWarnings("unused")
 	private static final String DEBUG_TAG = "AtlasMuseum/MainContribAcitivity";
@@ -41,7 +41,7 @@ public class MainContribActivity extends Activity {
 
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
-		setContentView(R.layout.contrib_main_layout);
+		setContentView(R.layout.contribute_activity);
 
 		Typeface fontBold = Typeface.createFromAsset(getAssets(), "RobotoCondensed-Bold.ttf");
 		Typeface fontLight = Typeface.createFromAsset(getAssets(), "RobotoCondensed-Light.ttf");
@@ -76,7 +76,7 @@ public class MainContribActivity extends Activity {
 		if (actionBar != null) {
 			actionBar.show();
 			actionBar.setDisplayHomeAsUpEnabled(true);
-			actionBar.setTitle(this.getResources().getString(R.string.Contribuer));
+			actionBar.setTitle(this.getResources().getString(R.string.Contribute));
 			actionBar.setDisplayShowTitleEnabled(true);
 			//actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);  
 		}
@@ -90,7 +90,7 @@ public class MainContribActivity extends Activity {
 				contribution.setLocalId(UUID.randomUUID().toString());
 				Bundle bundle = new Bundle();
 				bundle.putSerializable("contribution", contribution);
-				Intent intent= new Intent(MainContribActivity.this, EditContributionActivity.class);
+				Intent intent= new Intent(ContributeActivity.this, EditContributionActivity.class);
 				intent.putExtras(bundle);
 				startActivityForResult(intent, REQUEST_CONTRIBUTE );
 			}
@@ -100,19 +100,19 @@ public class MainContribActivity extends Activity {
 		relativEtatContrib.setOnClickListener(new View.OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				if(! AtlasmuseumActivity.checkInternetConnection(MainContribActivity.this)) {
-					AtlasError.showErrorDialog(MainContribActivity.this, "7.1", "pas internet connexion");
+				if(! AtlasmuseumActivity.checkInternetConnection(ContributeActivity.this)) {
+					AtlasError.showErrorDialog(ContributeActivity.this, "7.1", "pas internet connexion");
 					return;
 				}
 
 				SharedPreferences prefs = getSharedPreferences(ConnectionActivity.SHARED_PREFERENCES, Context.MODE_PRIVATE);
 				String username = prefs.getString(ConnectionActivity.PREF_KEY_USERNAME, "");
 				if( username.equals("") ) {
-					AtlasError.showErrorDialog(MainContribActivity.this, "7.3", "compte util requis");
+					AtlasError.showErrorDialog(ContributeActivity.this, "7.3", "compte util requis");
 					return;
 				}
 
-				Intent intent = new Intent(MainContribActivity.this, SentContributionsActivity.class);
+				Intent intent = new Intent(ContributeActivity.this, SentContributionsActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -122,7 +122,7 @@ public class MainContribActivity extends Activity {
 		relativEnvoi.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(MainContribActivity.this, SavedContributionsActivity.class);
+				Intent intent = new Intent(ContributeActivity.this, SavedContributionsActivity.class);
 				startActivityForResult(intent, REQUEST_VIEW_SAVED_CONTRIBUTIONS);
 			}
 		});
@@ -139,7 +139,7 @@ public class MainContribActivity extends Activity {
 		int nbSavedContributions = saveDir.list(filter).length;
 
 		// Update contribute title with number of saved contributions
-		mTextSavedTitle.setText(nbSavedContributions+" "+getResources().getString(nbSavedContributions <= 1 ? R.string.contrib_save : R.string.contrib_saves));
+		mTextSavedTitle.setText(nbSavedContributions+" "+getResources().getString(nbSavedContributions <= 1 ? R.string.saved_contribution : R.string.saved_contributions));
 
 	}
 
@@ -148,11 +148,11 @@ public class MainContribActivity extends Activity {
 		if( requestCode == REQUEST_CONTRIBUTE  ) {
 			switch(resultCode) {
 			case EditContributionActivity.RESULT_SAVED:
-				Toast.makeText(this, getResources().getString(R.string.contrib_save), Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, getResources().getString(R.string.saved_contribution), Toast.LENGTH_SHORT).show();
 				updateSavedContributionNumber();
 				break;
 			case EditContributionActivity.RESULT_SENT:
-    			Toast.makeText(this, getResources().getString(R.string.contrib_envoi_success), Toast.LENGTH_SHORT).show();
+    			Toast.makeText(this, getResources().getString(R.string.contribution_sent), Toast.LENGTH_SHORT).show();
 				updateSavedContributionNumber();
 				break;
 			case RESULT_CANCELED:
@@ -193,7 +193,7 @@ public class MainContribActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		//Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.contribuer_menu, menu);
+		getMenuInflater().inflate(R.menu.menu_account, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 

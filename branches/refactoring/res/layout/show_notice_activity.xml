@@ -65,7 +65,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="5dp"
                         android:layout_toRightOf="@+id/imageLoad"
-                        android:text="@string/telecharger_photo" />
+                        android:text="@string/contribution_upload_image" />
 
                     <ImageView
                         android:id="@+id/imageLoad"
@@ -384,7 +384,7 @@
                         android:layout_marginLeft="30dp"
                         android:layout_marginTop="5dp"
                         android:layout_toRightOf="@+id/oeuvre_contexte"
-                        android:text="@string/contrib_acces_visibilite"
+                        android:text="@string/prop_info_infos"
                         android:textColor="#686868"
                         android:textSize="18sp" />
                 </RelativeLayout> <!-- fin contexte -->

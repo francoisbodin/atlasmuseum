@@ -7,7 +7,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -70,7 +69,7 @@ public class EditPropertyActivity extends Activity {
 		if (actionBar != null) {
 			actionBar.show();
 			actionBar.setDisplayHomeAsUpEnabled(true);
-			actionBar.setTitle(getResources().getString(R.string.Contribuer));
+			actionBar.setTitle(getResources().getString(R.string.Contribute));
 			actionBar.setDisplayShowTitleEnabled(true);
 			// actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		}

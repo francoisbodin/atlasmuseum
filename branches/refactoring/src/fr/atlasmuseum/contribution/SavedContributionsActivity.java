@@ -45,7 +45,7 @@ public class SavedContributionsActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
-        setContentView(R.layout.activity_saved_contributions);
+        setContentView(R.layout.saved_contributions_activity);
         Log.d(DEBUG_TAG, "onCreate()");
         
 		mListViewNew = (ListView) findViewById(R.id.list_new_notice);
@@ -112,7 +112,7 @@ public class SavedContributionsActivity extends Activity {
 		ActionBar actionBar = getActionBar();
 		if (actionBar != null) {
 			actionBar.show();
-			actionBar.setTitle(getResources().getString(R.string.saved_contributions_title));
+			actionBar.setTitle(getResources().getString(R.string.saved_contributions));
 			actionBar.setDisplayHomeAsUpEnabled(true);
 			actionBar.setDisplayShowTitleEnabled(true);
 			//actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);  
@@ -124,11 +124,11 @@ public class SavedContributionsActivity extends Activity {
 		if(requestCode == REQUEST_EDIT_CONTRIBUTION) {
 			switch(resultCode) {
 			case EditContributionActivity.RESULT_SAVED:
-				Toast.makeText(this, getResources().getString(R.string.contrib_save), Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, getResources().getString(R.string.saved_contribution), Toast.LENGTH_SHORT).show();
 				updateSavedContributionLists();
 				break;
 			case EditContributionActivity.RESULT_SENT:
-    			Toast.makeText(this, getResources().getString(R.string.contrib_envoi_success), Toast.LENGTH_SHORT).show();
+    			Toast.makeText(this, getResources().getString(R.string.contribution_sent), Toast.LENGTH_SHORT).show();
 				updateSavedContributionLists();
 				break;
 			case RESULT_CANCELED:

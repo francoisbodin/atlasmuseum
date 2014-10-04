@@ -40,7 +40,19 @@ public class SearchListActivity extends Activity  {
         ActionBar actionBar = getActionBar();
 		if (actionBar != null) {
 			actionBar.show();
-			actionBar.setTitle(this.getResources().getString(R.string.Search));
+			int titleId = R.string.Search;
+			switch(mChamps) {
+			case "artiste":
+				titleId = R.string.list_author;
+				break;
+			case "Siteville":
+				titleId = R.string.list_city;
+				break;
+			case "Sitepays":
+				titleId = R.string.list_country;
+				break;
+			}
+			actionBar.setTitle(this.getResources().getString(titleId));
 			actionBar.setDisplayShowTitleEnabled(true);
 			actionBar.setHomeButtonEnabled(true);
 			actionBar.setDisplayHomeAsUpEnabled(true);
