@@ -115,7 +115,10 @@
     <string name="contribute_contributions_sent_text">Suivez l\'état de vos contributions</string>
     <string name="contribute_saved_contributions_text">Envoyez vos contributions sauvegardées</string>
     
-    
+  <!-- Show Notice strings -->
+    <string name="section_oeuvre">ŒUVRE</string>
+    <string name="section_site">SITE</string>
+    <string name="button_wiki">Voir l\'article sur atlasmuseum.net</string>
     
     
     
@@ -270,11 +273,8 @@
       <string name="Acces_visibilite">Accès / visibilité</string>
                   
       <!-- Vue Notice -->
-       <string name="Oeuvre">ŒUVRE</string>
       <string name="Couleur">Couleur</string>
-      <string name="Site">SITE</string>
       <string name="Positionner_carte">Positionner sur la carte</string>
-      <string name="voir_article_atlasmuseum">Voir l\'article sur atlasmuseum.net</string>
       <string name="prendre_photo">Prendre une photo</string>
       
       <!-- Notice -->

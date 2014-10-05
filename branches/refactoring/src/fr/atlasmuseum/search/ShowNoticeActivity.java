@@ -39,16 +39,11 @@ public class ShowNoticeActivity extends Activity
 	private static final String DEBUG_TAG = "AtlasMuseum/ShowNoticeActivity";
 	public static final String ARG_FRAGMENT = "IDFragment";
 	
-	private int mDbIndex;
 	Contribution mContribution;
 	ImageView mViewPicture;
 	RelativeLayout mButtonLoadPicture;
 	
 	private int REQUEST_CONTRIB = 12345874;
-	
-	TextView creditphoto;
-	
-	String url; //pour acces wiki
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,11 +54,10 @@ public class ShowNoticeActivity extends Activity
         Log.d(DEBUG_TAG, "onCreate()");
     	
     	Bundle bundle = getIntent().getExtras();
-    	mDbIndex = bundle.getInt(ARG_FRAGMENT);
-    	Log.d(DEBUG_TAG, "idBDD = " + mDbIndex);
+    	int dbIndex = bundle.getInt(ARG_FRAGMENT);
     	
     	mContribution = new Contribution();
-    	mContribution.updateFromDb(mDbIndex);
+    	mContribution.updateFromDb(dbIndex);
     	
 		for (ContributionProperty prop : mContribution.getProperties()) {
 			int showViewText = prop.getShowViewText();
@@ -96,7 +90,7 @@ public class ShowNoticeActivity extends Activity
     	String ville = propVille.getValue();
     	String pays = propPays.getValue();
     	
-		TextView textViewVillePays = (TextView) findViewById(R.id.notice_ville_pays);
+		TextView textViewVillePays = (TextView) findViewById(R.id.notice_place);
     	if( ville == "" || pays == "" ) {
     		textViewVillePays.setVisibility(View.GONE);
     	}
@@ -104,7 +98,7 @@ public class ShowNoticeActivity extends Activity
     		textViewVillePays.setText(ville+"-"+pays);
     	}
   	
-    	Button buttonWikipedia = (Button) findViewById(R.id.btn_acces_wiki);
+    	Button buttonWikipedia = (Button) findViewById(R.id.button_wiki);
     	buttonWikipedia.setOnClickListener(new OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
@@ -114,7 +108,7 @@ public class ShowNoticeActivity extends Activity
 	        }
     	});
     	
-    	ImageView buttonMap = (ImageView) findViewById(R.id.littlemapbutton);
+    	ImageView buttonMap = (ImageView) findViewById(R.id.button_map);
     	buttonMap.setOnClickListener(new OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
@@ -131,7 +125,7 @@ public class ShowNoticeActivity extends Activity
 	        }
     	});
     	
-    	mButtonLoadPicture = (RelativeLayout) findViewById(R.id.image_loading);
+    	mButtonLoadPicture = (RelativeLayout) findViewById(R.id.layout_load);
 		mButtonLoadPicture.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -140,7 +134,7 @@ public class ShowNoticeActivity extends Activity
 			}
 		});
 
-    	mViewPicture = (ImageView) findViewById(R.id.imageView1);
+    	mViewPicture = (ImageView) findViewById(R.id.view_picture);
     	mViewPicture.setOnClickListener(new OnClickListener() {	
 			@Override
 			public void onClick(View v) {

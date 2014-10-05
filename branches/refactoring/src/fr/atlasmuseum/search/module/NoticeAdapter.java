@@ -63,7 +63,7 @@ public class NoticeAdapter extends BaseAdapter {
             
     		holder.textTitle = (TextView)convertView.findViewById(R.id.text_title);
     		holder.textAuthor = (TextView)convertView.findViewById(R.id.text_author);
-    		holder.textYear = (TextView)convertView.findViewById(R.id.text_year);
+    		holder.textYear = (TextView)convertView.findViewById(R.id.notice_year);
     		holder.textCity = (TextView) convertView.findViewById(R.id.text_city);
             holder.textDistance = (TextView)convertView.findViewById(R.id.text_distance);
     		holder.viewThumb = (ImageView) convertView.findViewById(R.id.view_thumb);

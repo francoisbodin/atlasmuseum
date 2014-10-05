@@ -133,7 +133,7 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showViewText */ R.id.credit_photo,
+				/* showViewText */ R.id.text_credits,
 				/* showViewToHide */ 0,
 				/* dumpInXML */ false) );
 		
@@ -159,7 +159,7 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showViewText */ R.id.notice_titre,
+				/* showViewText */ R.id.notice_title,
 				/* showViewToHide */ 0,
 				/* dumpInXML */ true) );
 		
@@ -172,7 +172,7 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* info */ 0, // TODO: ajouter les infos
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showViewText */ R.id.notice_artiste,
+				/* showViewText */ R.id.notice_author,
 				/* showViewToHide */ 0,
 				/* dumpInXML */ true) );
 
@@ -185,8 +185,8 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.check,
 				/* choices */ JsonRawData.listeCouleurs,
-				/* showViewText */ R.id.oeuvre_couleur_value,
-				/* showViewToHide */ R.id.relativ_oeuvre_couleur,
+				/* showViewText */ R.id.prop_value_couleur,
+				/* showViewToHide */ R.id.layout_couleur,
 				/* dumpInXML */ true) );
 		
 		mProperties.put( DATE_INAUGURATION, new ContributionProperty(
@@ -198,8 +198,8 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* info */ R.string.prop_info_date,
 				/* type */ ContributionProperty.ContribType.date,
 				/* choices */ null,
-				/* showViewText */ R.id.text_year,
-				/* showViewToHide */ R.id.text_year,
+				/* showViewText */ R.id.notice_year,
+				/* showViewToHide */ R.id.notice_year,
 				/* dumpInXML */ true) );
 		
 		mProperties.put(DESCRIPTION, new ContributionProperty(
@@ -211,8 +211,8 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showViewText */ R.id.oeuvre_description_value,
-				/* showViewToHide */ R.id.relativ_oeuvre_description,
+				/* showViewText */ R.id.prop_value_description,
+				/* showViewToHide */ R.id.layout_description,
 				/* dumpInXML */ true) );
 		
 		mProperties.put( MATERIAUX, new ContributionProperty(
@@ -224,8 +224,8 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.check,
 				/* choices */ JsonRawData.listeMateriaux,
-				/* showViewText */ R.id.oeuvre_materiauw_value,
-				/* showViewToHide */ R.id.relativ_oeuvre_materiaux,
+				/* showViewText */ R.id.prop_value_materiaux,
+				/* showViewToHide */ R.id.layout_materiaux,
 				/* dumpInXML */ true) );
 		
 		mProperties.put( NOM_SITE, new ContributionProperty(
@@ -237,8 +237,8 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* info */ 0, // TODO: ajouter les infos
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showViewText */ R.id.site_nomsite_value,
-				/* showViewToHide */ R.id.relativ_site_nomsite,
+				/* showViewText */ R.id.prop_value_site_nom,
+				/* showViewToHide */ R.id.layout_nomsite,
 				/* dumpInXML */ true) );
 		
 		mProperties.put( DETAIL_SITE, new ContributionProperty(
@@ -250,8 +250,8 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* info */ 0, // TODO: ajouter les infos
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showViewText */ R.id.site_detailsite_value,
-				/* showViewToHide */ R.id.relativ_site_detailsite,
+				/* showViewText */ R.id.prop_value_site_detail,
+				/* showViewToHide */ R.id.layout_detailsite,
 				/* dumpInXML */ true) );
 		
 		mProperties.put( NATURE, new ContributionProperty(
@@ -263,8 +263,8 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.radio,
 				/* choices */ JsonRawData.listeNatures,
-				/* showViewText */ R.id.oeuvre_nature_value,
-				/* showViewToHide */ R.id.relativ_oeuvre_nature,
+				/* showViewText */ R.id.prop_value_nature,
+				/* showViewToHide */ R.id.layout_nature,
 				/* dumpInXML */ true) );
 		
 		mProperties.put( LATITUDE, new ContributionProperty(
@@ -341,8 +341,8 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* info */ R.string.prop_info_pmr,
 				/* type */ ContributionProperty.ContribType.radio,
 				/* choices */ JsonRawData.listePmr,
-				/* showViewText */ R.id.site_pmr_value,
-				/* showViewToHide */ R.id.relativ_site_pmr,
+				/* showViewText */ R.id.prop_value_pmr,
+				/* showViewToHide */ R.id.layout_pmr,
 				/* dumpInXML */ true) );
 
 		mProperties.put( MOT_CLE, new ContributionProperty(
@@ -354,8 +354,8 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showViewText */ R.id.oeuvre_mots_cles_value,
-				/* showViewToHide */ R.id.relativ_oeuvre_mots_cles,
+				/* showViewText */ R.id.prop_value_mots_cles,
+				/* showViewToHide */ R.id.layout_mots_cles,
 				/* dumpInXML */ false) );
 
 		mProperties.put( CONTEXTE_PRODUCTION, new ContributionProperty(
@@ -368,7 +368,7 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
 				/* showViewText */ R.id.oeuvre_contexte_value,
-				/* showViewToHide */ R.id.relativ_oeuvre_contexte,
+				/* showViewToHide */ R.id.layout_contexte,
 				/* dumpInXML */ false) );
 
 		mProperties.put( VILLE, new ContributionProperty(
@@ -380,8 +380,8 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showViewText */ R.id.site_ville_value,
-				/* showViewToHide */ R.id.relativ_site_ville,
+				/* showViewText */ R.id.prop_value_ville,
+				/* showViewToHide */ R.id.layout_site_ville,
 				/* dumpInXML */ false) );
 
 		mProperties.put( REGION, new ContributionProperty(
@@ -393,8 +393,8 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showViewText */ R.id.site_region_value,
-				/* showViewToHide */ R.id.relativ_site_region,
+				/* showViewText */ R.id.prop_value_region,
+				/* showViewToHide */ R.id.layout_site_region,
 				/* dumpInXML */ false) );
 
 		mProperties.put( PAYS, new ContributionProperty(
@@ -406,8 +406,8 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showViewText */ R.id.site_pays_value,
-				/* showViewToHide */ R.id.relativ_site_pays,
+				/* showViewText */ R.id.prop_value_pays,
+				/* showViewToHide */ R.id.layout_site_pays,
 				/* dumpInXML */ false) );
 
 		mProperties.put( MOUVEMENT, new ContributionProperty(
@@ -419,8 +419,8 @@ import fr.atlasmuseum.search.SearchActivity;
 				/* info */ 0,
 				/* type */ ContributionProperty.ContribType.text,
 				/* choices */ null,
-				/* showViewText */ R.id.artiste_mouvement_value,
-				/* showViewToHide */ R.id.relativ_artiste_mouvement,
+				/* showViewText */ R.id.prop_value_mouvement,
+				/* showViewToHide */ R.id.layout_mouvement,
 				/* dumpInXML */ false) );
 
 	}

@@ -6,76 +6,68 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <!-- zone "telecharger photo" -->
-
     <RelativeLayout
-        android:id="@+id/load_photo"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
         android:background="@drawable/backrepeat"
         android:orientation="vertical" >
 
-                <TextView
-            android:id="@+id/credit_photo"
+        <TextView
+            android:id="@+id/text_credits"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="0.5dp"
-            android:gravity="bottom|left"
-            android:layout_gravity="bottom|left"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
+            android:layout_gravity="bottom|left"
+            android:gravity="bottom|left"
+            android:paddingTop="0.5dp"
             android:textSize="10sp" />
-        
-        <!-- affichage de l'image dans cette imageView quand telecharger -->
+
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/view_picture"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_above="@+id/credit_photo" >
-        </ImageView>
-        
-        <!-- ensemble bouton chargement + texte -->
+            android:layout_above="@+id/text_credits" />
+
         <RelativeLayout
-            android:id="@+id/image_loading"
+            android:id="@+id/layout_load"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_above="@+id/credit_photo"
+            android:layout_above="@+id/text_credits"
             android:paddingBottom="15dp"
             android:paddingTop="10dp" >
 
-                <ImageView
-                    android:id="@+id/image_loadin123"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ic_load_photo_notice_empty" />
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_load_photo_notice_empty" />
 
-                <RelativeLayout
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true" >
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true" >
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/view_load"
+                    android:text="@string/contribution_upload_image" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_toRightOf="@+id/imageLoad"
-                        android:text="@string/contribution_upload_image" />
-
-                    <ImageView
-                        android:id="@+id/imageLoad"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/ic_notice_loadphoto" />
-                </RelativeLayout>
+                <ImageView
+                    android:id="@+id/view_load"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_notice_loadphoto" />
+            </RelativeLayout>
         </RelativeLayout>
-
     </RelativeLayout>
 
     <ScrollView
@@ -84,7 +76,6 @@
         android:layout_weight="5" >
 
         <LinearLayout
-            android:id="@+id/relativ_main"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -94,13 +85,12 @@
             <!-- AFFICHAGE: titre, auteur, ville_pays -->
 
             <LinearLayout
-                android:id="@+id/relativ_main_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/notice_titre"
+                    android:id="@+id/notice_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/normal_padding"
@@ -111,10 +101,10 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
-                    android:background="#d9d9d9" /> <!-- fin separator -->
+                    android:background="#d9d9d9" />
 
                 <TextView
-                    android:id="@+id/notice_artiste"
+                    android:id="@+id/notice_author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/normal_padding"
@@ -125,10 +115,10 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
-                    android:background="#d9d9d9" /> <!-- fin separator -->
+                    android:background="#d9d9d9" />
 
                 <TextView
-                    android:id="@+id/text_year"
+                    android:id="@+id/notice_year"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/normal_padding"
@@ -139,7 +129,7 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
-                    android:background="#d9d9d9" /> <!-- fin separator -->
+                    android:background="#d9d9d9" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -148,14 +138,14 @@
                     android:paddingTop="@dimen/normal_padding" >
 
                     <TextView
-                        android:id="@+id/notice_ville_pays"
+                        android:id="@+id/notice_place"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#999999"
                         android:textSize="18sp" />
 
                     <ImageView
-                        android:id="@+id/littlemapbutton"
+                        android:id="@+id/button_map"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_alignParentRight="true"
@@ -166,41 +156,39 @@
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
-                    android:background="#d9d9d9" /> <!-- fin separator -->
-            </LinearLayout> <!-- Fin fin zone titre -->
+                    android:background="#d9d9d9" />
+            </LinearLayout>
 
 
             <!-- OEUVRE -->
 
             <LinearLayout
-                android:id="@+id/relativ_oeuvre"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/titre_oeuvre"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:paddingBottom="@dimen/normal_padding"
                     android:paddingTop="@dimen/normal_padding"
-                    android:text="@string/Oeuvre"
+                    android:text="@string/section_oeuvre"
                     android:textColor="#ffda00"
                     android:textSize="14sp" />
 
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="3dp"
-                    android:background="#ffda00" /> <!-- fin separator -->
+                    android:background="#ffda00" />
 
                 <RelativeLayout
-                    android:id="@+id/relativ_oeuvre_nature"
+                    android:id="@+id/layout_nature"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/oeuvre_nature"
+                        android:id="@+id/prop_title_nature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/prop_title_nature"
@@ -208,53 +196,48 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/oeuvre_nature_value"
+                        android:id="@+id/prop_value_nature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_marginLeft="53dp"
-                        android:layout_toRightOf="@+id/oeuvre_nature"
+                        android:layout_toRightOf="@+id/prop_title_nature"
                         android:textColor="#686868"
                         android:textSize="18sp" />
-                </RelativeLayout> <!-- Fin Nature -->
+                </RelativeLayout>
 
-
-                <!-- oeuvre-Couleur -->
 
                 <RelativeLayout
-                    android:id="@+id/relativ_oeuvre_couleur"
+                    android:id="@+id/layout_couleur"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/oeuvre_couleur"
+                        android:id="@+id/prop_title_couleur"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/Couleur"
+                        android:text="@string/prop_title_couleurs"
                         android:textColor="#999999"
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/oeuvre_couleur_value"
+                        android:id="@+id/prop_value_couleur"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_marginLeft="45dp"
-                        android:layout_toRightOf="@+id/oeuvre_couleur"
+                        android:layout_toRightOf="@+id/prop_title_couleur"
                         android:textColor="#686868"
                         android:textSize="18sp" />
-                </RelativeLayout> <!-- Fin Couleur -->
-
-
-                <!-- oeuvre-Materiaux -->
+                </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/relativ_oeuvre_materiaux"
+                    android:id="@+id/layout_materiaux"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/oeuvre_materiaux"
+                        android:id="@+id/prop_title_materiaux"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/prop_title_materiaux"
@@ -262,34 +245,23 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/oeuvre_materiauw_value"
+                        android:id="@+id/prop_value_materiaux"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_marginLeft="25dp"
-                        android:layout_toRightOf="@+id/oeuvre_materiaux"
+                        android:layout_toRightOf="@+id/prop_title_materiaux"
                         android:textColor="#686868"
                         android:textSize="18sp" />
-                </RelativeLayout> <!-- Fin Materiaux -->
-
-
-                <!-- oeuvre-Description -->
+                </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/relativ_oeuvre_description"
+                    android:id="@+id/layout_description"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" >
 
-                    <View
-                        android:id="@+id/oeuvre_description_separator"
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginBottom="@dimen/normal_padding"
-                        android:layout_marginTop="@dimen/normal_padding"
-                        android:background="#d9d9d9" /> <!-- fin separator -->
-
                     <TextView
-                        android:id="@+id/oeuvre_description"
+                        android:id="@+id/prop_title_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
@@ -299,78 +271,54 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/oeuvre_description_value"
+                        android:id="@+id/prop_value_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_marginLeft="13dp"
                         android:layout_marginTop="5dp"
-                        android:layout_toRightOf="@+id/oeuvre_description"
+                        android:layout_toRightOf="@+id/prop_title_description"
                         android:textColor="#686868"
                         android:textSize="18sp" />
-                </RelativeLayout> <!-- fin description -->
-
-
-                <!-- oeuvre-Mots clés -->
+                </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/relativ_oeuvre_mots_cles"
+                    android:id="@+id/layout_mots_cles"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" >
 
-                    <View
-                        android:id="@+id/oeuvre_mots_cles_separator"
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginBottom="@dimen/normal_padding"
-                        android:layout_marginTop="@dimen/normal_padding"
-                        android:background="#d9d9d9" /> <!-- fin separator -->
-
                     <TextView
-                        android:id="@+id/oeuvre_mots_cles"
+                        android:id="@+id/prop_title_mots_cles"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:layout_below="@+id/oeuvre_mots_cles_separator"
                         android:layout_marginTop="5dp"
                         android:text="@string/prop_title_mots_cles"
                         android:textColor="#999999"
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/oeuvre_mots_cles_value"
+                        android:id="@+id/prop_value_mots_cles"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_marginLeft="26dp"
                         android:layout_marginTop="5dp"
-                        android:layout_toRightOf="@+id/oeuvre_mots_cles"
+                        android:layout_toRightOf="@+id/prop_title_mots_cles"
                         android:textColor="#686868"
                         android:textSize="18sp" />
-                </RelativeLayout> <!-- fin mot clé -->
-
-
-                <!-- oeuvre- contexte -->
+                </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/relativ_oeuvre_contexte"
+                    android:id="@+id/layout_contexte"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" >
 
-                    <View
-                        android:id="@+id/oeuvre_contexte_separator"
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginBottom="@dimen/normal_padding"
-                        android:layout_marginTop="@dimen/normal_padding"
-                        android:background="#d9d9d9" /> <!-- fin separator -->
-
                     <TextView
-                        android:id="@+id/oeuvre_contexte"
+                        android:id="@+id/prop_title_contexte"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:layout_below="@+id/oeuvre_contexte_separator"
                         android:layout_marginTop="5dp"
                         android:text="@string/prop_title_contexte"
                         android:textColor="#999999"
@@ -383,30 +331,18 @@
                         android:layout_alignParentTop="true"
                         android:layout_marginLeft="30dp"
                         android:layout_marginTop="5dp"
-                        android:layout_toRightOf="@+id/oeuvre_contexte"
-                        android:text="@string/prop_info_infos"
+                        android:layout_toRightOf="@+id/prop_title_contexte"
                         android:textColor="#686868"
                         android:textSize="18sp" />
-                </RelativeLayout> <!-- fin contexte -->
-
-
-                <!-- MOUVEMENT -->
+                </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/relativ_artiste_mouvement"
+                    android:id="@+id/layout_mouvement"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" >
 
-                    <View
-                        android:id="@+id/oeuvre_mouvement_separator"
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginBottom="@dimen/normal_padding"
-                        android:layout_marginTop="@dimen/normal_padding"
-                        android:background="#d9d9d9" /> <!-- fin separator -->
-
                     <TextView
-                        android:id="@+id/artiste_mouvement"
+                        android:id="@+id/prop_title_mouvement"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
@@ -416,17 +352,17 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/artiste_mouvement_value"
+                        android:id="@+id/prop_value_mouvement"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_marginLeft="18dp"
-                        android:layout_toRightOf="@+id/artiste_mouvement"
+                        android:layout_toRightOf="@+id/prop_title_mouvement"
                         android:textColor="#686868"
                         android:textSize="18sp" />
-                </RelativeLayout> <!-- fin MOUVEMENT -->
+                </RelativeLayout>
 
-            </LinearLayout> <!-- Fin oeuvre -->
+            </LinearLayout>
 
 
             <!-- SITE -->
@@ -437,31 +373,27 @@
                 android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/titre_site"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:paddingBottom="@dimen/normal_padding"
                     android:paddingTop="@dimen/normal_padding"
-                    android:text="@string/Site"
+                    android:text="@string/section_site"
                     android:textColor="#ffda00"
                     android:textSize="14sp" />
 
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="3dp"
-                    android:background="#ffda00" /> <!-- fin separator -->
-
-
-                <!-- site -nom site -->
+                    android:background="#ffda00" />
 
                 <RelativeLayout
-                    android:id="@+id/relativ_site_nomsite"
+                    android:id="@+id/layout_nomsite"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/site_nomsite"
+                        android:id="@+id/prop_title_site_nom"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
@@ -470,26 +402,23 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/site_nomsite_value"
+                        android:id="@+id/prop_value_site_nom"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_marginLeft="13dp"
-                        android:layout_toRightOf="@+id/site_nomsite"
+                        android:layout_toRightOf="@+id/prop_title_site_nom"
                         android:textColor="#686868"
                         android:textSize="18sp" />
-                </RelativeLayout> <!-- fin site -nom site -->
-
-
-                <!-- site - ville -->
+                </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/relativ_site_ville"
+                    android:id="@+id/layout_site_ville"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/site_ville"
+                        android:id="@+id/prop_title_ville"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
@@ -498,26 +427,23 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/site_ville_value"
+                        android:id="@+id/prop_value_ville"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_marginLeft="67dp"
-                        android:layout_toRightOf="@+id/site_ville"
+                        android:layout_toRightOf="@+id/prop_title_ville"
                         android:textColor="#686868"
                         android:textSize="18sp" />
-                </RelativeLayout> <!-- fin site -ville -->
-
-
-                <!-- site - region -->
+                </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/relativ_site_region"
+                    android:id="@+id/layout_site_region"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/site_region"
+                        android:id="@+id/prop_title_region"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
@@ -526,26 +452,23 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/site_region_value"
+                        android:id="@+id/prop_value_region"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_marginLeft="50dp"
-                        android:layout_toRightOf="@+id/site_region"
+                        android:layout_toRightOf="@+id/prop_title_region"
                         android:textColor="#686868"
                         android:textSize="18sp" />
-                </RelativeLayout> <!-- fin site -site_region -->
-
-
-                <!-- site - pays -->
+                </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/relativ_site_pays"
+                    android:id="@+id/layout_site_pays"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" >
 
                     <TextView
-                        android:id="@+id/site_pays"
+                        android:id="@+id/prop_title_pays"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
@@ -554,93 +477,69 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/site_pays_value"
+                        android:id="@+id/prop_value_pays"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_marginLeft="68dp"
-                        android:layout_toRightOf="@+id/site_pays"
+                        android:layout_toRightOf="@+id/prop_title_pays"
                         android:textColor="#686868"
                         android:textSize="18sp" />
-                </RelativeLayout> <!-- fin site -pays -->
-                <!-- site- Detail site -->
+                </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/relativ_site_detailsite"
+                    android:id="@+id/layout_detailsite"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" >
 
-                    <View
-                        android:id="@+id/site_site_detailsite_separator"
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginBottom="@dimen/normal_padding"
-                        android:layout_marginTop="@dimen/normal_padding"
-                        android:background="#d9d9d9" /> <!-- fin separator -->
-
                     <TextView
-                        android:id="@+id/site_detailsite"
+                        android:id="@+id/prop_title_site_detail"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:layout_below="@+id/site_site_detailsite_separator"
                         android:layout_marginTop="5dp"
                         android:text="@string/prop_title_site_detail"
                         android:textColor="#999999"
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/site_detailsite_value"
+                        android:id="@+id/prop_value_site_detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@+id/site_detailsite"
-                        android:layout_alignBottom="@+id/site_detailsite"
-                        android:layout_toRightOf="@+id/site_detailsite"
+                        android:layout_alignBaseline="@+id/prop_title_site_detail"
+                        android:layout_alignBottom="@+id/prop_title_site_detail"
+                        android:layout_toRightOf="@+id/prop_title_site_detail"
                         android:textColor="#686868"
                         android:textSize="18sp" />
-                </RelativeLayout> <!-- fin site detailsite -->
-
-
-                <!-- site- pmr -->
+                </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/relativ_site_pmr"
+                    android:id="@+id/layout_pmr"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" >
 
-                    <View
-                        android:id="@+id/site_pmr_separator"
-                        android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginBottom="@dimen/normal_padding"
-                        android:layout_marginTop="@dimen/normal_padding"
-                        android:background="#d9d9d9" /> <!-- fin separator -->
-
                     <TextView
-                        android:id="@+id/site_pmr"
+                        android:id="@+id/prop_title_pmr"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:layout_below="@+id/site_pmr_separator"
                         android:layout_marginTop="5dp"
                         android:text="@string/prop_title_pmr"
                         android:textColor="#999999"
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/site_pmr_value"
+                        android:id="@+id/prop_value_pmr"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@+id/site_pmr"
-                        android:layout_alignBottom="@+id/site_pmr"
-                        android:layout_toRightOf="@+id/site_pmr"
+                        android:layout_alignBaseline="@+id/prop_title_pmr"
+                        android:layout_alignBottom="@+id/prop_title_pmr"
+                        android:layout_toRightOf="@+id/prop_title_pmr"
                         android:textColor="#686868"
                         android:textSize="18sp" />
-                </RelativeLayout> <!-- fin site pmr -->
+                </RelativeLayout>
 
             </LinearLayout>
-
-            <!-- Artiste -->
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -650,11 +549,8 @@
                 android:paddingBottom="@dimen/normal_padding"
                 android:paddingTop="@dimen/normal_padding" >
 
-                <!-- artiste - mouvement -->
-                <!-- fin site -pays -->
-
                 <Button
-                    android:id="@+id/btn_acces_wiki"
+                    android:id="@+id/button_wiki"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -664,7 +560,7 @@
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:paddingTop="@dimen/normal_padding"
-                    android:text="@string/voir_article_atlasmuseum"
+                    android:text="@string/button_wiki"
                     android:textColor="#333333" />
             </LinearLayout>
         </LinearLayout>
