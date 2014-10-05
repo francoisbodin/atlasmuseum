@@ -5,6 +5,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 public class NewsActivity extends Activity {
@@ -18,6 +19,7 @@ public class NewsActivity extends Activity {
 		setContentView(R.layout.news_activity);
 
 		WebView webView = (WebView) findViewById(R.id.webview_help);
+		webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 		webView.loadUrl("http://atlasmuseum.irisa.fr/scripts/actu.html");
 
 		ActionBar actionBar = getActionBar();
