@@ -232,12 +232,12 @@ public class EditContributionActivity extends Activity implements ContributionSe
 		// Update location if needed for new notice
 		if(AtlasmuseumActivity.mLastLocation != null && mContribution.getNoticeId() == 0) {
 			ContributionProperty propLatitude = mContribution.getProperty(Contribution.LATITUDE);
-			if( propLatitude.getValue() == "" ) {
-				propLatitude.setValue(String.valueOf(AtlasmuseumActivity.mLastLocation.getLatitude()));
-			}
 			ContributionProperty propLongitude= mContribution.getProperty(Contribution.LONGITUDE);
-			if( propLongitude.getValue() == "" ) {
+			if( propLatitude.getValue() == "" || propLongitude.getValue() == "" ) {
+				propLatitude.setValue(String.valueOf(AtlasmuseumActivity.mLastLocation.getLatitude()));
 				propLongitude.setValue(String.valueOf(AtlasmuseumActivity.mLastLocation.getLongitude()));
+				mContribution.setLocationAccuracy(AtlasmuseumActivity.mLastLocation.getAccuracy());
+				mContribution.setLocationTime(AtlasmuseumActivity.mLastLocation.getTime());
 			}
 		}
 		
@@ -272,12 +272,12 @@ public class EditContributionActivity extends Activity implements ContributionSe
 		// Update location if needed for new notice
 		if(AtlasmuseumActivity.mLastLocation != null && mContribution.getNoticeId() == 0) {
 			ContributionProperty propLatitude = mContribution.getProperty(Contribution.LATITUDE);
-			if( propLatitude.getValue() == "" ) {
-				propLatitude.setValue(String.valueOf(AtlasmuseumActivity.mLastLocation.getLatitude()));
-			}
 			ContributionProperty propLongitude= mContribution.getProperty(Contribution.LONGITUDE);
-			if( propLongitude.getValue() == "" ) {
+			if( propLatitude.getValue() == "" || propLongitude.getValue() == "" ) {
+				propLatitude.setValue(String.valueOf(AtlasmuseumActivity.mLastLocation.getLatitude()));
 				propLongitude.setValue(String.valueOf(AtlasmuseumActivity.mLastLocation.getLongitude()));
+				mContribution.setLocationAccuracy(AtlasmuseumActivity.mLastLocation.getAccuracy());
+				mContribution.setLocationTime(AtlasmuseumActivity.mLastLocation.getTime());
 			}
 		}
 
@@ -560,6 +560,9 @@ public class EditContributionActivity extends Activity implements ContributionSe
 						String longitude = Double.toString(AtlasmuseumActivity.mLastLocation.getLongitude());
 						ContributionProperty propertyLongitude = mContribution.getProperty(Contribution.LONGITUDE);
 						propertyLongitude.setValue(longitude);
+						
+						mContribution.setLocationAccuracy(AtlasmuseumActivity.mLastLocation.getAccuracy());
+						mContribution.setLocationTime(AtlasmuseumActivity.mLastLocation.getTime());
 						
 						// Update current ListView
 						mAdapter.notifyDataSetChanged();

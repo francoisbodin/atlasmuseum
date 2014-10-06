@@ -29,7 +29,7 @@ import fr.atlasmuseum.search.SearchActivity;
 
 @SuppressLint("SimpleDateFormat") public class Contribution implements Serializable {
 
-	private static final long serialVersionUID = 5484011696084997686L;
+	private static final long serialVersionUID = -2274850422230940739L;
 
 	private static final String DEBUG_TAG = "AtlasMuseum/Contribution2";
 	
@@ -95,6 +95,8 @@ import fr.atlasmuseum.search.SearchActivity;
 	String mStatus;
 	String mSavedFilename;
 	int mDistance;
+	float mLocationAccuracy;
+	double mLocationTime;
 	
 	HashMap<String,ContributionProperty> mProperties;
 	
@@ -109,6 +111,8 @@ import fr.atlasmuseum.search.SearchActivity;
 		mStatus = "";
 		mSavedFilename = "";
 		mDistance = -1;
+		mLocationAccuracy = -1;
+		mLocationTime = -1;
 		mProperties = new HashMap<String, ContributionProperty>();
 		
 		mProperties.put( URL, new ContributionProperty(
@@ -500,6 +504,20 @@ import fr.atlasmuseum.search.SearchActivity;
 		mDistance = distance;
 	}
 	
+	public float getLocationAccuracy() {
+		return mLocationAccuracy;
+	}
+	public void setLocationAccuracy(float locationAccuracy) {
+		mLocationAccuracy = locationAccuracy;
+	}
+	
+	public double getLocationTime() {
+		return mLocationTime;
+	}
+	public void setLocationTime(double locationTime) {
+		mLocationTime = locationTime;
+	}
+	
 
 	public ContributionProperty getProperty(String name) {
 		if( mProperties.containsKey(name) ) {
@@ -567,6 +585,22 @@ import fr.atlasmuseum.search.SearchActivity;
         if( ! mPassword.equals("") ) {
         	Element elemPassword = new Element(PASSWORD);
         	Attribute attrPassword = new Attribute(VALUE, mPassword);
+        	elemPassword.setAttribute(attrPassword);
+        	elemContrib.addContent(elemPassword);
+        }
+
+        // Add location accuracy
+        if( mLocationAccuracy != -1 ) {
+        	Element elemPassword = new Element("location_accuracy");
+        	Attribute attrPassword = new Attribute(VALUE, String.valueOf(mLocationAccuracy));
+        	elemPassword.setAttribute(attrPassword);
+        	elemContrib.addContent(elemPassword);
+        }
+
+        // Add location timestamp
+        if( mLocationTime != -1 ) {
+        	Element elemPassword = new Element("location_timestamp");
+        	Attribute attrPassword = new Attribute(VALUE, String.valueOf(mLocationTime));
         	elemPassword.setAttribute(attrPassword);
         	elemContrib.addContent(elemPassword);
         }
