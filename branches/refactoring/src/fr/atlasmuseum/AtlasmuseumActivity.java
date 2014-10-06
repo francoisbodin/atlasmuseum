@@ -8,7 +8,6 @@ import fr.atlasmuseum.account.ConnectionAsync;
 import fr.atlasmuseum.contribution.ContributeActivity;
 import fr.atlasmuseum.helper.AtlasError;
 import fr.atlasmuseum.location.LocationProvider;
-import fr.atlasmuseum.location.LocationStruct;
 import fr.atlasmuseum.search.SearchActivity;
 import android.app.Activity;
 import android.content.Context;
@@ -20,8 +19,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
@@ -43,8 +40,6 @@ public class AtlasmuseumActivity extends Activity
 	private LocationProvider mLocationProvider;
     public static Location mLastLocation = null;
   
-    private Boolean mUpdateLocationRequested = true;
-    
     public static SharedPreferences cPref;
     
     
@@ -147,10 +142,8 @@ public class AtlasmuseumActivity extends Activity
 		// Location stuff
 		mLocationProvider = new LocationProvider(this);
 		mLastLocation = null;
-		mUpdateLocationRequested = false;
 		mLocationProvider.connect();
 		startLocationUpdate();
-		updateLocation();
 	}
 	
 	@Override
@@ -250,26 +243,14 @@ public class AtlasmuseumActivity extends Activity
 		mLocationProvider.startPeriodicUpdates();
 	}
 
-	private void updateLocation() {
-		Log.d(DEBUG_TAG, "updateLocation");
-		mUpdateLocationRequested = true;
-	}
-	
 	private void stopLocationUpdate()  {
 		Log.d(DEBUG_TAG, "stopLocationUpdate");
 		mLocationProvider.stopPeriodicUpdates();
 	}
 
 	public void onLocationUpdated( Location location ) {
-		if( location == null ) {
-			return;
-		}
 		Log.d(DEBUG_TAG, "onLocationUpdated: Latitude = " + location.getLatitude() + " - Longitude = " + location.getLongitude() + " - Accuracy = " + location.getAccuracy());
-		if( mUpdateLocationRequested ) {
-			mUpdateLocationRequested = false;
-			mLastLocation = new Location(location);
-			Log.d(DEBUG_TAG, "Location updated");
-		}
+		mLastLocation = new Location(location);
 	}
 	
 	@Override
