@@ -27,11 +27,12 @@ import fr.atlasmuseum.data.JsonRawData;
 import fr.atlasmuseum.helper.PictureDownloader;
 import fr.atlasmuseum.search.SearchActivity;
 
-@SuppressLint("SimpleDateFormat") public class Contribution implements Serializable {
+@SuppressLint("SimpleDateFormat")
+public class Contribution implements Serializable {
 
 	private static final long serialVersionUID = -2274850422230940739L;
 
-	private static final String DEBUG_TAG = "AtlasMuseum/Contribution2";
+	private static final String DEBUG_TAG = "AtlasMuseum/Contribution";
 	
 	static final String CONTRIBUTION = "contribution";
 	static final String VALUE = "value";

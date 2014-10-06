@@ -93,6 +93,8 @@
     <string name="edit_contribution_leave_warning">Vous êtes sur le point de quitter une contribution en cours. Voulez-vous vraiment quitter?</string>
     
   <!-- Search strings -->
+    <string name="search_around">Rechercher autour de moi</string> 
+    <string name="search_map">Rechercher sur la carte</string> 
     <string name="search_all">Rechercher par artiste, titre, lieu</string> 
     <string name="search_by_title">Rechercher par titre</string>
     <string name="search_by_artist">Rechercher par artiste</string>

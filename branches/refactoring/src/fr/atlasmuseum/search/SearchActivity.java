@@ -1,7 +1,5 @@
 package fr.atlasmuseum.search;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,21 +9,18 @@ import fr.atlasmuseum.data.JsonRawData;
 import fr.atlasmuseum.helper.AtlasError;
 import fr.atlasmuseum.search.module.SimpleAdapterSearch;
 import android.app.ActionBar;
-import android.app.ActionBar.Tab;
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class SearchActivity extends Activity implements ActionBar.TabListener {
+public class SearchActivity extends Activity {
 
 	private static final String DEBUG_TAG = "AtlasMuseum/SearchActivity";
 	
@@ -35,8 +30,6 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 	public static final String MAP_FOCUS_NOTICE = "mapfocusnotice";
 	static final String CHAMPS_ITEM = "champs_select";
 	static public JsonRawData db = null;
-	
-	private static final String ATLASMUSEUM_ALBUM = "atlasmuseum";
 	
 	private ListView mListView;
 	private SimpleAdapterSearch mAdapter;
@@ -69,15 +62,6 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 			actionBar.setDisplayShowTitleEnabled(true);
 			actionBar.setHomeButtonEnabled(true);
 			//actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);  
-
-			Drawable search_img = getResources().getDrawable(R.drawable.ic_search);
-			Drawable autour_img = getResources().getDrawable(R.drawable.ic_autour);
-			Drawable map_img = getResources().getDrawable(R.drawable.ic_map);
-			actionBar.addTab(actionBar.newTab().setIcon(search_img).setTabListener(this));//search
-			actionBar.addTab(actionBar.newTab().setIcon(autour_img).setTabListener(this));//autour
-			actionBar.addTab(actionBar.newTab().setIcon(map_img).setTabListener(this));//map
-			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-			actionBar.selectTab(actionBar.getTabAt(0));
 		}
 		
 		ArrayList<String> selectionStringList = new ArrayList<String>();
@@ -131,30 +115,26 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 	}	
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int itemId = item.getItemId();
-
-		if(itemId == android.R.id.home)	{
-			super.onBackPressed();
-			finish();
-			return true;
-		}
-		else return false;
+	public boolean onCreateOptionsMenu(Menu menu) {
+		//Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.menu_search, menu);
+        return super.onCreateOptionsMenu(menu);
 	}
+	
 
 	@Override
-	public void onTabSelected(Tab tab, FragmentTransaction arg1) {
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int itemId = item.getItemId();
 		Intent intent = null;
-		switch(tab.getPosition()) {
-		case 0: //rechercher
-			break;
-		case 1:	//autour de moi
-			getActionBar().setSelectedNavigationItem(0);
+		switch(itemId) {
+		case android.R.id.home:
+			finish();
+			return true;
+		case R.id.action_search_around:
 			intent = new Intent(this, SearchAroundActivity.class);
 			startActivity(intent);
-			break;
-		case 2: //map
-			getActionBar().setSelectedNavigationItem(0);
+			return true;
+		case R.id.action_search_map:
 			Bundle bundle = new Bundle();
 			for(int i = 0 ; i < SearchActivity.db.nbentries ; i++) {
 				bundle.putInt(Integer.toString(i), i);
@@ -165,40 +145,22 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 			startActivity(intent);
 			break;
 		}
-	}
-
-	@Override
-	public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
-		// Do Nothing
-	}
-
-	@Override
-	public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
-		// Do Nothing
+		return false;
 	}
 	
 	///////////////////////////// helper routines  //////////////
-	static public String extractDataFromDb(int index, String field)
-	{
-		JSONObject obj = null; 
-		//Log.d(DEBUG_TAG, "extractDataFromDb");
+	static public String extractDataFromDb(int index, String field)	{
 		try {
-			obj = db.data.getJSONObject(index);
-		} catch (JSONException e) 
-		{
-			return "?";
-		}
-		try {
+			JSONObject obj = JsonRawData.data.getJSONObject(index);
 			return obj.getString(field);
-		} catch (JSONException e)
-		{
+		}
+		catch (JSONException e) {
 			return "?";
 		}
 	}
 
 
-	static double haversine_meter(double lat1, double long1, double lat2, double long2)
-	{
+	static double haversine_meter(double lat1, double long1, double lat2, double long2)	{
 		final double d2r= 0.0174532925199433;
 		double dlong = (long2 - long1) * d2r;
 		double dlat = (lat2 - lat1) * d2r;
