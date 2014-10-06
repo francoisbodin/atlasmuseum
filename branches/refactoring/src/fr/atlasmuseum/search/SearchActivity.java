@@ -209,56 +209,5 @@ public class SearchActivity extends Activity implements ActionBar.TabListener {
 		return d*1000.0;
 	}
 
-	//utiliser dans LoadingPhotoAsync
-	public static File checkIfImageFileExists(String filename) throws IOException {
-		File imageF = new File(getAlbumDir(), filename);
-		if (imageF.exists()) return imageF;
-		else return null;
-	}
-
-	//utiliser dans LoadingPhotoAsync
-	public static File checkIfPhotoFileExists(String filename) throws IOException {
-		File imageF = new File(getAlbumDir(), filename);
-		if (imageF.exists()) return imageF;
-		else return null;
-	}
-
-	// for images managements
-	//utiliser dans ObjectFragmentActivity
-	private static File getAlbumDir() {
-		File storageDir = null;
-		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-			String dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
-			storageDir = new File( dcimDir + "/" + ATLASMUSEUM_ALBUM );
-			if (storageDir != null) {
-				if (! storageDir.mkdirs()) {
-					if (! storageDir.exists()){
-						Log.d(DEBUG_TAG, "failed to create directory");
-						return null;
-					}
-				}
-			}
-		} else {
-			Log.v(DEBUG_TAG, "External storage is not mounted READ/WRITE.");
-		}
-		return storageDir;
-	}
-
-	//utiliser dans ObjectFragmentActivity
-	public static File createImageFile(String filename) throws IOException {
-		// Create an image file name
-		//String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-		Log.d(DEBUG_TAG, "creating imagefile = " + filename);
-		//String timeStamp2 = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.US).format(new Date());
-		//Log.d(DEBUG_TAG, "timeStamp2 = " + timeStamp2);
-		//String imageFileName = ATLASMUSEUM_IMAGE_PREFIX + timeStamp;
-		File albumF = getAlbumDir();
-		File imageF =  new File(albumF.getAbsolutePath() + "/" + filename);
-		return imageF;
-	}
-
-
-
-
 }
 
