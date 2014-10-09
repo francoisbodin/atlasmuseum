@@ -80,12 +80,10 @@ public class SearchActivity extends Activity {
 				Intent intent = null;
 				switch(position) {
 				case 0:
-					getActionBar().setSelectedNavigationItem(0);
 					intent = new Intent(SearchActivity.this, SearchAutoCompleteActivity.class);
 					break;
 
 				case 1:
-					getActionBar().setSelectedNavigationItem(0);
 					intent = new Intent(SearchActivity.this, SearchByDateActivity.class);
 					break;
 
