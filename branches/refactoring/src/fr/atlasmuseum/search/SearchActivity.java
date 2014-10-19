@@ -24,7 +24,7 @@ public class SearchActivity extends Activity {
 
 	private static final String DEBUG_TAG = "AtlasMuseum/SearchActivity";
 	
-	static final String NB_ENTRIES = "nbentries";
+	public static final String NB_ENTRIES = "nbentries";
 	static final String CURRENT_LAT = "curlat";
 	static final String CURRENT_LONG = "curlong";
 	public static final String MAP_FOCUS_NOTICE = "mapfocusnotice";
@@ -138,7 +138,7 @@ public class SearchActivity extends Activity {
 				bundle.putInt(Integer.toString(i), i);
 			}
 			bundle.putInt(SearchActivity.NB_ENTRIES, SearchActivity.db.nbentries);
-			intent = new Intent(getApplication(), MapActivity.class);
+			intent = new Intent(this, MapActivity.class);
 			intent.putExtras(bundle);
 			startActivity(intent);
 			break;

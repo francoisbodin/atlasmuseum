@@ -8,7 +8,9 @@ import fr.atlasmuseum.account.ConnectionAsync;
 import fr.atlasmuseum.contribution.ContributeActivity;
 import fr.atlasmuseum.helper.AtlasError;
 import fr.atlasmuseum.location.LocationProvider;
+import fr.atlasmuseum.search.MapActivity;
 import fr.atlasmuseum.search.SearchActivity;
+import fr.atlasmuseum.search.SearchAroundActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -59,6 +61,12 @@ public class AtlasmuseumActivity extends Activity
 		TextView textContribute = (TextView) findViewById(R.id.text_contribute);
 		textContribute.setTypeface(font);
 		
+		TextView textAround = (TextView) findViewById(R.id.text_around);
+		textAround.setTypeface(font);
+		
+		TextView textMap = (TextView) findViewById(R.id.text_map);
+		textMap.setTypeface(font);
+		
 		TextView textHelp = (TextView) findViewById(R.id.text_help);
 		textHelp.setTypeface(font);
 		
@@ -87,6 +95,30 @@ public class AtlasmuseumActivity extends Activity
 	    	public void onClick(View v) {
 	    		Intent intent = new Intent(AtlasmuseumActivity.this, ContributeActivity.class); 
 	    		startActivity(intent);
+	    	}
+	    });
+		
+		LinearLayout buttonAround = (LinearLayout) findViewById(R.id.button_around);
+		buttonAround.setOnClickListener(new OnClickListener() {
+	        @Override
+	        public void onClick(View v) {
+	    		Intent intent = new Intent(AtlasmuseumActivity.this, SearchAroundActivity.class); 
+	    		startActivity(intent);
+	        }
+	    });
+		
+		LinearLayout buttonMap = (LinearLayout) findViewById(R.id.button_map);
+		buttonMap.setOnClickListener(new OnClickListener() {
+	    	@Override
+	    	public void onClick(View v) {
+				Bundle bundle = new Bundle();
+				for(int i = 0 ; i < SearchActivity.db.nbentries ; i++) {
+					bundle.putInt(Integer.toString(i), i);
+				}
+				bundle.putInt(SearchActivity.NB_ENTRIES, SearchActivity.db.nbentries);
+				Intent intent = new Intent(AtlasmuseumActivity.this, MapActivity.class);
+				intent.putExtras(bundle);
+				startActivity(intent);
 	    	}
 	    });
 		

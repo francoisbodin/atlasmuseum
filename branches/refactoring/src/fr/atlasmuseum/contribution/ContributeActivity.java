@@ -136,7 +136,16 @@ public class ContributeActivity extends Activity {
 				return name.startsWith("new_") || name.startsWith("modif_");
 			}
 		};
-		int nbSavedContributions = saveDir.list(filter).length;
+
+		int nbSavedContributions = 0;
+		for(File f: saveDir.listFiles(filter) ) {
+			Contribution contrib = Contribution.restoreFromFile(f.getAbsolutePath());
+			if( contrib == null ) {
+				f.delete();
+				continue;
+			}
+			nbSavedContributions++;
+		}
 
 		// Update contribute title with number of saved contributions
 		mTextSavedTitle.setText(nbSavedContributions+" "+getResources().getString(nbSavedContributions <= 1 ? R.string.saved_contribution : R.string.saved_contributions));

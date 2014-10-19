@@ -25,7 +25,9 @@
   <!-- AtlasmuseumActivity strings -->
 	<string name="main_explore">EXPLORER</string>
     <string name="main_contribute">CONTRIBUER</string>
-	<string name="main_help">AIDE</string>
+    <string name="main_around">AUTOUR DE MOI</string>
+    <string name="main_map">LA CARTE</string>
+    <string name="main_help">AIDE</string>
     <string name="main_profil">MON PROFIL</string>
     <string name="main_connection">CONNECTER</string>
     <string name="main_disconnection">DÉCONNECTER</string>
