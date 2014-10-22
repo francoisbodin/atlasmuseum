@@ -21,6 +21,7 @@ public class NewsActivity extends Activity {
 		WebView webView = (WebView) findViewById(R.id.webview_help);
 		webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 		webView.loadUrl("http://atlasmuseum.irisa.fr/scripts/actu.html");
+		//webView.loadUrl("http://wwww.atlasmuseum.org/?page_id=242");
 
 		ActionBar actionBar = getActionBar();
 		if (actionBar != null) {
