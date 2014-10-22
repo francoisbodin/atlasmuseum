@@ -135,7 +135,7 @@
                 android:layout_width="@dimen/ic_accueil_widthheight"
                 android:layout_height="@dimen/ic_accueil_widthheight"
                 android:paddingBottom="5dp"
-                android:src="@drawable/ic_accueil_favoris" />
+                android:src="@drawable/ic_accueil_aide" />
 
             <TextView
                 android:id="@+id/text_help"
