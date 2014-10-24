@@ -3,13 +3,24 @@ package fr.atlasmuseum;
 import fr.atlasmuseum.R;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 public class NewsActivity extends Activity {
 
+	private class MyWebViewClient extends WebViewClient {
+	    @Override
+	    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+	        view.loadUrl(url);
+	        return false;
+	    }
+	}
+	
 	@SuppressWarnings("unused")
 	private static final String DEBUG_TAG = "AtlasMuseum/NewsActivity";
 
@@ -19,9 +30,9 @@ public class NewsActivity extends Activity {
 		setContentView(R.layout.news_activity);
 
 		WebView webView = (WebView) findViewById(R.id.webview_help);
+		webView.setWebViewClient(new MyWebViewClient());
 		webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
 		webView.loadUrl("http://atlasmuseum.irisa.fr/scripts/actu.html");
-		//webView.loadUrl("http://wwww.atlasmuseum.org/?page_id=242");
 
 		ActionBar actionBar = getActionBar();
 		if (actionBar != null) {
