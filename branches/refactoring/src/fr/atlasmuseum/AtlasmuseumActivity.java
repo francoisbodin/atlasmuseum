@@ -112,10 +112,10 @@ public class AtlasmuseumActivity extends Activity
 	    	@Override
 	    	public void onClick(View v) {
 				Bundle bundle = new Bundle();
-				for(int i = 0 ; i < SearchActivity.db.nbentries ; i++) {
+				for(int i = 0 ; i < SearchActivity.getDB().nbentries ; i++) {
 					bundle.putInt(Integer.toString(i), i);
 				}
-				bundle.putInt(SearchActivity.NB_ENTRIES, SearchActivity.db.nbentries);
+				bundle.putInt(SearchActivity.NB_ENTRIES, SearchActivity.getDB().nbentries);
 				Intent intent = new Intent(AtlasmuseumActivity.this, MapActivity.class);
 				intent.putExtras(bundle);
 				startActivity(intent);

@@ -59,7 +59,7 @@ public class SearchListActivity extends Activity  {
 		}
 
 		ArrayList<String> listElement = new ArrayList<String>();
-		for (int i = 0 ; i < SearchActivity.db.nbentries ; i++) {
+		for (int i = 0 ; i < SearchActivity.getDB().nbentries ; i++) {
 			String element = SearchActivity.extractDataFromDb(i, mChamps);
 			if( element.equals("?") ) {
 				continue;
@@ -86,7 +86,7 @@ public class SearchListActivity extends Activity  {
 				String selectedItem = (String)mAdapter.getItem(position);
 		    	int j = 0;
 		    	Bundle bundle = new Bundle();
-		    	for (int i = 0 ; i < SearchActivity.db.nbentries ; i++) {	
+		    	for (int i = 0 ; i < SearchActivity.getDB().nbentries ; i++) {	
 		    		String value = SearchActivity.extractDataFromDb(i,mChamps);
 		    		if ((value != null) && (value.equals(selectedItem))){
 		    			bundle.putInt(Integer.toString(j),i);

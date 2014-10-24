@@ -49,7 +49,7 @@ public class SearchAroundActivity extends Activity
 		if (mLastLocation != null) {
 			double lat1 = mLastLocation.getLatitude();
 			double long1 = mLastLocation.getLongitude();
-			for (int idxloc = 0; idxloc < SearchActivity.db.nbentries; idxloc++) {
+			for (int idxloc = 0; idxloc < SearchActivity.getDB().nbentries; idxloc++) {
 				Contribution contribution = new Contribution();
 				contribution.updateFromDb(idxloc);
 		    	

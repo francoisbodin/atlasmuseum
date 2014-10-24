@@ -125,7 +125,7 @@ public class SearchAutoCompleteActivity extends Activity {
 				}
 
 				int j = 0;
-				for (int i = 0; i < SearchActivity.db.nbentries; i++) {
+				for (int i = 0; i < SearchActivity.getDB().nbentries; i++) {
 					for( String prop: properties ) {
 						String value = SearchActivity.extractDataFromDb(i,prop);
 						if(value.equals("?")) {
@@ -263,7 +263,7 @@ public class SearchAutoCompleteActivity extends Activity {
 		 }
 
 		 getActionBar().setTitle(this.getResources().getString(titleId));
-		 for (int idx = 0; idx < SearchActivity.db.nbentries; idx++) {
+		 for (int idx = 0; idx < SearchActivity.getDB().nbentries; idx++) {
 			 for( String prop: properties ) {
 				 String value = SearchActivity.extractDataFromDb(idx,prop);
 				 if(value.equals("?")) {

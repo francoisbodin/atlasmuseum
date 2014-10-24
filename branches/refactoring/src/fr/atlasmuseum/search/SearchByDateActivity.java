@@ -76,7 +76,7 @@ public class SearchByDateActivity extends Activity {
 				
 				Bundle bundle = new Bundle();
 				int j = 0;
-				for (int i = 0 ; i < SearchActivity.db.nbentries ; i++)	{
+				for (int i = 0 ; i < SearchActivity.getDB().nbentries ; i++)	{
 					String date_oeuvre = SearchActivity.extractDataFromDb(i,"inauguration");
 					if ((date_oeuvre != null) && !date_oeuvre.equals("?") )	{
 						try {

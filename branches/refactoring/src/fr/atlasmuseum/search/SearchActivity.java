@@ -29,11 +29,24 @@ public class SearchActivity extends Activity {
 	static final String CURRENT_LONG = "curlong";
 	public static final String MAP_FOCUS_NOTICE = "mapfocusnotice";
 	static final String CHAMPS_ITEM = "champs_select";
-	static public JsonRawData db = null;
+	static private JsonRawData db = null;
 	
 	private ListView mListView;
 	private SimpleAdapterSearch mAdapter;
 
+	static public JsonRawData getDB() {
+		if(db == null) {
+			// Load the data from the internal DB
+			try	{
+				db = new JsonRawData();
+			}
+			catch (JSONException e) {
+				db = null;
+			}
+		}
+		return db;
+	}
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
@@ -134,10 +147,10 @@ public class SearchActivity extends Activity {
 			return true;
 		case R.id.action_search_map:
 			Bundle bundle = new Bundle();
-			for(int i = 0 ; i < SearchActivity.db.nbentries ; i++) {
+			for(int i = 0 ; i < getDB().nbentries ; i++) {
 				bundle.putInt(Integer.toString(i), i);
 			}
-			bundle.putInt(SearchActivity.NB_ENTRIES, SearchActivity.db.nbentries);
+			bundle.putInt(SearchActivity.NB_ENTRIES, getDB().nbentries);
 			intent = new Intent(this, MapActivity.class);
 			intent.putExtras(bundle);
 			startActivity(intent);
