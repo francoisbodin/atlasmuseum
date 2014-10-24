@@ -103,7 +103,7 @@ public class ShowNoticeActivity extends Activity
 	        @Override
 	        public void onClick(View v) {
 	        	Intent intent = new Intent(Intent.ACTION_VIEW);
-	        	intent.setData(Uri.parse(mContribution.getProperty(Contribution.URL).getValue()));
+	        	intent.setData(Uri.parse("http://publicartmuseum.net/wiki/?curid="+mContribution.getNoticeId()));
 	        	startActivity(intent);
 	        }
     	});

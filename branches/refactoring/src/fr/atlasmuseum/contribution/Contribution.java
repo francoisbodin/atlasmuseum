@@ -30,7 +30,7 @@ import fr.atlasmuseum.search.SearchActivity;
 @SuppressLint("SimpleDateFormat")
 public class Contribution implements Serializable {
 
-	private static final long serialVersionUID = -2274850422230940739L;
+	private static final long serialVersionUID = -947657069817213636L;
 
 	private static final String DEBUG_TAG = "AtlasMuseum/Contribution";
 	
@@ -61,7 +61,6 @@ public class Contribution implements Serializable {
 	static final String DATECONTRIBUTION = "date";
 	static final String HEURECONTRIBUTION = "heure";
 
-	public static final String URL = "url";
 	public static final String CREDIT_PHOTO = "creditphoto";
 	public static final String PHOTO = "photo";
 	public static final String TITRE= "titre";
@@ -115,19 +114,6 @@ public class Contribution implements Serializable {
 		mLocationAccuracy = -1;
 		mLocationTime = -1;
 		mProperties = new HashMap<String, ContributionProperty>();
-		
-		mProperties.put( URL, new ContributionProperty(
-				/* dbField */ URL,
-				/* jsonField */ "url",
-				/* title */ 0,
-				/* value */ "",
-				/* defaultValue */ 0,
-				/* info */ 0,
-				/* type */ ContributionProperty.ContribType.text,
-				/* choices */ null,
-				/* showViewText */ 0,
-				/* showViewToHide */ 0,
-				/* dumpInXML */ false) );
 		
 		mProperties.put( CREDIT_PHOTO, new ContributionProperty(
 				/* dbField */ CREDIT_PHOTO,
