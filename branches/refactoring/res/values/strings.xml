@@ -90,6 +90,8 @@
     <string name="dialog_restore_contribution_modif_message">Il existe déjà une contribution sauvegardée pour cette notice. Souhaitez-vous la recharger ?</string>
 
   <!-- Edit Contribution strings -->
+    <string name="edit_contribution_title_new">Création d\'une nouvelle notice</string>
+    <string name="edit_contribution_title_modify">Modification d\'une notice existante</string>
     <string name="edit_contribution_not_modified">Veuillez compléter au moins un champ pour contribuer</string>
     <string name="edit_contribution_update_location">Mettre à jour la localisation de l\'œuvre</string>
     <string name="edit_contribution_leave_warning">Vous êtes sur le point de quitter une contribution en cours. Voulez-vous vraiment quitter?</string>

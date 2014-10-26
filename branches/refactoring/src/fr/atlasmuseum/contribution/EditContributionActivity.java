@@ -116,7 +116,6 @@ public class EditContributionActivity extends Activity implements ContributionSe
 				
 				if( field.equals(Contribution.LATITUDE) ||
 				    field.equals(Contribution.LONGITUDE)) {
-					// TODO: handle special case for location
 					showLocationChangeAlertToUser();
 				}
 				else {
@@ -181,10 +180,10 @@ public class EditContributionActivity extends Activity implements ContributionSe
 		}
 
 		if( mContribution.getNoticeId() == 0 ) {
-			getActionBar().setTitle("Création d'une nouvelle oeuvre");  // TODO : resourcify this string
+			getActionBar().setTitle(getResources().getString(R.string.edit_contribution_title_new));
 		}
 		else {
-			getActionBar().setTitle("Ajout/Modif oeuvre existante"); // TODO : resourcify this string
+			getActionBar().setTitle(getResources().getString(R.string.edit_contribution_title_modify));
 		}
 
 		// Populate the list view
