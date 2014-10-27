@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Atlasmuseum</string>
+
+  <!-- Common strings -->
+    <string name="Yes">Oui</string>
+    <string name="No">Non</string>
+    <string name="Update">Mise à jour</string>
+    <string name="Save">Sauvegarder</string>
+    <string name="Search">Rechercher</string>
+    <string name="SAVE">SAUVEGARDER</string>
+    <string name="CANCEL">ANNULER</string>
+    <string name="SEND">ENVOYER</string>
+    <string name="Contribute">Contribuer</string>
+    <string name="Validate">Valider</string>
+    <string name="Ok">Ok</string>
+    <string name="Information">Informations</string>
+    <string name="Edit">Editer</string>
+    <string name="Itinerary">Itinéraire</string>
+
+  <!-- LoaderActivity strings -->
+    <string name="loader_intro1">L\'atlas mobile des œuvres d\'art</string>
+    <string name="loader_intro2">dans l\'espace public</string>
+    
+  <!-- AtlasmuseumActivity strings -->
+	<string name="main_explore">EXPLORER</string>
+    <string name="main_contribute">CONTRIBUER</string>
+    <string name="main_around">AUTOUR DE MOI</string>
+    <string name="main_map">LA CARTE</string>
+    <string name="main_help">AIDE</string>
+    <string name="main_profil">MON PROFIL</string>
+    <string name="main_connection">CONNECTER</string>
+    <string name="main_disconnection">DÉCONNECTER</string>
+    <string name="main_news">ACTUALITÉS</string>
+    <string name="main_about">A PROPOS</string>
+    
+  <!-- ContributionSender strings -->
+    <string name="contribution_send_url">http://atlasmuseum.irisa.fr/scripts/receive_contribution.php</string>
+    <!-- <string name="contribution_send_url">http://erix.dscloud.me/atlas/scripts/receive_contribution.php</string> -->
+    <string name="contribution_sending">Envoi de la contribution…</string>
+    
+  <!-- Account strings -->
+    <string name="account_connecting">Connexion en cours…</string>
+    <string name="account_connected_as">Connecté en tant que %1$s</string>
+    <string name="action_account">Accès au compte</string>
+    
+  <!-- Contribution strings -->
+    <string name="prop_title_titre">Titre</string>
+    <string name="prop_default_titre">Pas de titre</string>
+    <string name="prop_title_artiste">Artiste</string>
+    <string name="prop_default_artiste">Inconnu</string>
+    <string name="prop_title_couleurs">Couleurs</string>
+    <string name="prop_title_date">Date</string>
+    <string name="prop_info_date">Indiquez l\'année d\'inauguration (exemple : 2004)</string>
+    <string name="prop_title_description">Description</string>
+    <string name="prop_title_materiaux">Matériaux</string>
+    <string name="prop_title_site_nom">Nom du site</string>
+    <string name="prop_title_site_detail">Détail sur le site</string>
+    <string name="prop_title_nature">Nature</string>
+    <string name="prop_title_latitude">Latitude</string>
+    <string name="prop_title_longitude">Longitude</string>
+    <string name="prop_title_infos">Autres informations sur l\'œuvre</string>
+    <string name="prop_info_infos">Indiquez les informations permettant de faciliter la perception de l\'œuvre: horaires d\'ouverture, chemin d\'accès, meilleur endroit où se placer pour voir l\'œuvre, etc.</string>
+    <string name="prop_title_etat">Etat de conservation</string>
+    <string name="prop_title_etat_precision">Précision sur l\'état de conservation</string>
+    <string name="prop_title_pmr">Accessibilité PMR</string>
+    <string name="prop_info_pmr">Site accessible aux personnes à mobilité réduite</string>
+    <string name="prop_title_mots_cles">Mots clés</string>
+    <string name="prop_title_contexte">Contexte</string>
+    <string name="prop_title_ville">Ville</string>
+    <string name="prop_title_region">Région</string>
+    <string name="prop_title_pays">Pays</string>
+    <string name="prop_title_mouvement">Mouvement</string>
+    
+    <string name="contribution_uploading">Téléchargement de l\'image</string>
+    <string name="contribution_url_images">http://atlasmuseum.irisa.fr/images/</string>
+
+    <string name="contribution_sent">Contribution envoyée avec succès</string>
+    <string name="contribution_upload_image">Téléchargez la photo</string>
+    
+    
+  <!-- Saved Contributions strings -->
+    <string name="saved_contribution">Contribution sauvegardée</string>
+    <string name="saved_contributions">Contributions sauvegardées</string>
+    <string name="saved_contributions_new_notices">NOUVELLES NOTICES</string>
+    <string name="saved_contributions_modif_notices">NOTICES MODIFIEES</string>
+    
+  <!-- Dialog Restore Contribution strings -->      
+    <string name="dialog_restore_contribution_modif_title">Recharger la contribution sauvegardée ?</string>
+    <string name="dialog_restore_contribution_modif_message">Il existe déjà une contribution sauvegardée pour cette notice. Souhaitez-vous la recharger ?</string>
+
+  <!-- Edit Contribution strings -->
+    <string name="edit_contribution_title_new">Création d\'une nouvelle notice</string>
+    <string name="edit_contribution_title_modify">Modification d\'une notice existante</string>
+    <string name="edit_contribution_not_modified">Veuillez compléter au moins un champ pour contribuer</string>
+    <string name="edit_contribution_update_location">Mettre à jour la localisation de l\'œuvre</string>
+    <string name="edit_contribution_leave_warning">Vous êtes sur le point de quitter une contribution en cours. Voulez-vous vraiment quitter?</string>
+    
+  <!-- Search strings -->
+    <string name="search_around">Rechercher autour de moi</string> 
+    <string name="search_map">Rechercher sur la carte</string> 
+    <string name="search_all">Rechercher par artiste, titre, lieu</string> 
+    <string name="search_by_title">Rechercher par titre</string>
+    <string name="search_by_artist">Rechercher par artiste</string>
+    <string name="search_by_place">Rechercher par lieu</string>
+    <string name="list_author">Liste des artistes</string>
+    <string name="list_city">Liste des villes</string>
+    <string name="list_country">Liste des pays</string>
+    
+  <!-- Search By Date strings -->
+    <string name="search_by_date">Rechercher par date</string>
+    <string name="search_check_date_format">Vérifiez les dates que vous avez entrées</string>
+    <string name="search_by_date_info">Indiquez seulement l\'année. Par exemple : 2009</string>
+    <string name="search_by_date_title">Selectionnez une période</string>
+    <string name="search_by_date_from">De</string>
+    <string name="search_by_date_until">à</string>
+    
+  <!-- Contribute strings -->
+    <string name="contribute_create_contribution">Proposez une œuvre qui n\'est pas encore référencée dans Atlasmuseum</string>
+    <string name="contribute_contributions_sent_title">Contributions envoyées</string>
+    <string name="contribute_contributions_sent_text">Suivez l\'état de vos contributions</string>
+    <string name="contribute_saved_contributions_text">Envoyez vos contributions sauvegardées</string>
+    
+  <!-- Show Notice strings -->
+    <string name="section_oeuvre">ŒUVRE</string>
+    <string name="section_site">SITE</string>
+    <string name="button_wiki">Voir l\'article sur atlasmuseum.net</string>
+    
+    
+    
+    <string name="title_search">RECHERCHER DES ŒUVRES</string><!--  ALT+0140 -->
+    <string name="title_list">ŒUVRES TROUVEES</string>
+    <string name="title_search_rayon">Autour de moi :</string>
+    <string name="title_search_region">Région :</string>
+    <string name="title_search_collection">Collection :</string>
+    <string name="title_search_artiste">Artiste :</string>
+    <string name="title_search_titre">Titre :</string>
+    <string name="title_search_free">Texte :</string>
+    <string name="title_apropos">A PROPOS</string>
+   	<string name="ok">OK</string>
+   	<string name="TITREString">TITRE</string>
+	<string name="Envoyer">Envoyer</string>
+	<string name="CreateContrib">Create Contrib</string>
+	<string name="Effacer">Effacer</string>
+	
+	
+    <!-- Action bar related -->
+    <string name="menu_search">Recherche</string>
+    <string name="menu_refresh">Rafraichir</string>
+    <string name="menu_about">A propos</string>
+    <string name="menu_settings">Paramètres</string>
+    <string name="menu_help">Aide</string>
+    <string name="menu_locate">Carte</string>
+    <string name="actualites">Actualités</string>
+    <string name="mon_profil">Mon profil</string>
+    <string name="aide_infos">Centre d\'aide Atlasmuseum</string>
+
+    <!-- Upload/Server messages -->
+    <string name="uploadingd">Uploading data…</string>
+    <string name="get_server_location_failed">Can\'t retrieve updload location from server</string>
+    <string name="http_request_failed">HTTP request failed</string>
+    <string name="upload_failed">Echec de l\'envoi (%1$s)</string>
+    <string name="empty_result">Empty result</string>
+    <string name="data_sent_to">Data sent to %1$s</string>
+	
+	<!--  GPS -->
+    <string name="gps_click_to_enable">Le GPS est désactivé, il est souhaitable de le démarrer pour le bon fonctionnement de l\'application. Ok?</string>
+    <string name="gsp_link_to_enable">Aller à la page d\'activation</string>
+    <string name="annuler">Annuler</string>
+    <string name="desole_position_pas_recup">Désolé, votre position ne peut être récupérée</string>
+	<string name="GPSactivatedmes">GPS activé</string>
+    
+	<string name="camera_unavailable">L\'appareil photo n\'est pas disponible.</string>
+	
+    
+    <string name="mdp">Mot de passe</string>
+    <string name="memoriser_mdp">Se souvenir de moi</string>
+    <string name="photo_save:">Sauvegarde photo :</string>
+    <string name="send_photo_saved">Envoi des photos sauvegardées…</string>
+     <string name="sending_contrib_file">Envoi des contributions…</string>
+    
+    
+    <string name="au_moins_champ_pour_contribuer">Veuillez compléter au moins un champ pour contribuer</string>
+    <!--  CONNEXION -->
+	<string name="PB_UserChecker">Connexion…</string> <!--  -->
+	<string name="OK">OK</string>
+      <!-- URLs -->
+    <string name="url_get_location">http://atlasmuseum.irisa.fr/android/php/atlas_upl.php</string>
+    <string name="url_send_default">http://atlasmuseum.irisa.fr/android/atlasmuseum_dld.php</string>
+    <string name="url_send_test">http://atlasmuseum.irisa.fr/android/atlasmuseum_dld.php</string>
+    <string name="url_send_am">http://atlasmuseum.irisa.fr/android/atlasmuseum_dld.php</string>
+    <string name="url_send_refam">http://atlasmuseum.irisa.fr/android/atlasmuseum_dld.php</string>
+    <string name="url_webview">http://atlasmuseum.irisa.fr/android/galerie.php</string>
+    
+    <!-- loadingPhoto error -->
+    <string name="image_non_dispo">image non disponible</string>
+    <string name="echec_upl_image">Echec du chargement de l\'image</string>
+    <string name="notice_no_image">Cette notice n\'a pas d\'image</string>   
+    <string name="cannot_upl_image_notice">L\'image de cette notice n\'a pu être chargée</string>
+        
+       <!-- loadingPhotoAsync -->
+       <string name="lancement">lancement...</string>
+       <string name="prob_charg_image">Problème de chargement de l\'image :</string>
+    <string name="url_login">http://atlasmuseum.irisa.fr/www/webservice/api.php</string>
+    
+    <string name="URL_SIGNUP"> "http://atlasmuseum.irisa.fr/android/php/ajout_utilisateur.php"</string>
+   
+    <!-- Message ERROR-->
+    <string name="ECHEC_ENVOI_OEUVRE">Echec de l\'envoi</string> <!-- Uploader -->
+    <string name="id_non_valide">Pas de réponse du serveur, veuillez rééssayer ultérieurement</string> <!-- Uploader.getNewIdTag() -->
+    <string name="ECHEC_AUTHENTIFICATION">Echec authentification</string> <!-- ProgCheckerAsync -->
+    <string name="PLEASE_CHECK_ID">Veuillez vérifier que vous avez bien entrer vos identifiants </string> <!-- ProgCheckerAsync -->
+    <string name="ECHEC_INSCRIPTION">Echec lors de l\'inscription</string> <!-- SignUpActivity -->
+    <string name="COMPTE_EXISTANT">Compte déjà éxistant </string> <!-- SignUpActivity -->
+    <string name="ECHEC_CREATION_COMPTE">Echec lors de la création du compte </string> <!-- SignUpActivity. PS:ajout flag dans le code-->
+    <string name="CHAMPS_VIDES">Veuillez renseigner tous les champs svp </string> <!-- SignUpActivity -->
+    <string name="CHAMPS_MDP_DIFFERENT">Le mot de passe et la confirmation sont différents </string> <!-- SignUpActivity -->
+   	<string name="ERROR">ERREUR </string> <!-- SignUpActivity -->
+   	<string name="COMPTE_CREE">Le compte a bien été créé </string> <!-- SignUpActivity -->
+   	<string name="ECHEC_MAP">Echec lors du chargement de la carte</string> <!-- SignUpActivity -->
+   	<string name="MAP_ENTREE_NOT_FOUND">Entrée non trouvé.</string> <!-- SignUpActivity -->
+   	<string name="ECHEC_REQUETE">Echec de la requête serveur</string> <!-- SignUpActivity -->
+   	<string name="ECHEC_AUTHENT_CHECK_INTERNET">Vérifiez que vous êtes bien connecté à internet.</string> <!-- SignUpActivity -->
+   	<string name="ECHEC_MAP_DOUBLE_CONVERSION">Problème de conversion longitude/latitude</string> <!-- SignUpActivity -->
+   	<string name="ECHEC_MAP_CREATION">Impossible de crée la carte</string> <!-- SignUpActivity -->
+   	<string name="ECHEC_SHOW_NOTICE">L\'image de cette notice n\'a pu être visualisée</string> <!-- SignUpActivity -->
+   	<string name="ECHEC_NOTICE">Echec lors du chargement de la notice</string> <!-- SignUpActivity -->
+   	<string name="NOTICE_NO_IMG">Cette notice n\'a pas d\'image</string> <!-- SignUpActivity -->
+   	<string name="NOTICE_IMG_LOADING_FAILED">Cette notice n\'a pas d\'image</string> <!-- SignUpActivity -->
+   	<string name="DB_LOADING_FAILED">Impossible de charger la base de données</string> <!-- MainActivity - SearchActivity -->
+   	<string name="ECHEC_LOADING">Erreur de chargement</string> <!-- MainActivity - SearchActivity -->
+   	<string name="authentification_echouee">Authentification échouée. Vérifiez que vous êtes bien connecté à internet.</string>
+   	<string name="prob_connexion">Problème de connexion</string>
+   	<string name="pas_de_connexion_internet">Pas de connexion internet détectée.</string>
+   	<string name="echec_send_contrib">Echec de l\'envoi de vos contributions</string>
+   	
+   	<string name="no_contrib_saved">Vous n\'avez pas de contribution sauvegardée.</string>
+   	<string name="connexion_requis">Vous devez vous connecter à votre compte pour pouvoir envoyer vos contributions.</string>
+	
+   		<string name="echec">Echec</string>
+   	<string name="no_user_position">impossible de récupérer votre position pour le moment. Veuillez réessayer ultérieurement</string>
+   	
+   	<string name="erreur_interne">Erreur interne</string>
+   	<string name="echec_connexion">Echec connexion</string>
+   	<string name="login_vide">Le champ login ne doit pas être vide</string>
+   	<string name="mdp_incorrect">Le mot de passe que vous avez fourni est incorrect.</string>
+   	<string name="verif_login">Veuillez vérifier votre login</string>
+   	<string name="verif_login2">Vérifier que vous avez bien entrer votre login  </string>
+   	  	<string name="verif_mdp">Veuillez entrer votre mot de passe</string>
+   	<!--  Titre des menu TAB -->
+   	 <string name="menu_rechercher">Rechercher</string>
+   	 <string name="menu_autour_de_moi">Autour de moi</string>
+   	 <string name="menu_favoris">Mes Favoris</string>
+   	 <string name="menu_Collections">Collections</string>
+   	 
+    <!-- Message Dialog-->
+    <string name="thanks_for_contribution">Votre contribution a bien été pris en compte</string> <!-- Uploader.getNewIdTag() -->
+    <string name="no_result">Pas de résultat</string>
+    
+    <!-- Liste pour la recherche -->
+    <string name="artiste">Artiste</string> <!-- searchActivity - artiste -->
+     <string name="lieux">Lieu (nom du site, ville, région ...)</string> <!-- searchActivity- Lieux (nom du site, villes, région ...) -->
+      <string name="lieu_simple">Lieu</string> <!-- searchActivity- Lieu (nom du site, villes, région ...) -->
+     <string name="pays">Pays</string> <!-- searchActivity - Pays -->
+     <string name="titre_oeuvre">Titre de l\'œuvre</string> <!-- searchActivity - Titre de l\'oeuvre)s -->
+     <string name="date">Date</string> <!-- searchActivity - Date -->
+     <string name="materiaux">Matériaux</string> <!-- searchActivity - Matériaux -->
+     <string name="couleurs">Couleurs</string> <!-- searchActivity - Couleurs -->
+     <string name="titre">Titre</string> <!--criteres de recherche  -->
+     
+  <string name="recherche_date">Rechercher par date</string> <!--criteres de recherche  -->
+      <string name="tous">Tous</string> <!--criteres de recherche  -->
+       <string name="title_autour_de_moi">Autour de moi</string>
+      
+     
+      <!-- Vues dans la listModif contribution -->
+     
+      <string name="Localisation">Localisation</string>
+      <string name="Acces_visibilite">Accès / visibilité</string>
+                  
+      <!-- Vue Notice -->
+      <string name="Couleur">Couleur</string>
+      <string name="Positionner_carte">Positionner sur la carte</string>
+      <string name="prendre_photo">Prendre une photo</string>
+      
+      <!-- Notice -->
+     <string name="carte_des_oeuvres">Carte des œuvres</string>
+     <string name="notice_oeuvre">Notice de l\'œuvre</string>
+     
+</resources>

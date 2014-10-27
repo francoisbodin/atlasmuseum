@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff" >
+    
+    <LinearLayout
+        android:id="@+id/line"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/backrepeat"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_weight="2" >
+
+        <RelativeLayout
+            android:id="@+id/modif_layout_picture"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" >
+
+            <ImageView
+                android:id="@+id/modif_view_picture"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center" >
+            </ImageView>
+
+            <ImageButton
+                android:id="@+id/modif_button_take_picture"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="5dp"
+                android:background="@null"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_modif_picture" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/modif_layout_load_picture"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:visibility="gone" >
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_load_photo_notice_empty"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true" >
+
+                <ImageView
+                    android:id="@+id/view_load"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_contrib_photo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/view_load"
+                    android:text="@string/prendre_photo" />
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:listSelector="@drawable/on_pressed_listview_background"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:scrollbarThumbVertical="@drawable/list_view_scroll"
+        android:layout_weight="3" >
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/liner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="0"
+        android:gravity="center_horizontal"
+        android:background="#ffec7f" >
+        
+        <Button 
+            android:id="@+id/button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:drawableStart="@drawable/ic_action_cancel"
+            android:text="@string/CANCEL"
+            android:textSize="12sp"
+            android:textColor="#333333"
+            android:padding="5dp"
+            android:textAppearance="?android:attr/textAppearanceButton" />
+        
+        <Button 
+            android:id="@+id/button_save"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_action_save"
+            android:text="@string/SAVE"
+            android:textSize="12sp"
+            android:textColor="#333333"
+            android:padding="5dp"
+            android:textAppearance="?android:attr/textAppearanceButton" />
+
+
+        <Button 
+            android:id="@+id/button_send"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_action_send_now"
+            android:text="@string/SEND"
+            android:textSize="12sp"
+            android:padding="5dp"
+            android:drawablePadding="5dp"
+            android:textColor="#333333"
+            android:textAppearance="?android:attr/textAppearanceButton" />
+
+    </LinearLayout>
+
+</LinearLayout>

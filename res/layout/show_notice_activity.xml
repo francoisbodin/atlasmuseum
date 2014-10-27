@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView01"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:background="@drawable/backrepeat"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/text_credits"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="bottom|left"
+            android:gravity="bottom|left"
+            android:paddingTop="0.5dp"
+            android:textSize="10sp" />
+
+        <ImageView
+            android:id="@+id/view_picture"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/text_credits" />
+
+        <RelativeLayout
+            android:id="@+id/layout_load"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/text_credits"
+            android:paddingBottom="15dp"
+            android:paddingTop="10dp" >
+
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_load_photo_notice_empty" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/view_load"
+                    android:text="@string/contribution_upload_image" />
+
+                <ImageView
+                    android:id="@+id/view_load"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_notice_loadphoto" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="5" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:orientation="vertical" >
+
+            <!-- AFFICHAGE: titre, auteur, ville_pays -->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/notice_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/normal_padding"
+                    android:paddingTop="@dimen/normal_padding"
+                    android:textColor="#333333"
+                    android:textSize="22sp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#d9d9d9" />
+
+                <TextView
+                    android:id="@+id/notice_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/normal_padding"
+                    android:paddingTop="@dimen/normal_padding"
+                    android:textColor="#686868"
+                    android:textSize="18sp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#d9d9d9" />
+
+                <TextView
+                    android:id="@+id/notice_year"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/normal_padding"
+                    android:paddingTop="@dimen/normal_padding"
+                    android:textColor="#686868"
+                    android:textSize="18sp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#d9d9d9" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/normal_padding"
+                    android:paddingTop="@dimen/normal_padding" >
+
+                    <TextView
+                        android:id="@+id/notice_place"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:id="@+id/button_map"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_map" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#d9d9d9" />
+            </LinearLayout>
+
+
+            <!-- OEUVRE -->
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingBottom="@dimen/normal_padding"
+                    android:paddingTop="@dimen/normal_padding"
+                    android:text="@string/section_oeuvre"
+                    android:textColor="#ffda00"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="3dp"
+                    android:background="#ffda00" />
+
+                <RelativeLayout
+                    android:id="@+id/layout_nature"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/prop_title_nature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prop_title_nature"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/prop_value_nature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="53dp"
+                        android:layout_toRightOf="@+id/prop_title_nature"
+                        android:textColor="#686868"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/layout_couleur"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/prop_title_couleur"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prop_title_couleurs"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/prop_value_couleur"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="45dp"
+                        android:layout_toRightOf="@+id/prop_title_couleur"
+                        android:textColor="#686868"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layout_materiaux"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/prop_title_materiaux"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/prop_title_materiaux"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/prop_value_materiaux"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="25dp"
+                        android:layout_toRightOf="@+id/prop_title_materiaux"
+                        android:textColor="#686868"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layout_description"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/prop_title_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/prop_title_description"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/prop_value_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="13dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/prop_title_description"
+                        android:textColor="#686868"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layout_mots_cles"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/prop_title_mots_cles"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/prop_title_mots_cles"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/prop_value_mots_cles"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="26dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/prop_title_mots_cles"
+                        android:textColor="#686868"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layout_contexte"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/prop_title_contexte"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/prop_title_contexte"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/oeuvre_contexte_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/prop_title_contexte"
+                        android:textColor="#686868"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layout_mouvement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/prop_title_mouvement"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/prop_title_mouvement"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/prop_value_mouvement"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="18dp"
+                        android:layout_toRightOf="@+id/prop_title_mouvement"
+                        android:textColor="#686868"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+            <!-- SITE -->
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingBottom="@dimen/normal_padding"
+                    android:paddingTop="@dimen/normal_padding"
+                    android:text="@string/section_site"
+                    android:textColor="#ffda00"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="3dp"
+                    android:background="#ffda00" />
+
+                <RelativeLayout
+                    android:id="@+id/layout_nomsite"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/prop_title_site_nom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/prop_title_site_nom"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/prop_value_site_nom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="13dp"
+                        android:layout_toRightOf="@+id/prop_title_site_nom"
+                        android:textColor="#686868"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layout_site_ville"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/prop_title_ville"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/prop_title_ville"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/prop_value_ville"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="67dp"
+                        android:layout_toRightOf="@+id/prop_title_ville"
+                        android:textColor="#686868"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layout_site_region"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/prop_title_region"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/prop_title_region"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/prop_value_region"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="50dp"
+                        android:layout_toRightOf="@+id/prop_title_region"
+                        android:textColor="#686868"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layout_site_pays"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/prop_title_pays"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/prop_title_pays"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/prop_value_pays"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="68dp"
+                        android:layout_toRightOf="@+id/prop_title_pays"
+                        android:textColor="#686868"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layout_detailsite"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/prop_title_site_detail"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/prop_title_site_detail"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/prop_value_site_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/prop_title_site_detail"
+                        android:layout_alignBottom="@+id/prop_title_site_detail"
+                        android:layout_toRightOf="@+id/prop_title_site_detail"
+                        android:textColor="#686868"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layout_pmr"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/prop_title_pmr"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/prop_title_pmr"
+                        android:textColor="#999999"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/prop_value_pmr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/prop_title_pmr"
+                        android:layout_alignBottom="@+id/prop_title_pmr"
+                        android:layout_toRightOf="@+id/prop_title_pmr"
+                        android:textColor="#686868"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/normal_padding"
+                android:paddingTop="@dimen/normal_padding" >
+
+                <Button
+                    android:id="@+id/button_wiki"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:background="#ffda00"
+                    android:paddingBottom="@dimen/normal_padding"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="@dimen/normal_padding"
+                    android:text="@string/button_wiki"
+                    android:textColor="#333333" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
