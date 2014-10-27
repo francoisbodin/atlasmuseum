@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fr.atlasmuseum"
     android:versionCode="4"
-    android:versionName="0.9.3beta" >
+    android:versionName="1.0.0" >
 	
      
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -36,7 +36,7 @@
     
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="19" />
+        android:targetSdkVersion="20" />
 
     <application
         android:allowBackup="true"
@@ -48,6 +48,7 @@
          <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+         
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDMVi9aifxOyYjy_SMk16rq0SMdomBjzHc"
@@ -56,36 +57,42 @@
         
        
         <activity
-            android:name="fr.atlasmuseum.main.LoaderActivity"
+            android:name="fr.atlasmuseum.LoaderActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
          
-         <activity
-            android:name="fr.atlasmuseum.main.MainActivity"
-             android:label="@string/app_name" >
-            </activity>
+        <activity
+            android:name="fr.atlasmuseum.AtlasmuseumActivity"
+            android:label="@string/app_name" >
+        </activity>
             
-             <activity
-            android:name="fr.atlasmuseum.main.ActuActivity"
-             android:label="@string/app_name" >
-            </activity>
-             <activity
-            android:name="fr.atlasmuseum.main.AproposActivity"
-             android:label="@string/app_name" >
-            </activity>
-            
+        <activity
+            android:name="fr.atlasmuseum.HelpActivity"
+            android:label="@string/app_name" >
+        </activity>
+         
+        <activity
+            android:name="fr.atlasmuseum.NewsActivity"
+            android:label="@string/app_name" >
+        </activity>
+        
+        <activity
+            android:name="fr.atlasmuseum.AboutActivity"
+            android:label="@string/app_name" >
+        </activity>
+        
+        
              <activity
             android:name="fr.atlasmuseum.search.SearchActivity"
              android:label="@string/app_name" >
             </activity>
             
            <activity
-            android:name="fr.atlasmuseum.search.ListActivity"
+            android:name="fr.atlasmuseum.search.SearchListActivity"
              android:label="@string/app_name" >
             </activity>
             <activity
@@ -96,69 +103,66 @@
             android:name="fr.atlasmuseum.search.ResultActivity"
              android:label="@string/app_name" >
             </activity>
-            <!-- 
             <activity
             android:name="fr.atlasmuseum.search.SearchAutoComp"
              android:label="@string/app_name" >
             </activity>
-            -->
-             
+            
             <activity
             android:name="fr.atlasmuseum.search.ShowNoticeActivity"
              android:label="@string/app_name" >
             </activity>
              <activity
-            android:name="fr.atlasmuseum.compte.ConnexionActivity"
+            android:name="fr.atlasmuseum.account.ConnectionActivity"
              android:label="@string/app_name" >
             </activity>
             
-             <!-- 
              <activity
             android:name="fr.atlas.compte.SignUPActivity"
              android:label="@string/app_name" >
             </activity>
-            -->
             
              <activity
             android:name="fr.atlasmuseum.contribution.ContribPhoto"
              android:label="@string/app_name" >
             </activity>
               <activity
-            android:name="fr.atlasmuseum.contribution.ListChampsNoticeModif"
+            android:name="fr.atlasmuseum.contribution.EditContributionActivity"
              android:label="@string/app_name" >
             </activity>
             <activity
-            android:name="fr.atlasmuseum.contribution.MainContribActivity"
+            android:name="fr.atlasmuseum.contribution.ContributeActivity"
              android:label="@string/app_name" >
             </activity>
             <activity
-            android:name="fr.atlasmuseum.contribution.ModifActivity"
+            android:name="fr.atlasmuseum.contribution.EditPropertyActivity"
              android:label="@string/app_name" >
             </activity>
             <activity
-            android:name="fr.atlasmuseum.search.SearchUsingDate"
+            android:name="fr.atlasmuseum.search.SearchByDateActivity"
              android:label="@string/app_name" >
             </activity>
              <activity
-            android:name="fr.atlasmuseum.search.SearchAuto"
+            android:name="fr.atlasmuseum.search.SearchAutoCompleteActivity"
              android:label="@string/app_name" >
             </activity>
             <activity
-            android:name="fr.atlasmuseum.search.SearchAutourList"
+            android:name="fr.atlasmuseum.search.SearchAroundActivity"
              android:label="@string/app_name" >
             </activity>
             <activity
-            android:name="fr.atlasmuseum.contribution.SuiviContribActivity"
+            android:name="fr.atlasmuseum.contribution.SentContributionsActivity"
              android:label="@string/app_name" >
             </activity>
              <activity
             android:name="fr.atlasmuseum.contribution.MapContribActivity"
              android:label="@string/app_name" >
             </activity>
-             <activity
-            android:name="fr.atlasmuseum.main.HelpActivity"
-             android:label="@string/app_name" >
-            </activity>
+            
+        <activity
+            android:name="fr.atlasmuseum.contribution.SavedContributionsActivity"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>

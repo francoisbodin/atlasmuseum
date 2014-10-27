@@ -8,31 +8,81 @@ body {
 	font-family: "Roboto Condensed Light";
 	font-size: 16px;
 	color: #333333;
+	background-color: #ffffff;
+	margin: 20px;
 }
+
+strong {
+	font-weight: bold;
+}
+
 a {
 	color: #00B9EE;
 	text-decoration: none;
 }
+
 a.hover {
 	color: #00B9EE;
 	text-decoration: none;
 }
+
 a.visited {
 	color: #00B9EE;
 	text-decoration: none;
 }
-a#titre_sommaire {
+
+/* Style de la div SOMMAIRE */
+div#sommaire{
+	padding-top: 0px;
+	padding-bottom: 6px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 20px;
+	margin-left: 0px;
+}
+
+
+#sommaire ul {
+	margin: 0px;
+	padding-bottom: 6px;
+	padding-top: 0;
+	padding-right: 0px;
+	padding-left: 0px;
+	list-style-type:none;
+}
+
+/* 
+#sommaire ul ul {
+	padding-left: 10px;
+} 
+*/
+
+#sommaire li {
+	padding-bottom: 10px;
+	font-weight: bold;
+}
+
+#sommaire ul ul li {
+	font-weight: normal;
+}
+
+
+/* Style de la div CONTENU */
+
+#contenu a.titre_contenu {
 	color: #333333;
 	text-decoration: none;
 }
-p {
+
+#contenu p {
 	margin: 0px;
 	padding-top: 6px;
 	padding-right: 0px;
 	padding-bottom: 6px;
 	padding-left: 0px;
 }
-h2 {
+
+#contenu h2 {
 	font-family: "Roboto Condensed Regular", Verdana, Geneva, sans-serif;
 	font-size: 18 px;
 	font-style: normal;
@@ -42,66 +92,58 @@ h2 {
 	padding-bottom: 15px;
 	padding-left: 0px;
 }
-ul {
-	margin: 0px;
+
+.h2premier {
 	padding-top: 0px;
-	padding-bottom: 6px;
 }
-li {
-	list-style-position: inside;
-	list-style-type: disc;
-}
-strong {
-	font-weight: bold;
-}
-div#sommaire{
-	padding-top: 0px;
-	padding-bottom: 6px;
+
+#contenu ul {
+	list-style-type:disc;
+	padding: 0;
 	margin-top: 0px;
 	margin-right: 0px;
-	margin-bottom: 20px;
-	margin-left: 0px;
+	margin-bottom: 10px;
+	margin-left: 30px;
 }
+
 </style>
+
 </head>
 
 <body>
 <!-- Sommaire -->
 <div id="sommaire">
-  <p>
-  	<a href="#titre1">1. Guide d'utilisation</a></p>
-  <p>
-  	<a href="#titre1_1">1.1 Comment les contributions sont-elles modérées ?</a><br />
-    <a href="#titre1_2">1.2 Comment contribuer ?</a><br />
-    <a href="#titre1_3">1.3 Comment créer un compte ?</a><br />
-  </p>
-  <p><a href="#titre2">2. Une application en phase de test avant son lancement public</a></p>
+  <ul>
+  	<li><a href="#titre1"> Guide d'utilisation</a></li>
+  <ul>
+  	<li><a href="#titre1_1">Comment les contributions sont-elles modérées ?</a></li>
+    <li><a href="#titre1_2"> Comment contribuer ?</a></li>
+    <li><a href="#titre1_3">Comment créer un compte ?</a></li>
+   </ul>
+  	<li><a href="#titre2">Vos retours d’expériences</a></li>
+  </ul> 
 </div>
 
 <!-- Aide -->
 <div id="contenu">
-<h2><a name="titre1" id="titre_sommaire">1. Guide d'utilisation</a><a href="#haut"></a></h2>
+<h2 class="h2premier"><a name="titre1" class="titre_contenu">Guide d'utilisation</a><a href="#haut"></a></h2>
 <p>Retrouvez le guide complet d'utilisation sur <a href="http://www.atlasmuseum.org">www.atlasmuseum.org</a></p>
-<h3><a name="titre1_1" id="titre_sommaire">1.1. Comment les contributions sont-elles modérées ?</a></h3>
+<h3><a name="titre1_1" class="titre_contenu">Comment les contributions sont-elles modérées ?</a></h3>
 <p>Les œuvres répertoriées dans l'application mobile sont issues du site wiki <a href="http://www.atlasmuseum.net">www.atlasmuseum.net</a>.</p>
 <p>Vous pouvez contribuer à enrichir ce répertoire en modifiant ou en créant une nouvelle notice d'œuvre avec l'application mobile. Vos contributions sont modérées par l'équipe d'Atlasmuseum avant d'être publiées sur le site internet wiki. La publication des contributions peut prendre quelques jours. Elles apparaîtront sur l'application mobile à la prochaine mise jour de cette dernière.</p>
-<h3><a name="titre1_2" id="titre_sommaire">1.2. Comment contribuer ?</a></h3>
-<p>Vous pouvez compléter ou modifier les informations d'une œuvre répertoriée en cliquant sur le crayon en haut à gauche de l'écran de la notice.</p>
+<h3><a name="titre1_2" class="titre_contenu">Comment contribuer ?</a></h3>
+<p>Vous pouvez compléter ou modifier les informations d'une œuvre répertoriée en cliquant sur le crayon en haut à droite de l'écran de la notice.</p>
 <p>Vous pouvez également proposer une nouvelle œuvre depuis l'écran principal de &quot;Contribuer&quot;.</p>
 <p>Il n'est pas nécessaire d'être connecté à votre compte pour sauvegarder vos contributions sur votre téléphone. Cela vous permet d'utiliser l'application mobile même si vous ne pouvez pas être connecté à internet.</p>
 <p>Pour envoyer vos contributions à nos modérateurs, il vous faut en revanche activer le wifi ou l'échange de données mobile et vous connecter à votre compte Atlasmuseum.</p>
-<h3><a name="titre1_3" id="titre_sommaire">1.3. Comment créer un compte ?</a></h3>
+<h3><a name="titre1_3" class="titre_contenu">Comment créer un compte ?</a></h3>
 <p>Vous devez <a href="http://publicartmuseum.net/w/index.php?title=Sp%C3%A9cial:Connexion&returnto=Accueil&returntoquery=type%3Dsignup&type=signup">créer votre compte</a> sur le site wiki depuis le navigateur de votre mobile ou votre ordinateur.</p>
-<h2><a name="titre2" id="titre_sommaire">2. Une application en phase de test avant son lancement public</a></h2>
-<p>Vous êtes les primo-utilisateurs de l'application d'Atlasmuseum.</p>
-<p>L'application est conçue pour des appareils mobiles dont la version d'Android est égale ou supérieure à 4.2.</p>
-<p>L'application est en phase de test et ne sera mise à disposition du grand public qu'une fois les retours de nos primo-utilisateurs analysés et intégrés.</p>
-<p>Cette version de l'application comprend toutes les fonctionnalités de la version 1. Elle vous permet d'explorer les œuvres d'art répertoriées dans Atlasmuseum en mode connecté et déconnecté. Vous pouvez également contribuer en ajoutant ou en modifiant des informations sur des œuvres répertoriées ou proposer de nouvelles œuvres. </p>
-<p>Le design et l'ergonomie sont en cours de finalisation. Comme tout logiciel, certains dysfonctionnements peuvent apparaître à l'usage. </p>
+
+<h2><a name="titre2" class="titre_contenu">Vos retours d’expériences</a></h2>
 <p>Vos retours sont précieux pour stabiliser l'application et améliorer sa prise en main.</p>
-<p>Envoyer-nous par email les anomalies ou difficultés d'usage rencontrées en indiquant la marque du téléphone et la version d'Android : <a href="mailto:app@atlasmuseum.org">app@atlasmuseum.org</a></p>
-<p><i>Où trouver ces informations ?</i></p>
-<p>Paramètres système &gt; Système &gt; A propos du téléphone</p>
+<p>Merci de nous communiquer par email à l’adresse suivante les anomalies ou difficultés d’usages rencontrées en indiquant la marque de votre téléphone et la version d’Android : <a href="mailto:app@atlasmuseum.org">app@atlasmuseum.org</a></i></p>
+<p>Où trouver ces informations?<br />
+  Paramètres Système &gt; Système &gt; A propos du téléphone<strong></strong></p>
 </div>
 </body>
 </html>

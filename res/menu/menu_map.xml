@@ -1,9 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
-    <item
-        android:id="@+id/action_itineraire"
-        android:icon="@drawable/ic_itineraire"
-        android:title="action_itineraire"
+	<item
+        android:id="@+id/action_map"
+        android:icon="@drawable/ic_map"
+        android:title="@string/carte_des_oeuvres"
         android:showAsAction="ifRoom" />
-
 </menu>

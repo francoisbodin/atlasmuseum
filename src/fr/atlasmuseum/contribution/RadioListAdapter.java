@@ -1,116 +1,86 @@
 package fr.atlasmuseum.contribution;
 
-import java.util.ArrayList;
-
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import fr.atlasmuseum.R;
 
-public class RadioListAdapter extends BaseAdapter
-{
+public class RadioListAdapter extends BaseAdapter {
 
-	private static final String DEBUG_TAG = "CheckBoxAdapter";
-	private  String[] listRadio;
-
+    private class ViewHolder {
+        TextView name;
+        RadioButton button;
+    }
+    
+	@SuppressWarnings("unused")
+	private static final String DEBUG_TAG = "AtlasMuseum/RadioListAdapter";
 	
 	private Context mContext;
-	String valueSelected;
-	//Un mécanisme pour gérer l'affichage graphique depuis un layout XML
 	private LayoutInflater mInflater;
-
-	public ArrayList<ViewHolder> listView;
+	private String[] mListElement;
+	private RadioButton mLastButton;
+    private int mLastPosition = -1;
 	
-    private RadioButton mSelectedRB;
-    private int mSelectedPosition = -1;
-	
-	public RadioListAdapter(Context context, String[] listElt) 
-	{
-		valueSelected="";//valeur selectionner par l'utilisateur
-	   mContext = context;
-	   listRadio = listElt;
+	public RadioListAdapter(Context context, String[] listElement) {
+		mContext = context;
+		mListElement = listElement;
 		mInflater = LayoutInflater.from(mContext);
-	
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public View getView(final int position, View convertView, ViewGroup parent) 
-	{
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
-		if (convertView == null) 
-		{
-			convertView = mInflater.inflate(R.xml.list_radio_contrib, parent, false);
-			 holder = new ViewHolder();
-
-            holder.name = (TextView)convertView.findViewById(R.id.valeur);
-            holder.radioBtn = (RadioButton)convertView.findViewById(R.id.radioButton1);
-
+		if (convertView == null) {
+			convertView = mInflater.inflate(R.xml.item_radio_list, parent, false);
+			holder = new ViewHolder();
+            holder.name = (TextView)convertView.findViewById(R.id.name);
+            holder.button = (RadioButton)convertView.findViewById(R.id.button);
             convertView.setTag(holder);
 		}
-		else
-		{
+		else {
 			holder = (ViewHolder)convertView.getTag();
 		}
 		
-		holder.name.setText(listRadio[position]);
-		
-		
-		
-        holder.radioBtn.setOnClickListener(new OnClickListener() {
-
-
+		holder.name.setText(mListElement[position]);
+        holder.button.setOnClickListener(new OnClickListener() {
 			@Override
             public void onClick(View v) {
-
-                if(position != mSelectedPosition && mSelectedRB != null)
-                {
-                    mSelectedRB.setChecked(false);//decoche le bouton
+                if(position != mLastPosition && mLastButton != null) {
+                    mLastButton.setChecked(false);
                 }
-
-                mSelectedPosition = position;
-                mSelectedRB = (RadioButton)v;
+                mLastPosition = position;
+                mLastButton = (RadioButton)v;
             }
         });
 
-
-        if(mSelectedPosition != position){
-            holder.radioBtn.setChecked(false);
-        }else{
-            holder.radioBtn.setChecked(true);
-            if(mSelectedRB != null && holder.radioBtn != mSelectedRB){
-                mSelectedRB = holder.radioBtn;
+        if(mLastPosition != position) {
+            holder.button.setChecked(false);
+        }
+        else {
+            holder.button.setChecked(true);
+            if(mLastButton != null && holder.button != mLastButton) {
+                mLastButton = holder.button;
             }
         }
 
-
-
-
-        holder.name.setText(listRadio[position]);
-
+        holder.name.setText(mListElement[position]);
 
         return convertView;
-	 
 	}
 
 	@Override
 	public int getCount() {
-		return listRadio.length;
+		return mListElement.length;
 	}
 	
 	@Override
 	public Object getItem(int arg0) {
-		return listRadio[arg0];
+		return mListElement[arg0];
 	}
 	
 	@Override
@@ -118,17 +88,9 @@ public class RadioListAdapter extends BaseAdapter
 		return arg0;
 	}
 	
-
-    private class ViewHolder{
-        TextView        name;
-        RadioButton     radioBtn;
-    }
-    
-   public String getValue()
-    {
-    	if(mSelectedPosition != -1)
-    	{
-    		return listRadio[mSelectedPosition];
+	public String getValue() {
+    	if(mLastPosition != -1)	{
+    		return mListElement[mLastPosition];
     	}
     	return "";
     }

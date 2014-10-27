@@ -1,96 +1,76 @@
 package fr.atlasmuseum.contribution;
 
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
 import java.io.Serializable;
+import java.io.StreamCorruptedException;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import org.jdom2.Attribute;
+import org.jdom2.Element;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Environment;
-import android.util.Base64;
 import android.util.Log;
+import fr.atlasmuseum.R;
+import fr.atlasmuseum.data.JsonRawData;
+import fr.atlasmuseum.helper.PictureDownloader;
+import fr.atlasmuseum.search.SearchActivity;
 
+@SuppressLint("SimpleDateFormat")
 public class Contribution implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	private static final String ATLASMUSEUM_ALBUM = "atlasmuseum"; //TODO FBO to go in one file...
+	private static final long serialVersionUID = -947657069817213636L;
 
-	public static class Location implements Serializable {
-		private static final long serialVersionUID = 1L;
-		
-		private Double mLatitude;
-		private Double mLongitude;
-		
-		public Location() {
-			mLatitude = 0.0;
-			mLongitude = 0.0;
-		}
-		
-		public Location( android.location.Location loc ) {
-			mLatitude = loc.getLatitude();
-			mLongitude = loc.getLongitude();
-		}
-		
-
-		public Double getLatitude() {
-			return mLatitude;
-		}
-		public void setLatitude(Double l) {
-			mLatitude = l;
-		}
-		public Double getLongitude() {
-			return mLongitude;
-		}
-		public void setLongitude(Double l) {
-			mLongitude = l;
-		}
-	}
-
-	//utilisé pour les bundle, utilisé dans MainActivity
-
-	//public final static String CHAMPS = "champs"; remplacer par modification
-	public final static String IDNOTICE = "id";
-	public final static String MATERIAUx = "materiaux";
-	public final static String DATE_INAUGURATION = "inauguration";
-	public final static String DESCRIPTION = "description";
-	//public final static String IDLOCAL = "id_local";
-	public final static String PHOTO = "photo";
+	private static final String DEBUG_TAG = "AtlasMuseum/Contribution";
 	
-	final static String DEBUG_TAG="Contribution";
-	
-	//copie-colle de ConstantTagName
-	public static final String LONGITUDE = "longitude";
-	public static final String LATITUDE = "latitude";
-	static final String INAUGURATION = "inauguration";
-	public static final String TITRE= "titre";
-	public static final String ARTISTE= "artiste";
-	static final String CONTRIBUTION= "contribution";
+	static final String CONTRIBUTION = "contribution";
 	static final String VALUE = "value";
-	static final String IDWIKI = "id";
-	public static final String LOCALID = "localid";
-	static final String DATECONTRIBUTION = "date";
-	static final String HEURECONTRIBUTION = "heure";
-	static final String AUTEUR = "auteur";
-	public static final String COULEUR = "couleur";
+
+	static final String MODIFICATION = "modification";
+
+	// Contribution type
 	static final String TYPE = "type";
+	static final String CREER = "creer";
+	static final String AJOUTER = "ajouter";
+	static final String REMPLACER = "remplacer";
+
+	// Contribution status
 	static final String STATUT = "statut";
 	static final String ENATTENTE = "enattente";
 	static final String ACCEPTED = "acceptee";
 	static final String CANCELED = "annulee";
-	static final String MODIFICATION = "modification"; //modification apporté par l'utilisateur
-	static final String COORDONNEES = "coordonnees";
+
+
+	static final String NOTICE_ID = "id";
+	static final String LOCAL_ID = "localid";
 	
-	//type de contribution
-	static final String AJOUTER = "ajouter";
-	static final String REMPLACER = "remplacer";
-	static final String SUPPRIMER = "supprimer";
-	public static final String PASSWORD = "passwd";
-	
+	static final String AUTEUR = "auteur";
+	static final String PASSWORD = "passwd";
+
+	static final String DATECONTRIBUTION = "date";
+	static final String HEURECONTRIBUTION = "heure";
+
+	public static final String CREDIT_PHOTO = "creditphoto";
+	public static final String PHOTO = "photo";
+	public static final String TITRE= "titre";
+	public static final String ARTISTE= "artiste";
+	public static final String MATERIAUX = "materiaux";
+	public static final String DATE_INAUGURATION = "inauguration";
+	public static final String DESCRIPTION = "description";
+	public static final String LONGITUDE = "longitude";
+	public static final String LATITUDE = "latitude";
+	public static final String COULEUR = "couleur";
 	public static final String ETAT = "etat";
 	public static final String PETAT = "petat";
 	public static final String PMR = "pmr";
@@ -98,342 +78,770 @@ public class Contribution implements Serializable {
 	public static final String DETAIL_SITE = "detailsite";
 	public static final String AUTRE = "autre";
 	public static final String NATURE = "nature";
+	public static final String MOT_CLE = "mot_cle";
+	public static final String CONTEXTE_PRODUCTION = "contexte_production";
+	public static final String VILLE = "Siteville";
+	public static final String REGION = "Siteregion";
+	public static final String PAYS = "Sitepays";
+	public static final String MOUVEMENT = "mouvement_artistes";
+
+	int mDbId;
+	int mNoticeId;
+	String mLocalId;
+	String mLogin;
+	String mPassword;
+	String mDate;
+	String mTime;
+	String mStatus;
+	String mSavedFilename;
+	int mDistance;
+	float mLocationAccuracy;
+	double mLocationTime;
 	
+	HashMap<String,ContributionProperty> mProperties;
 	
-	
-	public static enum type_contrib
-	{
-		supprimer, ajouter, remplacer, creer, unknow
+	public Contribution() {
+		mDbId = 0;
+		mNoticeId = 0;
+		mLocalId = "";
+		mLogin = "";
+		mPassword = "";
+		mDate = "";
+		mTime = "";
+		mStatus = "";
+		mSavedFilename = "";
+		mDistance = -1;
+		mLocationAccuracy = -1;
+		mLocationTime = -1;
+		mProperties = new HashMap<String, ContributionProperty>();
+		
+		mProperties.put( CREDIT_PHOTO, new ContributionProperty(
+				/* dbField */ CREDIT_PHOTO,
+				/* jsonField */ "creditphoto",
+				/* title */ 0,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ 0,
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.text_credits,
+				/* showViewToHide */ 0,
+				/* dumpInXML */ false) );
+		
+		mProperties.put( PHOTO, new ContributionProperty(
+				/* dbField */ PHOTO,
+				/* jsonField */ "image_principale",
+				/* title */ 0,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ 0,
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ 0,
+				/* showViewToHide */ 0,
+				/* dumpInXML */ true) );
+		
+		mProperties.put(TITRE, new ContributionProperty(
+				/* dbField */ TITRE,
+				/* jsonField */ "titre",
+				/* title */ R.string.prop_title_titre,
+				/* value */ "",
+				/* defaultValue */ R.string.prop_default_titre,
+				/* info */ 0,
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.notice_title,
+				/* showViewToHide */ 0,
+				/* dumpInXML */ true) );
+		
+		mProperties.put(ARTISTE, new ContributionProperty(
+				/* dbField */ ARTISTE,
+				/* jsonField */ "artiste",
+				/* title */ R.string.prop_title_artiste,
+				/* value */ "",
+				/* defaultValue */ R.string.prop_default_artiste,
+				/* info */ 0, // TODO: ajouter les infos
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.notice_author,
+				/* showViewToHide */ 0,
+				/* dumpInXML */ true) );
+
+		mProperties.put(COULEUR, new ContributionProperty(
+				/* dbField */ COULEUR,
+				/* jsonField */ "couleur",
+				/* title */ R.string.prop_title_couleurs,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ 0,
+				/* type */ ContributionProperty.ContribType.check,
+				/* choices */ JsonRawData.listeCouleurs,
+				/* showViewText */ R.id.prop_value_couleur,
+				/* showViewToHide */ R.id.layout_couleur,
+				/* dumpInXML */ true) );
+		
+		mProperties.put( DATE_INAUGURATION, new ContributionProperty(
+				/* dbField */ DATE_INAUGURATION,
+				/* jsonField */ "inauguration",
+				/* title */ R.string.prop_title_date,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ R.string.prop_info_date,
+				/* type */ ContributionProperty.ContribType.date,
+				/* choices */ null,
+				/* showViewText */ R.id.notice_year,
+				/* showViewToHide */ R.id.notice_year,
+				/* dumpInXML */ true) );
+		
+		mProperties.put(DESCRIPTION, new ContributionProperty(
+				/* dbField */ DESCRIPTION,
+				/* jsonField */ "description",
+				/* title */ R.string.prop_title_description,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ 0,
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.prop_value_description,
+				/* showViewToHide */ R.id.layout_description,
+				/* dumpInXML */ true) );
+		
+		mProperties.put( MATERIAUX, new ContributionProperty(
+				/* dbField */ MATERIAUX,
+				/* jsonField */ "materiaux",
+				/* title */ R.string.prop_title_materiaux,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ 0,
+				/* type */ ContributionProperty.ContribType.check,
+				/* choices */ JsonRawData.listeMateriaux,
+				/* showViewText */ R.id.prop_value_materiaux,
+				/* showViewToHide */ R.id.layout_materiaux,
+				/* dumpInXML */ true) );
+		
+		mProperties.put( NOM_SITE, new ContributionProperty(
+				/* dbField */ NOM_SITE,
+				/* jsonField */ "Sitenom",
+				/* title */ R.string.prop_title_site_nom,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ 0, // TODO: ajouter les infos
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.prop_value_site_nom,
+				/* showViewToHide */ R.id.layout_nomsite,
+				/* dumpInXML */ true) );
+		
+		mProperties.put( DETAIL_SITE, new ContributionProperty(
+				/* dbField */ DETAIL_SITE,
+				/* jsonField */ "Sitedetails",
+				/* title */ R.string.prop_title_site_detail,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ 0, // TODO: ajouter les infos
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.prop_value_site_detail,
+				/* showViewToHide */ R.id.layout_detailsite,
+				/* dumpInXML */ true) );
+		
+		mProperties.put( NATURE, new ContributionProperty(
+				/* dbField */ NATURE,
+				/* jsonField */ "nature",
+				/* title */ R.string.prop_title_nature,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ 0,
+				/* type */ ContributionProperty.ContribType.radio,
+				/* choices */ JsonRawData.listeNatures,
+				/* showViewText */ R.id.prop_value_nature,
+				/* showViewToHide */ R.id.layout_nature,
+				/* dumpInXML */ true) );
+		
+		mProperties.put( LATITUDE, new ContributionProperty(
+				/* dbField */ LATITUDE,
+				/* jsonField */ "latitude",
+				/* title */ R.string.prop_title_latitude,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ 0,
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ 0,
+				/* showViewToHide */ 0,
+				/* dumpInXML */ true) );
+		
+		mProperties.put( LONGITUDE, new ContributionProperty(
+				/* dbField */ LONGITUDE,
+				/* jsonField */ "longitude",
+				/* title */ R.string.prop_title_longitude,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ 0,
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ 0,
+				/* showViewToHide */ 0,
+				/* dumpInXML */ true) );
+		
+		mProperties.put( AUTRE, new ContributionProperty(
+				/* dbField */ AUTRE,
+				/* jsonField */ "autre",
+				/* title */ R.string.prop_title_infos,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ R.string.prop_info_infos,
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ 0,
+				/* showViewToHide */ 0,
+				/* dumpInXML */ true) );
+		
+		mProperties.put( ETAT, new ContributionProperty(
+				/* dbField */ ETAT,
+				/* jsonField */ "precision_etat_conservation",
+				/* title */ R.string.prop_title_etat,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ 0,
+				/* type */ ContributionProperty.ContribType.radio,
+				/* choices */ JsonRawData.listePrecision_etat_conservation,
+				/* showViewText */ 0,
+				/* showViewToHide */ 0,
+				/* dumpInXML */ true) );
+		
+		mProperties.put( PETAT, new ContributionProperty(
+				/* dbField */ PETAT,
+				/* jsonField */ "autre_precision_etat_conservation",
+				/* title */ R.string.prop_title_etat_precision,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ 0,
+				/* type */ ContributionProperty.ContribType.check,
+				/* choices */ JsonRawData.listeAutre_precision_etat_conservation,
+				/* showViewText */ 0,
+				/* showViewToHide */ 0,
+				/* dumpInXML */ true) );
+		
+		mProperties.put( PMR, new ContributionProperty(
+				/* dbField */ PMR,
+				/* jsonField */ "",
+				/* title */ R.string.prop_title_pmr,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ R.string.prop_info_pmr,
+				/* type */ ContributionProperty.ContribType.radio,
+				/* choices */ JsonRawData.listePmr,
+				/* showViewText */ R.id.prop_value_pmr,
+				/* showViewToHide */ R.id.layout_pmr,
+				/* dumpInXML */ true) );
+
+		mProperties.put( MOT_CLE, new ContributionProperty(
+				/* dbField */ MOT_CLE,
+				/* jsonField */ "mot_cle",
+				/* title */ R.string.prop_title_mots_cles,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ 0,
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.prop_value_mots_cles,
+				/* showViewToHide */ R.id.layout_mots_cles,
+				/* dumpInXML */ false) );
+
+		mProperties.put( CONTEXTE_PRODUCTION, new ContributionProperty(
+				/* dbField */ CONTEXTE_PRODUCTION,
+				/* jsonField */ "contexte_production",
+				/* title */ R.string.prop_title_contexte,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ 0,
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.oeuvre_contexte_value,
+				/* showViewToHide */ R.id.layout_contexte,
+				/* dumpInXML */ false) );
+
+		mProperties.put( VILLE, new ContributionProperty(
+				/* dbField */ VILLE,
+				/* jsonField */ "Siteville",
+				/* title */ R.string.prop_title_ville,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ 0,
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.prop_value_ville,
+				/* showViewToHide */ R.id.layout_site_ville,
+				/* dumpInXML */ false) );
+
+		mProperties.put( REGION, new ContributionProperty(
+				/* dbField */ REGION,
+				/* jsonField */ "Siteregion",
+				/* title */ R.string.prop_title_region,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ 0,
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.prop_value_region,
+				/* showViewToHide */ R.id.layout_site_region,
+				/* dumpInXML */ false) );
+
+		mProperties.put( PAYS, new ContributionProperty(
+				/* dbField */ PAYS,
+				/* jsonField */ "Sitepays",
+				/* title */ R.string.prop_title_pays,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ 0,
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.prop_value_pays,
+				/* showViewToHide */ R.id.layout_site_pays,
+				/* dumpInXML */ false) );
+
+		mProperties.put( MOUVEMENT, new ContributionProperty(
+				/* dbField */ MOUVEMENT,
+				/* jsonField */ "mouvement_artistes",
+				/* title */ R.string.prop_title_mouvement,
+				/* value */ "",
+				/* defaultValue */ 0,
+				/* info */ 0,
+				/* type */ ContributionProperty.ContribType.text,
+				/* choices */ null,
+				/* showViewText */ R.id.prop_value_mouvement,
+				/* showViewToHide */ R.id.layout_mouvement,
+				/* dumpInXML */ false) );
+
 	}
 
+	public void updateFromDb(int index) {
+		mDbId = index;
+		mNoticeId = Integer.parseInt(SearchActivity.extractDataFromDb(mDbId,NOTICE_ID));
 
-	public static String lOCALISATION="Localisation";
+		for (ContributionProperty value : mProperties.values()) {
+		    value.updateFromDb(index);
+		}
+	}
+	
+	public int getDbId() {
+		return mDbId;
+	}
+	public void setDbId(int id) {
+		mDbId = id;
+	}
+	
+	public int getNoticeId() {
+		return mNoticeId;
+	}
+	public void setNoticeId(int id) {
+		mNoticeId = id;
+	}
+	
+	public String getLocalId() {
+		return mLocalId;
+	}
+	public void setLocalId(String id) {
+		mLocalId = id;
+	}
+	
+	public String getLogin() {
+		return mLogin;
+	}
+	public void setLogin(String login) {
+		mLogin = login;
+	}
+	
+	public String getPassword() {
+		return mPassword;
+	}
+	public void setPassword(String password) {
+		mPassword = password;
+	}
+	
+	public String getDate() {
+		return mDate;
+	}
+	public void setDate(String date) {
+		mDate = date;
+	}
+	
+	public String getTime() {
+		return mTime;
+	}
+	public void setTime(String time) {
+		mTime = time;
+	}
+	
+	public String getSavedFilename() {
+		if( mSavedFilename == null ) {
+			mSavedFilename = "";
+		}
+		return mSavedFilename;
+	}
+	public void setSavedFilename(String savedFilename) {
+		mSavedFilename = savedFilename;
+	}
+	
+	public int getDistance() {
+		return mDistance;
+	}
+	public void setDistance(int distance) {
+		mDistance = distance;
+	}
+	
+	public float getLocationAccuracy() {
+		return mLocationAccuracy;
+	}
+	public void setLocationAccuracy(float locationAccuracy) {
+		mLocationAccuracy = locationAccuracy;
+	}
+	
+	public double getLocationTime() {
+		return mLocationTime;
+	}
+	public void setLocationTime(double locationTime) {
+		mLocationTime = locationTime;
+	}
+	
 
-	
-	//Valeur de contribution
-	String password;//mdp de l'utilisateur
-	type_contrib  type; //type de contribution
-	String champModifier; //champ sur lequel on souhaite apporté une modification, ajout ou suppression, table
-	String artiste=""; //artiste donné par l'utilisateur
-	String titre=""; //titre donné par l'utilisateur
-	//String value; //la valeur de cette modification
-	int valueType; // type de valeur, chaine de caractéres, fichier, éléments de liste
-	Date d; //date+heure é laquelle on a effectuer la contribution
-	String auteur;//auteur de la contribution - login wiki
-	Boolean auteurConnue;  // indique si auteur connu
-	int idNotice; //id de la notice Wiki si existante
-	String idLocal;//id pour ttes les données d'une mm oeuvre
-	String date;//format dd/mm/yyyy
-	String heure;//format hh:mm:ss
-	champ_status statut;
-	String couleur="";
-	Location cLocation;
-	String photoPath="";//chemin complet vers la photo
-	
-	
-	//*****************************************************
-	String etat;//etat de conservation: bonne état ou dégradé
-	String petat;//Précision état de conservation
-	String pmr;//personne a mobilité reduite (accessible ou non)
-	String nomsite; //nom du site
-	String detailsite;//Détails sur le site
-	String autre;//autre information
-	public String nature;//perenne ou ephemere
-	//*******************************************************
-	
-	public Double latitude=0.0;
-	public Double longitude=0.0;
-	public String description="";
-	public String materiaux="";
-	public String dateinauguration="";
-	
-	public static enum champ_status
-	{
-		SENT, enattente, EDITING, UNKNOW
-	}
-	
-	
-	public  static void createContributionRemplacement(Contribution c, int idNotice, String idlocal, String champs, String value)
-	{
-		
-		c.type= Contribution.type_contrib.remplacer;//type de contribution remplacement
-		Date date = new Date();//instancie la date de la contribution
-		c.d = date;
-		
-		c.champModifier = champs;
-		setValueFromChamps(c, champs, value);
-		//Log.d(DEBUG_TAG+"/creation", "champs = "+c.champModifier+"value= "+c.value);
-		if(idNotice != 0)
-		{
-			c.idNotice = idNotice;//la contribution se rapporte à l'oeuvre id
+	public ContributionProperty getProperty(String name) {
+		if( mProperties.containsKey(name) ) {
+			return mProperties.get(name);
 		}
-		c.idLocal=idlocal;
-		c.statut= champ_status.UNKNOW;
-		
-	}
-	/**
-	 * Attribue la valeur donnée par l'utilisateur en fonction du champ. Appeler dans le cas d'un remplacement, ajout, suppression
-	 * @param c
-	 * @param champs
-	 */
-	private static void setValueFromChamps(Contribution c, String champs, String value) {
-		switch(champs)
-		{
-		case Contribution.ARTISTE:
-			c.artiste = value;
-			break;
-		case Contribution.COULEUR:
-			c.couleur = value;
-			break;
-		case Contribution.DATE_INAUGURATION:
-			c.dateinauguration = value;
-			break;
-		case Contribution.MATERIAUx:
-			c.materiaux = value;
-			break;
-		case Contribution.TITRE:
-			c.titre = value;
-			break;
-		case Contribution.DESCRIPTION:
-			c.description =value;
-			break;
-		case Contribution.PHOTO:
-			String[] namePhoto = value.split("/");
-			if (namePhoto.length != 0)
-			{
-				String n = namePhoto[namePhoto.length -1];
-				c.photoPath = n;
-			}
-			else
-			{
-				c.photoPath = value;
-			}
-			break;
-		case Contribution.ETAT:
-			c.etat =value;
-			break;
-		case Contribution.PETAT:
-			c.petat =value;
-			break;
-		case Contribution.DETAIL_SITE:
-			c.detailsite =value;
-			break;
-		case Contribution.NATURE:
-			c.nature =value;
-			break;
-		case Contribution.PMR:
-			c.pmr =value;
-			break;
-		case Contribution.AUTRE:
-			c.autre =value;
-			break;
-		case Contribution.NOM_SITE:
-			c.nomsite =value;
-			break;
+		else {
+			return null;
 		}
 	}
 	
-	/**
-	 * Attribue la valeur donnée par l'utilisateur en fonction du champ.
-	 * @param c
-	 * @param champs
-	 */
-	static String getValueFromChamps(Contribution c,String champs) {
-		switch(champs)
-		{
-		case Contribution.ARTISTE:
-			return c.artiste;
-		case Contribution.COULEUR:
-			return c.couleur;
-		case Contribution.DATE_INAUGURATION:
-			return c.dateinauguration ;
-		case Contribution.MATERIAUx:
-			return c.materiaux;
-		case Contribution.TITRE:
-			return c.titre;
-		case Contribution.DESCRIPTION:
-			return c.description;
-		case Contribution.PHOTO:
-			return c.photoPath;
-		case Contribution.ETAT:
-			return c.etat;
-		case Contribution.PETAT:
-			return c.petat;
-		case Contribution.NATURE:
-			return c.nature;
-		case Contribution.AUTRE:
-			return c.autre;
-		case Contribution.PMR:
-			return c.pmr;
-		case Contribution.DETAIL_SITE:
-			return c.detailsite;
-		case Contribution.NOM_SITE:
-			return c.nomsite;
+	public void setProperty(String name, ContributionProperty property) {
+		mProperties.put(name, property);
+	}
+	
+	public Collection<ContributionProperty> getProperties() {
+		return mProperties.values();
+	}
+	
+	public Boolean isModified() {
+		for (ContributionProperty prop : mProperties.values()) {
+		    if( ! prop.getValue().equals(prop.getOriginalValue()) ) {
+		    	return true;
+		    }
 		}
-		return "error";
+		return false;
 	}
 	
-	public static void createContribDelete(Contribution c, int idNotice, String idLocal)
-	{
-		
-		c.type = Contribution.type_contrib.supprimer;
-		Date date = new Date();//instancie la date de la contribution
-		c.d = date;
-		if(idNotice != 0)
-		{
-			c.idNotice = idNotice;//id de la notice qu'on veut supprimer
+	public void dumpDebug() {
+		//Log.d(DEBUG_TAG, "Dump contribution: id = " + mId + " - Titre = " + mProperties.get("titre").getValue());
+		Log.d(DEBUG_TAG, "Dump contribution");
+	}
+	
+	private void addCommonToXML( Element elemContrib ) {
+		// Add a version number to identify the XML format
+		Attribute attrVersion = new Attribute("version", "2");
+	    elemContrib.setAttribute(attrVersion);
+	    
+	    // Add status (enattente/acceptee/annulee)
+	    Attribute attrStatus = new Attribute(STATUT, ENATTENTE);
+	    elemContrib.setAttribute(attrStatus);
+	    
+		// Add notice id
+		if( mNoticeId != 0 ) {
+			Element elemNoticeId = new Element(NOTICE_ID);
+			Attribute attrNoticeId = new Attribute(VALUE, String.valueOf(mNoticeId));
+			elemNoticeId.setAttribute(attrNoticeId);
+			elemContrib.addContent(elemNoticeId);
 		}
-		c.idLocal = idLocal;
-		c.statut= champ_status.UNKNOW;
-		//Log.d(DEBUG_TAG+"/creation", "champs = "+c.champModifier+"value= "+c.value);
 		
-	}
-	
-	public static void createContributionAjout(Contribution c, int idNotice, String idLocal, String champ, String value)
-	{
-		
-		c.type= Contribution.type_contrib.ajouter;//type de contribution: ajout
-		Date date = new Date();//instancie la date de la contribution
-		c.d = date;
-		if(idNotice != 0)
-		{
-			c.idNotice = idNotice;//id de la notice qu'on veut supprimer
-		}
-		c.champModifier=champ;
-		setValueFromChamps(c, champ, value);
-		//sLog.d(DEBUG_TAG+"/creation", "champs = "+c.champModifier+"value= "+c.value);
-		c.idLocal = idLocal;
-		c.statut= champ_status.UNKNOW;
-		
-	}
-	
-	public static void createContributionRemplacementCoordonnee(Contribution c, int idNotice, String idLocal, String champAModifier, Double lat, Double longi)
-	{
-		
-		c.type= Contribution.type_contrib.remplacer;//type de contribution: ajout
-		Date date = new Date();//instancie la date de la contribution
-		c.d = date;
-		if(idNotice != 0)
-		{
-			c.idNotice = idNotice;//id de la notice qu'on veut supprimer
-		}
-		c.champModifier=champAModifier;
-		c.latitude=lat;
-		Log.d(DEBUG_TAG, "latitude ="+c.latitude);
-		c.longitude = longi;
-		Log.d(DEBUG_TAG, "longitude ="+c.longitude);
-		c.idLocal = idLocal;
-		c.statut= champ_status.UNKNOW;
-		
-	}
-	
-	public static void createContributionAjoutCoordonnee(Contribution c, int idNotice, String idLocal, String champAModifier, Double lat, Double longi)
-	{
-		
-		c.type= Contribution.type_contrib.ajouter;//type de contribution: ajout
-		Date date = new Date();//instancie la date de la contribution
-		c.d = date;
-		if(idNotice != 0)
-		{
-			c.idNotice = idNotice;//id de la notice qu'on veut supprimer
-		}
-		c.champModifier=champAModifier;
-		c.latitude=lat;
-		Log.d(DEBUG_TAG, "latitude ="+c.latitude);
-		c.longitude = longi;
-		Log.d(DEBUG_TAG, "longitude ="+c.longitude);
-		c.idLocal = idLocal;
-		c.statut= champ_status.UNKNOW;
-		
-	}
-	
-	public String getHeure()
-	{
-		return heure;
-	}
-	
-	public String getDate()
-	{
-		return date;
-	}
-	
-	/**
-	 * utiliser pour ContribXml.recupListContrib pour r�cup�rer le type de contribution 
-	 * @param attributeValue
-	 * @return
-	 */
-	public static type_contrib getTypeContribFromString(String attributeValue) {
-		switch (attributeValue)
-		{
-		case "creer":
-				return type_contrib.creer;
-		case "remplacer":
-				return type_contrib.remplacer;
-		
-		case "ajouter":
-			return type_contrib.ajouter;
-		
-		case "supprimer":
-			return type_contrib.supprimer;		
-		default:
-			return type_contrib.unknow;	
-		}
-	}
+		// Add local id
+		Element elemLocalId = new Element(LOCAL_ID);
+        Attribute attrLocalId = new Attribute(VALUE, mLocalId);
+        elemLocalId.setAttribute(attrLocalId);
+        elemContrib.addContent(elemLocalId);
+        
+		// Add login
+        if( ! mLogin.equals("") ) {
+        	Element elemLogin = new Element(AUTEUR);
+        	Attribute attrLogin = new Attribute(VALUE, mLogin);
+        	elemLogin.setAttribute(attrLogin);
+        	elemContrib.addContent(elemLogin);
+        }
+        
+        // Add password
+        if( ! mPassword.equals("") ) {
+        	Element elemPassword = new Element(PASSWORD);
+        	Attribute attrPassword = new Attribute(VALUE, mPassword);
+        	elemPassword.setAttribute(attrPassword);
+        	elemContrib.addContent(elemPassword);
+        }
 
-	/**
-	 * utiliser dans ContribXml.recupListActivity
-	 * @param contrib_status, le status r�cup�r� � partir du XMl
-	 * @return le status de la contribution, du type champ_status
-	 */
-	public static champ_status getStatusContribFromString(String contrib_status) {
-		if (contrib_status == null)
-		{
-			return champ_status.UNKNOW;
-		}
-		switch (contrib_status)
-		{
-		case "enattente":
-			return champ_status.enattente;
-		case "SENT":
-				return champ_status.SENT;
-		case "SAVE":
-			return champ_status.enattente;
+        // Add location accuracy
+        if( mLocationAccuracy != -1 ) {
+        	Element elemPassword = new Element("location_accuracy");
+        	Attribute attrPassword = new Attribute(VALUE, String.valueOf(mLocationAccuracy));
+        	elemPassword.setAttribute(attrPassword);
+        	elemContrib.addContent(elemPassword);
+        }
+
+        // Add location timestamp
+        if( mLocationTime != -1 ) {
+        	Element elemPassword = new Element("location_timestamp");
+        	Attribute attrPassword = new Attribute(VALUE, String.valueOf(mLocationTime));
+        	elemPassword.setAttribute(attrPassword);
+        	elemContrib.addContent(elemPassword);
+        }
+
+        // Add date
+        Date date = new Date();
+  	  	SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+  	  	Element elemDate = new Element(DATECONTRIBUTION);
+  	  	Attribute attrDate = new Attribute(VALUE, formatDate.format(date));
+  	  	elemDate.setAttribute(attrDate);
+  	  	elemContrib.addContent(elemDate);
+  	  
+  	  	// Add time
+        Element elemTime = new Element(HEURECONTRIBUTION);
+  	  	SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
+  	  	Attribute attrTime = new Attribute(VALUE, formatTime.format(date));
+  	  	elemTime.setAttribute(attrTime);
+  	  	elemContrib.addContent(elemTime);
+  	  
+	}
+	
+	public void addToXML( Element parent ) {
+		if( mNoticeId == 0 ) {
+			// It's a creation, just dump all known info
+			Element elemContrib = new Element(CONTRIBUTION);
+			parent.addContent(elemContrib);
 			
-		default:
-			 return champ_status.EDITING;
+			// Add type
+			Attribute attr_type = new Attribute(TYPE, CREER);
+		    elemContrib.setAttribute(attr_type);
+		    
+			addCommonToXML(elemContrib);
+			
+	  	 	for (ContributionProperty prop : mProperties.values()) {
+				prop.addXML(elemContrib, false);
+			}
+		}
+		else {
+			// It's a modification, iterate over all modified properties
+	  	 	for (ContributionProperty prop : mProperties.values()) {
+	  	 		if( prop.isModified() ) {
+	  	 			Element elemContrib = new Element(CONTRIBUTION);
+	  				parent.addContent(elemContrib);
+
+	  				// Add type
+	  				Attribute attrType = new Attribute(TYPE, prop.getOriginalValue().equals("") ? AJOUTER : REMPLACER);
+	  			    elemContrib.setAttribute(attrType);
+	  			      
+	  		  	  	// Add modified property
+	  		        Element elemModif = new Element(MODIFICATION);
+	  		  	  	Attribute attrModif = new Attribute(VALUE, prop.getDbField());
+	  		  	  	elemModif.setAttribute(attrModif);
+	  		  	  	elemContrib.addContent(elemModif);
+
+	  				addCommonToXML(elemContrib);
+	  				
+	  		  	 	for (ContributionProperty prop2 : mProperties.values()) {
+	  		  	 		prop2.addXML( elemContrib, prop.getDbField() != prop2.getDbField() );
+	  				}
+	  	 		}
+	  	 	}			
 		}
 	}
 	
-	
-	/**
-	 * methode pour convertir l'image en string
-	 * @return l'image sous forme de chaine
-	 */
-	public String photoToString() {
-		if( this.photoPath == "" ) {
-			return "";
+	public void save( Context context ) {
+        Date date = new Date();
+  	  	SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+  	  	mDate = formatDate.format(date);
+  	  	SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm:ss");
+  	  	mTime = formatTime.format(date);
+
+		File file = null;
+  	  	if( mSavedFilename != null && ! mSavedFilename.equals("") ) {
+  	  		file = new File(mSavedFilename);
+  	  		if( ! file.exists() ) {
+  	  			mSavedFilename = "";
+  	  			file = null;
+  	  		}
+  	  	}
+  	  	
+		if (file == null) {
+			File saveDir = new File(getSaveDir(context));
+			if (mNoticeId == 0) {
+				for (int i = 1;; i++) {
+					file = new File(saveDir, "new_" + Integer.toString(i));
+					if (!file.exists()) {
+						break;
+					}
+				}
+			} else {
+				file = new File(saveDir, "modif_" + Integer.toString(mNoticeId));
+			}
 		}
 		
-		String dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
-		String fullPath = dcimDir + "/" + ATLASMUSEUM_ALBUM + "/" + this.photoPath;
-		File graffity_file = new File(fullPath);
-		InputStream graffity_is;
+		mSavedFilename = file.getAbsolutePath();
+	
 		try {
-			graffity_is = new FileInputStream(graffity_file);
-		} catch (FileNotFoundException e) {
-			Log.i(DEBUG_TAG, "Can't read " + fullPath);
-			e.printStackTrace();
-			return "";
+			FileOutputStream fos = new FileOutputStream(file);
+			ObjectOutputStream os = new ObjectOutputStream(fos);
+			os.writeObject(this);
+			os.close();
+			fos.close();
 		}
-		ByteArrayOutputStream graffity_os = new ByteArrayOutputStream(1000);
-		Bitmap graffity_bitmap = BitmapFactory.decodeStream(graffity_is, null, null);
-		graffity_bitmap.compress(Bitmap.CompressFormat.JPEG, 90, graffity_os);  
-		byte[] graffity_bytearray = graffity_os.toByteArray();
-		String graffity_string = Base64.encodeToString(graffity_bytearray, Base64.DEFAULT);
-		return graffity_string;
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
+	public void loadPicture( Context context ) {
+		ContributionProperty property = getProperty(Contribution.PHOTO);
+    	String filename = property.getValue();
+    	if( filename.equals("") ) {
+    		// No picture in this notice
+    		return;
+    	}
+    	
+    	File file = new File(filename);
+    	if( file.exists() && file.isAbsolute() ) {
+    		// Already loaded
+    		return;
+    	}
+    	
+    	new PictureDownloader(context).execute(filename);
+	}
+	
+	public void loadThumb( Context context ) {
+		ContributionProperty property = getProperty(Contribution.PHOTO);
+    	String filename = property.getValue();
+    	if( filename.equals("") ) {
+    		// No picture in this notice
+    		return;
+    	}
+    	
+    	String thumbFilename;
+    	File file = new File(filename);
+    	if( file.isAbsolute() ) {
+    		// Picture already downloaded, get the name
+    		File thumbFile = new File( file.getParentFile(), "thumb_"+file.getName());
+    		if( thumbFile.exists() ) {
+    			return;
+    		}
+    		thumbFilename = thumbFile.getName();
+    	}
+    	else {
+    		thumbFilename = "thumb_"+filename;
+    	}
+    	
+    	new PictureDownloader(context).execute(thumbFilename);
+	}
 
+	/////////////////////////////
+	// Static helper functions //
+	/////////////////////////////
+	
+	static public String getSaveDir(Context context) {
+		File saveDir = new File( context.getFilesDir(), "save" );
+		if( saveDir.exists() && !saveDir.isDirectory()) {
+			saveDir.delete();
+		}
+		if( !saveDir.exists() ) {
+			saveDir.mkdir();
+		}
+		return saveDir.getAbsolutePath();
+	}
+	
+	static public File getPhotoDir() {
+		File storageDir = null;
 
+		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+			String dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
+			storageDir = new File( dcimDir + "/atlasmuseum" );
+			if (storageDir != null) {
+				if (! storageDir.mkdirs()) {
+					if (! storageDir.exists()) {
+						Log.d(DEBUG_TAG, "failed to create directory");
+						return null;
+					}
+				}
+			}
+		} else {
+			Log.v(DEBUG_TAG, "External storage is not mounted READ/WRITE.");
+		}
 
- }
+		return storageDir;
+	}
+
+	@SuppressWarnings("resource")
+	static public Contribution restoreFromFile( String filename ) {
+		File file = new File(filename);
+		if( ! file.exists() || ! file.isFile() ) {
+			return null;
+		}
+		
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		ObjectInputStream is;
+		try {
+			is = new ObjectInputStream(fis);
+		} catch (StreamCorruptedException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		Contribution contribution = null;
+		try {
+			contribution = (Contribution) is.readObject();
+		} catch (OptionalDataException e) {
+			e.printStackTrace();
+			return null;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		try {
+			is.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return contribution;
+	}
+	
+	public static Comparator<Contribution> DistanceComparator = new Comparator<Contribution>() {
+	    public int compare(Contribution contrib1, Contribution contrib2) {
+			return (int) (contrib1.getDistance() - contrib2.getDistance());
+	    }
+	};
+
+	public static Comparator<Contribution> DateComparator = new Comparator<Contribution>() {
+	    public int compare(Contribution contrib1, Contribution contrib2) {
+	    	int year1 = 0;
+	    	int year2 = 0;
+	    	try {
+	    		year1 = Integer.parseInt(contrib1.getProperty(Contribution.DATE_INAUGURATION).getValue());
+	    		year2 = Integer.parseInt(contrib2.getProperty(Contribution.DATE_INAUGURATION).getValue());
+	    	}
+	    	catch( NumberFormatException e ) {
+	    		return 0;
+	    	}
+	    	return year1 - year2;
+	    }
+	};
+
+}

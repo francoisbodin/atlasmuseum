@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".LoaderActivity"
+    android:background="#ffda00"
+    android:gravity="center" >
+    
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="20dp"
+        android:contentDescription="@string/app_name"
+        android:gravity="center|bottom"
+        android:src="@drawable/icone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center|top"
+        android:layout_weight="1" >
+             
+	     <TextView
+	         android:id="@+id/text_title"
+	         android:layout_width="wrap_content"
+	         android:layout_height="wrap_content"
+	         android:text="@string/app_name"
+	         android:textColor="#4d4d4d"
+	         android:textSize="40sp"
+	         android:paddingBottom="10dp"
+	         android:textStyle="bold" />
+
+	     <TextView
+	         android:id="@+id/text_intro1"
+	         android:layout_width="wrap_content"
+	         android:layout_height="wrap_content"
+	         android:textColor="#4d4d4d"
+	         android:textStyle="bold"
+	         android:textSize="20sp"
+	         android:hint="@string/loader_intro1" />
+
+         <TextView
+             android:id="@+id/text_intro2"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textStyle="bold"
+             android:textSize="20sp"
+             android:hint="@string/loader_intro2" />
+
+	     <TextView
+	         android:id="@+id/text_version"
+	         android:layout_width="wrap_content"
+	         android:layout_height="wrap_content"
+	         android:textColor="#ffff47"
+	         android:textSize="20sp"
+	         android:textStyle="bold" />
+
+	 </LinearLayout>
+	 
+</LinearLayout>

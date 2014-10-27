@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_search_around"
+        android:icon="@drawable/ic_autour"
+        android:title="@string/search_around"
+        android:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_search_map"
+        android:icon="@drawable/ic_map"
+        android:title="@string/search_map"
+        android:showAsAction="ifRoom" />
+
+</menu>
