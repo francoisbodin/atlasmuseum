@@ -1,0 +1,7 @@
+
+<bitmap
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:src="@drawable/contrib_background_photo"
+android:tileMode="repeat"
+android:dither="true"
+ />

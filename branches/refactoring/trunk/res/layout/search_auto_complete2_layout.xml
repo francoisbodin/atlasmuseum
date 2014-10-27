@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="#ffffff"
+    >
+	<!-- barre de recherche -->
+    <RelativeLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+   android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:background="#ededed"
+        >
+
+        <ImageButton
+            android:id="@+id/erase_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:src="@drawable/ic_annuler" />
+
+        <FrameLayout
+            android:id="@+id/relativ1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:gravity="center" >
+			
+            <EditText
+                android:id="@+id/editText1"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_search_auto"
+                android:drawablePadding="5dp"
+                android:singleLine="true"
+                android:lines="1"
+    			android:maxLines="1"
+                android:maxLength="10"
+                
+                android:textSize="18dp" />
+
+            <ImageButton
+                android:id="@+id/voice_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp"
+                android:layout_gravity="right|center_vertical"
+                android:src="@drawable/ic_micro" />
+
+            
+        </FrameLayout>
+
+    </RelativeLayout>
+    <View
+	    android:layout_width="fill_parent"
+	    android:layout_height="1dp"
+	    android:background="#d9d9d9"
+	    />
+    <!--  barre de critere de recherche -->
+     <LinearLayout 
+        android:orientation="horizontal"
+ 		android:layout_width="match_parent"
+ 		android:layout_height="wrap_content"
+ 		android:background="#ffffff"
+        >
+        <Button
+        android:id="@+id/buttonsearch_tous"
+ 		android:layout_width="wrap_content"
+ 		android:layout_height="wrap_content"
+ 		android:text="@string/tous"
+ 		android:layout_weight="1"
+ 		android:textSize="15dp"
+ 		android:background="@null"
+ 		/>
+        
+       	<Button
+       	android:id="@+id/buttonsearch_artiste"
+ 		android:layout_width="wrap_content"
+ 		android:layout_height="wrap_content"
+ 		android:text="@string/artiste"
+ 		android:layout_weight="1"
+ 		android:textSize="15dp"
+ 		android:background="@null"
+ 		/>
+        
+        	<Button
+       	android:id="@+id/buttonsearch_lieux"
+ 		android:layout_width="wrap_content"
+ 		android:layout_height="wrap_content"
+ 		android:text="@string/lieu_simple"
+ 		android:layout_weight="1"
+ 		android:textSize="15dp"
+ 		android:background="@null"
+ 		/>
+        	
+       		<Button
+       	android:id="@+id/buttonsearch_titre"
+ 		android:layout_width="wrap_content"
+ 		android:layout_height="wrap_content"
+ 		android:text="@string/titre"
+ 		android:textSize="15dp"
+ 		android:layout_weight="1"
+ 		android:background="@null"
+ 		/>
+    </LinearLayout>
+    	 <View
+	    android:layout_width="fill_parent"
+	    android:layout_height="3dp"
+	    android:background="#ffda00"/>
+    <TextView 
+        android:id="@+id/error_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        
+        android:text="@string/no_result"
+            
+            />
+    
+    	 
+	   <ListView
+        android:id="@+id/list_view"
+        android:layout_width="fill_parent"
+        android:listSelector="@drawable/on_pressed_listview_background" 
+        android:layout_height="wrap_content"
+        android:scrollbarThumbVertical="@drawable/list_view_scroll"
+         />
+	   
+	   
+</LinearLayout>
