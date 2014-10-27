@@ -1,0 +1,25 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content"
+	android:id="@+id/LL_Fond"
+	android:orientation="vertical"
+	>
+	
+	<TextView android:text="Nom" android:id="@+id/test_title"
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content">
+		</TextView>
+		
+	<TextView android:text="Prénom" android:id="@+id/text_author"
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content"
+		>
+		</TextView>
+		
+	<TextView android:text="Prénom" android:id="@+id/notice_year"
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content">
+		</TextView>
+
+</LinearLayout>

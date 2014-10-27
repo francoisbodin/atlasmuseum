@@ -1,0 +1,78 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+   	android:background="#ffffff"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:gravity="center"
+    android:orientation="vertical" >
+    
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="20dp"
+        android:background="#ffffff"
+        android:gravity="center_horizontal|bottom"
+        android:src="@drawable/icone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal|top"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/text_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Login"
+            android:lines="1"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textSize="18sp" >
+
+            <requestFocus
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </EditText>
+
+        <EditText
+            android:id="@+id/text_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/mdp"
+            android:inputType="textPassword"
+            android:lines="1"
+            android:maxLines="1"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/button_confirm"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:background="#ffda00"
+            android:focusable="false"
+            android:text="Confirmer"
+            android:textColor="#333333"
+            android:textSize="18sp" />
+
+        <CheckBox
+            android:id="@+id/checkbox_remember_me"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/memoriser_mdp" />
+
+        <CheckBox
+            android:id="@+id/checkbox_auto_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Connexion automatique" />
+    </LinearLayout>
+</LinearLayout>
