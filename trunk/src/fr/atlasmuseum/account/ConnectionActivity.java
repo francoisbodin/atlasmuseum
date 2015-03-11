@@ -1,5 +1,8 @@
 package fr.atlasmuseum.account;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import fr.atlasmuseum.AtlasmuseumActivity;
 import fr.atlasmuseum.R;
 import fr.atlasmuseum.helper.AtlasError;
@@ -8,6 +11,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -66,11 +70,26 @@ public class ConnectionActivity extends Activity implements ConnectionAsync.Conn
 	    			AtlasError.showErrorDialog(ConnectionActivity.this, "7.1", "pas de connexion internet");
 	    			return;
 	    		}
-	    		
+	    		String encodediduser = null;
+	    		String encodedpwd = null;
+	    		String iduser = mTextUsername.getText().toString().trim();
+	    		String pwd = mTextPassword.getText().toString().trim();
+	    		Log.d(DEBUG_TAG, "Connecting with id: \"" + iduser +"\"");
+	    		Log.d(DEBUG_TAG, "Connecting with pwd: \"" + pwd +"\"");
+	    		try {
+	    			encodediduser = URLEncoder.encode(iduser,"UTF-8");
+	    			encodedpwd = URLEncoder.encode(pwd,"UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					encodediduser = iduser;
+					encodedpwd = pwd;
+				}
+	    		Log.d(DEBUG_TAG, "Connecting with encoded id: \"" + encodediduser +"\"");
+	    		Log.d(DEBUG_TAG, "Connecting with encoded pwd: \"" + encodedpwd +"\"");
 				ConnectionAsync connection = new ConnectionAsync(
 						ConnectionActivity.this,
-						mTextUsername.getText().toString().trim(),
-						mTextPassword.getText().toString().trim());
+						encodediduser,
+						encodedpwd
+						);
 				connection.execute();
 			};
 		});
