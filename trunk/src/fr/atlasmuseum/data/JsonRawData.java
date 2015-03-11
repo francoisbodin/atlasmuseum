@@ -7,18 +7,16 @@ import org.json.JSONObject;
 public class JsonRawData {
 	public final static String[] listeMateriaux = {"acier","aluminium","animaux","bâche","basalte","béton","bois","brique","bronze","caoutchouc","céramique","ciment","coton","cuir","cuivre","dural","eau","émail","encre","enrobé","fer","feuille d'or","fibre de verre","fonte","glassphalt","granit","grès","informatique","inox","laine","laque","lave","led","lumière","lurex","marbre","métal","minéraux","miroir","néon","papier","peinture","pierre","pierre de lave","plastique","plâtre","plexiglas","plomb","polyester","polystyrène","polyuréthane","résine","silicone","soie","son","terre","tissu","toile","végétaux","vernis","verre"};
 	public final static String[] listeNatures   = {"pérenne", "éphémère"};
-	public final static String[] listeCouleurs  = {"rouge","bleu","vert","noir","blanc","gris","jaune","marron","orange","violet","rose","beige","bordeaux","argent","aubergine","azur","bitume","brique","bronze","chair","cuivre","cyan","ébène","fer","gris acier","ivoire","kaki","magenta","or","pourpre","sable","sépia","turquoise","vermillon","vert kaki"};
-	public final static String[] listePrecision_etat_conservation  = {" bon état",   "état critique",  "oeuvre en danger",  "oeuvre absente", "oeuvre vandalisée"};
-	public final static String[] listeAutre_precision_etat_conservation  = {"éclats","cassures","fentes/fissures","usure de la surface","empoussièrement","encrassement dû à la pollution","salissures","mousses/champignons/dépôts naturels","humidité","déjections animales","traces d'oxydation","trous d'insectes (infestation ancienne)","trous d'insectes (infestation active)"," mutilations (vandalisme)","tags","parties manquantes"};
-	public final static String[] listePmr={"Site accessible aux personnes à mobilité réduite", "Site non accessible aux personnes à mobilité réduite", "Je ne sais pas"};
+	public final static String[] listeCouleurs  = {"argent","aubergine","azur","beige","bitume","blanc","bleu","bordeaux","brique","bronze","chair","cuivre","cyan","ébène","fer","gris","gris acier","ivoire","jaune","kaki","magenta","marron","noir","or","orange","pourpre","rose","rouge","sable","sépia","turquoise","vermillon","vert","vert kaki","violet"};
+	public final static String[] listePrecision_etat_conservation  = {"bon état","état critique","œuvre en danger","œuvre absente","œuvre vandalisée"};
+	public final static String[] listeAutre_precision_etat_conservation  = {"cassures","déjections animales","éclats","empoussièrement","encrassement dû à la pollution","fentes/fissures","humidité","mousses/champignons/dépôts naturels","mutilations (vandalisme)","parties manquantes","salissures","tags","traces d'oxydation","trous d'insectes (infestation ancienne)","trous d'insectes (infestation active)","usure de la surface"};
+	public final static String[] listePmr={"site accessible aux personnes à mobilité réduite","site non accessible aux personnes à mobilité réduite"," je ne sais pas"};
 
 	public static JSONArray data = new JSONArray();
 
 	public static int nbentries = 0;
 	public JsonRawData() throws JSONException{
 		JSONObject obj = null; 
-
-
         //////////////
 		//////////////
 		//////////////
